@@ -2832,6 +2832,15 @@ window.addEventListener('load', () => {
     updateCatnatThumb();
     tabs.addEventListener('scroll', updateCatnatThumb, { passive: true });
   }
+
+  // ── STORYTELLING : ouverture automatique au premier lancement ──
+  const alreadySeen = localStorage.getItem('argicare-story-seen');
+  if(!alreadySeen){
+    setTimeout(() => {
+      openStory();
+      localStorage.setItem('argicare-story-seen', '1');
+    }, 600);
+  }
 });
 
 // ── Diagnostic : accordion des étapes ──
