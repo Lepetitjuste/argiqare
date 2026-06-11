@@ -2,7 +2,7 @@
   "name": "ArgiQare — Guide RGA & Cat Nat",
   "short_name": "ArgiQare",
   "description": "Guide interactif pour comprendre et gérer un sinistre lié au Retrait-Gonflement des Argiles (RGA) dans le cadre du régime Cat Nat.",
-  "start_url": "./ArgiQare_v101.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#f0ece4",
