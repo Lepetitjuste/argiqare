@@ -18,6 +18,31 @@
 <meta name="description" content="Guide interactif RGA & Cat Nat — comprenez vos droits et pré-constituez votre dossier sinistre.">
 <!-- ══ /PWA ══ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+// Défini tôt pour être disponible dès le parsing HTML
+const TOTAL_CHECKS = 35;
+function updateProgress(){
+  const all = document.querySelectorAll('#screen-diag .diag-cb');
+  const checked = [...all].filter(c=>c.checked).length;
+  const pct = Math.round((checked/TOTAL_CHECKS)*100);
+  const bar = document.getElementById('prog-bar');
+  const pctEl = document.getElementById('prog-pct');
+  if(bar) bar.style.width = pct+'%';
+  if(pctEl) pctEl.textContent = pct+'%';
+  document.querySelectorAll('.diag-step').forEach(s=>{
+    const cbs = s.querySelectorAll('.diag-cb');
+    s.classList.toggle('completed',[...cbs].every(c=>c.checked)&&cbs.length>0);
+  });
+}
+function saveDiag(){
+  if(typeof triState === 'undefined') return;
+  localStorage.setItem('argicare-tristate', JSON.stringify(triState));
+  const cbs = document.querySelectorAll('#screen-diag .diag-cb');
+  localStorage.setItem('argicare-diagcb', JSON.stringify([...cbs].map(cb=>cb.checked)));
+  const dateEl = document.getElementById('fissure-date');
+  if(dateEl) localStorage.setItem('argicare-fissure-date', dateEl.value);
+}
+</script>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body { background:#f0ece4; display:flex; justify-content:center; align-items:center; min-height:100vh; font-family:'Segoe UI',sans-serif; }
@@ -165,7 +190,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .disclaimer-text { font-size:11px; color:#7a6a00; line-height:1.5; }
 
 /* DISCLAIMER POP-UP */
-.disclaimer-overlay { position:absolute; inset:0; background:rgba(30,30,20,0.55); z-index:650; display:flex; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(2px); animation:fadeInOverlay 0.25s ease; }
+.disclaimer-overlay { position:absolute; inset:0; background:rgba(30,30,20,0.55); z-index:700; display:flex; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(2px); animation:fadeInOverlay 0.25s ease; }
 .disclaimer-overlay.hidden { display:none; animation:none; }
 @keyframes fadeInOverlay { from{opacity:0} to{opacity:1} }
 .disclaimer-popup { background:white; border-radius:18px; padding:20px 18px 18px; box-shadow:0 12px 40px rgba(0,0,0,0.28); position:relative; max-width:320px; width:100%; animation:slideUpPopup 0.28s cubic-bezier(0.34,1.56,0.64,1); }
@@ -630,6 +655,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <div class="story-title">Votre dossier<br>en <em style="color:#80e0a0;">4 étapes</em></div>
         <div class="story-body">Renseignez les informations sur votre bien → suivez votre parcours diagnostic → préconstituez votre dossier → générez votre PDF de synthèse à remettre à votre expert ou un professionnel du bâtiment.</div>
         <button class="story-start-btn" onclick="closeStory()">Démarrer mon parcours ArgiQare 🚀</button>
+        <button class="story-start-btn" onclick="demarrerTutoriel()" style="background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.3);margin-top:8px;">🎓 Découvrir l'application</button>
       </div>
       <div style="position:absolute;bottom:28px;left:0;right:0;z-index:6;display:flex;flex-direction:column;align-items:center;gap:10px;padding:0 20px;">
         <div style="display:flex;align-items:center;width:100%;gap:10px;">
@@ -648,6 +674,26 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
     <!-- Bouton Passer haut droite -->
     <button class="story-skip-btn" id="story-skip-btn" onclick="closeStory()">Passer ›</button>
 
+  </div>
+
+  <!-- ══ TUTORIEL GUIDÉ ══ -->
+  <div class="tuto-overlay hidden" id="tuto-overlay">
+    <div class="tuto-dimmer" onclick="tutoSkip()"></div>
+    <div class="tuto-spotlight" id="tuto-spotlight"></div>
+    <div class="tuto-popup" id="tuto-popup">
+      <div class="tuto-popup-top">
+        <div class="tuto-popup-icon" id="tuto-icon"></div>
+        <div><div class="tuto-popup-title" id="tuto-title"></div><div class="tuto-popup-sub" id="tuto-sub"></div></div>
+      </div>
+      <div class="tuto-popup-body" id="tuto-body"></div>
+      <div class="tuto-popup-nav">
+        <div class="tuto-popup-dots" id="tuto-dots"></div>
+        <div class="tuto-popup-btns">
+          <button class="tuto-btn-skip" onclick="tutoSkip()">Passer</button>
+          <button class="tuto-btn-next" id="tuto-btn-next" onclick="tutoNext()">Suivant →</button>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- PUSH NOTIFICATION MOCK -->
@@ -1075,6 +1121,9 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       </div>
       <button class="btn-save" onclick="saveForm()">💾 Sauvegarder ma maison</button>
       <button class="btn-pdf-mini" onclick="generatePDF()">📄 Pré-générer ma synthèse</button>
+      <button class="btn-next-tab" onclick="switchTab('diag', document.querySelectorAll('.nav-item')[2])">
+        🔍 Étape suivante — Mon Parcours Diagnostic &nbsp;›
+      </button>
     </div>
 
     <!-- ===== MON DIAGNOSTIC ===== -->
@@ -1932,6 +1981,9 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       </div>
 
       <button class="btn-pdf-mini" onclick="generatePDF()">📄 Pré-générer ma synthèse</button>
+      <button class="btn-next-tab" onclick="switchTab('dossier', document.querySelectorAll('.nav-item')[3])">
+        📁 Étape suivante — Mon Dossier &nbsp;›
+      </button>
     </div>
 
     <!-- ===== MON DOSSIER ===== -->
@@ -2006,6 +2058,9 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <button class="btn-pdf" onclick="generatePDF()">⬇️ Télécharger le PDF de synthèse</button>
         <div id="last-gen-label" style="margin-top:8px;font-size:10px;color:rgba(255,255,255,0.55);text-align:center;min-height:14px;"></div>
       </div>
+      <button class="btn-next-tab" onclick="switchTab('partager', document.querySelectorAll('.nav-item')[4])">
+        📚 Consulter les Ressources &nbsp;›
+      </button>
 
     </div>
 
@@ -2565,6 +2620,9 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         </div>
 
       </div>
+      <button class="btn-next-tab" onclick="switchTab('maison', document.querySelectorAll('.nav-item')[1])">
+        🏠 Étape suivante — Ma Maison &nbsp;›
+      </button>
     </div>
 
     <!-- ===== PARTAGER ===== -->
@@ -3235,9 +3293,9 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
   </div>
 
   <div class="bottom-nav">
-    <button class="nav-item active" onclick="switchTab('catnat',this)"><span class="nav-icon">⚖️</span><span class="nav-label">Cat Nat</span><div class="nav-dot"></div></button>
+    <button class="nav-item active" onclick="switchTab('catnat',this,'nav')"><span class="nav-icon">⚖️</span><span class="nav-label">Cat Nat</span><div class="nav-dot"></div></button>
     <button class="nav-item" onclick="switchTab('maison',this)"><span class="nav-icon">🏠</span><span class="nav-label">Ma Maison</span><div class="nav-dot"></div></button>
-    <button class="nav-item" onclick="switchTab('diag',this)"><span class="nav-icon">🔍</span><span class="nav-label">Mon Parcours Diagnostic</span><div class="nav-dot"></div></button>
+    <button class="nav-item" onclick="switchTab('diag',this,'nav')"><span class="nav-icon">🔍</span><span class="nav-label">Mon Parcours Diagnostic</span><div class="nav-dot"></div></button>
     <button class="nav-item" onclick="switchTab('dossier',this)"><span class="nav-icon">📁</span><span class="nav-label">Mon Dossier</span><div class="nav-dot"></div></button>
     <button class="nav-item" onclick="switchTab('partager',this)"><span class="nav-icon">📚</span><span class="nav-label">Ressources</span><div class="nav-dot"></div></button>
   </div>
@@ -3302,7 +3360,7 @@ function toggleAccordion(id){
   if(arr) arr.textContent=open?'›':'∨';
 }
 
-function switchTab(n, el) {
+function switchTab(n, el, source='') {
   const newIndex = TAB_ORDER.indexOf(n);
   if (newIndex === -1 || newIndex === currentTabIndex) return;
 
@@ -3314,23 +3372,21 @@ function switchTab(n, el) {
   wrapper.style.transform = `translateX(-${newIndex * 100}%)`;
 
   if(n==='dossier'){setTimeout(refreshCompletion,350);}
-  if(n==='catnat'){
+  if(n==='catnat' && source==='nav'){
     setTimeout(()=>{
       const el = document.getElementById('catnat-overlay');
       if(el) el.classList.remove('hidden');
-    },200);
+    },400);
   }
-  if(n==='diag'){
+  if(n==='diag' && source==='nav'){
     setTimeout(()=>{
-      // Réinitialiser la case et le bouton avant d'ouvrir
       const check = document.getElementById('lu-check');
       const btn = document.getElementById('disclaimer-btn');
       if(check){ check.textContent=''; check.style.background='white'; check.style.color=''; }
       if(btn){ btn.style.opacity='.45'; btn.style.pointerEvents='none'; }
-      // Ouvrir le popup
       const el = document.getElementById('disclaimer-overlay');
       if(el) el.classList.remove('hidden');
-    },200);
+    },400);
   }
   // Remettre le scroll en haut de l'écran cible
   setTimeout(() => {
@@ -3503,9 +3559,7 @@ function loadGeorisques(){
   document.getElementById('georisques-result').classList.add('visible');
   showToast('🗺️ Fiche RGA importée depuis Géorisques');
 }
-const TOTAL_CHECKS=35;
 function toggleCheck(item, event){if(event) event.stopPropagation();const cb=item.querySelector('input[type="checkbox"]');cb.checked=!cb.checked;item.classList.toggle('checked',cb.checked);updateProgress();const bar=document.getElementById('prog-bar');if(bar){bar.classList.remove('prog-pulse');void bar.offsetWidth;bar.classList.add('prog-pulse');}}
-function updateProgress(){const all=document.querySelectorAll('#screen-diag .diag-cb');const checked=[...all].filter(c=>c.checked).length;const pct=Math.round((checked/TOTAL_CHECKS)*100);document.getElementById('prog-bar').style.width=pct+'%';document.getElementById('prog-pct').textContent=pct+'%';document.querySelectorAll('.diag-step').forEach(s=>{const cbs=s.querySelectorAll('.diag-cb');s.classList.toggle('completed',[...cbs].every(c=>c.checked)&&cbs.length>0);});}
 function toggleUpload(n,cb){document.getElementById('upload-'+n).classList.toggle('visible',cb.checked);}
 function toggleUploadDirect(n){const z=document.getElementById('upload-'+n);const cb=document.querySelector('#piece-'+n+' .doc-piece-cb');z.classList.toggle('visible');cb.checked=z.classList.contains('visible');}
 function triggerUpload(n){document.getElementById('file-'+n).click();}
@@ -3654,398 +3708,509 @@ function closePushNotif(){document.getElementById('push-notif').classList.remove
 function generatePDF(){
   const {jsPDF} = window.jspdf;
   const doc = new jsPDF({unit:'mm', format:'a4'});
-  const W=210, H=297;
+  const W=210, H=297, ML=14, MR=14, CW=W-ML-MR;
 
-  // ── Helpers couleurs ──
+  // ── Couleurs ──
   const GD=[45,90,39], GM=[74,124,63], GL=[168,213,162], OR=[245,166,35];
   const BD=[26,58,110], BM=[42,92,168], BL=[232,240,254];
-  const WT=[255,255,255], BK=[26,26,26], GY=[74,90,58], GLN=[224,221,216], GLP=[245,251,244];
+  const WT=[255,255,255], BK=[30,30,30], GY=[90,100,80], GLN=[220,216,210], GLP=[245,251,244];
+  const RD=[180,40,40], AM=[200,150,0];
 
-  // ── Raccourcis ──
-  const v  = id => (document.getElementById(id)||{}).value||'—';
+  // ── Helpers ──
+  const v = id => (document.getElementById(id)||{}).value?.trim()||'—';
   const ck = id => document.getElementById(id)?.checked||false;
-  const rd = name => { const s=document.querySelector('input[name="'+name+'"]:checked'); return s?s.nextElementSibling?.textContent||'—':'—'; };
   const now = new Date();
   const dateStr = now.toLocaleDateString('fr-FR');
   const timeStr = now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
   const dateGen = dateStr + ' à ' + timeStr;
 
-  // Calcul complétion
-  const maisonFields=['m_nom','m_prenom','m_voie','m_cp','m_ville','m_email','m_tel'];
-  let mFilled=0;
-  maisonFields.forEach(id=>{if((document.getElementById(id)||{}).value?.trim())mFilled++;});
-  const mPct = Math.round((mFilled/maisonFields.length)*100);
-  const diagCbs = document.querySelectorAll('#screen-diag .diag-cb');
-  const diagChecked = [...diagCbs].filter(c=>c.checked).length;
-  const diagPct = Math.round((diagChecked/TOTAL_CHECKS)*100);
-  const nJoints = Object.keys(diagFiles).length;
+  // ── En-tête / pied de page ──
+  let pageNum = 0;
+  const drawHeader = () => {
+    pageNum++;
+    doc.setFillColor(...GD); doc.rect(0,0,W,16,'F');
+    doc.setFontSize(10); doc.setFont(undefined,'normal');
+    doc.setTextColor(220,239,216); doc.text('argi', W/2-7, 10, {align:'center'});
+    doc.setFontSize(13); doc.setFont(undefined,'bold');
+    doc.setTextColor(...OR); doc.text('Q', W/2+1, 10);
+    doc.setFontSize(10); doc.setFont(undefined,'normal');
+    doc.setTextColor(...GL); doc.text('are', W/2+7, 10);
+    doc.setFontSize(7); doc.setTextColor(180,220,180);
+    doc.text('Synthèse de dossier RGA & Cat Nat', ML, 10);
+    doc.setTextColor(180,220,180);
+    doc.text('Page '+pageNum, W-ML, 10, {align:'right'});
+    // Footer
+    doc.setDrawColor(...GLN); doc.setLineWidth(0.3); doc.line(ML,H-12,W-MR,H-12);
+    doc.setFontSize(6.5); doc.setTextColor(160,160,160);
+    doc.text("ArgiQare — Document d'accompagnement indicatif, sans valeur juridique — © 2025", ML, H-7);
+    doc.text(dateGen, W-MR, H-7, {align:'right'});
+  };
 
-  // ────────────────────────────────────────────
-  // PAGE 1 — COUVERTURE HEXAGONALE
-  // ────────────────────────────────────────────
-  // Fond blanc
-  doc.setFillColor(...WT); doc.rect(0,0,W,H,'F');
+  // ── Bandeau de section ──
+  const sectionBar = (title, color, y) => {
+    doc.setFillColor(...color); doc.roundedRect(ML,y,CW,8,1.5,1.5,'F');
+    doc.setFontSize(9); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
+    doc.text(title, ML+4, y+5.5);
+    return y+12;
+  };
 
-  // Dégradé bas (rectangles empilés)
-  const steps=20, bandH=H*0.38;
-  for(let i=0;i<steps;i++){
-    const r=Math.round(0x2d+(0xf5-0x2d)*(i/steps)*0.12);
-    const g=Math.round(0x5a+(0xf8-0x5a)*(i/steps)*0.12);
-    const b=Math.round(0x27+(0xf4-0x27)*(i/steps)*0.12);
-    doc.setFillColor(r,g,b);
-    doc.rect(0, (i/steps)*bandH, W, bandH/steps+0.5,'F');
+  // ── Ligne champ/valeur ──
+  const fieldRow = (label, value, y, color) => {
+    if(y > H-22){ doc.addPage(); drawHeader(); y=22; }
+    doc.setFontSize(7.5); doc.setFont(undefined,'bold');
+    doc.setTextColor(...(color||GY)); doc.text(label, ML+2, y);
+    doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
+    const lines = doc.splitTextToSize(String(value||'—'), CW-52);
+    doc.text(lines, ML+52, y);
+    doc.setDrawColor(...GLN); doc.setLineWidth(0.2); doc.line(ML,y+2,W-MR,y+2);
+    return y + Math.max(6, lines.length*4.5);
+  };
+
+  // ── Item tristate dans le PDF ──
+  const triRow = (label, stepId, itemN, subLabels, y) => {
+    if(y > H-28){ doc.addPage(); drawHeader(); y=22; }
+    const key = stepId+'-'+itemN;
+    const choice = triState[key];
+    const icon = choice==='yes' ? '✓' : choice==='no' ? '−' : '○';
+    const col = choice==='yes' ? GD : choice==='no' ? AM : [160,160,160];
+    // Cercle icône
+    doc.setFillColor(...col); doc.circle(ML+4, y+1.5, 2.5,'F');
+    doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
+    doc.text(icon, ML+4, y+2.5, {align:'center'});
+    // Label
+    doc.setFontSize(8); doc.setFont(undefined, choice?'bold':'normal');
+    doc.setTextColor(choice?BK[0]:150, choice?BK[1]:150, choice?BK[2]:150);
+    const lblLines = doc.splitTextToSize(label.replace(/^[^\s]+\s/,''), CW-12);
+    doc.text(lblLines, ML+9, y+2);
+    y += Math.max(6, lblLines.length*4);
+    // Sous-réponses si oui
+    if(choice==='yes' && subLabels){
+      const detail = document.getElementById('tri-'+stepId+'-'+itemN+'-detail');
+      if(detail){
+        const cbs = detail.querySelectorAll('.tri-sub-cb');
+        const labs = detail.querySelectorAll('.tri-sub-label');
+        cbs.forEach((cb,i)=>{
+          if(y > H-18){ doc.addPage(); drawHeader(); y=22; }
+          if(cb.checked){ doc.setFillColor(...GM); } else { doc.setFillColor(220,220,220); }
+          doc.roundedRect(ML+10,y-1,3,3,0.5,0.5,'F');
+          doc.setFontSize(7); doc.setFont(undefined,'normal');
+          doc.setTextColor(cb.checked?GD[0]:130, cb.checked?GD[1]:130, cb.checked?GD[2]:130);
+          const subLine = doc.splitTextToSize(labs[i]?.textContent||'', CW-20);
+          doc.text(subLine, ML+15, y+1.5);
+          y += Math.max(5, subLine.length*4);
+        });
+      }
+    }
+    doc.setDrawColor(...GLN); doc.setLineWidth(0.15); doc.line(ML+8,y,W-MR,y);
+    return y+3;
+  };
+
+  // ══════════════════════════════════════
+  // PAGE 1 — COUVERTURE
+  // ══════════════════════════════════════
+  pageNum=0;
+  doc.setFillColor(...GD); doc.rect(0,0,W,H,'F');
+  // Dégradé bas
+  for(let i=0;i<30;i++){
+    const f=i/30;
+    doc.setFillColor(Math.round(45+f*30),Math.round(90+f*20),Math.round(39+f*15));
+    doc.rect(0,H*(0.55+f*0.45/1),W,H*0.45/30+1,'F');
   }
+  doc.setFillColor(20,30,20); doc.rect(0,0,W,H*0.42,'F');
 
-  // Bande verte 60%
-  const bH = H*0.60;
-  doc.setFillColor(...GD); doc.rect(0, H-bH, W, bH,'F');
+  // Logo centré
+  doc.setFontSize(26); doc.setFont(undefined,'normal');
+  doc.setTextColor(180,220,170); doc.text('argi', W/2-14, 55, {align:'center'});
+  doc.setFontSize(36); doc.setFont(undefined,'bold');
+  doc.setTextColor(...OR); doc.text('Q', W/2+4, 55);
+  doc.setFontSize(26); doc.setFont(undefined,'normal');
+  doc.setTextColor(...GL); doc.text('are', W/2+16, 55);
+  doc.setFontSize(9); doc.setTextColor(120,180,120);
+  doc.text('Guide RGA & Catastrophes Naturelles', W/2, 64, {align:'center'});
 
-  // Hexagones décoratifs (simulés par des ellipses)
-  const hexes=[
-    [W-20, H-20, 28, [58,112,48]],[W+5, H-50, 22,[37,80,32]],
-    [-8, H-bH+18, 18,[74,128,64]],[W-45, H-bH+8,13,[30,62,26]],[35,H-12,10,[58,110,48]]
-  ];
-  hexes.forEach(([cx,cy,r,col])=>{
-    doc.setFillColor(...col);
-    doc.ellipse(cx,cy,r,r,'F');
-  });
-
-  // Trait orange
-  doc.setDrawColor(...OR); doc.setLineWidth(1.2);
-  doc.line(0, H-bH+1, W*0.55, H-bH+1);
-
-  // Logo grand format
-  doc.setFontSize(22); doc.setFont(undefined,'normal');
-  doc.setTextColor(220,239,216); doc.text('argi', W/2-18, H-18, {align:'center'});
-  doc.setFontSize(30); doc.setFont(undefined,'bold');
-  doc.setTextColor(...OR); doc.text('Q', W/2+2, H-17);
-  doc.setFontSize(22); doc.setFont(undefined,'normal');
-  doc.setTextColor(...GL); doc.text('are', W/2+12, H-18);
-
-  // Tagline
-  doc.setFontSize(8); doc.setTextColor(122,184,122);
-  doc.text('Retrait-Gonflement des Argiles — RGA', W/2, H-25, {align:'center'});
-
-  // Titre central
-  doc.setFontSize(22); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-  doc.text('Document', W/2, H-bH/2+8, {align:'center'});
-  doc.text('de Synthèse', W/2, H-bH/2-3, {align:'center'});
-  doc.setDrawColor(...OR); doc.setLineWidth(1);
-  doc.line(W/2-22, H-bH/2-7, W/2+22, H-bH/2-7);
-  doc.setFontSize(8); doc.setFont(undefined,'normal'); doc.setTextColor(...GL);
-  doc.text('SINISTRE RGA — CATASTROPHE NATURELLE', W/2, H-bH/2-13, {align:'center'});
+  // Titre
+  doc.setDrawColor(...OR); doc.setLineWidth(1.5); doc.line(W/2-35,72,W/2+35,72);
+  doc.setFontSize(20); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
+  doc.text('SYNTHÈSE', W/2, 84, {align:'center'});
+  doc.text('DE DOSSIER', W/2, 95, {align:'center'});
+  doc.setFontSize(9); doc.setFont(undefined,'normal'); doc.setTextColor(...GL);
+  doc.text('Retrait-Gonflement des Argiles — Catastrophe Naturelle', W/2, 104, {align:'center'});
+  doc.setDrawColor(...OR); doc.setLineWidth(1.5); doc.line(W/2-35,108,W/2+35,108);
 
   // Carte assuré
-  const cH=46, cY=H-bH-cH-12, cW=W-44, cX=22;
-  doc.setFillColor(224,221,216); doc.roundedRect(cX+1,cY-1,cW,cH,3,3,'F'); // ombre
-  doc.setFillColor(...WT); doc.roundedRect(cX,cY,cW,cH,3,3,'F');
-  doc.setFillColor(...OR); doc.roundedRect(cX,cY+cH-7,cW,7,3,3,'F');
-  doc.rect(cX, cY+cH-9, cW, 4,'F');
+  const cY=124, cH=62, cX=ML+8, cW2=W-ML-MR-16;
+  doc.setFillColor(30,45,30); doc.roundedRect(cX,cY,cW2,cH,3,3,'F');
+  doc.setFillColor(...OR); doc.roundedRect(cX,cY,cW2,8,3,3,'F');
+  doc.rect(cX,cY+5,cW2,3,'F');
   doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-  doc.text('INFORMATIONS ASSURÉ', W/2, cY+cH-3.5, {align:'center'});
+  doc.text('INFORMATIONS ASSURÉ', W/2, cY+5.5, {align:'center'});
 
-  let fy = cY+cH-14;
-  const cardRows=[
-    ['Assuré',    v('m_nom')+' '+v('m_prenom')],
-    ['Adresse',   v('m_voie')+' '+v('m_cp')+' '+v('m_ville')],
-    ['Contrat',   v('m_typecontrat')+' '+v('m_numcontrat')],
+  const cardData=[
+    ['Assuré', v('m_nom')+' '+v('m_prenom')],
+    ['Adresse', v('m_voie')+(v('m_compl')!=='—'?' '+v('m_compl'):'')+' — '+v('m_cp')+' '+v('m_ville')],
     ['Téléphone', v('m_tel')],
-    ['Email',     v('m_email')],
+    ['Email', v('m_email')],
+    ['Assureur', v('m_assureur')!=='—'?v('m_assureur'):v('m_typecontrat')],
+    ['Contrat N°', v('m_numcontrat')],
   ];
-  cardRows.forEach(([lbl,val])=>{
-    doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...GY);
-    doc.text(lbl+' :', cX+4, fy);
-    doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
-    doc.text(String(val).substring(0,60), cX+28, fy);
-    doc.setDrawColor(...GLN); doc.setLineWidth(0.2);
-    doc.line(cX+4, fy+1, cX+cW-4, fy+1);
-    fy -= 6.5;
+  let cy2=cY+14;
+  cardData.forEach(([lbl,val])=>{
+    doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(150,200,150);
+    doc.text(lbl+' :', cX+4, cy2);
+    doc.setFont(undefined,'normal'); doc.setTextColor(...WT);
+    doc.text(String(val).substring(0,55), cX+32, cy2);
+    doc.setDrawColor(40,60,40); doc.setLineWidth(0.2); doc.line(cX+4,cy2+1.5,cX+cW2-4,cy2+1.5);
+    cy2+=7;
   });
 
-  // Date
-  doc.setFontSize(7); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
-  doc.text('Généré le '+dateGen, W/2, cY-5, {align:'center'});
+  // Indicateurs
+  const maisonFields=['m_nom','m_prenom','m_voie','m_cp','m_ville','m_email','m_tel','m_typecontrat','m_numcontrat','m_assureur'];
+  let mFilled=0; maisonFields.forEach(id=>{if((document.getElementById(id)||{}).value?.trim())mFilled++;});
+  const mPct=Math.round((mFilled/maisonFields.length)*100);
+  const diagCbs=document.querySelectorAll('#screen-diag .diag-cb');
+  const diagChecked=[...diagCbs].filter(c=>c.checked).length;
+  const diagPct=Math.round((diagChecked/Math.max(diagCbs.length,1))*100);
+  const triKeys=Object.keys(triState).length;
+  const nJoints=Object.keys(diagFiles).length;
 
-  // 3 blocs indicateurs
-  const bW=(W-30)/3, bY=22, blocs=[
-    [mPct+'%','Ma Maison',...GD],[diagPct+'%','Diagnostic',...GM],[nJoints+'/8','Documents',...BD]
+  const indics=[
+    [mPct+'%','Ma Maison',...GD],
+    [diagPct+'%','Diagnostic',...BD],
+    [triKeys+' rép.','Parcours',...AM],
+    [nJoints+'/8','Documents',...RD]
   ];
-  blocs.forEach(([val,lbl,r,g,b],i)=>{
-    const bx=14+i*(bW+1.5);
-    doc.setFillColor(r,g,b); doc.roundedRect(bx,bY,bW,16,2,2,'F');
+  const iW=(CW-6)/4;
+  indics.forEach(([val,lbl,r,g,b],i)=>{
+    const ix=ML+i*(iW+2);
+    doc.setFillColor(r,g,b); doc.roundedRect(ix,200,iW,18,2,2,'F');
     doc.setFontSize(11); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-    doc.text(val, bx+bW/2, bY+9, {align:'center'});
+    doc.text(val, ix+iW/2, 211, {align:'center'});
     doc.setFontSize(6.5); doc.setFont(undefined,'normal');
-    doc.text(lbl, bx+bW/2, bY+13.5, {align:'center'});
+    doc.text(lbl, ix+iW/2, 215, {align:'center'});
   });
 
-  doc.setFontSize(6); doc.setTextColor(180,180,180);
-  doc.text("Document d'accompagnement sans valeur juridique — ArgiQare 2026", W/2, 15, {align:'center'});
+  doc.setFontSize(7.5); doc.setFont(undefined,'normal'); doc.setTextColor(140,180,140);
+  doc.text('Généré le '+dateGen, W/2, 228, {align:'center'});
+  doc.setFontSize(7); doc.setTextColor(80,120,80);
+  doc.text("Document d'accompagnement indicatif — Ne se substitue pas à une expertise professionnelle", W/2, 235, {align:'center'});
 
-  // ────────────────────────────────────────────
+  // ══════════════════════════════════════
   // PAGE 2 — SOMMAIRE
-  // ────────────────────────────────────────────
-  doc.addPage();
-  doc.setFillColor(...WT); doc.rect(0,0,W,H,'F');
+  // ══════════════════════════════════════
+  doc.addPage(); drawHeader();
+  let y=26;
+  doc.setFontSize(14); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
+  doc.text('Sommaire', ML, y); y+=2;
+  doc.setDrawColor(...OR); doc.setLineWidth(1.2); doc.line(ML,y,ML+30,y); y+=10;
 
-  // En-tête logo
-  const drawHeader = (pn) => {
-    doc.setFontSize(11); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
-    doc.text('argi', W/2-8, 11, {align:'center'});
-    doc.setFontSize(14); doc.setFont(undefined,'bold'); doc.setTextColor(...OR);
-    doc.text('Q', W/2+1, 11);
-    doc.setFontSize(11); doc.setFont(undefined,'normal'); doc.setTextColor(...GM);
-    doc.text('are', W/2+7, 11);
-    doc.setDrawColor(...GLN); doc.setLineWidth(0.4); doc.line(14,16,W-14,16);
-    // Footer
-    doc.setDrawColor(...GLN); doc.setLineWidth(0.3); doc.line(14,H-14,W-14,H-14);
-    doc.setFontSize(7); doc.setFont(undefined,'normal'); doc.setTextColor(180,180,180);
-    doc.text("ArgiQare — Document d'accompagnement RGA — Sans valeur juridique", 14, H-9);
-    doc.setTextColor(...GY); doc.text(String(pn), W-14, H-9, {align:'right'});
-  };
-  drawHeader(2);
-
-  let y = 26;
-  doc.setFontSize(16); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
-  doc.text('Sommaire', 18, y); y+=3;
-  doc.setDrawColor(...OR); doc.setLineWidth(1.2); doc.line(18,y,55,y); y+=10;
-
-  const tocItems=[
-    ['1.','Ma Maison','3',...GD],
-    ['2.','Mon Parcours Diagnostic','4',...GD],
-    ["3.","Documents à fournir à l'expert",'5',...GD],
-    ['4.','Annexes','6',...BD],
+  const toc=[
+    ['1','Informations sur le bien assuré','3',GD],
+    ['2','Parcours diagnostic — Étapes 1 à 9','4+',GD],
+    ['   2.1','Étape 1 — Observation des fissures','4',GY],
+    ['   2.2','Étape 2 — Environnement de la maison','4',GY],
+    ['   2.3','Étape 3 — Facteurs déclenchants','4',GY],
+    ['   2.4','Étape 4 — Mon contrat d\'assurance','5',GY],
+    ['   2.5','Étape 5 — Entretien & historique','5',GY],
+    ['   2.6','Étape 6 — Informations pour l\'expert','5',GY],
+    ['   2.7','Étape 7 — Description des désordres','6',GY],
+    ['   2.8','Étape 8 — Investigations complémentaires','6',GY],
+    ['3','Documents à fournir à l\'expert','7',BD],
+    ['4','Annexes — Documents joints','8',BD],
   ];
-  tocItems.forEach(([num,title,pg,r,g,b])=>{
-    doc.setFillColor(r===GD[0]&&g===GD[1]?245:240, r===GD[0]&&g===GD[1]?251:244, r===GD[0]&&g===GD[1]?244:255);
-    doc.roundedRect(18,y-4,W-36,9,1.5,1.5,'F');
-    doc.setFillColor(r,g,b); doc.circle(23,y+0.5,3.5,'F');
-    doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-    doc.text(num.replace('.',''), 23, y+1.5, {align:'center'});
-    doc.setFontSize(9); doc.setFont(undefined,'bold'); doc.setTextColor(r,g,b);
-    doc.text(title, 29, y+1);
-    doc.setFillColor(r,g,b); doc.circle(W-23,y+0.5,3.5,'F');
-    doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-    doc.text(pg, W-23, y+1.5, {align:'center'});
-    y+=14;
+  toc.forEach(([num,title,pg,col])=>{
+    if(y>H-20){doc.addPage();drawHeader();y=22;}
+    const isMain = num.length===1;
+    doc.setFillColor(isMain?GLP[0]:250, isMain?GLP[1]:252, isMain?GLP[2]:252);
+    doc.roundedRect(ML,y-3.5,CW,8,1,1,'F');
+    if(isMain){ doc.setFillColor(...col); doc.circle(ML+5,y+0.5,3,'F');
+      doc.setFontSize(7.5); doc.setFont(undefined,'bold'); doc.setTextColor(...WT); doc.text(num,ML+5,y+1.5,{align:'center'}); }
+    doc.setFontSize(isMain?9:8); doc.setFont(undefined,isMain?'bold':'normal');
+    doc.setTextColor(col[0],col[1],col[2]); doc.text(title, isMain?ML+11:ML+14, y+1);
+    doc.setFontSize(8); doc.setFont(undefined,'bold'); doc.setTextColor(...GY);
+    doc.text(pg, W-MR, y+1, {align:'right'});
+    y+=isMain?11:9;
   });
 
-  y+=4;
-  doc.setFontSize(8); doc.setFont(undefined,'bold'); doc.setTextColor(...BD);
-  doc.text('Détail des annexes jointes', 22, y); y+=2;
-  doc.setDrawColor(...BD); doc.setLineWidth(0.4); doc.line(22,y,80,y); y+=7;
+  // ══════════════════════════════════════
+  // PAGE 3 — MA MAISON COMPLÈTE
+  // ══════════════════════════════════════
+  doc.addPage(); drawHeader(); y=22;
+  y = sectionBar('1.  INFORMATIONS SUR LE BIEN ASSURÉ', GD, y);
 
-  const annexeItems=[];
-  if(planFile) annexeItems.push(['Annexe A','Plan de ma maison']);
-  diagLabels.forEach((lbl,i)=>{
-    if(diagFiles[i+1]) annexeItems.push(['Annexe '+(i+1), lbl.replace(/^[^\s]+\s/,'')]);
-  });
-  if(annexeItems.length===0) annexeItems.push(['—','Aucune annexe jointe']);
-
-  annexeItems.forEach(([ref,title],idx)=>{
-    doc.setFillColor(240,244,255); doc.roundedRect(22,y-3.5,W-44,7.5,1.5,1.5,'F');
-    doc.setFontSize(7.5); doc.setFont(undefined,'bold'); doc.setTextColor(...BD);
-    doc.text(ref, 26, y+0.5);
-    doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
-    doc.text(title, 46, y+0.5);
-    doc.setTextColor(...GY); doc.text(String(6+idx), W-26, y+0.5, {align:'right'});
-    y+=10;
-  });
-
-  // Note réglementaire
-  doc.setFillColor(...GLP); doc.roundedRect(18,H-38,W-36,14,2,2,'F');
-  doc.setFontSize(7.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
-  doc.text('Base réglementaire', 22, H-30);
-  doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
-  doc.text("Documents requis par l'arrêté du 24 janvier 2025 — décret n° 2024-1101 du 3 décembre 2024.", 22, H-24, {maxWidth:W-44});
-
-  // ────────────────────────────────────────────
-  // PAGE 3 — MA MAISON
-  // ────────────────────────────────────────────
-  doc.addPage(); doc.setFillColor(...WT); doc.rect(0,0,W,H,'F');
-  drawHeader(3);
-  y=24;
-
-  const sectionBar=(title,color,yy)=>{
-    doc.setFillColor(...color); doc.roundedRect(18,yy-5,W-36,7,1.5,1.5,'F');
-    doc.setFontSize(8.5); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-    doc.text(title, 22, yy-0.5); return yy+5;
-  };
-  const subsec=(title,yy)=>{
-    doc.setFontSize(7.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GM);
-    doc.text(title, 22, yy);
-    doc.setDrawColor(200,228,196); doc.setLineWidth(0.4); doc.line(22,yy+1,W-18,yy+1);
-    return yy+6;
-  };
-  const fieldRow=(lbl,val,yy)=>{
-    doc.setFontSize(7.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GY);
-    doc.text(lbl, 22, yy);
-    doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
-    doc.text(String(val||'—').substring(0,70), 72, yy);
-    doc.setDrawColor(...GLN); doc.setLineWidth(0.2); doc.line(22,yy+1.5,W-18,yy+1.5);
-    return yy+6.5;
-  };
-
-  y = sectionBar('1.  MA MAISON', GD, y)+4;
-  y = subsec('Coordonnées de l\'assuré', y);
-  y = fieldRow('Nom / Prénom', v('m_nom')+' '+v('m_prenom'), y);
-  y = fieldRow('Adresse', v('m_voie'), y);
-  y = fieldRow('Code postal / Ville', v('m_cp')+' '+v('m_ville'), y);
-  y = fieldRow('Email', v('m_email'), y);
+  // 1.1 Identité
+  doc.setFontSize(9); doc.setFont(undefined,'bold'); doc.setTextColor(...GM);
+  doc.text('1.1  Identité de l\'assuré', ML+2, y); y+=6;
+  y = fieldRow('Nom', v('m_nom'), y);
+  y = fieldRow('Prénom', v('m_prenom'), y);
   y = fieldRow('Téléphone', v('m_tel'), y);
-  y+=3; y = subsec('Mon contrat d\'assurance', y);
+  y = fieldRow('Email', v('m_email'), y);
+  y = fieldRow('Adresse personnelle', v('m_voie')+(v('m_compl')!=='—'?' '+v('m_compl'):''), y);
+  y = fieldRow('Code postal / Ville', v('m_cp')+' '+v('m_ville'), y);
+  y = fieldRow('Adresse du bien sinistré', v('m_bien')!=='—'?v('m_bien'):'Identique à l\'adresse personnelle', y);
+
+  y+=4; doc.setFontSize(9); doc.setFont(undefined,'bold'); doc.setTextColor(...GM);
+  doc.text('1.2  Contrat d\'assurance', ML+2, y); y+=6;
+  y = fieldRow('Assureur', v('m_assureur'), y);
   y = fieldRow('Type de contrat', v('m_typecontrat'), y);
-  y = fieldRow('Numéro', v('m_numcontrat'), y);
+  y = fieldRow('Numéro de contrat', v('m_numcontrat'), y);
   y = fieldRow('Date d\'effet', v('m_dateeffet'), y);
-  y = fieldRow('Franchise légale', v('m_franchise')||'1 520 €', y);
-  y+=3; y = subsec('Description de ma maison', y);
-  y = fieldRow('Nombre de niveaux', rd('niveaux'), y);
-  y = fieldRow('Pièces principales', v('m_pcontrat'), y);
-  y = fieldRow('Surface', v('m_scontrat')+' m²', y);
-  y = fieldRow('Période construction', rd('periode'), y);
-  if(planFile) y = fieldRow('Plan de maison', '[Fichier joint : '+planFile.name+']', y);
+  y = fieldRow('Franchise légale RGA', v('m_franchise')!=='—'?v('m_franchise'):'1 520 €', y);
+
+  // Attestation
+  const attName = document.getElementById('attest-fname')?.textContent||'';
+  y = fieldRow('Attestation d\'assurance', attName||'Non jointe', y);
+
+  y+=4; doc.setFontSize(9); doc.setFont(undefined,'bold'); doc.setTextColor(...GM);
+  doc.text('1.3  Caractéristiques du bien', ML+2, y); y+=6;
+  y = fieldRow('Nbre de pièces (contrat)', v('m_pcontrat'), y);
+  y = fieldRow('Surface (m²)', v('m_scontrat'), y);
+  y = fieldRow('Date d\'acquisition', v('m_dateacq'), y);
+  y = fieldRow('Vendeur précédent', v('m_precprop'), y);
+
+  y+=4; doc.setFontSize(9); doc.setFont(undefined,'bold'); doc.setTextColor(...GM);
+  doc.text('1.4  Travaux & construction', ML+2, y); y+=6;
+  y = fieldRow('Date ouverture chantier', v('m_datechantier'), y);
+  y = fieldRow('Date réception travaux', v('m_datereception'), y);
+  y = fieldRow('Date travaux extension', v('m_datetravaux'), y);
+  y = fieldRow('Surface extension (m²)', v('m_superficie'), y);
+  y = fieldRow('Entreprise de travaux', v('m_societe'), y);
+
+  // Niveau aléa RGA
+  const aleaEl = document.getElementById('m_alea_display') || document.querySelector('#alea-value');
+  const aleaDept = document.getElementById('m_dept')?.value||'—';
+  y+=4; doc.setFontSize(9); doc.setFont(undefined,'bold'); doc.setTextColor(...GM);
+  doc.text('1.5  Exposition RGA (Géorisques)', ML+2, y); y+=6;
+  y = fieldRow('Département', aleaDept, y);
+  const aleaText = document.querySelector('.alea-level-label')?.textContent||'—';
+  y = fieldRow('Niveau d\'aléa RGA', aleaText, y);
+
+  // ══════════════════════════════════════
+  // PAGES 4+ — PARCOURS DIAGNOSTIC COMPLET
+  // ══════════════════════════════════════
+  doc.addPage(); drawHeader(); y=22;
+  y = sectionBar('2.  PARCOURS DIAGNOSTIC — RÉPONSES DÉTAILLÉES', GD, y);
+  doc.setFontSize(7.5); doc.setFont(undefined,'italic'); doc.setTextColor(...GY);
+  doc.text('✓ = Oui, c\'est mon cas   −  = Non concerné   ○ = Non renseigné', ML+2, y); y+=8;
+
+  // Légende
+  [['✓','Oui, c\'est mon cas',...GD],['−','Non concerné',...AM],['○','Non renseigné',150,150,150]].forEach(([ic,lb,r,g,b])=>{
+    doc.setFillColor(r,g,b); doc.circle(ML+6,y,2,'F');
+    doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...WT); doc.text(ic,ML+6,y+1,{align:'center'});
+    doc.setFont(undefined,'normal'); doc.setTextColor(r,g,b); doc.text(lb, ML+10, y+1); y+=6;
+  });
   y+=4;
 
-  // Barre de complétion
-  doc.setFillColor(...GLP); doc.roundedRect(18,y,W-36,12,2,2,'F');
-  doc.setFontSize(7.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
-  doc.text('Taux de complétion — Ma Maison', 22, y+5);
-  const bwM=W-36-55, bxM=22;
-  doc.setFillColor(...GLN); doc.roundedRect(bxM,y+7,bwM,3,1.5,1.5,'F');
-  doc.setFillColor(...GM); doc.roundedRect(bxM,y+7,bwM*(mPct/100),3,1.5,1.5,'F');
-  doc.setFontSize(7.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
-  doc.text(mPct+'%', bxM+bwM+3, y+10);
+  // Étape 1
+  if(y>H-30){doc.addPage();drawHeader();y=22;}
+  doc.setFontSize(9.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
+  doc.text('Étape 1 — Observation d\'une fissure', ML+2, y); y+=7;
+  y = triRow('🔍 J\'ai observé des fissures sur les murs, façades ou éléments de structure','step1',1,true,y);
+  y = fieldRow('Date d\'apparition des fissures', v('fissure-date'), y, AM);
+  y = triRow('📍 Je suis capable de localiser les fissures','step1',3,true,y);
+  y+=4;
 
-  // ────────────────────────────────────────────
-  // PAGE 4 — PARCOURS DIAGNOSTIC
-  // ────────────────────────────────────────────
-  doc.addPage(); doc.setFillColor(...WT); doc.rect(0,0,W,H,'F');
-  drawHeader(4); y=24;
-  y = sectionBar('2.  MON PARCOURS DIAGNOSTIC', GD, y)+2;
-  doc.setFontSize(7); doc.setFont(undefined,'oblique'); doc.setTextColor(...GY);
-  doc.text("Outil d'accompagnement sans valeur juridique.", 22, y); y+=8;
+  // Étape 2
+  if(y>H-30){doc.addPage();drawHeader();y=22;}
+  doc.setFontSize(9.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
+  doc.text('Étape 2 — Environnement de la maison', ML+2, y); y+=7;
+  ['step2-1:🌍 Sol argileux (gonflant, craquelé en été)',
+   'step2-2:💧 Sous-sol retient ou draine mal l\'eau',
+   'step2-3:⛰️ Terrain en pente ou en dévers',
+   'step2-4:🌳 Arbres ou arbustes à moins de 5 mètres',
+   'step2-5:🔩 Fondations superficielles / construction avant 2000'
+  ].forEach(s=>{
+    const [key,lbl]=s.split(':');
+    const [sid,n]=key.split('-');
+    y=triRow(lbl,sid,parseInt(n),true,y);
+  });
+  y+=4;
 
-  document.querySelectorAll('.diag-step').forEach((el,i)=>{
-    const num=i+1;
-    const titleEl=el.querySelector('.diag-step-title');
-    const title=titleEl?titleEl.textContent.trim():'Point '+num;
-    const cbs=el.querySelectorAll('.diag-cb');
-    const allChecked=[...cbs].every(c=>c.checked)&&cbs.length>0;
-    // Cercle numéro
-    doc.setFillColor(...(allChecked?GD:GLN)); doc.circle(24,y+1,3,'F');
-    doc.setFontSize(6.5); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-    doc.text(String(num), 24, y+2, {align:'center'});
-    // Checkbox
-    const bx=29;
-    if(allChecked){doc.setFillColor(...GD);}else{doc.setFillColor(...WT);}
-    doc.setDrawColor(...(allChecked?GD:GLN)); doc.setLineWidth(0.5);
-    doc.roundedRect(bx,y-0.5,3.5,3.5,0.7,0.7, allChecked?'FD':'D');
-    if(allChecked){doc.setFontSize(6);doc.setTextColor(...WT);doc.text('✓',bx+1.2,y+2.2);}
-    // Label
-    doc.setFontSize(7.5); doc.setFont(undefined,'normal');
-    doc.setTextColor(allChecked?BK[0]:160, allChecked?BK[1]:160, allChecked?BK[2]:160);
-    doc.text(title.substring(0,72), 35, y+1.5);
-    doc.setDrawColor(...GLN); doc.setLineWidth(0.2); doc.line(22,y+3,W-18,y+3);
-    y+=7;
+  // Étape 3
+  if(y>H-30){doc.addPage();drawHeader();y=22;}
+  doc.setFontSize(9.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
+  doc.text('Étape 3 — Facteurs déclenchants', ML+2, y); y+=7;
+  ['step3-1:☀️ Sécheresse prolongée ou pluies intenses ont précédé les dommages',
+   'step3-2:🚧 Travaux réalisés à proximité',
+   'step3-3:🔧 Fuite d\'eau enterrée constatée',
+   'step3-4:🌿 Racines d\'arbres proches (turbosuccion)'
+  ].forEach(s=>{
+    const [key,lbl]=s.split(':');
+    const [sid,n]=key.split('-');
+    y=triRow(lbl,sid,parseInt(n),true,y);
+  });
+  y+=4;
+
+  // Étape 4 — Contrat
+  if(y>H-30){doc.addPage();drawHeader();y=22;}
+  doc.setFontSize(9.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
+  doc.text('Étape 4 — Mon contrat d\'assurance', ML+2, y); y+=7;
+  // Cases diag-cb classiques de l'étape 4
+  const step4Items = document.querySelectorAll('#step-4b .diag-check-item');
+  step4Items.forEach(item=>{
+    const cb = item.querySelector('input[type=checkbox]');
+    const lbl = item.querySelector('label')?.textContent?.trim()||'';
+    if(!lbl) return;
+    const icon = cb?.checked?'✓':'○';
+    const col = cb?.checked?GD:[160,160,160];
+    doc.setFillColor(...col); doc.circle(ML+4,y+1.5,2.5,'F');
+    doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
+    doc.text(icon,ML+4,y+2.5,{align:'center'});
+    doc.setFontSize(8); doc.setFont(undefined,cb?.checked?'bold':'normal');
+    doc.setTextColor(cb?.checked?BK[0]:150,cb?.checked?BK[1]:150,cb?.checked?BK[2]:150);
+    const lines=doc.splitTextToSize(lbl.substring(0,120),CW-12);
+    doc.text(lines,ML+9,y+2);
+    y+=Math.max(6,lines.length*4)+2;
+  });
+  y+=4;
+
+  // Étape 5 — Entretien
+  if(y>H-30){doc.addPage();drawHeader();y=22;}
+  doc.setFontSize(9.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
+  doc.text('Étape 5 — Entretien et historique', ML+2, y); y+=7;
+  ['step5-1:🌧️ Gouttières et évacuations en bon état',
+   'step5-2:🚿 Canalisations accessibles entretenues',
+   'step5-3:✂️ Arbres et arbustes taillés régulièrement',
+   'step5-4:🪨 Sol autour de la maison limite l\'évaporation',
+   'step5-5:📜 Recommandations PPR respectées'
+  ].forEach(s=>{
+    const [key,lbl]=s.split(':');
+    const [sid,n]=key.split('-');
+    y=triRow(lbl,sid,parseInt(n),true,y);
+  });
+  y+=4;
+
+  // Étape 6 — Infos expert
+  if(y>H-30){doc.addPage();drawHeader();y=22;}
+  doc.setFontSize(9.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
+  doc.text('Étape 6 — Informations pour l\'expert', ML+2, y); y+=7;
+  ['step6-1:🏚️ Assureur construction et entreprises connues (< 10 ans)',
+   'step6-2:📅 Dommages pendant la période de l\'arrêté Cat Nat',
+   'step6-3:🗓️ Date de constat des premières dégradations connue'
+  ].forEach(s=>{
+    const [key,lbl]=s.split(':');
+    const [sid,n]=key.split('-');
+    y=triRow(lbl,sid,parseInt(n),true,y);
+  });
+  y+=4;
+
+  // Étape 7 — Description désordres
+  if(y>H-30){doc.addPage();drawHeader();y=22;}
+  doc.setFontSize(9.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
+  doc.text('Étape 7 — Description des désordres', ML+2, y); y+=7;
+  ['step7-1:📊 Fissures et dégradations recensées et photographiées',
+   'step7-2:📸 Localisation, taille et date de constat renseignées'
+  ].forEach(s=>{
+    const [key,lbl]=s.split(':');
+    const [sid,n]=key.split('-');
+    y=triRow(lbl,sid,parseInt(n),true,y);
+  });
+  y+=4;
+
+  // Étape 8 — Investigations
+  if(y>H-30){doc.addPage();drawHeader();y=22;}
+  doc.setFontSize(9.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
+  doc.text('Étape 8 — Investigations complémentaires', ML+2, y); y+=7;
+  ['step8-1:🪛 Étude géotechnique G2 proposée ou réalisée',
+   'step8-2:🔍 Inspection vidéo des canalisations réalisée',
+   'step8-3:⏱️ Suivi de l\'évolution des dommages sur une période'
+  ].forEach(s=>{
+    const [key,lbl]=s.split(':');
+    const [sid,n]=key.split('-');
+    y=triRow(lbl,sid,parseInt(n),true,y);
   });
 
-  y+=4;
-  doc.setFillColor(...GLP); doc.roundedRect(18,y,W-36,12,2,2,'F');
-  doc.setFontSize(7.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
-  doc.text('Taux de complétion — Parcours Diagnostic', 22, y+5);
-  const bwD=W-36-55;
-  doc.setFillColor(...GLN); doc.roundedRect(22,y+7,bwD,3,1.5,1.5,'F');
-  doc.setFillColor(...GM); doc.roundedRect(22,y+7,bwD*(diagPct/100),3,1.5,1.5,'F');
-  doc.setTextColor(...GD); doc.text(diagPct+'%', 22+bwD+3, y+10);
-
-  // ────────────────────────────────────────────
-  // PAGE 5 — DOCUMENTS À FOURNIR
-  // ────────────────────────────────────────────
-  doc.addPage(); doc.setFillColor(...WT); doc.rect(0,0,W,H,'F');
-  drawHeader(5); y=24;
-  y = sectionBar("3.  DOCUMENTS À FOURNIR À L'EXPERT (Arrêté 24/01/2025)", BD, y)+4;
+  // ══════════════════════════════════════
+  // PAGE — DOCUMENTS À FOURNIR
+  // ══════════════════════════════════════
+  doc.addPage(); drawHeader(); y=22;
+  y = sectionBar("3.  DOCUMENTS À FOURNIR À L'EXPERT (Arrêté 24/01/2025)", BD, y);
   doc.setFontSize(7.5); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
-  doc.text("L'expert peut demander tout ou partie de ces pièces selon les particularités de votre dossier.", 22, y, {maxWidth:W-40});
-  y+=8;
+  doc.text("L'expert peut demander tout ou partie de ces pièces selon les particularités de votre dossier.", ML+2, y, {maxWidth:CW}); y+=10;
 
-  diagLabels.forEach((lbl,i)=>{
-    const cb=document.querySelector('#diag-piece-'+(i+1)+' .doc-piece-cb');
+  const diagLabelsLocal=['📝 Description du sinistre','⚠️ Dégâts causés à des tiers','🔬 Études géotechniques','🏠 Acte d\'achat','🏗️ Permis de construire','🔑 États des lieux','🧾 Devis, factures et PV','✍️ Déclaration sur l\'honneur'];
+  diagLabelsLocal.forEach((lbl,i)=>{
+    if(y>H-20){doc.addPage();drawHeader();y=22;}
     const joint=!!diagFiles[i+1];
+    const cb=document.querySelector('#diag-piece-'+(i+1)+' .doc-piece-cb');
     const checked=cb&&cb.checked;
     const label=lbl.replace(/^[^\s]+\s/,'');
-    if(joint){doc.setFillColor(...GD); doc.roundedRect(22,y-0.5,4,4,0.8,0.8,'F'); doc.setFontSize(6);doc.setFont(undefined,'bold');doc.setTextColor(...WT);doc.text('✓',23.5,y+2.2);}
-    else{doc.setFillColor(...WT);doc.setDrawColor(...GLN);doc.setLineWidth(0.4);doc.roundedRect(22,y-0.5,4,4,0.8,0.8,'D');}
-    doc.setFontSize(7.5); doc.setFont(undefined,'normal');
-    doc.setTextColor(joint?GD[0]:checked?GY[0]:160, joint?GD[1]:checked?GY[1]:160, joint?GD[2]:checked?GY[2]:160);
-    doc.text(label+(joint?' [Fichier joint]':''), 28, y+1.5);
-    doc.setDrawColor(...GLN); doc.setLineWidth(0.2); doc.line(22,y+3,W-18,y+3);
-    y+=7;
+    if(joint){doc.setFillColor(...GD);}
+    else if(checked){doc.setFillColor(...AM);}
+    else{doc.setFillColor(200,200,200);}
+    doc.roundedRect(ML,y-1,5,5,0.8,0.8,'F');
+    doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
+    doc.text(joint?'✓':checked?'−':'○',ML+2.5,y+2.5,{align:'center'});
+    doc.setFontSize(8); doc.setFont(undefined,'normal');
+    doc.setTextColor(joint?GD[0]:checked?AM[0]:150, joint?GD[1]:checked?AM[1]:150, joint?GD[2]:checked?AM[2]:150);
+    doc.text(label+(joint?' [Fichier joint]':''), ML+8, y+2.5);
+    doc.setDrawColor(...GLN); doc.setLineWidth(0.2); doc.line(ML,y+4.5,W-MR,y+4.5);
+    y+=8;
   });
 
   const nJ=Object.keys(diagFiles).length;
   y+=4;
-  doc.setFillColor(...GLP); doc.roundedRect(18,y,W-36,10,2,2,'F');
-  doc.setFontSize(7.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
-  doc.text(nJ+' fichier(s) joint(s) sur '+diagLabels.length+' — '+(diagLabels.length-nJ)+' pièce(s) à compléter', W/2, y+6, {align:'center'});
+  doc.setFillColor(...GLP); doc.roundedRect(ML,y,CW,12,2,2,'F');
+  doc.setFontSize(8); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
+  doc.text(nJ+' fichier(s) joint(s) sur '+diagLabelsLocal.length+' — '+(diagLabelsLocal.length-nJ)+' pièce(s) à compléter', W/2, y+7, {align:'center'});
+  y+=18;
 
-  // ────────────────────────────────────────────
-  // PAGE 6 — ANNEXES
-  // ────────────────────────────────────────────
-  doc.addPage(); doc.setFillColor(...WT); doc.rect(0,0,W,H,'F');
-  drawHeader(6); y=24;
-  y = sectionBar('4.  ANNEXES — Documents joints', BD, y)+8;
+  // Base réglementaire
+  doc.setFillColor(255,248,232); doc.roundedRect(ML,y,CW,14,2,2,'F');
+  doc.setDrawColor(...OR); doc.setLineWidth(0.5); doc.roundedRect(ML,y,CW,14,2,2,'D');
+  doc.setFontSize(7.5); doc.setFont(undefined,'bold'); doc.setTextColor(138,106,0);
+  doc.text('⚠  Rappel — 3 conditions cumulatives pour l\'indemnisation Cat Nat', ML+4, y+5.5);
+  doc.setFont(undefined,'normal'); doc.setFontSize(7); doc.setTextColor(122,96,0);
+  doc.text('① Arrêté JO publié pour votre commune   ②  RGA = cause déterminante   ③  Contrat MRH en vigueur', ML+4, y+10.5, {maxWidth:CW-8});
+
+  // ══════════════════════════════════════
+  // PAGE — ANNEXES
+  // ══════════════════════════════════════
+  doc.addPage(); drawHeader(); y=22;
+  y = sectionBar('4.  ANNEXES — DOCUMENTS JOINTS', BD, y);
 
   const allAnnexes=[];
-  if(planFile) allAnnexes.push(['Annexe A','Plan de ma maison (facultatif)',planFile]);
-  diagLabels.forEach((lbl,i)=>{
-    if(diagFiles[i+1]) allAnnexes.push(['Annexe '+(i+1), lbl.replace(/^[^\s]+\s/,''), diagFiles[i+1]]);
+  if(planFile) allAnnexes.push(['Annexe A','Plan de ma maison',planFile]);
+  diagLabelsLocal.forEach((lbl,i)=>{
+    if(diagFiles[i+1]) allAnnexes.push(['Annexe '+(i+1),lbl.replace(/^[^\s]+\s/,''),diagFiles[i+1]]);
   });
 
   if(allAnnexes.length===0){
-    doc.setFontSize(8); doc.setFont(undefined,'italic'); doc.setTextColor(...GY);
-    doc.text('Aucune annexe jointe.', 22, y);
-    y+=12;
+    doc.setFontSize(9); doc.setFont(undefined,'italic'); doc.setTextColor(...GY);
+    doc.text('Aucune annexe jointe. Complétez les pièces dans l\'onglet Mon Parcours Diagnostic.', ML+2, y+8);
   } else {
-    allAnnexes.forEach(([ref,title,file])=>{
-      doc.setFillColor(240,244,255); doc.roundedRect(18,y-5,W-36,9,1.5,1.5,'F');
-      doc.setFillColor(...BD); doc.roundedRect(18,y-5,16,9,1.5,1.5,'F');
+    allAnnexes.forEach(([ref,title,file],idx)=>{
+      if(y>H-20){doc.addPage();drawHeader();y=22;}
+      doc.setFillColor(240,244,255); doc.roundedRect(ML,y-4,CW,9,1.5,1.5,'F');
+      doc.setFillColor(...BD); doc.roundedRect(ML,y-4,18,9,1.5,1.5,'F');
       doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-      doc.text(ref, 26, y-0.5, {align:'center'});
+      doc.text(ref, ML+9, y+1, {align:'center'});
       doc.setFontSize(7.5); doc.setFont(undefined,'bold'); doc.setTextColor(...BK);
-      doc.text(title, 38, y-0.5);
-      doc.setFillColor(...GD); doc.roundedRect(W-34,y-4,14,7,1.5,1.5,'F');
-      doc.setFontSize(6.5); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-      doc.text('✅ Joint', W-27, y-0.5, {align:'center'});
+      doc.text(title, ML+22, y+1);
+      if(file && file.name){
+        doc.setFontSize(6.5); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
+        doc.text(file.name, ML+22, y+5);
+      }
+      doc.setFillColor(...GD); doc.roundedRect(W-MR-18,y-3,16,7,1.5,1.5,'F');
+      doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
+      doc.text('✅ Joint', W-MR-10, y+1.5, {align:'center'});
       y+=13;
+    });
+
+    // Ajouter les images en pages séparées
+    allAnnexes.forEach(([ref,title,file])=>{
+      if(file && file.type && file.type.startsWith('image/')){
+        doc.addPage(); drawHeader();
+        doc.setFontSize(11); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
+        doc.text(ref+' — '+title, ML, 26);
+        doc.setFontSize(7.5); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
+        doc.text('Fichier : '+file.name, ML, 32);
+        try{ doc.addImage(file.data, file.type.includes('png')?'PNG':'JPEG', ML, 36, CW, 130); }
+        catch(e){}
+      }
     });
   }
 
-  // Ajout images annexes sur pages suivantes
-  let annexePg=7;
-  allAnnexes.forEach(([ref,title,file])=>{
-    if(file && file.type && file.type.startsWith('image/')){
-      doc.addPage(); doc.setFillColor(...WT); doc.rect(0,0,W,H,'F');
-      drawHeader(annexePg); annexePg++;
-      doc.setFontSize(10); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
-      doc.text(ref+' — '+title, 18, 26);
-      doc.setFontSize(7.5); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
-      doc.text('Fichier : '+file.name, 18, 32);
-      try{ doc.addImage(file.data, file.type.includes('png')?'PNG':'JPEG', 18, 36, 170, 110); }
-      catch(e){}
-    }
-  });
-
-  // Rappel 3 conditions
-  // (sur la page annexes)
-  doc.setPage(6);
-  doc.setFillColor(255,248,232); doc.roundedRect(18,H-36,W-36,16,2,2,'F');
-  doc.setDrawColor(...OR); doc.setLineWidth(0.5); doc.roundedRect(18,H-36,W-36,16,2,2,'D');
-  doc.setFontSize(7.5); doc.setFont(undefined,'bold'); doc.setTextColor(138,106,0);
-  doc.text('⚠  Rappel — Indemnisation possible uniquement si 3 conditions réunies', 22, H-28);
-  doc.setFont(undefined,'normal'); doc.setFontSize(7); doc.setTextColor(122,96,0);
-  doc.text('Arrêté JO publié  ·  RGA = cause déterminante  ·  Contrat MRH en vigueur au moment du sinistre', 22, H-22, {maxWidth:W-40});
-
-  // Sauvegarde + mise à jour horodatage
+  // Sauvegarde
   doc.save('ArgiQare_Synthese.pdf');
   const lbl = document.getElementById('last-gen-label');
   if(lbl) lbl.textContent = '🕐 Dernière génération : ' + dateGen;
@@ -4212,7 +4377,31 @@ function refreshCompletion(){
 .taille-opt.active { background:#e8f5e4; border-color:#2d5a27; color:#2d5a27; font-weight:800; }
 .taille-opt:hover { background:#f5f8f0; }
 /* ── FIN PANNEAUX ── */
-/* ── CGU ── */
+/* ── FIL CONDUCTEUR ── */
+.btn-next-tab { width:100%; padding:14px; margin:18px 0 8px; background:linear-gradient(135deg,#2d5a27,#4a7c3f); color:white; border:none; border-radius:14px; font-size:13px; font-weight:700; cursor:pointer; font-family:inherit; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 14px rgba(45,90,39,.25); transition:opacity .15s; }
+.btn-next-tab:hover { opacity:.9; }
+/* ── FIN FIL CONDUCTEUR ── */
+
+/* ── TUTORIEL GUIDÉ ── */
+.tuto-overlay { position:absolute; inset:0; z-index:549; pointer-events:none; }
+.tuto-overlay.hidden { display:none !important; pointer-events:none; }
+.tuto-dimmer { position:absolute; inset:0; background:rgba(0,0,0,.65); pointer-events:auto; }
+.tuto-popup { position:absolute; left:14px; right:14px; background:white; border-radius:16px; padding:16px 16px 14px; box-shadow:0 8px 32px rgba(0,0,0,.25); pointer-events:auto; animation:popupIn .3s cubic-bezier(.34,1.56,.64,1); }
+.tuto-popup-top { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.tuto-popup-icon { width:38px; height:38px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:20px; flex-shrink:0; }
+.tuto-popup-title { font-size:13px; font-weight:800; color:#1a2a0e; }
+.tuto-popup-sub { font-size:10px; color:#9a8a72; margin-top:1px; }
+.tuto-popup-body { font-size:11px; color:#3a4a2e; line-height:1.7; margin-bottom:14px; }
+.tuto-popup-nav { display:flex; align-items:center; justify-content:space-between; }
+.tuto-popup-dots { display:flex; gap:5px; }
+.tuto-popup-dot { width:7px; height:7px; border-radius:50%; background:#e0d8cc; transition:all .2s; }
+.tuto-popup-dot.active { width:20px; border-radius:4px; background:#2d5a27; }
+.tuto-popup-btns { display:flex; gap:8px; }
+.tuto-btn-skip { padding:8px 12px; background:#f0ece4; border:none; border-radius:8px; font-size:11px; font-weight:600; color:#7a6a52; cursor:pointer; font-family:inherit; }
+.tuto-btn-next { padding:8px 16px; background:linear-gradient(135deg,#2d5a27,#4a7c3f); border:none; border-radius:8px; font-size:11px; font-weight:700; color:white; cursor:pointer; font-family:inherit; }
+/* Fenêtre "spotlight" — découpe rectangulaire dans le dimmer */
+.tuto-spotlight { position:absolute; border-radius:12px; box-shadow:0 0 0 9999px rgba(0,0,0,.65); pointer-events:none; transition:all .4s cubic-bezier(.4,0,.2,1); border:2px solid rgba(255,255,255,.3); }
+/* ── FIN TUTORIEL ── */
 .cgu-article { border-bottom:1px solid #e8e0d0; padding-bottom:14px; margin-bottom:14px; }
 .cgu-article-title { font-size:11px; font-weight:800; color:#2d5a27; margin-bottom:8px; padding:6px 10px; background:#e8f5e4; border-radius:8px; border-left:3px solid #2d5a27; }
 .cgu-article-body { font-size:10.5px; color:#3a4a2e; line-height:1.75; }
@@ -4956,7 +5145,176 @@ window.addEventListener('load', () => {
     const cb = document.getElementById('dark-mode');
     if(cb) cb.checked = true;
   }
+  // Restaurer le diagnostic
+  setTimeout(loadDiag, 300);
 });
+
+// ══ TUTORIEL GUIDÉ ══
+const TUTO_STEPS = [
+  {
+    tab: 'catnat',
+    navIdx: 0,
+    icon: '⚖️',
+    iconBg: 'linear-gradient(135deg,#1a3a6e,#2a5ca8)',
+    title: 'Onglet Cat Nat',
+    sub: 'Le régime des catastrophes naturelles',
+    body: 'Cet onglet vous explique comment fonctionne le régime Cat Nat en France, vos droits en tant qu\'assuré, et les évolutions récentes de la réglementation pour le RGA. Consultez aussi la FAQ et la chronologie des lois.'
+  },
+  {
+    tab: 'maison',
+    navIdx: 1,
+    icon: '🏠',
+    iconBg: 'linear-gradient(135deg,#2d5a27,#4a7c3f)',
+    title: 'Onglet Ma Maison',
+    sub: 'Votre bien et son exposition au RGA',
+    body: 'Renseignez les caractéristiques de votre maison et importez votre fiche Géorisques pour connaître votre niveau d\'exposition au Retrait-Gonflement des Argiles. Plus votre dossier est complet, plus votre synthèse PDF sera utile.'
+  },
+  {
+    tab: 'diag',
+    navIdx: 2,
+    icon: '🔍',
+    iconBg: 'linear-gradient(135deg,#8a6000,#c08000)',
+    title: 'Onglet Mon Parcours Diagnostic',
+    sub: '9 étapes pour documenter votre situation',
+    body: 'Suivez les 9 étapes pour décrire vos fissures, votre environnement, les facteurs déclenchants et les documents à rassembler. Pour chaque point, indiquez si vous êtes concerné ou non — les sous-questions apparaissent automatiquement.'
+  },
+  {
+    tab: 'dossier',
+    navIdx: 3,
+    icon: '📁',
+    iconBg: 'linear-gradient(135deg,#6a2a8a,#9a4ab0)',
+    title: 'Onglet Mon Dossier',
+    sub: 'Votre synthèse prête pour l\'expert',
+    body: 'Visualisez le taux de complétion de votre dossier et générez votre PDF de synthèse. Ce document peut être remis à votre expert lors de sa visite ou joint à votre déclaration de sinistre auprès de votre assureur.'
+  },
+  {
+    tab: 'partager',
+    navIdx: 4,
+    icon: '🔗',
+    iconBg: 'linear-gradient(135deg,#1a5a8a,#2a8ab0)',
+    title: 'Onglet Ressources',
+    sub: 'Sources officielles et liens utiles',
+    body: 'Retrouvez ici les liens vers les organismes de référence (CCR, MRN, BRGM, CEREMA, Géorisques) et les textes réglementaires (loi Baudu, arrêtés, circulaires) pour approfondir vos connaissances ou vérifier les informations.',
+    last: true
+  }
+];
+
+let tutoStep = 0;
+
+function demarrerTutoriel(){
+  document.getElementById('story-overlay').classList.add('hidden');
+  tutoStep = 0;
+  window._tutoActif = true;
+  document.querySelector('.phone').dataset.tuto = '1';
+  afficherTutoStep();
+}
+
+function afficherTutoStep(){
+  const step = TUTO_STEPS[tutoStep];
+  document.getElementById('tuto-overlay').classList.remove('hidden');
+  const navItems = document.querySelectorAll('.nav-item');
+  switchTab(step.tab, navItems[step.navIdx]);
+  document.getElementById('tuto-icon').style.background = step.iconBg;
+  document.getElementById('tuto-icon').textContent = step.icon;
+  document.getElementById('tuto-title').textContent = step.title;
+  document.getElementById('tuto-sub').textContent = step.sub;
+  document.getElementById('tuto-body').textContent = step.body;
+  const btnNext = document.getElementById('tuto-btn-next');
+  btnNext.textContent = step.last ? 'Commencer 🚀' : 'Suivant →';
+  const dotsEl = document.getElementById('tuto-dots');
+  dotsEl.innerHTML = '';
+  TUTO_STEPS.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'tuto-popup-dot' + (i === tutoStep ? ' active' : '');
+    dotsEl.appendChild(d);
+  });
+  positionnerTutoPopup();
+}
+
+function positionnerTutoPopup(){
+  const popup = document.getElementById('tuto-popup');
+  const phone = document.querySelector('.phone');
+  const navH = 58;
+  const navItems = document.querySelectorAll('.nav-item');
+  const activeNav = navItems[TUTO_STEPS[tutoStep].navIdx];
+  if(activeNav){
+    const r = activeNav.getBoundingClientRect();
+    const pr = phone.getBoundingClientRect();
+    const spotlight = document.getElementById('tuto-spotlight');
+    spotlight.style.left = (r.left - pr.left - 4) + 'px';
+    spotlight.style.top = (r.top - pr.top - 4) + 'px';
+    spotlight.style.width = (r.width + 8) + 'px';
+    spotlight.style.height = (r.height + 8) + 'px';
+  }
+  popup.style.bottom = (navH + 16) + 'px';
+  popup.style.top = 'auto';
+}
+
+function tutoNext(){
+  if(tutoStep < TUTO_STEPS.length - 1){
+    tutoStep++;
+    afficherTutoStep();
+  } else {
+    tutoSkip();
+  }
+}
+
+function tutoSkip(){
+  window._tutoActif = false;
+  document.querySelector('.phone').dataset.tuto = '0';
+  document.getElementById('tuto-overlay').classList.add('hidden');
+  // D'abord naviguer sur catnat SANS popup
+  const navItems = document.querySelectorAll('.nav-item');
+  switchTab('catnat', navItems[0]);
+  // Puis ouvrir le popup catnat après un délai suffisant
+  setTimeout(()=>{
+    const el = document.getElementById('catnat-overlay');
+    if(el) el.classList.remove('hidden');
+  }, 800);
+}
+// ══ FIN TUTORIEL ══
+
+// ══ SAUVEGARDE DIAGNOSTIC ══
+function loadDiag(){
+  // Restaurer triState
+  const saved = localStorage.getItem('argicare-tristate');
+  if(saved){
+    const state = JSON.parse(saved);
+    Object.keys(state).forEach(key => {
+      const parts = key.split('-');
+      const stepId = parts[0];
+      const itemN = parseInt(parts[1]);
+      const choice = state[key];
+      triState[key] = choice;
+      // Activer le bouton visuel
+      const item = document.getElementById('tri-' + stepId + '-' + itemN);
+      if(item){
+        item.querySelectorAll('.tri-btn').forEach(b => b.classList.remove('active'));
+        const btn = item.querySelector('.tri-btn.' + choice);
+        if(btn) btn.classList.add('active');
+        // Déplie les sous-questions si oui
+        const detail = document.getElementById('tri-' + stepId + '-' + itemN + '-detail');
+        if(detail) detail.classList.toggle('open', choice === 'yes');
+      }
+    });
+  }
+  // Restaurer les cases diag-cb
+  const cbSaved = localStorage.getItem('argicare-diagcb');
+  if(cbSaved){
+    const cbStates = JSON.parse(cbSaved);
+    const cbs = document.querySelectorAll('#screen-diag .diag-cb');
+    cbs.forEach((cb, i) => { if(cbStates[i]) cb.checked = true; });
+  }
+  // Restaurer la date fissure
+  const dateSaved = localStorage.getItem('argicare-fissure-date');
+  if(dateSaved){
+    const dateEl = document.getElementById('fissure-date');
+    if(dateEl) dateEl.value = dateSaved;
+  }
+  // Mettre à jour la progression
+  updateProgress();
+}
+// ══ FIN SAUVEGARDE DIAGNOSTIC ══
 
 function toggleGlossaire(){
   const overlay = document.getElementById('glossaire-overlay');
@@ -4998,6 +5356,7 @@ function triSelect(stepId, itemN, choice){
 
   updateProgress();
   updateFeedback(stepId);
+  saveDiag();
 }
 
 // Compter les items tri d'une étape et afficher le feedback
@@ -5127,6 +5486,11 @@ function openStory(){
 }
 function closeStory(){
   document.getElementById('story-overlay').classList.add('hidden');
+  // Afficher le popup Cat Nat après le storytelling
+  setTimeout(()=>{
+    const el = document.getElementById('catnat-overlay');
+    if(el) el.classList.remove('hidden');
+  }, 400);
 }
 function storyNext(){
   if(storyCurrent < STORY_TOTAL - 1){ storyCurrent++; storyRefresh(); }
