@@ -21,6 +21,35 @@
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body { background:#f0ece4; display:flex; justify-content:center; align-items:center; min-height:100vh; font-family:'Segoe UI',sans-serif; }
+/* ── MODE SOMBRE ── */
+.phone.dark { background:#1a1f1a !important; }
+.phone.dark .screen { background:#1a1f1a !important; color:#d4e8d0 !important; }
+.phone.dark .page-title { color:#a8d5a2 !important; }
+.phone.dark .section-block, .phone.dark .mock-card, .phone.dark .cn-card,
+.phone.dark .diag-step, .phone.dark .acteur-card, .phone.dark .param-section,
+.phone.dark .param-row, .phone.dark .tri-item { background:#252e25 !important; border-color:#3a4e3a !important; }
+.phone.dark .param-row:hover { background:#2e3d2e !important; }
+.phone.dark .param-label { color:#d4e8d0 !important; }
+.phone.dark .param-sub { color:#7a9a72 !important; }
+.phone.dark .param-section-title { color:#a8d5a2 !important; }
+.phone.dark .page-title, .phone.dark .section-header { color:#a8d5a2 !important; }
+.phone.dark .diag-step-intro, .phone.dark .diag-step-title,
+.phone.dark .tri-label, .phone.dark .cn-card-text { color:#c4d8c0 !important; }
+.phone.dark .glossaire-overlay { background:rgba(20,30,20,.88) !important; }
+.phone.dark .glossaire-sheet-title { color:#a8d5a2 !important; }
+.phone.dark .glossaire-list { background:transparent !important; }
+.phone.dark .glossaire-term { color:#a8d5a2 !important; }
+.phone.dark .glossaire-item { border-color:#3a4e3a !important; }
+.phone.dark .glossaire-item:hover { background:rgba(45,90,39,.15) !important; }
+.phone.dark .glossaire-search { background:#252e25 !important; border-color:#3a4e3a !important; color:#d4e8d0 !important; }
+.phone.dark .param-panel { background:#1a1f1a !important; }
+.phone.dark .param-field-input { background:#252e25 !important; border-color:#3a4e3a !important; color:#d4e8d0 !important; }
+.phone.dark .param-panel-body { color:#c4d8c0 !important; }
+.phone.dark .cgu-article-body { color:#a8c4a4 !important; }
+.phone.dark .app-version { color:#5a7a5a !important; }
+.phone.dark .screen::-webkit-scrollbar-track { background:#1a1f1a !important; }
+.phone.dark .screen::-webkit-scrollbar-thumb { background:#3a4e3a !important; }
+/* ── FIN MODE SOMBRE ── */
 .phone { width:375px; height:780px; background:#faf8f4; border-radius:40px; box-shadow:0 30px 80px rgba(0,0,0,0.25); overflow:hidden; display:flex; flex-direction:column; border:6px solid #2c2c2c; position:relative; }
 .phone-inner { position:absolute; inset:0; pointer-events:none; z-index:280; overflow:hidden; border-radius:34px; }
 .status-bar { background:#2d5a27; color:white; font-size:11px; padding:8px 20px 6px; display:flex; justify-content:space-between; flex-shrink:0; }
@@ -416,7 +445,8 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       </div>
       <div class="rgpd-consent-footer">
         En acceptant, vous consentez au stockage local de vos données sur cet appareil.<br>
-        Vous pouvez retirer votre consentement à tout moment via les Paramètres.
+        Vous pouvez retirer votre consentement à tout moment via les Paramètres.<br>
+        <span style="text-decoration:underline;cursor:pointer;color:#2d5a27;" onclick="document.getElementById('rgpd-consent-overlay').classList.add('hidden');switchTab('params',null);setTimeout(()=>openPanel('panel-cgu'),400);">Consulter les CGU</span> · <span style="text-decoration:underline;cursor:pointer;color:#2d5a27;" onclick="document.getElementById('rgpd-consent-overlay').classList.add('hidden');switchTab('params',null);setTimeout(()=>openPanel('panel-rgpd'),400);">Politique de confidentialité</span>
       </div>
     </div>
   </div>
@@ -2781,6 +2811,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <div class="param-section-title">Aide & support</div>
         <div class="param-row" onclick="openStory()"><div class="param-icon">📖</div><div class="param-info"><div class="param-label">Revoir l'introduction</div><div class="param-sub">Relancer le guide de démarrage</div></div><div class="param-arrow">›</div></div>
         <div class="param-row" onclick="openPanel('panel-aide')"><div class="param-icon">❓</div><div class="param-info"><div class="param-label">Comment utiliser ArgiQare ?</div><div class="param-sub">Guide étape par étape</div></div><div class="param-arrow">›</div></div>
+        <div class="param-row" onclick="openPanel('panel-cgu')"><div class="param-icon">📄</div><div class="param-info"><div class="param-label">Conditions Générales d'Utilisation</div><div class="param-sub">Règles d'utilisation de l'application</div></div><div class="param-arrow">›</div></div>
         <div class="param-row" onclick="openPanel('panel-contact')"><div class="param-icon">💬</div><div class="param-info"><div class="param-label">Contacter le support</div><div class="param-sub">Une question ? Écrivez-nous</div></div><div class="param-arrow">›</div></div>
         <div class="param-row" onclick="openPanel('panel-apropos')"><div class="param-icon">ℹ️</div><div class="param-info"><div class="param-label">À propos d'ArgiQare</div><div class="param-sub">Version, auteur, mentions légales</div></div><div class="param-arrow">›</div></div>
       </div>
@@ -2987,6 +3018,140 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
             <button onclick="rgpdWithdraw()" style="margin-top:8px;width:100%;padding:9px;background:#fee8e8;border:1.5px solid #f0b8b8;border-radius:8px;font-size:11px;font-weight:700;color:#c04030;cursor:pointer;font-family:inherit;">🔒 Retirer mon consentement</button>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- PANEL CGU -->
+    <div class="param-panel hidden" id="panel-cgu">
+      <div class="param-panel-header">
+        <button class="param-panel-back" onclick="closePanel('panel-cgu')">‹ Retour</button>
+        <div class="param-panel-title">Conditions Générales d'Utilisation</div>
+      </div>
+      <div class="param-panel-body">
+
+        <div style="font-size:10px;color:#9a8a72;text-align:center;margin-bottom:14px;line-height:1.6;">
+          Version 1.0.1 — Entrée en vigueur : Juin 2025<br>
+          Dernière mise à jour : Juin 2025
+        </div>
+
+        <!-- ART 1 -->
+        <div class="cgu-article">
+          <div class="cgu-article-title">Article 1 — Présentation de l'application</div>
+          <div class="cgu-article-body">
+            ArgiQare est une application web progressive (PWA) gratuite conçue et développée par Adil H., expert en risques naturels et droit des assurances IARD, ci-après désigné « l'Éditeur ».<br><br>
+            ArgiQare a pour objet d'accompagner les propriétaires de biens immobiliers dans la compréhension du phénomène de Retrait-Gonflement des Argiles (RGA) et du régime des catastrophes naturelles (Cat Nat), et de les aider à pré-constituer un dossier en vue d'une éventuelle démarche auprès de leur assureur ou d'un expert.<br><br>
+            L'application est accessible à l'adresse : <strong>www.argiqare.fr</strong> (ou tout autre domaine communiqué par l'Éditeur).
+          </div>
+        </div>
+
+        <!-- ART 2 -->
+        <div class="cgu-article">
+          <div class="cgu-article-title">Article 2 — Acceptation des CGU</div>
+          <div class="cgu-article-body">
+            L'accès et l'utilisation d'ArgiQare impliquent l'acceptation pleine et entière des présentes Conditions Générales d'Utilisation (CGU).<br><br>
+            Cette acceptation est matérialisée par le consentement donné lors du premier lancement de l'application (bandeau RGPD). Si vous n'acceptez pas les présentes CGU, vous devez cesser d'utiliser l'application.<br><br>
+            L'Éditeur se réserve le droit de modifier les présentes CGU à tout moment. Les utilisateurs seront informés de toute modification substantielle lors de leur prochaine connexion.
+          </div>
+        </div>
+
+        <!-- ART 3 -->
+        <div class="cgu-article">
+          <div class="cgu-article-title">Article 3 — Nature de l'application et limite de responsabilité</div>
+          <div class="cgu-article-body">
+            <strong>3.1 Outil d'information et de pré-diagnostic</strong><br>
+            ArgiQare est un outil d'information, de sensibilisation et d'aide à la pré-constitution de dossier. Il ne constitue en aucun cas :<br><br>
+            • Un diagnostic technique ou géotechnique au sens de la norme NFP 94-500<br>
+            • Un avis juridique ou une consultation juridique<br>
+            • Une expertise d'assurance au sens des articles L111-1 et suivants du Code des assurances<br>
+            • Une garantie de reconnaissance de l'état de catastrophe naturelle<br>
+            • Une garantie d'indemnisation par un assureur<br><br>
+            <strong>3.2 Décisions de l'utilisateur</strong><br>
+            Les informations fournies par ArgiQare sont données à titre indicatif. L'utilisateur reste seul responsable des décisions qu'il prend sur la base de ces informations. L'Éditeur ne saurait être tenu responsable des conséquences d'une décision prise par l'utilisateur.<br><br>
+            <strong>3.3 Exactitude des informations</strong><br>
+            L'Éditeur s'efforce de maintenir les informations réglementaires à jour (lois, arrêtés, circulaires). Toutefois, il ne garantit pas l'exhaustivité ni l'exactitude absolue des contenus, le droit des assurances et la réglementation Cat Nat étant susceptibles d'évoluer. En cas de doute, l'utilisateur est invité à consulter un professionnel qualifié ou les sources officielles (Légifrance, CNIL, BRGM, Géorisques).
+          </div>
+        </div>
+
+        <!-- ART 4 -->
+        <div class="cgu-article">
+          <div class="cgu-article-title">Article 4 — Utilisation de l'application</div>
+          <div class="cgu-article-body">
+            <strong>4.1 Utilisation autorisée</strong><br>
+            L'application est mise à disposition pour un usage personnel, non commercial. L'utilisateur s'engage à utiliser ArgiQare de manière loyale et conformément à sa finalité déclarée.<br><br>
+            <strong>4.2 Utilisations interdites</strong><br>
+            Il est strictement interdit de :<br><br>
+            • Reproduire, copier, modifier ou adapter l'application, son code source ou ses contenus sans autorisation écrite de l'Éditeur<br>
+            • Utiliser l'application à des fins commerciales, de démarchage ou de revente<br>
+            • Extraire et réutiliser les contenus pédagogiques, définitions du glossaire ou textes réglementaires pour les publier sous une autre identité<br>
+            • Tenter de contourner les mesures de sécurité de l'application<br>
+            • Utiliser l'application pour diffuser des informations fausses ou trompeuses<br><br>
+            <strong>4.3 Public concerné</strong><br>
+            ArgiQare est destinée aux propriétaires de biens immobiliers situés en France métropolitaine ou dans les DOM-TOM. Elle n'est pas adaptée à un usage professionnel (experts, assureurs, notaires) sans accord préalable de l'Éditeur.
+          </div>
+        </div>
+
+        <!-- ART 5 -->
+        <div class="cgu-article">
+          <div class="cgu-article-title">Article 5 — Données personnelles et RGPD</div>
+          <div class="cgu-article-body">
+            Le traitement des données personnelles collectées par ArgiQare est régi par la Politique de Confidentialité accessible depuis Paramètres › Politique de confidentialité, conformément au Règlement Général sur la Protection des Données (RGPD — UE 2016/679) et aux recommandations de la CNIL (délibération n° 2024-061 du 18 juillet 2024).<br><br>
+            Les données saisies par l'utilisateur sont stockées exclusivement sur son appareil (localStorage). Aucune donnée n'est transmise à l'Éditeur ou à des tiers sans consentement explicite de l'utilisateur.
+          </div>
+        </div>
+
+        <!-- ART 6 -->
+        <div class="cgu-article">
+          <div class="cgu-article-title">Article 6 — Propriété intellectuelle</div>
+          <div class="cgu-article-body">
+            L'ensemble des éléments constituant ArgiQare — notamment le code source, les textes pédagogiques, le glossaire, la charte graphique, l'architecture applicative et les contenus éditoriaux — est protégé par le droit d'auteur en vertu des articles L111-1 et suivants du Code de la propriété intellectuelle français.<br><br>
+            © 2025 ArgiQare — Adil H. — Tous droits réservés.<br><br>
+            Toute reproduction, représentation, modification, publication ou adaptation de tout ou partie de l'application, par quelque procédé que ce soit, est interdite sans l'autorisation écrite préalable de l'Éditeur.<br><br>
+            Les marques, logos et dénominations éventuellement reproduits dans l'application appartiennent à leurs propriétaires respectifs (BRGM, CCR, MRN, CEREMA, DGPR). Leur reproduction ne vaut pas autorisation de les utiliser.
+          </div>
+        </div>
+
+        <!-- ART 7 -->
+        <div class="cgu-article">
+          <div class="cgu-article-title">Article 7 — Disponibilité du service</div>
+          <div class="cgu-article-body">
+            L'Éditeur s'efforce d'assurer la disponibilité de l'application mais ne garantit pas un accès ininterrompu. L'application peut être suspendue pour maintenance, mise à jour ou en cas de force majeure.<br><br>
+            L'application fonctionnant en mode hors-ligne (PWA) après la première installation, les interruptions de service du serveur d'hébergement n'affectent pas l'usage local de l'application par l'utilisateur.
+          </div>
+        </div>
+
+        <!-- ART 8 -->
+        <div class="cgu-article">
+          <div class="cgu-article-title">Article 8 — Liens hypertextes et sources externes</div>
+          <div class="cgu-article-body">
+            ArgiQare peut contenir des références à des sources externes (Géorisques, Légifrance, CCR, BRGM, MRN…). Ces références sont fournies à titre informatif. L'Éditeur n'est pas responsable du contenu de ces sources externes, qui sont soumises à leurs propres conditions d'utilisation.
+          </div>
+        </div>
+
+        <!-- ART 9 -->
+        <div class="cgu-article">
+          <div class="cgu-article-title">Article 9 — Droit applicable et juridiction</div>
+          <div class="cgu-article-body">
+            Les présentes CGU sont soumises au droit français.<br><br>
+            En cas de litige relatif à l'interprétation ou à l'exécution des présentes CGU, les parties s'engagent à rechercher une solution amiable avant tout recours judiciaire.<br><br>
+            À défaut d'accord amiable, tout litige sera soumis à la compétence exclusive des tribunaux français compétents.
+          </div>
+        </div>
+
+        <!-- ART 10 -->
+        <div class="cgu-article" style="border-bottom:none;margin-bottom:0;">
+          <div class="cgu-article-title">Article 10 — Contact</div>
+          <div class="cgu-article-body">
+            Pour toute question relative aux présentes CGU, vous pouvez contacter l'Éditeur via :<br><br>
+            • L'onglet Paramètres › Contacter le support dans l'application<br>
+            • L'adresse email communiquée via ce formulaire de contact
+          </div>
+        </div>
+
+        <div style="margin-top:16px;padding:10px 12px;background:#f5f8f2;border-radius:10px;font-size:10px;color:#7a6a52;text-align:center;line-height:1.7;">
+          En utilisant ArgiQare, vous reconnaissez avoir lu,<br>compris et accepté les présentes CGU.<br><br>
+          © 2025 ArgiQare — Adil H. — Tous droits réservés
+        </div>
+
       </div>
     </div>
 
@@ -4047,6 +4212,11 @@ function refreshCompletion(){
 .taille-opt.active { background:#e8f5e4; border-color:#2d5a27; color:#2d5a27; font-weight:800; }
 .taille-opt:hover { background:#f5f8f0; }
 /* ── FIN PANNEAUX ── */
+/* ── CGU ── */
+.cgu-article { border-bottom:1px solid #e8e0d0; padding-bottom:14px; margin-bottom:14px; }
+.cgu-article-title { font-size:11px; font-weight:800; color:#2d5a27; margin-bottom:8px; padding:6px 10px; background:#e8f5e4; border-radius:8px; border-left:3px solid #2d5a27; }
+.cgu-article-body { font-size:10.5px; color:#3a4a2e; line-height:1.75; }
+/* ── FIN CGU ── */
 .tri-item { margin-bottom:10px; border-radius:10px; overflow:hidden; border:1.5px solid #e8e0d0; background:white; }
 .tri-item-header { display:flex; align-items:center; }
 .tri-label { flex:1; padding:9px 10px; font-size:11px; font-weight:600; color:#2d3a1e; line-height:1.4; }
@@ -4697,6 +4867,16 @@ function saveCommuneParam(){
 }
 
 // ── TAILLE DU TEXTE ──
+function toggleDarkMode(cb){
+  const phone = document.querySelector('.phone');
+  if(cb.checked){
+    phone.classList.add('dark');
+    localStorage.setItem('argicare-dark','1');
+  } else {
+    phone.classList.remove('dark');
+    localStorage.removeItem('argicare-dark');
+  }
+}
 function setTaille(btn, label, scale){
   document.querySelectorAll('.taille-opt').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
@@ -4751,7 +4931,7 @@ function envoyerContact(){
   const email = document.getElementById('contact-email')?.value?.trim();
   if(!sujet || !msg){ showToast('Veuillez remplir le sujet et le message'); return; }
   // Simulation envoi (pas de backend — ouvre le client mail)
-  const mailto = `mailto:support@argicare.fr?subject=${encodeURIComponent('[ArgiQare] ' + sujet)}&body=${encodeURIComponent(msg + '\n\nEmail de réponse : ' + (email || 'non renseigné'))}`;
+  const mailto = `mailto:contact@argiqare.fr?subject=${encodeURIComponent('[ArgiQare] ' + sujet)}&body=${encodeURIComponent(msg + '\n\nEmail de réponse : ' + (email || 'non renseigné'))}`;
   window.open(mailto);
   const sent = document.getElementById('contact-sent-msg');
   if(sent) sent.style.display = 'block';
@@ -4769,6 +4949,12 @@ window.addEventListener('load', () => {
   if(scale !== 1){
     const phone = document.querySelector('.phone');
     if(phone) phone.style.fontSize = (scale * 100) + '%';
+  }
+  // Mode sombre
+  if(localStorage.getItem('argicare-dark') === '1'){
+    document.querySelector('.phone')?.classList.add('dark');
+    const cb = document.getElementById('dark-mode');
+    if(cb) cb.checked = true;
   }
 });
 
