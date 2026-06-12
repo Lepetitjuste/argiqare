@@ -379,6 +379,48 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
   </div>
 
   <!-- POPUP "AVANT DE COMMENCER" — au niveau .phone, z-index max -->
+  <!-- ══════════════════════════════════════
+       BANDEAU CONSENTEMENT RGPD (CNIL 2024)
+       S'affiche au 1er lancement uniquement
+  ══════════════════════════════════════ -->
+  <div id="rgpd-consent-overlay" class="rgpd-consent-overlay hidden">
+    <div class="rgpd-consent-box">
+      <div class="rgpd-consent-logo">🔒</div>
+      <div class="rgpd-consent-title">Vos données personnelles</div>
+      <div class="rgpd-consent-text">
+        Avant d'utiliser ArgiQare, nous vous informons que cette application collecte et stocke des données sur <strong>votre appareil uniquement</strong> pour vous permettre de pré-constituer votre dossier RGA.<br><br>
+        <strong>Aucune donnée n'est transmise à des serveurs ou à des tiers.</strong><br><br>
+        Conformément au RGPD et aux recommandations de la CNIL (délibération n° 2024-061), vous pouvez à tout moment :
+      </div>
+      <ul class="rgpd-consent-list">
+        <li>✅ Consulter les données stockées (Paramètres → Mes informations)</li>
+        <li>✅ Exporter vos données (Paramètres → Exporter)</li>
+        <li>✅ Supprimer toutes vos données (Paramètres → Réinitialiser)</li>
+        <li>✅ Consulter notre politique de confidentialité (Paramètres → RGPD)</li>
+      </ul>
+      <div class="rgpd-consent-purpose">
+        <div class="rgpd-consent-purpose-title">Données collectées et finalités</div>
+        <div class="rgpd-consent-purpose-row"><span>👤 Profil</span><span>Pré-remplissage de votre dossier sinistre</span></div>
+        <div class="rgpd-consent-purpose-row"><span>🏘️ Commune</span><span>Alerte arrêtés Cat Nat</span></div>
+        <div class="rgpd-consent-purpose-row"><span>📋 Diagnostic</span><span>Constitution de votre dossier RGA</span></div>
+        <div class="rgpd-consent-purpose-row"><span>📎 Documents</span><span>Stockage local, génération PDF</span></div>
+      </div>
+      <div class="rgpd-consent-base">
+        <strong>Base légale :</strong> consentement de l'utilisateur (art. 6.1.a RGPD)<br>
+        <strong>Durée :</strong> données conservées jusqu'à désinstallation ou réinitialisation<br>
+        <strong>Responsable :</strong> ArgiQare — contact via Paramètres › Support
+      </div>
+      <div class="rgpd-consent-btns">
+        <button class="rgpd-btn-refuse" onclick="rgpdRefuse()">Refuser et quitter</button>
+        <button class="rgpd-btn-accept" onclick="rgpdAccept()">J'accepte et je continue →</button>
+      </div>
+      <div class="rgpd-consent-footer">
+        En acceptant, vous consentez au stockage local de vos données sur cet appareil.<br>
+        Vous pouvez retirer votre consentement à tout moment via les Paramètres.
+      </div>
+    </div>
+  </div>
+
   <div class="disclaimer-overlay hidden" id="disclaimer-overlay">
     <div class="disclaimer-popup">
       <button class="disclaimer-popup-close" onclick="closeDisclaimer()" title="Fermer">✕</button>
@@ -2705,68 +2747,293 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
     <!-- ===== PARAMÈTRES ===== -->
     <div class="screen" id="screen-params">
       <div class="page-title">⚙️ Paramètres</div>
-      <div class="notif-banner" id="notif-banner-block">
-        <div class="notif-banner-title">🔔 Alertes Cat Nat — Sécheresse RGA</div>
-        <div class="notif-banner-text">Recevez une notification dès qu'un arrêté de reconnaissance de catastrophe naturelle pour le phénomène de <strong>mouvements de terrain différentiels consécutifs à la sécheresse</strong> est publié sur Légifrance.</div>
-        <div id="notif-toggle-row" style="display:flex;align-items:center;justify-content:space-between;border-radius:12px;padding:10px 14px;margin-bottom:8px;transition:background 0.3s;background:rgba(255,255,255,0.25);">
-          <div style="display:flex;align-items:center;gap:10px;">
-            <div id="notif-status-dot" style="width:10px;height:10px;border-radius:50%;background:#4ade80;box-shadow:0 0 6px #4ade80;transition:all 0.3s;flex-shrink:0;"></div>
-            <div>
-              <div id="notif-status-label" style="font-size:13px;font-weight:700;color:white;">Alertes activées</div>
-              <div id="notif-status-sub" style="font-size:10px;color:rgba(255,255,255,0.75);margin-top:1px;">Vous serez notifié à chaque arrêté publié</div>
-            </div>
-          </div>
-          <label class="param-toggle" style="flex-shrink:0;">
-            <input type="checkbox" id="notif-catnat" checked onchange="toggleCatnatNotif(this)">
-            <div class="param-toggle-slider" style="background:#4ade80;"></div>
-          </label>
-        </div>
-        <input class="notif-commune-input" id="notif-commune" type="text" placeholder="Ma commune surveillée (ex : Lyon)">
-        <button class="notif-save-btn" onclick="saveCommuneNotif()">💾 Enregistrer ma commune</button>
-      </div>
-      <div style="background:white;border-radius:12px;padding:12px 14px;margin-bottom:16px;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
-        <div style="font-size:11px;font-weight:700;color:#7a6a52;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:8px;">📋 Fonctionnement des alertes</div>
-        <div style="font-size:11px;color:#4a5a3a;line-height:1.7;">📰 Surveillance des publications du <strong>Journal Officiel (Légifrance)</strong><br>🎯 Filtrage sur le péril <strong>sécheresse / RGA uniquement</strong><br>🏘️ Notification si votre commune est <strong>reconnue ou non reconnue</strong><br>🔗 Accès direct à la liste des communes concernées<br>⏱️ Rappel automatique : <strong>30 jours</strong> pour déclarer votre sinistre</div>
-      </div>
+
+      <!-- MON PROFIL -->
       <div class="param-section">
         <div class="param-section-title">Mon profil</div>
-        <div class="param-row" onclick="showToast('Modification du profil')"><div class="param-icon">👤</div><div class="param-info"><div class="param-label">Mes informations</div><div class="param-sub">Nom, prénom, coordonnées</div></div><div class="param-arrow">›</div></div>
-        <div class="param-row" onclick="showToast('Modification du mot de passe')"><div class="param-icon">🔐</div><div class="param-info"><div class="param-label">Mot de passe</div><div class="param-sub">Modifier mon mot de passe</div></div><div class="param-arrow">›</div></div>
+        <div class="param-row" onclick="openPanel('panel-profil')"><div class="param-icon">👤</div><div class="param-info"><div class="param-label">Mes informations</div><div class="param-sub">Nom, prénom, coordonnées</div></div><div class="param-arrow">›</div></div>
+        <div class="param-row" onclick="openPanel('panel-commune')"><div class="param-icon">🏘️</div><div class="param-info"><div class="param-label">Ma commune surveillée</div><div id="commune-display" class="param-sub">Non renseignée</div></div><div class="param-arrow">›</div></div>
       </div>
+
+      <!-- ALERTES -->
       <div class="param-section">
-        <div class="param-section-title">Notifications</div>
-        <div class="param-row"><div class="param-icon">🔔</div><div class="param-info"><div class="param-label">Notifications push</div><div class="param-sub">Alertes et rappels ArgiQare</div></div><label class="param-toggle"><input type="checkbox" checked id="notif-push"><div class="param-toggle-slider"></div></label></div>
-        <div class="param-row"><div class="param-icon">📧</div><div class="param-info"><div class="param-label">Notifications e-mail</div><div class="param-sub">Récapitulatifs et alertes par mail</div></div><label class="param-toggle"><input type="checkbox" id="notif-email"><div class="param-toggle-slider"></div></label></div>
-        <div class="param-row"><div class="param-icon">📅</div><div class="param-info"><div class="param-label">Rappels de suivi</div><div class="param-sub">Rappels pour compléter votre dossier</div></div><label class="param-toggle"><input type="checkbox" checked><div class="param-toggle-slider"></div></label></div>
+        <div class="param-section-title">Alertes Cat Nat</div>
+        <div class="param-row"><div class="param-icon">🔔</div><div class="param-info"><div class="param-label">Alertes arrêtés RGA</div><div class="param-sub">Notification dès publication au JO</div></div><label class="param-toggle"><input type="checkbox" checked id="notif-catnat" onchange="toggleCatnatNotif(this)"><div class="param-toggle-slider" style="background:#4ade80;"></div></label></div>
+        <div class="param-row"><div class="param-icon">📅</div><div class="param-info"><div class="param-label">Rappel délai de déclaration</div><div class="param-sub">Rappel à J+25 après l'arrêté</div></div><label class="param-toggle"><input type="checkbox" checked><div class="param-toggle-slider"></div></label></div>
       </div>
+
+      <!-- AFFICHAGE -->
       <div class="param-section">
         <div class="param-section-title">Affichage</div>
-        <div class="param-row"><div class="param-icon">🌙</div><div class="param-info"><div class="param-label">Mode sombre</div><div class="param-sub">Adapter l'affichage à la luminosité</div></div><label class="param-toggle"><input type="checkbox" id="dark-mode"><div class="param-toggle-slider"></div></label></div>
-        <div class="param-row"><div class="param-icon">🌐</div><div class="param-info"><div class="param-label">Langue</div><div class="param-sub">Langue de l'application</div></div><div class="param-value">Français</div></div>
+        <div class="param-row"><div class="param-icon">🌙</div><div class="param-info"><div class="param-label">Mode sombre</div><div class="param-sub">Adapter l'affichage à la luminosité</div></div><label class="param-toggle"><input type="checkbox" id="dark-mode" onchange="toggleDarkMode(this)"><div class="param-toggle-slider"></div></label></div>
+        <div class="param-row" onclick="openPanel('panel-taille')"><div class="param-icon">🔡</div><div class="param-info"><div class="param-label">Taille du texte</div><div id="taille-display" class="param-sub">Normale</div></div><div class="param-arrow">›</div></div>
       </div>
+
+      <!-- DONNÉES -->
       <div class="param-section">
         <div class="param-section-title">Données & confidentialité</div>
-        <div class="param-row"><div class="param-icon">☁️</div><div class="param-info"><div class="param-label">Sauvegarde automatique</div><div class="param-sub">Synchroniser mes données</div></div><label class="param-toggle"><input type="checkbox" checked><div class="param-toggle-slider"></div></label></div>
-        <div class="param-row" onclick="showToast('Export en cours…')"><div class="param-icon">📤</div><div class="param-info"><div class="param-label">Exporter mes données</div><div class="param-sub">Télécharger toutes mes informations</div></div><div class="param-arrow">›</div></div>
-        <div class="param-row" onclick="showToast('Politique de confidentialité')"><div class="param-icon">🔒</div><div class="param-info"><div class="param-label">Politique de confidentialité</div><div class="param-sub">RGPD & gestion de vos données</div></div><div class="param-arrow">›</div></div>
+        <div class="param-row" onclick="exporterDonnees()"><div class="param-icon">📤</div><div class="param-info"><div class="param-label">Exporter mes données</div><div class="param-sub">Télécharger toutes mes informations</div></div><div class="param-arrow">›</div></div>
+        <div class="param-row" onclick="openPanel('panel-rgpd')"><div class="param-icon">🔒</div><div class="param-info"><div class="param-label">Politique de confidentialité</div><div class="param-sub">RGPD & gestion de vos données</div></div><div class="param-arrow">›</div></div>
       </div>
+
+      <!-- AIDE -->
       <div class="param-section">
         <div class="param-section-title">Aide & support</div>
-        <div class="param-row" onclick="showToast('Ouverture du tutoriel')"><div class="param-icon">📖</div><div class="param-info"><div class="param-label">Guide d'utilisation</div><div class="param-sub">Comprendre et utiliser ArgiQare</div></div><div class="param-arrow">›</div></div>
-        <div class="param-row" onclick="showToast('Ouverture de la FAQ')"><div class="param-icon">❓</div><div class="param-info"><div class="param-label">FAQ — Questions fréquentes</div></div><div class="param-arrow">›</div></div>
-        <div class="param-row" onclick="showToast('Envoi du message de support')"><div class="param-icon">💬</div><div class="param-info"><div class="param-label">Contacter le support</div><div class="param-sub">Une question ? Écrivez-nous</div></div><div class="param-arrow">›</div></div>
+        <div class="param-row" onclick="openStory()"><div class="param-icon">📖</div><div class="param-info"><div class="param-label">Revoir l'introduction</div><div class="param-sub">Relancer le guide de démarrage</div></div><div class="param-arrow">›</div></div>
+        <div class="param-row" onclick="openPanel('panel-aide')"><div class="param-icon">❓</div><div class="param-info"><div class="param-label">Comment utiliser ArgiQare ?</div><div class="param-sub">Guide étape par étape</div></div><div class="param-arrow">›</div></div>
+        <div class="param-row" onclick="openPanel('panel-contact')"><div class="param-icon">💬</div><div class="param-info"><div class="param-label">Contacter le support</div><div class="param-sub">Une question ? Écrivez-nous</div></div><div class="param-arrow">›</div></div>
+        <div class="param-row" onclick="openPanel('panel-apropos')"><div class="param-icon">ℹ️</div><div class="param-info"><div class="param-label">À propos d'ArgiQare</div><div class="param-sub">Version, auteur, mentions légales</div></div><div class="param-arrow">›</div></div>
       </div>
+
+      <!-- ZONE CRITIQUE -->
       <div class="param-section">
         <div class="param-section-title">Zone critique</div>
-        <div class="param-row param-danger" onclick="showToast('Réinitialisation annulée')"><div class="param-icon">🗑️</div><div class="param-info"><div class="param-label">Réinitialiser mes données</div><div class="param-sub">Effacer toutes mes informations</div></div><div class="param-arrow" style="color:#c04030;">›</div></div>
-        <div class="param-row param-danger" onclick="showToast('Déconnexion…')"><div class="param-icon">🚪</div><div class="param-info"><div class="param-label">Se déconnecter</div></div><div class="param-arrow" style="color:#c04030;">›</div></div>
+        <div class="param-row param-danger" onclick="confirmerReinit()"><div class="param-icon">🗑️</div><div class="param-info"><div class="param-label">Réinitialiser mes données</div><div class="param-sub">Effacer toutes mes informations</div></div><div class="param-arrow" style="color:#c04030;">›</div></div>
       </div>
-      <div class="app-version">ArgiQare v1.0.0 — © 2025</div>
+
+      <div class="app-version">ArgiQare v1.0.1 — © 2025 Adil H.</div>
     </div>
+
+
 
   </div><!-- /screens-wrapper -->
   </div><!-- /content -->
   <div class="toast" id="toast"></div>
+
+    <!-- ═══ PANNEAUX GLISSANTS ═══ -->
+
+    <!-- PANEL MES INFORMATIONS -->
+    <div class="param-panel hidden" id="panel-profil">
+      <div class="param-panel-header">
+        <button class="param-panel-back" onclick="closePanel('panel-profil')">‹ Retour</button>
+        <div class="param-panel-title">Mes informations</div>
+      </div>
+      <div class="param-panel-body">
+        <div class="param-field-group">
+          <div class="param-field-label">Prénom</div>
+          <input class="param-field-input" id="profil-prenom" type="text" placeholder="Votre prénom" oninput="saveProfilField('prenom',this.value)">
+        </div>
+        <div class="param-field-group">
+          <div class="param-field-label">Nom</div>
+          <input class="param-field-input" id="profil-nom" type="text" placeholder="Votre nom" oninput="saveProfilField('nom',this.value)">
+        </div>
+        <div class="param-field-group">
+          <div class="param-field-label">Téléphone</div>
+          <input class="param-field-input" id="profil-tel" type="tel" placeholder="06 XX XX XX XX" oninput="saveProfilField('tel',this.value)">
+        </div>
+        <div class="param-field-group">
+          <div class="param-field-label">Email</div>
+          <input class="param-field-input" id="profil-email" type="email" placeholder="votre@email.fr" oninput="saveProfilField('email',this.value)">
+        </div>
+        <div class="param-field-group">
+          <div class="param-field-label">Adresse du bien assuré</div>
+          <input class="param-field-input" id="profil-adresse" type="text" placeholder="Numéro, rue" oninput="saveProfilField('adresse',this.value)">
+        </div>
+        <div style="display:flex;gap:8px;">
+          <div class="param-field-group" style="flex:0 0 90px;">
+            <div class="param-field-label">Code postal</div>
+            <input class="param-field-input" id="profil-cp" type="text" placeholder="75000" maxlength="5" oninput="saveProfilField('cp',this.value)">
+          </div>
+          <div class="param-field-group" style="flex:1;">
+            <div class="param-field-label">Commune</div>
+            <input class="param-field-input" id="profil-ville" type="text" placeholder="Ville" oninput="saveProfilField('ville',this.value)">
+          </div>
+        </div>
+        <div class="param-field-group">
+          <div class="param-field-label">Numéro de contrat d'assurance</div>
+          <input class="param-field-input" id="profil-contrat" type="text" placeholder="Ex : 12345678" oninput="saveProfilField('contrat',this.value)">
+        </div>
+        <div class="param-field-group">
+          <div class="param-field-label">Assureur</div>
+          <input class="param-field-input" id="profil-assureur" type="text" placeholder="Nom de votre assureur" oninput="saveProfilField('assureur',this.value)">
+        </div>
+        <div style="margin-top:4px;padding:10px 12px;background:#e8f5e4;border-radius:10px;font-size:10px;color:#2d5a27;line-height:1.5;">
+          💾 Vos informations sont sauvegardées automatiquement sur votre appareil et ne sont jamais transmises à des tiers.
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL MA COMMUNE -->
+    <div class="param-panel hidden" id="panel-commune">
+      <div class="param-panel-header">
+        <button class="param-panel-back" onclick="closePanel('panel-commune')">‹ Retour</button>
+        <div class="param-panel-title">Ma commune surveillée</div>
+      </div>
+      <div class="param-panel-body">
+        <div style="font-size:11px;color:#4a5a3a;line-height:1.7;margin-bottom:14px;padding:10px 12px;background:#e8f5e4;border-radius:10px;">
+          🔔 ArgiQare surveille les arrêtés Cat Nat publiés au Journal Officiel pour le phénomène de retrait-gonflement des argiles. Renseignez votre commune pour être alerté dès qu'elle est concernée.
+        </div>
+        <div class="param-field-group">
+          <div class="param-field-label">Commune à surveiller</div>
+          <input class="param-field-input" id="commune-input" type="text" placeholder="Ex : Bordeaux, Lyon, Toulouse…">
+        </div>
+        <div class="param-field-group">
+          <div class="param-field-label">Code département</div>
+          <input class="param-field-input" id="dept-input" type="text" placeholder="Ex : 33, 69, 31…" maxlength="3">
+        </div>
+        <button onclick="saveCommuneParam()" style="width:100%;padding:12px;background:linear-gradient(135deg,#2d5a27,#4a7c3f);color:white;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:4px;">💾 Enregistrer</button>
+        <div id="commune-saved-msg" style="display:none;margin-top:10px;padding:8px 12px;background:#e8f5e4;border-radius:8px;font-size:11px;color:#2d5a27;font-weight:600;text-align:center;"></div>
+      </div>
+    </div>
+
+    <!-- PANEL TAILLE DU TEXTE -->
+    <div class="param-panel hidden" id="panel-taille">
+      <div class="param-panel-header">
+        <button class="param-panel-back" onclick="closePanel('panel-taille')">‹ Retour</button>
+        <div class="param-panel-title">Taille du texte</div>
+      </div>
+      <div class="param-panel-body">
+        <div style="font-size:11px;color:#7a6a52;margin-bottom:14px;">Choisissez la taille qui vous convient le mieux pour une lecture confortable.</div>
+        <div id="taille-options" style="display:flex;flex-direction:column;gap:8px;">
+          <button class="taille-opt" data-scale="0.9" onclick="setTaille(this,'Petite',0.9)">🔡 Petite</button>
+          <button class="taille-opt active" data-scale="1" onclick="setTaille(this,'Normale',1)">🔤 Normale (par défaut)</button>
+          <button class="taille-opt" data-scale="1.1" onclick="setTaille(this,'Grande',1.1)">🅰️ Grande</button>
+          <button class="taille-opt" data-scale="1.2" onclick="setTaille(this,'Très grande',1.2)">🅰️ Très grande</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL AIDE -->
+    <div class="param-panel hidden" id="panel-aide">
+      <div class="param-panel-header">
+        <button class="param-panel-back" onclick="closePanel('panel-aide')">‹ Retour</button>
+        <div class="param-panel-title">Comment utiliser ArgiQare ?</div>
+      </div>
+      <div class="param-panel-body">
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="background:#e8f5e4;border-radius:12px;padding:12px 14px;">
+            <div style="font-size:12px;font-weight:800;color:#2d5a27;margin-bottom:6px;">① Onglet Cat Nat</div>
+            <div style="font-size:11px;color:#3a5a32;line-height:1.6;">Comprenez les bases du régime des catastrophes naturelles et vos droits en tant qu'assuré. Consultez la chronologie des lois récentes et la FAQ.</div>
+          </div>
+          <div style="background:#eef4ff;border-radius:12px;padding:12px 14px;">
+            <div style="font-size:12px;font-weight:800;color:#1a3a6e;margin-bottom:6px;">② Onglet Ma Maison</div>
+            <div style="font-size:11px;color:#2a4a7a;line-height:1.6;">Renseignez les caractéristiques de votre bien et importez votre fiche Géorisques pour connaître votre niveau d'exposition au RGA.</div>
+          </div>
+          <div style="background:#fff8e8;border-radius:12px;padding:12px 14px;">
+            <div style="font-size:12px;font-weight:800;color:#8a6000;margin-bottom:6px;">③ Onglet Mon Parcours Diagnostic</div>
+            <div style="font-size:11px;color:#6a4a00;line-height:1.6;">Suivez les 9 étapes pour documenter votre situation. Répondez à chaque question en cochant "Oui, c'est mon cas" ou "Non concerné". Des sous-questions apparaissent pour préciser chaque point.</div>
+          </div>
+          <div style="background:#f0e8fe;border-radius:12px;padding:12px 14px;">
+            <div style="font-size:12px;font-weight:800;color:#6a2a8a;margin-bottom:6px;">④ Onglet Mon Dossier</div>
+            <div style="font-size:11px;color:#4a2a6a;line-height:1.6;">Visualisez le taux de complétion de votre dossier et générez votre PDF de synthèse à remettre à votre expert ou votre assureur.</div>
+          </div>
+          <div style="background:#fde8c8;border-radius:12px;padding:12px 14px;">
+            <div style="font-size:12px;font-weight:800;color:#c06000;margin-bottom:6px;">📚 Le Glossaire</div>
+            <div style="font-size:11px;color:#8a4000;line-height:1.6;">À tout moment, la barre "Glossaire" en bas de l'écran vous donne accès à 80 définitions. Tous les termes soulignés en pointillés dans l'app sont cliquables.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL CONTACT -->
+    <div class="param-panel hidden" id="panel-contact">
+      <div class="param-panel-header">
+        <button class="param-panel-back" onclick="closePanel('panel-contact')">‹ Retour</button>
+        <div class="param-panel-title">Contacter le support</div>
+      </div>
+      <div class="param-panel-body">
+        <div style="font-size:11px;color:#7a6a52;line-height:1.6;margin-bottom:14px;">Une question, une suggestion d'amélioration ou un problème technique ? Décrivez votre demande ci-dessous.</div>
+        <div class="param-field-group">
+          <div class="param-field-label">Sujet</div>
+          <select class="param-field-input" id="contact-sujet" style="cursor:pointer;">
+            <option value="">— Choisir un sujet —</option>
+            <option>Question sur le contenu RGA / Cat Nat</option>
+            <option>Problème technique dans l'application</option>
+            <option>Suggestion d'amélioration</option>
+            <option>Signaler une erreur</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="param-field-group">
+          <div class="param-field-label">Votre message</div>
+          <textarea class="param-field-input" id="contact-msg" rows="5" placeholder="Décrivez votre demande…" style="resize:none;"></textarea>
+        </div>
+        <div class="param-field-group">
+          <div class="param-field-label">Votre email (pour vous répondre)</div>
+          <input class="param-field-input" id="contact-email" type="email" placeholder="votre@email.fr">
+        </div>
+        <button onclick="envoyerContact()" style="width:100%;padding:12px;background:linear-gradient(135deg,#2d5a27,#4a7c3f);color:white;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;">📨 Envoyer</button>
+        <div id="contact-sent-msg" style="display:none;margin-top:10px;padding:10px 12px;background:#e8f5e4;border-radius:8px;font-size:11px;color:#2d5a27;font-weight:600;text-align:center;">✅ Message envoyé ! Nous vous répondrons sous 48h.</div>
+      </div>
+    </div>
+
+    <!-- PANEL RGPD -->
+    <div class="param-panel hidden" id="panel-rgpd">
+      <div class="param-panel-header">
+        <button class="param-panel-back" onclick="closePanel('panel-rgpd')">‹ Retour</button>
+        <div class="param-panel-title">Politique de confidentialité</div>
+      </div>
+      <div class="param-panel-body">
+        <div style="display:flex;flex-direction:column;gap:12px;font-size:11px;color:#3a3a3a;line-height:1.7;">
+          <div style="background:#e8f5e4;border-radius:10px;padding:12px 14px;">
+            <div style="font-weight:800;color:#2d5a27;margin-bottom:4px;">📍 Données stockées localement</div>
+            Toutes vos informations (profil, diagnostic, photos) sont stockées <strong>uniquement sur votre appareil</strong>. ArgiQare ne dispose d'aucun serveur de données personnelles.
+          </div>
+          <div style="background:#eef4ff;border-radius:10px;padding:12px 14px;">
+            <div style="font-weight:800;color:#1a3a6e;margin-bottom:4px;">🔒 Aucune transmission à des tiers</div>
+            Vos données ne sont jamais vendues, partagées ou transmises à des assureurs, courtiers ou organismes tiers sans votre consentement explicite.
+          </div>
+          <div style="background:#fff8e8;border-radius:10px;padding:12px 14px;">
+            <div style="font-weight:800;color:#8a6000;margin-bottom:4px;">🗑️ Droit à l'effacement</div>
+            Vous pouvez supprimer l'intégralité de vos données à tout moment via "Réinitialiser mes données" dans la zone critique des paramètres.
+          </div>
+          <div style="background:#f0ece4;border-radius:10px;padding:12px 14px;">
+            <div style="font-weight:800;color:#5a4a30;margin-bottom:4px;">📋 Données personnelles</div>
+            ArgiQare ne collecte aucune donnée sur un serveur distant. Toutes vos informations restent stockées localement sur votre appareil. Cette application est en cours de mise en conformité avec le Règlement Général sur la Protection des Données (RGPD — UE 2016/679). Pour toute question relative à vos données, contactez-nous via le support.
+          </div>
+          <div id="rgpd-consent-status" style="background:#e8f5e4;border-radius:10px;padding:12px 14px;margin-top:10px;">
+            <div style="font-weight:800;color:#2d5a27;margin-bottom:4px;">✅ Votre consentement</div>
+            <div id="rgpd-consent-date" style="font-size:10px;color:#4a5a3a;line-height:1.6;"></div>
+            <button onclick="rgpdWithdraw()" style="margin-top:8px;width:100%;padding:9px;background:#fee8e8;border:1.5px solid #f0b8b8;border-radius:8px;font-size:11px;font-weight:700;color:#c04030;cursor:pointer;font-family:inherit;">🔒 Retirer mon consentement</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL À PROPOS -->
+    <div class="param-panel hidden" id="panel-apropos">
+      <div class="param-panel-header">
+        <button class="param-panel-back" onclick="closePanel('panel-apropos')">‹ Retour</button>
+        <div class="param-panel-title">À propos d'ArgiQare</div>
+      </div>
+      <div class="param-panel-body">
+        <div style="text-align:center;padding:20px 0 16px;">
+          <div style="display:flex;align-items:baseline;gap:1px;justify-content:center;">
+            <span style="font-size:32px;font-weight:300;color:rgba(45,90,39,.6);letter-spacing:2px;">argi</span>
+            <span style="font-size:44px;font-weight:900;color:#f5a623;line-height:.9;">Q</span>
+            <span style="font-size:32px;font-weight:300;color:#4a7c3f;letter-spacing:2px;">are</span>
+          </div>
+          <div style="font-size:11px;color:#7a6a52;margin-top:8px;">Version 1.0.1 — Juin 2025</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;font-size:11px;line-height:1.6;">
+          <div style="padding:12px 14px;background:#f5f8f2;border-radius:10px;">
+            <div style="font-weight:800;color:#2d5a27;margin-bottom:4px;">✍️ Conception & expertise métier</div>
+            <div style="color:#4a5a3a;">Conçu par un expert en risques naturels et droit des assurances (IARD), spécialisé dans le régime Cat Nat et la politique de prévention des risques naturels en France.</div>
+          </div>
+          <div style="padding:12px 14px;background:#f5f8f2;border-radius:10px;">
+            <div style="font-weight:800;color:#2d5a27;margin-bottom:4px;">🎯 Objectif</div>
+            <div style="color:#4a5a3a;">Permettre à tout assuré, même sans connaissance préalable du RGA, de comprendre sa situation et de pré-constituer un dossier solide avant l'intervention d'un expert.</div>
+          </div>
+          <div style="padding:12px 14px;background:#f5f8f2;border-radius:10px;">
+            <div style="font-weight:800;color:#2d5a27;margin-bottom:4px;">📚 Sources scientifiques</div>
+            <div style="color:#4a5a3a;">Travaux d'Alain-Franck Béchade (CSTB/DOMEX) · Guide CCR mars 2025 · Arrêté du 24 janvier 2025 · Loi Baudu (28/12/2021) · Ordonnance 2023-78 · Circulaire DGPR 15/05/2024.</div>
+          </div>
+          <div style="padding:12px 14px;background:#fde8c8;border-radius:10px;">
+            <div style="font-weight:800;color:#c06000;margin-bottom:4px;">⚠️ Avertissement légal</div>
+            <div style="color:#8a4000;">ArgiQare est un outil d'information et de pré-diagnostic. Il ne se substitue pas à une expertise professionnelle et ne constitue pas un avis juridique.</div>
+          </div>
+          <div style="padding:12px 14px;background:#fee8e8;border-radius:10px;">
+            <div style="font-weight:800;color:#8a1a1a;margin-bottom:4px;">©️ Propriété intellectuelle</div>
+            <div style="color:#6a1a1a;font-size:11px;line-height:1.65;">© 2025 ArgiQare — Tous droits réservés.<br>L'ensemble des contenus, textes, structure et code de cette application est protégé par le droit d'auteur (art. L111-1 CPI). Toute reproduction, même partielle, est interdite sans autorisation écrite préalable de l'auteur.<br><br>Œuvre déposée à l'INPI (Enveloppe Soleau).</div>
+          </div>
+          <div style="text-align:center;font-size:10px;color:#9a8a72;margin-top:6px;line-height:1.7;">
+            Hébergement : GitHub Pages (Microsoft Corp.)<br>
+            Contact : Paramètres › Contacter le support<br>
+            © 2025 ArgiQare — Tous droits réservés
+          </div>
+        </div>
+      </div>
+    </div>
   <!-- GLOSSAIRE — juste au-dessus de la nav bar, dans le flux flex -->
   <div class="glossaire-bubble-wrap" id="glossaire-bubble-wrap">
     <div style="position:relative;width:56px;height:56px;">
@@ -2790,6 +3057,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       </div>
       <div class="glossaire-sheet-header">
         <div class="glossaire-sheet-title">📚 Glossaire</div>
+        <div class="glossaire-sheet-sub">80 termes</div>
         <button class="glossaire-close" onclick="closeGlossaire()">✕</button>
       </div>
       <div class="glossaire-search-wrap">
@@ -2833,13 +3101,22 @@ window.addEventListener('load', () => {
     tabs.addEventListener('scroll', updateCatnatThumb, { passive: true });
   }
 
-  // ── STORYTELLING : ouverture automatique au premier lancement ──
-  const alreadySeen = localStorage.getItem('argicare-story-seen');
-  if(!alreadySeen){
+  // ── CONSENTEMENT RGPD — vérification au premier lancement ──
+  const consentData = localStorage.getItem('argicare-rgpd-consent');
+  if(!consentData){
+    // Pas encore de consentement → afficher le bandeau RGPD
     setTimeout(() => {
-      openStory();
-      localStorage.setItem('argicare-story-seen', '1');
-    }, 600);
+      document.getElementById('rgpd-consent-overlay').classList.remove('hidden');
+    }, 700);
+  } else {
+    // Consentement déjà donné → lancer le storytelling si première visite
+    const alreadySeen = localStorage.getItem('argicare-story-seen');
+    if(!alreadySeen){
+      setTimeout(() => {
+        openStory();
+        localStorage.setItem('argicare-story-seen', '1');
+      }, 600);
+    }
   }
 });
 
@@ -3733,7 +4010,43 @@ function refreshCompletion(){
 ════════════════════════════════════════ -->
 <style>
 /* ── BULLE ── */
-/* ── CASES 3 NIVEAUX ── */
+/* ══ BANDEAU CONSENTEMENT RGPD ══ */
+.rgpd-consent-overlay { position:absolute; inset:0; background:rgba(10,20,10,.7); z-index:700; display:flex; align-items:flex-end; backdrop-filter:blur(3px); }
+.rgpd-consent-overlay.hidden { display:none; }
+.rgpd-consent-box { background:white; border-radius:22px 22px 0 0; width:100%; max-height:92%; overflow-y:auto; padding:20px 18px 28px; animation:slideUp .35s cubic-bezier(.4,0,.2,1); }
+@keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+.rgpd-consent-logo { font-size:28px; text-align:center; margin-bottom:8px; }
+.rgpd-consent-title { font-size:16px; font-weight:800; color:#1a2a0e; text-align:center; margin-bottom:10px; }
+.rgpd-consent-text { font-size:11px; color:#3a4a2e; line-height:1.7; margin-bottom:12px; }
+.rgpd-consent-list { font-size:10.5px; color:#3a5a32; line-height:1.8; margin:0 0 12px 4px; list-style:none; padding:0; }
+.rgpd-consent-list li { padding:2px 0; }
+.rgpd-consent-purpose { background:#f5f8f2; border-radius:10px; padding:10px 12px; margin-bottom:12px; }
+.rgpd-consent-purpose-title { font-size:10px; font-weight:800; color:#2d5a27; text-transform:uppercase; letter-spacing:.5px; margin-bottom:6px; }
+.rgpd-consent-purpose-row { display:flex; justify-content:space-between; font-size:10px; color:#4a5a3a; padding:3px 0; border-bottom:1px solid rgba(45,90,39,.08); gap:8px; }
+.rgpd-consent-purpose-row:last-child { border-bottom:none; }
+.rgpd-consent-purpose-row span:first-child { font-weight:700; flex-shrink:0; }
+.rgpd-consent-purpose-row span:last-child { color:#7a8a72; text-align:right; }
+.rgpd-consent-base { font-size:10px; color:#7a6a52; line-height:1.7; padding:8px 10px; background:#faf8f4; border-radius:8px; margin-bottom:14px; border-left:3px solid #d4c9b5; }
+.rgpd-consent-btns { display:flex; gap:8px; margin-bottom:10px; }
+.rgpd-btn-refuse { flex:0 0 auto; padding:11px 14px; background:#f0ece4; border:1.5px solid #d4c9b5; border-radius:10px; font-size:11px; font-weight:700; color:#7a6a52; cursor:pointer; font-family:inherit; }
+.rgpd-btn-accept { flex:1; padding:12px; background:linear-gradient(135deg,#2d5a27,#4a7c3f); color:white; border:none; border-radius:10px; font-size:12px; font-weight:800; cursor:pointer; font-family:inherit; }
+.rgpd-consent-footer { font-size:9.5px; color:#9a8a72; text-align:center; line-height:1.6; }
+/* ══ FIN RGPD ══ */
+.param-panel { position:absolute; inset:0; background:#faf8f4; z-index:450; display:flex; flex-direction:column; transform:translateX(100%); transition:transform .3s cubic-bezier(.4,0,.2,1); overflow:hidden; pointer-events:none; }
+.param-panel.hidden { transform:translateX(100%); pointer-events:none; }
+.param-panel.open { transform:translateX(0); pointer-events:auto; }
+.param-panel-header { background:linear-gradient(135deg,#2d5a27,#4a7c3f); padding:14px 16px 14px; display:flex; align-items:center; gap:12px; flex-shrink:0; padding-top:52px; }
+.param-panel-back { background:rgba(255,255,255,.15); border:none; border-radius:20px; padding:6px 12px; color:white; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; }
+.param-panel-title { font-size:14px; font-weight:800; color:white; }
+.param-panel-body { overflow-y:auto; flex:1; padding:16px 14px 40px; }
+.param-field-group { margin-bottom:12px; }
+.param-field-label { font-size:10px; font-weight:700; color:#7a6a52; text-transform:uppercase; letter-spacing:.5px; margin-bottom:5px; }
+.param-field-input { width:100%; padding:10px 12px; border:1.5px solid #e0d8cc; border-radius:10px; font-size:12px; font-family:inherit; color:#2d3a1e; background:white; outline:none; box-sizing:border-box; }
+.param-field-input:focus { border-color:#2d5a27; }
+.taille-opt { width:100%; padding:12px 14px; background:white; border:1.5px solid #e0d8cc; border-radius:10px; font-size:12px; font-weight:600; color:#4a5a3a; cursor:pointer; font-family:inherit; text-align:left; transition:all .15s; box-sizing:border-box; }
+.taille-opt.active { background:#e8f5e4; border-color:#2d5a27; color:#2d5a27; font-weight:800; }
+.taille-opt:hover { background:#f5f8f0; }
+/* ── FIN PANNEAUX ── */
 .tri-item { margin-bottom:10px; border-radius:10px; overflow:hidden; border:1.5px solid #e8e0d0; background:white; }
 .tri-item-header { display:flex; align-items:center; }
 .tri-label { flex:1; padding:9px 10px; font-size:11px; font-weight:600; color:#2d3a1e; line-height:1.4; }
@@ -4088,8 +4401,160 @@ const GLOSSAIRE = [
     term: "Attestation d'assurance",
     tag: "Document", tagColor: "#e8f0fe", tagText: "#1a5a8a",
     def: "Document officiel délivré par l'assureur certifiant qu'un contrat d'assurance est en vigueur pour un bien donné à une date précise. Dans le cadre d'un sinistre RGA, l'attestation d'assurance habitation est l'une des pièces justificatives essentielles à fournir à l'expert mandaté, conformément à l'arrêté du 24 janvier 2025."
+  },
+  /* ── 30 NOUVEAUX TERMES ── */
+  {
+    term: "Visite de risque",
+    tag: "Procédure", tagColor: "#e8f0fe", tagText: "#1a5a8a",
+    def: "Première étape de la mission de l'expert mandaté par l'assureur. Il vérifie que les caractéristiques de votre maison (surface, nombre de pièces, matériaux, usage) correspondent bien à ce qui est décrit dans votre contrat d'assurance. C'est une formalité obligatoire avant toute évaluation des dommages."
+  },
+  {
+    term: "Déclaration de sinistre",
+    tag: "Procédure", tagColor: "#e8f0fe", tagText: "#1a5a8a",
+    def: "Démarche obligatoire par laquelle vous informez votre assureur qu'un dommage s'est produit. Pour un sinistre RGA, elle doit être faite dans les 30 jours suivant la publication de l'arrêté de reconnaissance Cat Nat au Journal Officiel. Elle se fait par courrier recommandé ou en ligne selon votre contrat."
+  },
+  {
+    term: "Délai de déclaration",
+    tag: "Procédure", tagColor: "#e8f0fe", tagText: "#1a5a8a",
+    def: "Durée légale dont vous disposez pour déclarer un sinistre à votre assureur après sa survenance ou après la publication de l'arrêté. Pour le RGA, ce délai est de 30 jours après la parution de l'arrêté au Journal Officiel. Passé ce délai, votre assureur peut refuser de prendre en charge le sinistre — c'est ce qu'on appelle la déchéance de garantie."
+  },
+  {
+    term: "Compte-rendu de visite",
+    tag: "Document sinistre", tagColor: "#e8f0fe", tagText: "#1a5a8a",
+    def: "Document remis par l'expert à l'assuré après chaque passage chez lui. Il résume les constatations faites lors de la visite : nature des dommages observés, pièces inspectées, éléments recueillis. Ce document est distinct du rapport d'expertise final et vous est adressé dans les jours suivant la visite."
+  },
+  {
+    term: "Jauges de fissuration",
+    tag: "Outil de mesure", tagColor: "#f0ece4", tagText: "#5a4a30",
+    def: "Petits dispositifs de mesure collés de part et d'autre d'une fissure pour surveiller son évolution dans le temps. Elles permettent de savoir si la fissure s'ouvre, se referme ou reste stable. L'expert peut en poser lors de sa visite pour suivre le comportement de votre maison sur une ou plusieurs saisons avant de rendre ses conclusions."
+  },
+  {
+    term: "Facteur de prédisposition",
+    tag: "Géotechnique", tagColor: "#e8f5e4", tagText: "#2d5a27",
+    def: "Élément qui rend une maison naturellement plus vulnérable au RGA, sans pour autant déclencher les dommages à lui seul. Les principaux facteurs de prédisposition sont : la présence d'argile dans le sol, des fondations superficielles (moins de 80 cm), la végétation proche à fort développement racinaire, ou un terrain hétérogène. Sans facteur déclenchant associé, ces facteurs de prédisposition ne produisent pas de sinistre."
+  },
+  {
+    term: "Facteur déclenchant",
+    tag: "Géotechnique", tagColor: "#e8f5e4", tagText: "#2d5a27",
+    def: "Événement qui vient perturber la teneur en eau du sol argileux et déclenche ou aggrave les dommages. Selon les travaux d'Alain-Franck Béchade (CSTB/DOMEX), les facteurs déclenchants ne sont pas uniquement climatiques : une sécheresse prolongée, mais aussi une fuite de canalisation enterrée, une imperméabilisation autour de la maison, ou l'absorption d'eau par les racines d'arbres proches peuvent provoquer les mêmes effets."
+  },
+  {
+    term: "Hydrotropisme",
+    tag: "Botanique / Géotechnique", tagColor: "#e8f5e4", tagText: "#2d5a27",
+    def: "Propriété des racines à se développer en direction des zones humides du sol. Près d'une maison, les racines des arbres migrent vers les fondations car le bâtiment forme un 'écran' qui ralentit l'évaporation, créant une zone plus humide. Ce phénomène amplifie le dessèchement du sol côté exposé au soleil tout en maintenant une humidité sous la maison — aggravant les mouvements différentiels."
+  },
+  {
+    term: "Solidarité nationale",
+    tag: "Régime légal", tagColor: "#dce8fe", tagText: "#1a3a6e",
+    def: "Principe constitutionnel français (inscrit depuis 1946) selon lequel, face à des événements exceptionnels dépassant la capacité individuelle, la collectivité contribue à la réparation des préjudices. C'est le fondement du régime Cat Nat : tous les assurés paient une cotisation supplémentaire sur leur contrat habitation, et ces fonds servent à indemniser ceux qui subissent une catastrophe naturelle."
+  },
+  {
+    term: "Cotisation supplémentaire Cat Nat",
+    tag: "Assurance", tagColor: "#f0e8fe", tagText: "#6a2a8a",
+    def: "Pourcentage ajouté automatiquement à votre prime d'assurance habitation pour alimenter le régime Cat Nat. Son taux est fixé par l'État (actuellement 20 % de la prime incendie). Vous la payez même si vous n'avez jamais eu de sinistre Cat Nat — c'est le principe de la solidarité nationale. Elle n'est pas négociable et est identique pour tous les assureurs."
+  },
+  {
+    term: "Conditions générales",
+    tag: "Contrat", tagColor: "#f0e8fe", tagText: "#6a2a8a",
+    def: "Document standard remis par l'assureur lors de la souscription, définissant les règles générales applicables à tous les contrats de même type. Il précise les garanties proposées, les exclusions, les obligations de l'assuré (entretien, déclarations), les délais, et les modalités d'indemnisation. À lire attentivement avant de signer."
+  },
+  {
+    term: "Conditions particulières",
+    tag: "Contrat", tagColor: "#f0e8fe", tagText: "#6a2a8a",
+    def: "Document personnalisé qui complète les conditions générales et précise les caractéristiques propres à votre contrat : adresse du bien assuré, montants garantis, montant de la franchise, options choisies, coordonnées. En cas de litige, les conditions particulières prévalent sur les conditions générales si elles sont plus favorables à l'assuré."
+  },
+  {
+    term: "Mairie (rôle de la —)",
+    tag: "Acteur administratif", tagColor: "#fde8c8", tagText: "#c06000",
+    def: "Interlocuteur administratif de premier niveau pour un assuré victime d'une catastrophe naturelle. Le maire est chargé de déposer une demande de reconnaissance de l'état Cat Nat auprès du préfet dans les 24 mois suivant l'événement. Il peut aussi vous informer sur l'état d'avancement de la procédure et les arrêtés en cours concernant votre commune."
+  },
+  {
+    term: "Bureau d'études",
+    tag: "Acteur technique", tagColor: "#f0ece4", tagText: "#5a4a30",
+    def: "Société spécialisée dans l'analyse technique des sols et des structures. Dans le cadre du RGA, un bureau d'études géotechnique peut être missionné pour réaliser des sondages du sol (études G2), analyser la nature des argiles présentes et formuler des recommandations techniques sur les travaux de réparation ou de confortement des fondations."
+  },
+  {
+    term: "Permis de construire",
+    tag: "Urbanisme", tagColor: "#fff3d0", tagText: "#8a6000",
+    def: "Autorisation administrative délivrée par la mairie avant la construction d'une maison. Il mentionne la date de construction, les plans et les caractéristiques du bâtiment. Dans le cadre d'un sinistre RGA, l'expert vous demandera ce document pour vérifier l'époque de construction (avant ou après les normes de fondation en zone argileuse) et pour comparer l'état actuel au projet d'origine."
+  },
+  {
+    term: "Remblai",
+    tag: "Géotechnique", tagColor: "#e8f5e4", tagText: "#2d5a27",
+    def: "Apport de terre ou de matériaux effectué pour rehausser ou combler un terrain naturellement creux ou en pente. Un terrain comportant du remblai sous les fondations est plus sensible au RGA car ce sol rapporté est souvent hétérogène, mal compacté, et réagit différemment aux variations d'humidité que le sol naturel en place. L'expert cherchera à savoir si votre terrain a été remblayé."
+  },
+  {
+    term: "Profondeur critique",
+    tag: "Géotechnique", tagColor: "#e8f5e4", tagText: "#2d5a27",
+    def: "Profondeur au-delà de laquelle les variations saisonnières d'humidité du sol n'ont plus d'effet significatif sur les argiles. Elle dépend de la nature du sol et du climat local, mais se situe généralement entre 1 et 3 mètres. Des fondations ancrées sous cette profondeur critique sont naturellement protégées du RGA — c'est pourquoi les réparations consistent souvent à approfondir ou reprise en sous-œuvre."
+  },
+  {
+    term: "Reprise en sous-œuvre",
+    tag: "Construction", tagColor: "#f0ece4", tagText: "#5a4a30",
+    def: "Technique de réparation consistant à renforcer ou approfondir les fondations existantes d'une maison sans la démolir. Dans le cadre du RGA, il s'agit souvent de créer de nouvelles fondations plus profondes (micropieux, plots en béton) pour ancrer la structure sous la profondeur critique d'influence des argiles. C'est l'une des réparations les plus coûteuses et les plus efficaces."
+  },
+  {
+    term: "Micropieux",
+    tag: "Construction", tagColor: "#f0ece4", tagText: "#5a4a30",
+    def: "Pieux de faible diamètre (inférieur à 30 cm) forés en profondeur dans le sol pour reprendre les charges d'une fondation existante. Très utilisés dans les reprises en sous-œuvre en cas de sinistre RGA, ils permettent d'ancrer la maison dans des couches de sol plus stables, situées sous la zone d'influence des argiles gonflantes."
+  },
+  {
+    term: "Forclusion",
+    tag: "Droit", tagColor: "#fee8e8", tagText: "#8a1a1a",
+    def: "Situation dans laquelle une personne perd le droit d'agir en justice ou de formuler une réclamation pour avoir laissé passer un délai légal sans agir. En assurance, si vous déclarez votre sinistre après le délai réglementaire (30 jours après l'arrêté pour le Cat Nat), votre assureur peut opposer la forclusion et refuser toute indemnisation. Différent de la prescription qui court sur une durée plus longue."
+  },
+  {
+    term: "Résiliation de contrat",
+    tag: "Contrat", tagColor: "#f0e8fe", tagText: "#6a2a8a",
+    def: "Fin anticipée d'un contrat d'assurance avant son terme normal. Elle peut être à l'initiative de l'assuré (déménagement, changement de situation) ou de l'assureur (non-paiement, aggravation du risque). À noter : un assureur ne peut pas résilier un contrat MRH au motif que l'assuré a déclaré un sinistre Cat Nat — cette pratique est interdite par la loi."
+  },
+  {
+    term: "Stress hydrique",
+    tag: "Environnement", tagColor: "#e8f5e4", tagText: "#2d5a27",
+    def: "État de manque d'eau subi par un végétal ou un sol lorsque l'évaporation dépasse les apports en eau. En période de sécheresse, le stress hydrique des arbres proches d'une maison les pousse à pomper davantage d'eau dans le sol en profondeur (hydrotropisme), accentuant le dessèchement du sol argileux autour des fondations et amplifiant le risque RGA."
+  },
+  {
+    term: "Teneur en eau (du sol)",
+    tag: "Géotechnique", tagColor: "#e8f5e4", tagText: "#2d5a27",
+    def: "Proportion d'eau contenue dans un échantillon de sol, exprimée en pourcentage. C'est le paramètre central du phénomène RGA : une argile dont la teneur en eau varie fortement entre les saisons va se dilater puis se rétracter, provoquant les mouvements différentiels sous les fondations. L'expert et les études géotechniques mesurent ce paramètre pour évaluer la sensibilité du sol."
+  },
+  {
+    term: "Argile gonflante",
+    tag: "Géologie", tagColor: "#e8f5e4", tagText: "#2d5a27",
+    def: "Type d'argile (notamment la montmorillonite ou smectite) dont le volume peut augmenter de 10 à 30 % lorsqu'elle absorbe de l'eau, puis diminuer autant lors du séchage. C'est ce type d'argile qui est à l'origine du phénomène RGA. Sa présence dans les couches superficielles du sol est identifiée par la carte nationale d'aléa RGA du BRGM disponible sur Géorisques."
+  },
+  {
+    term: "État des risques (ERP)",
+    tag: "Document immobilier", tagColor: "#fff3d0", tagText: "#8a6000",
+    def: "Document obligatoire en cas de vente ou de location d'un bien immobilier, indiquant les risques naturels, technologiques et miniers auxquels est exposée la propriété. Il mentionne notamment si le bien est en zone de PPR approuvé et si la commune a déjà fait l'objet d'arrêtés Cat Nat. Pour le RGA, l'ERP indique le niveau d'aléa (faible, moyen, fort) selon la carte nationale du BRGM."
+  },
+  {
+    term: "Imperméabilisation",
+    tag: "Prévention / Risque", tagColor: "#e8f5e4", tagText: "#2d5a27",
+    def: "Recouvrement du sol par des surfaces ne laissant pas passer l'eau (béton, bitume, dalles). Autour d'une maison, une terrasse ou un trottoir périphérique peut jouer un rôle protecteur en stabilisant l'humidité du sol sous les fondations — limitant les cycles extrêmes sécheresse/humidification. Mais une imperméabilisation partielle peut aussi créer des gradients d'humidité entre les zones couvertes et découvertes, aggravant les mouvements différentiels."
+  },
+  {
+    term: "Accord amiable",
+    tag: "Procédure", tagColor: "#e8f0fe", tagText: "#1a5a8a",
+    def: "Résolution d'un litige entre l'assuré et l'assureur sans recours au tribunal. Dans le cadre d'un sinistre RGA, si vous n'êtes pas d'accord avec la proposition d'indemnisation de votre assureur, vous pouvez demander une contre-expertise amiable ou saisir le médiateur de l'assurance avant tout recours judiciaire. C'est une démarche plus rapide et moins coûteuse qu'un procès."
+  },
+  {
+    term: "Médiateur de l'assurance",
+    tag: "Recours", tagColor: "#fee8e8", tagText: "#8a1a1a",
+    def: "Tiers indépendant chargé de résoudre à l'amiable les litiges entre un assuré et son assureur. Gratuit pour l'assuré, il peut être saisi après avoir épuisé les voies de recours internes de l'assureur (service client, direction). Il rend un avis motivé dans un délai de 90 jours. Son avis n'est pas contraignant mais est suivi dans la grande majorité des cas."
+  },
+  {
+    term: "Contre-expertise",
+    tag: "Procédure", tagColor: "#e8f0fe", tagText: "#1a5a8a",
+    def: "Expertise réalisée à la demande de l'assuré par un expert de son choix pour contester les conclusions de l'expert mandaté par l'assureur. Elle est à la charge de l'assuré (sauf si le contrat prévoit une garantie défense-recours). En cas de désaccord persistant entre les deux experts, un troisième expert est désigné d'un commun accord pour trancher."
+  },
+  {
+    term: "Franchise (principe de la —)",
+    tag: "Assurance", tagColor: "#f0e8fe", tagText: "#6a2a8a",
+    def: "Part des dommages qui reste obligatoirement à la charge de l'assuré, quelle que soit la cause du sinistre. Elle représente une forme de participation de l'assuré à son propre risque, et incite à l'entretien préventif du bien. Pour le régime Cat Nat, la franchise est fixée par l'État et ne peut pas être rachetée (contrairement aux franchises des garanties classiques comme le vol ou l'incendie)."
   }
 ];
+
 
 
 function hideBubble(){
@@ -4123,6 +4588,189 @@ window.addEventListener('load', function moveBubble(){
     s.addEventListener('scroll', syncBubble, {passive:true});
   });
 })();
+
+// ══ GESTION CONSENTEMENT RGPD (CNIL 2024) ══
+function rgpdAccept(){
+  localStorage.setItem('argicare-rgpd-consent', JSON.stringify({
+    accepted: true,
+    date: new Date().toISOString(),
+    version: '1.0.1',
+    base_legale: 'consentement art.6.1.a RGPD',
+    finalites: ['profil','commune','diagnostic','documents']
+  }));
+  document.getElementById('rgpd-consent-overlay').classList.add('hidden');
+  // Après acceptation : lancer le storytelling si première visite
+  const seen = localStorage.getItem('argicare-story-seen');
+  if(!seen){
+    setTimeout(() => { openStory(); localStorage.setItem('argicare-story-seen','1'); }, 400);
+  }
+}
+function rgpdRefuse(){
+  // Effacer toutes les données et afficher message
+  localStorage.clear();
+  const box = document.querySelector('.rgpd-consent-box');
+  if(box){
+    box.innerHTML = `
+      <div style="text-align:center;padding:30px 10px;">
+        <div style="font-size:32px;margin-bottom:12px;">🔒</div>
+        <div style="font-size:14px;font-weight:800;color:#1a2a0e;margin-bottom:10px;">Consentement refusé</div>
+        <div style="font-size:11px;color:#7a6a52;line-height:1.7;">Sans votre consentement, ArgiQare ne peut pas stocker vos informations.<br><br>Vous pouvez fermer cette page. Aucune donnée n'a été enregistrée.</div>
+        <button onclick="rgpdRetry()" style="margin-top:16px;padding:12px 20px;background:#e8f5e4;border:1.5px solid #2d5a27;border-radius:10px;font-size:12px;font-weight:700;color:#2d5a27;cursor:pointer;font-family:inherit;">← Revenir et accepter</button>
+      </div>`;
+  }
+}
+function rgpdRetry(){
+  document.getElementById('rgpd-consent-overlay').classList.remove('hidden');
+  const box = document.querySelector('.rgpd-consent-box');
+  location.reload();
+}
+function rgpdWithdraw(){
+  // Retrait du consentement depuis les paramètres
+  if(confirm('Êtes-vous sûr de vouloir retirer votre consentement ? Toutes vos données seront effacées.')){
+    localStorage.clear();
+    location.reload();
+  }
+}
+// ══ FIN RGPD ══
+
+// ── PANNEAUX PARAMÈTRES ──
+function openPanel(id){
+  document.querySelectorAll('.param-panel').forEach(p => { p.classList.add('hidden'); p.classList.remove('open'); });
+  const panel = document.getElementById(id);
+  if(!panel) return;
+  panel.classList.remove('hidden');
+  setTimeout(() => panel.classList.add('open'), 10);
+  // Charger les données sauvegardées si profil
+  if(id === 'panel-profil') loadProfil();
+  if(id === 'panel-commune') loadCommune();
+  if(id === 'panel-rgpd') loadRgpdStatus();
+}
+function closePanel(id){
+  const panel = document.getElementById(id);
+  if(!panel) return;
+  panel.classList.remove('open');
+  setTimeout(() => panel.classList.add('hidden'), 310);
+}
+
+// ── PROFIL ──
+function saveProfilField(key, val){
+  const profil = JSON.parse(localStorage.getItem('argicare-profil') || '{}');
+  profil[key] = val;
+  localStorage.setItem('argicare-profil', JSON.stringify(profil));
+}
+function loadRgpdStatus(){
+  const c = JSON.parse(localStorage.getItem('argicare-rgpd-consent') || 'null');
+  const el = document.getElementById('rgpd-consent-date');
+  if(!el) return;
+  if(c && c.accepted){
+    const d = new Date(c.date).toLocaleDateString('fr-FR', {day:'2-digit',month:'long',year:'numeric'});
+    el.innerHTML = `Consentement donné le <strong>${d}</strong><br>Base légale : ${c.base_legale}<br>Version ArgiQare : ${c.version}`;
+  } else {
+    el.textContent = 'Aucun consentement enregistré.';
+  }
+}
+function loadProfil(){
+  const profil = JSON.parse(localStorage.getItem('argicare-profil') || '{}');
+  ['prenom','nom','tel','email','adresse','cp','ville','contrat','assureur'].forEach(k => {
+    const el = document.getElementById('profil-' + k);
+    if(el && profil[k]) el.value = profil[k];
+  });
+}
+
+// ── COMMUNE ──
+function loadCommune(){
+  const c = localStorage.getItem('argicare-commune');
+  const d = localStorage.getItem('argicare-dept');
+  if(c){ const el = document.getElementById('commune-input'); if(el) el.value = c; }
+  if(d){ const el = document.getElementById('dept-input'); if(el) el.value = d; }
+}
+function saveCommuneParam(){
+  const c = document.getElementById('commune-input')?.value?.trim();
+  const d = document.getElementById('dept-input')?.value?.trim();
+  if(!c){ showToast('Veuillez saisir une commune'); return; }
+  localStorage.setItem('argicare-commune', c);
+  if(d) localStorage.setItem('argicare-dept', d);
+  const display = document.getElementById('commune-display');
+  if(display) display.textContent = c + (d ? ' (' + d + ')' : '');
+  const msg = document.getElementById('commune-saved-msg');
+  if(msg){ msg.textContent = '✅ Commune "' + c + '" enregistrée !'; msg.style.display = 'block'; setTimeout(() => msg.style.display = 'none', 3000); }
+}
+
+// ── TAILLE DU TEXTE ──
+function setTaille(btn, label, scale){
+  document.querySelectorAll('.taille-opt').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('screen-params').closest('.phone').style.fontSize = (scale * 100) + '%';
+  localStorage.setItem('argicare-taille', scale);
+  const display = document.getElementById('taille-display');
+  if(display) display.textContent = label;
+}
+
+// ── EXPORT DONNÉES ──
+function exporterDonnees(){
+  const data = {
+    profil: JSON.parse(localStorage.getItem('argicare-profil') || '{}'),
+    commune: localStorage.getItem('argicare-commune'),
+    dept: localStorage.getItem('argicare-dept'),
+    taille: localStorage.getItem('argicare-taille'),
+    export_date: new Date().toLocaleDateString('fr-FR')
+  };
+  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'ArgiQare_donnees_' + new Date().toISOString().slice(0,10) + '.json';
+  a.click(); URL.revokeObjectURL(url);
+  showToast('✅ Export téléchargé');
+}
+
+// ── RÉINITIALISATION ──
+function confirmerReinit(){
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:absolute;inset:0;background:rgba(0,0,0,.5);z-index:700;display:flex;align-items:center;justify-content:center;padding:24px;';
+  overlay.innerHTML = `
+    <div style="background:white;border-radius:16px;padding:20px;width:100%;max-width:300px;text-align:center;">
+      <div style="font-size:32px;margin-bottom:8px;">⚠️</div>
+      <div style="font-size:14px;font-weight:800;color:#c04030;margin-bottom:8px;">Réinitialiser mes données ?</div>
+      <div style="font-size:11px;color:#7a6a52;line-height:1.6;margin-bottom:16px;">Cette action est irréversible. Toutes vos informations, votre diagnostic et vos données seront effacés.</div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="this.closest('[style*=inset]').remove()" style="flex:1;padding:10px;background:#f0ece4;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;">Annuler</button>
+        <button onclick="reinitialiserDonnees()" style="flex:1;padding:10px;background:#c04030;color:white;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;">Effacer tout</button>
+      </div>
+    </div>`;
+  document.querySelector('.phone').appendChild(overlay);
+}
+function reinitialiserDonnees(){
+  localStorage.clear();
+  location.reload();
+}
+
+// ── CONTACT ──
+function envoyerContact(){
+  const sujet = document.getElementById('contact-sujet')?.value;
+  const msg = document.getElementById('contact-msg')?.value?.trim();
+  const email = document.getElementById('contact-email')?.value?.trim();
+  if(!sujet || !msg){ showToast('Veuillez remplir le sujet et le message'); return; }
+  // Simulation envoi (pas de backend — ouvre le client mail)
+  const mailto = `mailto:support@argicare.fr?subject=${encodeURIComponent('[ArgiQare] ' + sujet)}&body=${encodeURIComponent(msg + '\n\nEmail de réponse : ' + (email || 'non renseigné'))}`;
+  window.open(mailto);
+  const sent = document.getElementById('contact-sent-msg');
+  if(sent) sent.style.display = 'block';
+}
+
+// Charger commune au démarrage
+window.addEventListener('load', () => {
+  const c = localStorage.getItem('argicare-commune');
+  const d = localStorage.getItem('argicare-dept');
+  if(c){
+    const display = document.getElementById('commune-display');
+    if(display) display.textContent = c + (d ? ' (' + d + ')' : '');
+  }
+  const scale = parseFloat(localStorage.getItem('argicare-taille') || '1');
+  if(scale !== 1){
+    const phone = document.querySelector('.phone');
+    if(phone) phone.style.fontSize = (scale * 100) + '%';
+  }
+});
 
 function toggleGlossaire(){
   const overlay = document.getElementById('glossaire-overlay');
@@ -4275,7 +4923,7 @@ function filterGlossaire(q){
 }
 
 // ── ENREGISTREMENT SERVICE WORKER PWA ──
-if('serviceWorker' in navigator){
+if('serviceWorker' in navigator && location.hostname !== 'www.claudeusercontent.com'){
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('./service-worker.js')
       .then(reg => console.log('[ArgiQare] Service Worker enregistré :', reg.scope))
