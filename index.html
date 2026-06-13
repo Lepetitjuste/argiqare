@@ -3506,8 +3506,27 @@ function removePlanFile(e){
   planFile=null;
   showToast('Plan supprimé');
 }
-function loadPhoto(input){if(!input.files.length)return;const r=new FileReader();r.onload=e=>{document.getElementById('photo-img').src=e.target.result;document.getElementById('photo-preview').classList.add('has-photo');document.getElementById('btn-del-photo').style.display='block';};r.readAsDataURL(input.files[0]);}
-function deletePhoto(){document.getElementById('photo-img').src='';document.getElementById('photo-preview').classList.remove('has-photo');document.getElementById('btn-del-photo').style.display='none';document.getElementById('photo-input').value='';}
+function loadPhoto(input){
+  if(!input.files.length) return;
+  const r = new FileReader();
+  r.onload = e => {
+    const dataUrl = e.target.result;
+    // Afficher dans l'app
+    document.getElementById('photo-img').src = dataUrl;
+    document.getElementById('photo-preview').classList.add('has-photo');
+    document.getElementById('btn-del-photo').style.display = 'block';
+    // Sauvegarder en localStorage pour le PDF de couverture
+    try { localStorage.setItem('argicare-photo-maison', dataUrl); } catch(err) {}
+  };
+  r.readAsDataURL(input.files[0]);
+}
+function deletePhoto(){
+  document.getElementById('photo-img').src = '';
+  document.getElementById('photo-preview').classList.remove('has-photo');
+  document.getElementById('btn-del-photo').style.display = 'none';
+  document.getElementById('photo-input').value = '';
+  localStorage.removeItem('argicare-photo-maison');
+}
 function loadGeorisques(){
   const voie=document.getElementById('m_voie').value;
   const cp=document.getElementById('m_cp').value;
@@ -3708,6 +3727,9 @@ function closePushNotif(){document.getElementById('push-notif').classList.remove
 function generatePDF(){
   const {jsPDF} = window.jspdf;
   const doc = new jsPDF({unit:'mm', format:'a4'});
+
+  // ── Photo de couverture ──
+  const photoDataUrl = localStorage.getItem('argicare-photo-maison') || null;
   const W=210, H=297, ML=14, MR=14, CW=W-ML-MR;
 
   // ── Couleurs ──
@@ -3809,8 +3831,9 @@ function generatePDF(){
   // PAGE 1 — COUVERTURE
   // ══════════════════════════════════════
   pageNum=0;
+
+  // Fond de couverture
   doc.setFillColor(...GD); doc.rect(0,0,W,H,'F');
-  // Dégradé bas
   for(let i=0;i<30;i++){
     const f=i/30;
     doc.setFillColor(Math.round(45+f*30),Math.round(90+f*20),Math.round(39+f*15));
@@ -3818,27 +3841,48 @@ function generatePDF(){
   }
   doc.setFillColor(20,30,20); doc.rect(0,0,W,H*0.42,'F');
 
-  // Logo centré
+  // ── PHOTO DE LA MAISON en couverture ──
+  const photoH = 80; // hauteur de la bande photo en mm
+  if(photoDataUrl){
+    try{
+      const fmt = photoDataUrl.includes('image/png') ? 'PNG' : 'JPEG';
+      doc.addImage(photoDataUrl, fmt, 0, 0, W, photoH);
+      // Dégradé bas sur la photo
+      for(let i=0;i<20;i++){
+        const f=i/20;
+        const alpha=Math.round(f*200);
+        doc.setFillColor(20,30,20);
+        doc.setGState(new doc.GState({opacity:f*0.85}));
+        doc.rect(0,photoH-20+i,W,1,'F');
+      }
+      doc.setGState(new doc.GState({opacity:1}));
+    } catch(e){ console.warn('Photo couverture erreur:',e); }
+  }
+
+  // Logo
+  const logoY = photoDataUrl ? photoH - 10 : 55;
   doc.setFontSize(26); doc.setFont(undefined,'normal');
-  doc.setTextColor(180,220,170); doc.text('argi', W/2-14, 55, {align:'center'});
+  doc.setTextColor(180,220,170); doc.text('argi', W/2-14, logoY, {align:'center'});
   doc.setFontSize(36); doc.setFont(undefined,'bold');
-  doc.setTextColor(...OR); doc.text('Q', W/2+4, 55);
+  doc.setTextColor(...OR); doc.text('Q', W/2+4, logoY);
   doc.setFontSize(26); doc.setFont(undefined,'normal');
-  doc.setTextColor(...GL); doc.text('are', W/2+16, 55);
+  doc.setTextColor(...GL); doc.text('are', W/2+16, logoY);
   doc.setFontSize(9); doc.setTextColor(120,180,120);
-  doc.text('Guide RGA & Catastrophes Naturelles', W/2, 64, {align:'center'});
+  doc.text('Guide RGA & Catastrophes Naturelles', W/2, logoY+9, {align:'center'});
 
   // Titre
-  doc.setDrawColor(...OR); doc.setLineWidth(1.5); doc.line(W/2-35,72,W/2+35,72);
+  const titreY = photoDataUrl ? photoH + 14 : 72;
+  doc.setDrawColor(...OR); doc.setLineWidth(1.5); doc.line(W/2-35,titreY,W/2+35,titreY);
   doc.setFontSize(20); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-  doc.text('SYNTHÈSE', W/2, 84, {align:'center'});
-  doc.text('DE DOSSIER', W/2, 95, {align:'center'});
+  doc.text('SYNTHÈSE', W/2, titreY+12, {align:'center'});
+  doc.text('DE DOSSIER', W/2, titreY+23, {align:'center'});
   doc.setFontSize(9); doc.setFont(undefined,'normal'); doc.setTextColor(...GL);
-  doc.text('Retrait-Gonflement des Argiles — Catastrophe Naturelle', W/2, 104, {align:'center'});
-  doc.setDrawColor(...OR); doc.setLineWidth(1.5); doc.line(W/2-35,108,W/2+35,108);
+  doc.text('Retrait-Gonflement des Argiles — Catastrophe Naturelle', W/2, titreY+32, {align:'center'});
+  doc.setDrawColor(...OR); doc.setLineWidth(1.5); doc.line(W/2-35,titreY+36,W/2+35,titreY+36);
 
   // Carte assuré
-  const cY=124, cH=62, cX=ML+8, cW2=W-ML-MR-16;
+  const cY = photoDataUrl ? photoH+52 : 124;
+  const cH=62, cX=ML+8, cW2=W-ML-MR-16;
   doc.setFillColor(30,45,30); doc.roundedRect(cX,cY,cW2,cH,3,3,'F');
   doc.setFillColor(...OR); doc.roundedRect(cX,cY,cW2,8,3,3,'F');
   doc.rect(cX,cY+5,cW2,3,'F');
@@ -5147,6 +5191,17 @@ window.addEventListener('load', () => {
   }
   // Restaurer le diagnostic
   setTimeout(loadDiag, 300);
+
+  // Restaurer la photo de la maison
+  const savedPhoto = localStorage.getItem('argicare-photo-maison');
+  if(savedPhoto){
+    const img = document.getElementById('photo-img');
+    const prev = document.getElementById('photo-preview');
+    const btn = document.getElementById('btn-del-photo');
+    if(img) img.src = savedPhoto;
+    if(prev) prev.classList.add('has-photo');
+    if(btn) btn.style.display = 'block';
+  }
 });
 
 // ══ TUTORIEL GUIDÉ ══
