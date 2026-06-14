@@ -20,7 +20,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script>
 // Défini tôt pour être disponible dès le parsing HTML
-const TOTAL_CHECKS = 35;
+const TOTAL_CHECKS = 109;
 function updateProgress(){
   const all = document.querySelectorAll('#screen-diag .diag-cb');
   const checked = [...all].filter(c=>c.checked).length;
@@ -78,11 +78,16 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .phone { width:375px; height:780px; background:#faf8f4; border-radius:40px; box-shadow:0 30px 80px rgba(0,0,0,0.25); overflow:hidden; display:flex; flex-direction:column; border:6px solid #2c2c2c; position:relative; }
 .phone-inner { position:absolute; inset:0; pointer-events:none; z-index:280; overflow:hidden; border-radius:34px; }
 .status-bar { background:#2d5a27; color:white; font-size:11px; padding:8px 20px 6px; display:flex; justify-content:space-between; flex-shrink:0; }
-.header { background:linear-gradient(135deg,#2d5a27 0%,#4a7c3f 100%); padding:7px 16px 8px; color:white; flex-shrink:0; position:relative; display:flex; align-items:center; justify-content:center; }
+.header { background:linear-gradient(160deg,#1a3a6e 0%,#2d5a27 100%); padding:16px 14px 22px; color:white; flex-shrink:0; position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; clip-path:ellipse(110% 92% at 50% 0%); margin-bottom:-4px; }
 .app-name { font-size:26px; font-weight:800; letter-spacing:1px; }
 .app-name .orange { color:#f5a623; }
 .app-name .green { color:#a8d5a2; }
-.header-settings { position:absolute; right:16px; top:50%; transform:translateY(-50%); font-size:20px; cursor:pointer; }
+.header-arch-logo { display:flex; align-items:baseline; gap:1px; justify-content:center; margin-bottom:10px; }
+.header-arch-logo .g { font-size:24px; font-weight:300; color:rgba(255,255,255,.65); letter-spacing:2px; }
+.header-arch-logo .q { font-size:32px; font-weight:900; color:#f5a623; line-height:.9; }
+.header-arch-logo .a { font-size:24px; font-weight:300; color:#a8d5a2; letter-spacing:2px; }
+.header-arch-pill { display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.13); border:1px solid rgba(255,255,255,.22); border-radius:20px; padding:5px 14px; font-size:10px; color:rgba(255,255,255,.88); cursor:pointer; font-weight:600; font-family:inherit; backdrop-filter:blur(4px); transition:background .2s; }
+.header-arch-pill:hover { background:rgba(255,255,255,.2); }
 .content { flex:1; overflow:hidden; min-height:0; position:relative; }
 .screens-wrapper { display:flex; height:100%; transition:transform 0.35s cubic-bezier(0.4,0,0.2,1); will-change:transform; }
 .screen { flex:0 0 100%; width:100%; height:100%; overflow-y:auto; padding:14px 14px 8px; box-sizing:border-box; scrollbar-width:thin; scrollbar-color:#4a7c3f #f0ece4; }
@@ -394,8 +399,15 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .upload-slot2{display:none;margin-top:5px;}
 .upload-slot2 .upload-zone{margin-top:0;}
 
-/* GLOSSAIRE FLOTTANT */
-.phone.no-surligna .gl { background:none !important; color:inherit !important; border-bottom:none !important; cursor:default !important; pointer-events:none !important; font-weight:inherit !important; }
+/* ── JUSTIFICATION GLOBALE ── */
+.diag-step-intro, .cn-card-text, .cn-faq-a, .conclusion-text,
+.cgu-article p, .param-panel-body p, .param-panel-body div:not([onclick]):not([class*="btn"]):not([class*="title"]):not([class*="icon"]):not([class*="arrow"]):not([class*="label"]):not([class*="sub"]):not([class*="toggle"]):not([class*="field"]):not([class*="row"]),
+.story-body, .tuto-popup-body, .avert,
+.step-feedback span:last-child,
+.glossaire-sheet-header > div,
+.cn-highlight-text, .rga-intro, .fiche-rga-text,
+.res-link-title, .res-link-url { text-align:justify; hyphens:auto; -webkit-hyphens:auto; }
+/* ── FIN JUSTIFICATION ── */
 .gl{border-bottom:1.5px dashed #2a5ca8;cursor:pointer;display:inline;border-radius:2px;padding:0 1px;}
 .gl:hover{background:rgba(42,92,168,.1);}
 .gl-bubble{position:absolute;z-index:800;background:white;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.22);width:260px;padding:14px;display:none;}
@@ -423,14 +435,13 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
     <div class="gl-src" id="gl-src"></div>
   </div>
 
-  <div class="header">
-    <div class="header-settings" style="left:16px;right:auto;" onclick="openStory()">📖</div>
-    <div style="display:flex;align-items:baseline;gap:1px;">
-      <span style="font-size:26px;font-weight:300;color:rgba(255,255,255,0.75);letter-spacing:2px;font-family:'Segoe UI',sans-serif;">argi</span>
-      <span style="font-size:34px;font-weight:900;color:#f5a623;line-height:0.9;">Q</span>
-      <span style="font-size:26px;font-weight:300;color:#a8d5a2;letter-spacing:2px;font-family:'Segoe UI',sans-serif;">are</span>
+  <div class="header" style="background:linear-gradient(160deg,#1a3a6e 0%,#2d5a27 100%);padding:16px 14px 22px;clip-path:ellipse(110% 92% at 50% 0%);display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <div class="header-arch-logo">
+      <span class="g">argi</span><span class="q">Q</span><span class="a">are</span>
     </div>
-    <div class="header-settings" onclick="switchTab('params', document.querySelectorAll('.nav-item')[4])">⚙️</div>
+    <button class="header-arch-pill" onclick="openStory()">
+      📖 Découvrir l'application
+    </button>
   </div>
 
   <!-- POPUP "AVANT DE COMMENCER" — au niveau .phone, z-index max -->
@@ -656,7 +667,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <div class="story-title">Votre dossier<br>en <em style="color:#80e0a0;">4 étapes</em></div>
         <div class="story-body">Renseignez les informations sur votre bien → suivez votre parcours diagnostic → préconstituez votre dossier → générez votre PDF de synthèse à remettre à votre expert ou un professionnel du bâtiment.</div>
         <button class="story-start-btn" onclick="closeStory()">Démarrer mon parcours ArgiQare 🚀</button>
-        <button class="story-start-btn" onclick="demarrerTutoriel()" style="background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.3);margin-top:8px;">🎓 Découvrir l'application</button>
+        <button class="story-start-btn" onclick="demarrerTutoriel()" style="background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.3);margin-top:8px;">🎓 Démarrer le tutoriel</button>
       </div>
       <div style="position:absolute;bottom:28px;left:0;right:0;z-index:6;display:flex;flex-direction:column;align-items:center;gap:10px;padding:0 20px;">
         <div style="display:flex;align-items:center;width:100%;gap:10px;">
@@ -1174,11 +1185,163 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               </div>
             </div>
             <div class="tri-detail" id="tri-step1-1-detail">
-              <div style="font-size:10px;color:#5a7a52;font-weight:700;margin-bottom:6px;">Précisez le type de fissures observées :</div>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Fissures en façade extérieure (obliques, en escalier)</span></label>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Fissures sur murs intérieurs ou enduits</span></label>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Fissures sur carrelage ou plancher</span></label>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Désaffleurements d'encadrements (portes, fenêtres qui coincent)</span></label>
+              <div style="font-size:10px;color:#5a7a52;font-weight:700;margin-bottom:10px;">Précisez le type de fissures observées :</div>
+
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;">
+
+                <!-- ① FISSURE OBLIQUE EN FAÇADE -->
+                <div style="background:#fafaf8;border:1.5px solid #c8e0c4;border-radius:10px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:6px;">
+                  <svg viewBox="0 0 90 80" width="78" height="70" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Fond mur -->
+                    <rect x="4" y="4" width="82" height="72" fill="#f0ece4" stroke="#a09080" stroke-width="1.2" rx="1"/>
+                    <!-- Assises maçonnerie (joints horizontaux) -->
+                    <line x1="4" y1="20" x2="86" y2="20" stroke="#c8b8a0" stroke-width="0.6"/>
+                    <line x1="4" y1="36" x2="86" y2="36" stroke="#c8b8a0" stroke-width="0.6"/>
+                    <line x1="4" y1="52" x2="86" y2="52" stroke="#c8b8a0" stroke-width="0.6"/>
+                    <line x1="4" y1="68" x2="86" y2="68" stroke="#c8b8a0" stroke-width="0.6"/>
+                    <!-- Joints verticaux alternés -->
+                    <line x1="20" y1="4" x2="20" y2="20" stroke="#c8b8a0" stroke-width="0.6"/>
+                    <line x1="52" y1="4" x2="52" y2="20" stroke="#c8b8a0" stroke-width="0.6"/>
+                    <line x1="74" y1="4" x2="74" y2="20" stroke="#c8b8a0" stroke-width="0.6"/>
+                    <line x1="34" y1="20" x2="34" y2="36" stroke="#c8b8a0" stroke-width="0.6"/>
+                    <line x1="62" y1="20" x2="62" y2="36" stroke="#c8b8a0" stroke-width="0.6"/>
+                    <line x1="18" y1="36" x2="18" y2="52" stroke="#c8b8a0" stroke-width="0.6"/>
+                    <line x1="48" y1="36" x2="48" y2="52" stroke="#c8b8a0" stroke-width="0.6"/>
+                    <line x1="70" y1="36" x2="70" y2="52" stroke="#c8b8a0" stroke-width="0.6"/>
+                    <line x1="30" y1="52" x2="30" y2="68" stroke="#c8b8a0" stroke-width="0.6"/>
+                    <line x1="58" y1="52" x2="58" y2="68" stroke="#c8b8a0" stroke-width="0.6"/>
+                    <line x1="20" y1="68" x2="20" y2="76" stroke="#c8b8a0" stroke-width="0.6"/>
+                    <line x1="52" y1="68" x2="52" y2="76" stroke="#c8b8a0" stroke-width="0.6"/>
+                    <!-- Ouverture de fenêtre (angle haut gauche = point de départ typique) -->
+                    <rect x="4" y="4" width="26" height="20" fill="#d8e8f4" stroke="#8098b0" stroke-width="1" rx="1"/>
+                    <line x1="17" y1="4" x2="17" y2="24" stroke="#8098b0" stroke-width="0.5"/>
+                    <line x1="4" y1="14" x2="30" y2="14" stroke="#8098b0" stroke-width="0.5"/>
+                    <!-- FISSURE OBLIQUE — part du coin de la fenêtre en bas droite -->
+                    <path d="M30,24 C34,28 32,33 36,36 C40,39 38,44 42,47 C46,50 44,56 48,60 C51,63 50,68 53,72"
+                          stroke="#c03020" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- Ouverture plus large en bas (effet cunéiforme) -->
+                    <path d="M31,24 C35,28 33,33 37,36 C41,39 39,44 43,47 C47,50 45,56 50,60 C54,63 53,68 56,72"
+                          stroke="#c03020" stroke-width="0.8" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="0.4"/>
+                    <!-- Légende largeur -->
+                    <line x1="54" y1="70" x2="58" y2="74" stroke="#c03020" stroke-width="0.7"/>
+                    <text x="59" y="75" font-size="5.5" fill="#c03020" font-family="sans-serif">+lge en bas</text>
+                  </svg>
+                  <label class="tri-sub-item" style="width:100%;margin:0;">
+                    <input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()">
+                    <span class="tri-sub-label" style="font-size:9.5px;line-height:1.4;">Façade — fissure oblique depuis l'angle d'une baie</span>
+                  </label>
+                </div>
+
+                <!-- ② FISSURE EN ESCALIER -->
+                <div style="background:#fafaf8;border:1.5px solid #c8e0c4;border-radius:10px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:6px;">
+                  <svg viewBox="0 0 90 80" width="78" height="70" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Fond mur -->
+                    <rect x="4" y="4" width="82" height="72" fill="#f0ece4" stroke="#a09080" stroke-width="1.2" rx="1"/>
+                    <!-- Maçonnerie - briques rectangulaires bien visibles -->
+                    <!-- Rang 1 -->
+                    <rect x="4" y="4" width="24" height="13" fill="#e4dcd0" stroke="#b0a090" stroke-width="0.6"/>
+                    <rect x="28" y="4" width="30" height="13" fill="#e4dcd0" stroke="#b0a090" stroke-width="0.6"/>
+                    <rect x="58" y="4" width="28" height="13" fill="#e4dcd0" stroke="#b0a090" stroke-width="0.6"/>
+                    <!-- Rang 2 -->
+                    <rect x="4" y="17" width="36" height="13" fill="#e4dcd0" stroke="#b0a090" stroke-width="0.6"/>
+                    <rect x="40" y="17" width="24" height="13" fill="#e4dcd0" stroke="#b0a090" stroke-width="0.6"/>
+                    <rect x="64" y="17" width="22" height="13" fill="#e4dcd0" stroke="#b0a090" stroke-width="0.6"/>
+                    <!-- Rang 3 -->
+                    <rect x="4" y="30" width="20" height="13" fill="#e4dcd0" stroke="#b0a090" stroke-width="0.6"/>
+                    <rect x="24" y="30" width="32" height="13" fill="#e4dcd0" stroke="#b0a090" stroke-width="0.6"/>
+                    <rect x="56" y="30" width="30" height="13" fill="#e4dcd0" stroke="#b0a090" stroke-width="0.6"/>
+                    <!-- Rang 4 -->
+                    <rect x="4" y="43" width="28" height="13" fill="#e4dcd0" stroke="#b0a090" stroke-width="0.6"/>
+                    <rect x="32" y="43" width="22" height="13" fill="#e4dcd0" stroke="#b0a090" stroke-width="0.6"/>
+                    <rect x="54" y="43" width="32" height="13" fill="#e4dcd0" stroke="#b0a090" stroke-width="0.6"/>
+                    <!-- Rang 5 -->
+                    <rect x="4" y="56" width="34" height="13" fill="#e4dcd0" stroke="#b0a090" stroke-width="0.6"/>
+                    <rect x="38" y="56" width="26" height="13" fill="#e4dcd0" stroke="#b0a090" stroke-width="0.6"/>
+                    <rect x="64" y="56" width="22" height="13" fill="#e4dcd0" stroke="#b0a090" stroke-width="0.6"/>
+                    <!-- Rang 6 -->
+                    <rect x="4" y="69" width="22" height="7" fill="#e4dcd0" stroke="#b0a090" stroke-width="0.6"/>
+                    <rect x="26" y="69" width="30" height="7" fill="#e4dcd0" stroke="#b0a090" stroke-width="0.6"/>
+                    <rect x="56" y="69" width="30" height="7" fill="#e4dcd0" stroke="#b0a090" stroke-width="0.6"/>
+                    <!-- FISSURE EN ESCALIER — suit les joints en zigzag -->
+                    <polyline points="40,4 40,17 56,17 56,30 40,30 40,43 54,43 54,56 38,56 38,69 38,76"
+                              stroke="#c03020" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- Petites flèches de sens -->
+                    <text x="42" y="10" font-size="5" fill="#c03020" font-family="sans-serif">↓</text>
+                    <text x="48" y="27" font-size="5" fill="#c03020" font-family="sans-serif">→</text>
+                  </svg>
+                  <label class="tri-sub-item" style="width:100%;margin:0;">
+                    <input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()">
+                    <span class="tri-sub-label" style="font-size:9.5px;line-height:1.4;">Façade — fissure en escalier dans les joints</span>
+                  </label>
+                </div>
+
+                <!-- ③ FISSURE CARRELAGE / PLANCHER -->
+                <div style="background:#fafaf8;border:1.5px solid #c8e0c4;border-radius:10px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:6px;">
+                  <svg viewBox="0 0 90 80" width="78" height="70" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Vue de dessus - carrelage -->
+                    <rect x="4" y="4" width="82" height="72" fill="#e8e4de" stroke="#a09888" stroke-width="1.2" rx="1"/>
+                    <!-- Carreaux 3x4 -->
+                    <line x1="4" y1="22" x2="86" y2="22" stroke="#b8aca0" stroke-width="1"/>
+                    <line x1="4" y1="40" x2="86" y2="40" stroke="#b8aca0" stroke-width="1"/>
+                    <line x1="4" y1="58" x2="86" y2="58" stroke="#b8aca0" stroke-width="1"/>
+                    <line x1="30" y1="4" x2="30" y2="76" stroke="#b8aca0" stroke-width="1"/>
+                    <line x1="58" y1="4" x2="58" y2="76" stroke="#b8aca0" stroke-width="1"/>
+                    <!-- Carreau fissuré — point de concentration central -->
+                    <!-- Fissure principale diagonale -->
+                    <line x1="14" y1="28" x2="47" y2="51" stroke="#c03020" stroke-width="2.2" stroke-linecap="round"/>
+                    <!-- Fissures secondaires rayonnantes -->
+                    <line x1="32" y1="40" x2="14" y2="40" stroke="#c03020" stroke-width="1.2" stroke-linecap="round"/>
+                    <line x1="32" y1="40" x2="30" y2="22" stroke="#c03020" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+                    <line x1="32" y1="40" x2="46" y2="30" stroke="#c03020" stroke-width="1" stroke-linecap="round" opacity="0.7"/>
+                    <!-- Soulèvement (carreau décollé en pointillés) -->
+                    <rect x="5" y="23" width="24" height="17" fill="none" stroke="#e07030" stroke-width="1" stroke-dasharray="3,2" rx="1"/>
+                    <text x="7" y="35" font-size="5.5" fill="#e07030" font-family="sans-serif">soulèvt</text>
+                    <!-- Vue dessus label -->
+                    <text x="6" y="73" font-size="5.5" fill="#9a8a72" font-family="sans-serif">↑ vue de dessus</text>
+                  </svg>
+                  <label class="tri-sub-item" style="width:100%;margin:0;">
+                    <input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()">
+                    <span class="tri-sub-label" style="font-size:9.5px;line-height:1.4;">Carrelage ou plancher — fissures et soulèvement</span>
+                  </label>
+                </div>
+
+                <!-- ④ DÉSAFFLEUREMENT -->
+                <div style="background:#fafaf8;border:1.5px solid #c8e0c4;border-radius:10px;padding:8px;display:flex;flex-direction:column;align-items:center;gap:6px;">
+                  <svg viewBox="0 0 90 80" width="78" height="70" xmlns="http://www.w3.org/2000/svg">
+                    <!-- VUE EN COUPE — mur avec porte désaffleurée -->
+                    <!-- Mur gauche (partie affaissée) -->
+                    <rect x="4" y="18" width="28" height="58" fill="#e0d8cc" stroke="#a09080" stroke-width="1.2" rx="1"/>
+                    <!-- Mur droit (partie stable / surélevée) -->
+                    <rect x="58" y="4" width="28" height="72" fill="#e8e0d4" stroke="#a09080" stroke-width="1.2" rx="1"/>
+                    <!-- Joint de dilatation / fissure verticale entre les deux blocs -->
+                    <rect x="32" y="4" width="26" height="72" fill="#f8f4ee" stroke="none"/>
+                    <!-- Dormant de porte gauche (affaissé) -->
+                    <rect x="30" y="20" width="6" height="56" fill="#c8b890" stroke="#8a7860" stroke-width="1"/>
+                    <!-- Dormant de porte droite (stable) -->
+                    <rect x="54" y="8" width="6" height="68" fill="#d0c098" stroke="#8a7860" stroke-width="1"/>
+                    <!-- Décalage visible en haut entre les deux dormants -->
+                    <!-- Flèche bidirectionnelle montrant le décalage vertical -->
+                    <line x1="44" y1="8" x2="44" y2="20" stroke="#c03020" stroke-width="1.5" stroke-dasharray="2,1"/>
+                    <polygon points="44,6 41,11 47,11" fill="#c03020"/>
+                    <polygon points="44,22 41,17 47,17" fill="#c03020"/>
+                    <!-- Cote -->
+                    <line x1="36" y1="8" x2="52" y2="8" stroke="#c03020" stroke-width="0.7" stroke-dasharray="2,2"/>
+                    <line x1="36" y1="20" x2="52" y2="20" stroke="#c03020" stroke-width="0.7" stroke-dasharray="2,2"/>
+                    <text x="46" y="16" font-size="6" fill="#c03020" font-family="sans-serif" font-weight="bold">Δh</text>
+                    <!-- Sol -->
+                    <rect x="4" y="73" width="82" height="3" fill="#a09080" rx="1"/>
+                    <!-- Labels -->
+                    <text x="5" y="15" font-size="5.5" fill="#7a6a52" font-family="sans-serif">affaissé</text>
+                    <text x="60" y="13" font-size="5.5" fill="#7a6a52" font-family="sans-serif">stable</text>
+                    <text x="32" y="77" font-size="5" fill="#9a8a72" font-family="sans-serif">coupe verticale</text>
+                  </svg>
+                  <label class="tri-sub-item" style="width:100%;margin:0;">
+                    <input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()">
+                    <span class="tri-sub-label" style="font-size:9.5px;line-height:1.4;">Désaffleurement — décalage vertical entre deux parties</span>
+                  </label>
+                </div>
+
+              </div>
             </div>
           </div>
           <div class="tri-item" id="tri-step1-2">
@@ -2215,9 +2378,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <button class="btn-pdf" onclick="generatePDF()">⬇️ Télécharger le PDF de synthèse</button>
         <div id="last-gen-label" style="margin-top:8px;font-size:10px;color:rgba(255,255,255,0.55);text-align:center;min-height:14px;"></div>
       </div>
-      <button class="btn-next-tab" onclick="switchTab('partager', document.querySelectorAll('.nav-item')[4])">
-        📚 Consulter les Ressources &nbsp;›
-      </button>
 
     </div>
 
@@ -2782,10 +2942,9 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       </button>
     </div>
 
-    <!-- ===== PARTAGER ===== -->
-    <div class="screen" id="screen-partager">
+    <!-- ===== PARTAGER — masqué, contenu déplacé dans Paramètres ===== -->
+    <div class="screen" id="screen-partager" style="display:none !important;">
       <div class="page-title">📚 Mes Ressources</div>
-      <div style="font-size:11px;color:#7a6a52;margin-bottom:14px;line-height:1.5;">Retrouvez ici les documents et publications de référence des principales institutions du régime Cat Nat.</div>
 
       <!-- ── 1. France Assureurs ── -->
       <div class="section-block" style="margin-bottom:10px;">
@@ -3024,11 +3183,58 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       <!-- AIDE -->
       <div class="param-section">
         <div class="param-section-title">Aide & support</div>
-        <div class="param-row" onclick="openStory()"><div class="param-icon">📖</div><div class="param-info"><div class="param-label">Revoir l'introduction</div><div class="param-sub">Relancer le guide de démarrage</div></div><div class="param-arrow">›</div></div>
+
+        <!-- Storytelling -->
+        <div class="param-row" style="flex-wrap:wrap;gap:0;">
+          <div class="param-icon">📖</div>
+          <div class="param-info">
+            <div class="param-label">Guide de démarrage</div>
+            <div class="param-sub" id="story-param-sub">S'affiche automatiquement au premier lancement</div>
+          </div>
+          <label class="param-toggle">
+            <input type="checkbox" id="toggle-story" onchange="toggleStoryParam(this)">
+            <div class="param-toggle-slider" id="toggle-story-slider"></div>
+          </label>
+        </div>
+        <div style="display:flex;gap:8px;padding:6px 12px 10px 44px;border-bottom:1px solid #ece8e0;">
+          <button onclick="openStory()" style="flex:1;padding:6px 0;background:#e8f5e4;border:1.5px solid #a8d5a2;border-radius:8px;font-size:11px;font-weight:700;color:#2d5a27;cursor:pointer;font-family:inherit;">📖 Relancer maintenant</button>
+          <button onclick="resetStory()" style="flex:1;padding:6px 0;background:#f5f3ef;border:1.5px solid #d4c9b5;border-radius:8px;font-size:11px;font-weight:700;color:#9a8a72;cursor:pointer;font-family:inherit;">↺ Réinitialiser</button>
+        </div>
+
+        <!-- Tutoriel -->
+        <div class="param-row" style="flex-wrap:wrap;gap:0;">
+          <div class="param-icon">🎓</div>
+          <div class="param-info">
+            <div class="param-label">Tutoriel guidé</div>
+            <div class="param-sub" id="tuto-param-sub">Visite guidée des 5 onglets</div>
+          </div>
+          <label class="param-toggle">
+            <input type="checkbox" id="toggle-tuto" onchange="toggleTutoParam(this)">
+            <div class="param-toggle-slider" id="toggle-tuto-slider"></div>
+          </label>
+        </div>
+        <div style="display:flex;gap:8px;padding:6px 12px 10px 44px;border-bottom:1px solid #ece8e0;">
+          <button onclick="openStory();setTimeout(()=>document.querySelector('.story-start-btn')?.click(),600)" style="flex:1;padding:6px 0;background:#e8f5e4;border:1.5px solid #a8d5a2;border-radius:8px;font-size:11px;font-weight:700;color:#2d5a27;cursor:pointer;font-family:inherit;">🎓 Relancer le tutoriel</button>
+          <button onclick="resetTuto()" style="flex:1;padding:6px 0;background:#f5f3ef;border:1.5px solid #d4c9b5;border-radius:8px;font-size:11px;font-weight:700;color:#9a8a72;cursor:pointer;font-family:inherit;">↺ Réinitialiser</button>
+        </div>
+
         <div class="param-row" onclick="openPanel('panel-aide')"><div class="param-icon">❓</div><div class="param-info"><div class="param-label">Comment utiliser ArgiQare ?</div><div class="param-sub">Guide étape par étape</div></div><div class="param-arrow">›</div></div>
         <div class="param-row" onclick="openPanel('panel-cgu')"><div class="param-icon">📄</div><div class="param-info"><div class="param-label">Conditions Générales d'Utilisation</div><div class="param-sub">Règles d'utilisation de l'application</div></div><div class="param-arrow">›</div></div>
         <div class="param-row" onclick="openPanel('panel-contact')"><div class="param-icon">💬</div><div class="param-info"><div class="param-label">Contacter le support</div><div class="param-sub">Une question ? Écrivez-nous</div></div><div class="param-arrow">›</div></div>
         <div class="param-row" onclick="openPanel('panel-apropos')"><div class="param-icon">ℹ️</div><div class="param-info"><div class="param-label">À propos d'ArgiQare</div><div class="param-sub">Version, auteur, mentions légales</div></div><div class="param-arrow">›</div></div>
+      </div>
+
+      <!-- SOURCES & RÉFÉRENCES -->
+      <div class="param-section">
+        <div class="param-section-title">📚 Sources &amp; Références</div>
+        <div class="param-row" onclick="openPanel('panel-sources')">
+          <div class="param-icon">📚</div>
+          <div class="param-info">
+            <div class="param-label">Sources &amp; Références officielles</div>
+            <div class="param-sub">CCR, MRN, BRGM, CEREMA, Géorisques…</div>
+          </div>
+          <div class="param-arrow">›</div>
+        </div>
       </div>
 
       <!-- ZONE CRITIQUE -->
@@ -3037,7 +3243,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <div class="param-row param-danger" onclick="confirmerReinit()"><div class="param-icon">🗑️</div><div class="param-info"><div class="param-label">Réinitialiser mes données</div><div class="param-sub">Effacer toutes mes informations</div></div><div class="param-arrow" style="color:#c04030;">›</div></div>
       </div>
 
-      <div class="app-version">ArgiQare v1.0.1 — © 2025 Adil H.</div>
+      <div class="app-version">ArgiQare v1.0.1 — © 2026 Adil.Q</div>
     </div>
 
 
@@ -3047,6 +3253,124 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
   <div class="toast" id="toast"></div>
 
     <!-- ═══ PANNEAUX GLISSANTS ═══ -->
+
+    <!-- PANEL SOURCES & RÉFÉRENCES -->
+    <div class="param-panel hidden" id="panel-sources">
+      <div class="param-panel-header">
+        <button class="param-panel-back" onclick="closePanel('panel-sources')">‹ Retour</button>
+        <div class="param-panel-title">Sources &amp; Références</div>
+      </div>
+      <div class="param-panel-body">
+
+        <!-- Mention légale -->
+        <div style="background:#fff8e8;border:1px solid #e8d070;border-radius:10px;padding:10px 12px;margin-bottom:14px;display:flex;gap:8px;align-items:flex-start;">
+          <span style="font-size:14px;flex-shrink:0;">⚠️</span>
+          <div style="font-size:10.5px;color:#8a6000;line-height:1.6;">Les sources marquées <span style="background:#e0e0e0;color:#888;padding:1px 6px;border-radius:10px;font-size:9.5px;font-weight:600;">Sous réserve d'accord</span> sont des partenariats institutionnels en cours de négociation. Leur contenu n'est pas encore disponible dans l'application.</div>
+        </div>
+
+        <!-- France Assureurs -->
+        <div style="margin-bottom:2px;">
+          <div style="font-size:10px;font-weight:700;color:#7a6a52;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;padding-left:2px;">Assurance & Régime Cat Nat</div>
+          <a href="#" onclick="showToast('Lien en cours d\'activation')" class="res-link-item" style="opacity:.45;pointer-events:auto;">
+            <div style="width:32px;height:32px;border-radius:8px;background:#1a3a6e;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">🏦</div>
+            <div class="res-link-body">
+              <div class="res-link-title" style="color:#888;">France Assureurs</div>
+              <div class="res-link-url">Fédération française de l'assurance</div>
+              <div style="background:#e0e0e0;color:#888;padding:1px 7px;border-radius:10px;font-size:9px;font-weight:600;display:inline-block;margin-top:3px;">Sous réserve d'accord</div>
+            </div>
+            <div class="res-link-arrow" style="color:#ccc;">›</div>
+          </a>
+          <a href="#" onclick="showToast('Lien en cours d\'activation')" class="res-link-item" style="opacity:.45;pointer-events:auto;">
+            <div style="width:32px;height:32px;border-radius:8px;background:#2a5ca8;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">🌍</div>
+            <div class="res-link-body">
+              <div class="res-link-title" style="color:#888;">MRN — Mission Risques Naturels</div>
+              <div class="res-link-url">mrn.asso.fr</div>
+              <div style="background:#e0e0e0;color:#888;padding:1px 7px;border-radius:10px;font-size:9px;font-weight:600;display:inline-block;margin-top:3px;">Sous réserve d'accord</div>
+            </div>
+            <div class="res-link-arrow" style="color:#ccc;">›</div>
+          </a>
+          <a href="https://www.ccr.fr/portail-catastrophes-naturelles/" target="_blank" class="res-link-item">
+            <div style="width:32px;height:32px;border-radius:8px;background:#3a8a6e;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">🏛️</div>
+            <div class="res-link-body">
+              <div class="res-link-title">CCR — Caisse Centrale de Réassurance</div>
+              <div class="res-link-url">ccr.fr/portail-catastrophes-naturelles</div>
+            </div>
+            <div class="res-link-arrow">🔗</div>
+          </a>
+          <a href="#" onclick="showToast('Lien en cours d\'activation')" class="res-link-item" style="opacity:.45;pointer-events:auto;">
+            <div style="width:32px;height:32px;border-radius:8px;background:#e07a20;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">🔬</div>
+            <div class="res-link-body">
+              <div class="res-link-title" style="color:#888;">FEDEA</div>
+              <div class="res-link-url">Fédération des experts en assurance</div>
+              <div style="background:#e0e0e0;color:#888;padding:1px 7px;border-radius:10px;font-size:9px;font-weight:600;display:inline-block;margin-top:3px;">Sous réserve d'accord</div>
+            </div>
+            <div class="res-link-arrow" style="color:#ccc;">›</div>
+          </a>
+        </div>
+
+        <!-- Risques & Prévention -->
+        <div style="margin:14px 0 2px;">
+          <div style="font-size:10px;font-weight:700;color:#7a6a52;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;padding-left:2px;">Risques naturels &amp; Prévention</div>
+          <a href="https://georisques.gouv.fr" target="_blank" class="res-link-item">
+            <div style="width:32px;height:32px;border-radius:8px;background:#2d5a27;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">🌐</div>
+            <div class="res-link-body">
+              <div class="res-link-title">Géorisques — BRGM</div>
+              <div class="res-link-url">georisques.gouv.fr</div>
+            </div>
+            <div class="res-link-arrow">🔗</div>
+          </a>
+          <a href="#" onclick="showToast('Lien en cours d\'activation')" class="res-link-item" style="opacity:.45;pointer-events:auto;">
+            <div style="width:32px;height:32px;border-radius:8px;background:#2d5a27;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">🗺️</div>
+            <div class="res-link-body">
+              <div class="res-link-title" style="color:#888;">CEREMA</div>
+              <div class="res-link-url">Centre d'études sur les risques naturels</div>
+              <div style="background:#e0e0e0;color:#888;padding:1px 7px;border-radius:10px;font-size:9px;font-weight:600;display:inline-block;margin-top:3px;">Sous réserve d'accord</div>
+            </div>
+            <div class="res-link-arrow" style="color:#ccc;">›</div>
+          </a>
+          <a href="#" onclick="showToast('Lien en cours d\'activation')" class="res-link-item" style="opacity:.45;pointer-events:auto;">
+            <div style="width:32px;height:32px;border-radius:8px;background:#3a6a9a;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">🏗️</div>
+            <div class="res-link-body">
+              <div class="res-link-title" style="color:#888;">DGPR</div>
+              <div class="res-link-url">Direction générale de la prévention des risques</div>
+              <div style="background:#e0e0e0;color:#888;padding:1px 7px;border-radius:10px;font-size:9px;font-weight:600;display:inline-block;margin-top:3px;">Sous réserve d'accord</div>
+            </div>
+            <div class="res-link-arrow" style="color:#ccc;">›</div>
+          </a>
+        </div>
+
+        <!-- Textes réglementaires -->
+        <div style="margin:14px 0 2px;">
+          <div style="font-size:10px;font-weight:700;color:#7a6a52;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;padding-left:2px;">Textes réglementaires</div>
+          <a href="https://www.legifrance.gouv.fr" target="_blank" class="res-link-item">
+            <div style="width:32px;height:32px;border-radius:8px;background:#1a3a6e;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">⚖️</div>
+            <div class="res-link-body">
+              <div class="res-link-title">Légifrance</div>
+              <div class="res-link-url">Loi Baudu · Arrêtés · Ordonnances</div>
+            </div>
+            <div class="res-link-arrow">🔗</div>
+          </a>
+          <a href="https://www.journal-officiel.gouv.fr" target="_blank" class="res-link-item">
+            <div style="width:32px;height:32px;border-radius:8px;background:#1a3a6e;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">📰</div>
+            <div class="res-link-body">
+              <div class="res-link-title">Journal Officiel</div>
+              <div class="res-link-url">Arrêtés Cat Nat publiés au JO</div>
+            </div>
+            <div class="res-link-arrow">🔗</div>
+          </a>
+          <a href="https://www.catnat.net" target="_blank" class="res-link-item" style="border-bottom:none;">
+            <div style="width:32px;height:32px;border-radius:8px;background:#4a5a8a;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;">🔍</div>
+            <div class="res-link-body">
+              <div class="res-link-title">catnat.net</div>
+              <div class="res-link-url">Actualités et jurisprudence assurance</div>
+            </div>
+            <div class="res-link-arrow">🔗</div>
+          </a>
+        </div>
+
+      </div>
+    </div>
+
 
     <!-- PANEL MES INFORMATIONS -->
     <div class="param-panel hidden" id="panel-profil">
@@ -3157,7 +3481,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           </div>
           <div style="background:#fff8e8;border-radius:12px;padding:12px 14px;">
             <div style="font-size:12px;font-weight:800;color:#8a6000;margin-bottom:6px;">③ Onglet Mon Parcours Diagnostic</div>
-            <div style="font-size:11px;color:#6a4a00;line-height:1.6;">Suivez les 9 étapes pour documenter votre situation. Répondez à chaque question en cochant "Oui, c'est mon cas" ou "Non concerné". Des sous-questions apparaissent pour préciser chaque point.</div>
+            <div style="font-size:11px;color:#6a4a00;line-height:1.6;">Suivez les 14 étapes pour documenter votre situation. Répondez à chaque question en cochant "Oui, c'est mon cas" ou "Non concerné". Des sous-questions apparaissent pour préciser chaque point.</div>
           </div>
           <div style="background:#f0e8fe;border-radius:12px;padding:12px 14px;">
             <div style="font-size:12px;font-weight:800;color:#6a2a8a;margin-bottom:6px;">④ Onglet Mon Dossier</div>
@@ -3319,7 +3643,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           <div class="cgu-article-title">Article 6 — Propriété intellectuelle</div>
           <div class="cgu-article-body">
             L'ensemble des éléments constituant ArgiQare — notamment le code source, les textes pédagogiques, le glossaire, la charte graphique, l'architecture applicative et les contenus éditoriaux — est protégé par le droit d'auteur en vertu des articles L111-1 et suivants du Code de la propriété intellectuelle français.<br><br>
-            © 2025 ArgiQare — Adil H. — Tous droits réservés.<br><br>
+            © 2026 ArgiQare — Adil.Q — Tous droits réservés.<br><br>
             Toute reproduction, représentation, modification, publication ou adaptation de tout ou partie de l'application, par quelque procédé que ce soit, est interdite sans l'autorisation écrite préalable de l'Éditeur.<br><br>
             Les marques, logos et dénominations éventuellement reproduits dans l'application appartiennent à leurs propriétaires respectifs (BRGM, CCR, MRN, CEREMA, DGPR). Leur reproduction ne vaut pas autorisation de les utiliser.
           </div>
@@ -3364,7 +3688,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 
         <div style="margin-top:16px;padding:10px 12px;background:#f5f8f2;border-radius:10px;font-size:10px;color:#7a6a52;text-align:center;line-height:1.7;">
           En utilisant ArgiQare, vous reconnaissez avoir lu,<br>compris et accepté les présentes CGU.<br><br>
-          © 2025 ArgiQare — Adil H. — Tous droits réservés
+          © 2026 ArgiQare — Adil.Q — Tous droits réservés
         </div>
 
       </div>
@@ -3404,12 +3728,12 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           </div>
           <div style="padding:12px 14px;background:#fee8e8;border-radius:10px;">
             <div style="font-weight:800;color:#8a1a1a;margin-bottom:4px;">©️ Propriété intellectuelle</div>
-            <div style="color:#6a1a1a;font-size:11px;line-height:1.65;">© 2025 ArgiQare — Tous droits réservés.<br>L'ensemble des contenus, textes, structure et code de cette application est protégé par le droit d'auteur (art. L111-1 CPI). Toute reproduction, même partielle, est interdite sans autorisation écrite préalable de l'auteur.<br><br>Œuvre déposée à l'INPI (Enveloppe Soleau).</div>
+            <div style="color:#6a1a1a;font-size:11px;line-height:1.65;">© 2026 ArgiQare — Tous droits réservés.<br>L'ensemble des contenus, textes, structure et code de cette application est protégé par le droit d'auteur (art. L111-1 CPI). Toute reproduction, même partielle, est interdite sans autorisation écrite préalable de l'auteur.<br><br>Œuvre déposée à l'INPI (Enveloppe Soleau).</div>
           </div>
           <div style="text-align:center;font-size:10px;color:#9a8a72;margin-top:6px;line-height:1.7;">
             Hébergement : GitHub Pages (Microsoft Corp.)<br>
             Contact : Paramètres › Contacter le support<br>
-            © 2025 ArgiQare — Tous droits réservés
+            © 2026 ArgiQare — Tous droits réservés
           </div>
         </div>
       </div>
@@ -3436,7 +3760,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <span class="glossaire-sheet-handle-label">📚 Glossaire</span>
       </div>
       <div class="glossaire-sheet-header">
-        <div class="glossaire-sheet-title">📚 Glossaire</div>
+        <div style="font-size:10.5px;color:#5a7a52;line-height:1.6;padding:2px 0;">Appuyez sur un mot souligné dans l'application pour afficher sa définition. Utilisez la recherche pour explorer les termes du régime Cat Nat et du RGA.</div>
         <div id="gl-surligna-toggle" onclick="toggleSurlignage()" style="display:flex;align-items:center;gap:6px;cursor:pointer;padding:5px 10px;border-radius:20px;background:#e8f5e4;border:1.5px solid #a8d5a2;transition:all .2s;">
           <span id="gl-surligna-icon" style="font-size:13px;">✨</span>
           <span id="gl-surligna-label" style="font-size:10px;font-weight:700;color:#2d5a27;">Surlignage actif</span>
@@ -3456,13 +3780,13 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
     <button class="nav-item" onclick="switchTab('maison',this)"><span class="nav-icon">🏠</span><span class="nav-label">Ma Maison</span><div class="nav-dot"></div></button>
     <button class="nav-item" onclick="switchTab('diag',this,'nav')"><span class="nav-icon">🔍</span><span class="nav-label">Mon Parcours Diagnostic</span><div class="nav-dot"></div></button>
     <button class="nav-item" onclick="switchTab('dossier',this)"><span class="nav-icon">📁</span><span class="nav-label">Mon Dossier</span><div class="nav-dot"></div></button>
-    <button class="nav-item" onclick="switchTab('partager',this)"><span class="nav-icon">📚</span><span class="nav-label">Ressources</span><div class="nav-dot"></div></button>
+    <button class="nav-item" onclick="switchTab('params',this)"><span class="nav-icon">⚙️</span><span class="nav-label">Paramètres</span><div class="nav-dot"></div></button>
   </div>
 </div>
 
 <script>
 // ── Ordre des onglets (déclaré en premier) ──
-const TAB_ORDER = ['catnat','maison','diag','dossier','partager','params'];
+const TAB_ORDER = ['catnat','maison','diag','dossier','params','partager'];
 let currentTabIndex = 0;
 
 // ── Initialisation au chargement ──
@@ -3531,6 +3855,7 @@ function switchTab(n, el, source='') {
   wrapper.style.transform = `translateX(-${newIndex * 100}%)`;
 
   if(n==='dossier'){setTimeout(refreshCompletion,350);}
+  if(n==='params'){setTimeout(initStoryTutoToggles, 100);}
   if(n==='catnat' && source==='nav'){
     setTimeout(()=>{
       const el = document.getElementById('catnat-overlay');
@@ -3947,7 +4272,7 @@ function generatePDF(){
     // Footer
     doc.setDrawColor(...GLN); doc.setLineWidth(0.3); doc.line(ML,H-12,W-MR,H-12);
     doc.setFontSize(6.5); doc.setTextColor(160,160,160);
-    doc.text("ArgiQare — Document d'accompagnement indicatif, sans valeur juridique — © 2025", ML, H-7);
+    doc.text("ArgiQare — Document d'accompagnement indicatif, sans valeur juridique — © 2026", ML, H-7);
     doc.text(dateGen, W-MR, H-7, {align:'right'});
   };
 
@@ -4686,7 +5011,7 @@ function refreshCompletion(){
   order:0;
 }
 .glossaire-overlay.open {
-  height:60vh;
+  height:430px;
   border-radius:20px 20px 0 0;
   cursor:default;
   position:absolute;
@@ -4701,8 +5026,11 @@ function refreshCompletion(){
   gap:10px; flex-shrink:0; cursor:pointer; padding:0 16px;
 }
 .glossaire-sheet-handle { width:36px; height:4px; border-radius:2px; background:rgba(45,90,39,.45); flex-shrink:0; }
+.glossaire-sheet-collapsed { display:flex; flex-direction:column; align-items:center; padding:8px 0 6px; cursor:pointer; flex-shrink:0; gap:4px; }
 .glossaire-sheet-handle-label { font-size:10px; font-weight:800; color:#2d5a27; letter-spacing:1px; text-transform:uppercase; }
-.glossaire-sheet-header { padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:8px; border-bottom:1px solid rgba(45,90,39,.12); flex-shrink:0; }
+.glossaire-sheet-header { padding:10px 16px 8px; display:flex; flex-direction:column; gap:8px; border-bottom:1px solid rgba(45,90,39,.12); flex-shrink:0; }
+.glossaire-sheet-header > div { text-align:justify; hyphens:auto; -webkit-hyphens:auto; font-size:10.5px; color:#5a7a52; line-height:1.6; }
+#gl-surligna-toggle { align-self:flex-start; white-space:nowrap; flex-shrink:0; width:auto !important; }
 .glossaire-sheet-title { font-size:13px; font-weight:800; color:#1e3a1e; flex:1; text-align:center; }
 .glossaire-sheet-sub { font-size:9px; font-weight:700; background:rgba(45,90,39,.15); color:#2d5a27; padding:2px 8px; border-radius:10px; white-space:nowrap; }
 .glossaire-search-wrap { padding:8px 14px; flex-shrink:0; }
@@ -5416,8 +5744,8 @@ const TUTO_STEPS = [
     icon: '🔍',
     iconBg: 'linear-gradient(135deg,#8a6000,#c08000)',
     title: 'Onglet Mon Parcours Diagnostic',
-    sub: '9 étapes pour documenter votre situation',
-    body: 'Suivez les 9 étapes pour décrire vos fissures, votre environnement, les facteurs déclenchants et les documents à rassembler. Pour chaque point, indiquez si vous êtes concerné ou non — les sous-questions apparaissent automatiquement.'
+    sub: '14 étapes pour documenter votre situation',
+    body: 'Suivez les 14 étapes pour documenter votre sinistre : du constat des fissures à la mairie, de la déclaration auprès de votre assureur jusqu\'aux travaux de réparation. Pour chaque point, indiquez si vous êtes concerné — les sous-questions apparaissent automatiquement.'
   },
   {
     tab: 'dossier',
@@ -5429,13 +5757,13 @@ const TUTO_STEPS = [
     body: 'Visualisez le taux de complétion de votre dossier et générez votre PDF de synthèse. Ce document peut être remis à votre expert lors de sa visite ou joint à votre déclaration de sinistre auprès de votre assureur.'
   },
   {
-    tab: 'partager',
+    tab: 'params',
     navIdx: 4,
-    icon: '🔗',
-    iconBg: 'linear-gradient(135deg,#1a5a8a,#2a8ab0)',
-    title: 'Onglet Ressources',
-    sub: 'Sources officielles et liens utiles',
-    body: 'Retrouvez ici les liens vers les organismes de référence (CCR, MRN, BRGM, CEREMA, Géorisques) et les textes réglementaires (loi Baudu, arrêtés, circulaires) pour approfondir vos connaissances ou vérifier les informations.',
+    icon: '⚙️',
+    iconBg: 'linear-gradient(135deg,#2d3a6a,#4a5a8a)',
+    title: 'Onglet Paramètres',
+    sub: 'Votre profil, préférences et sources',
+    body: 'Renseignez votre profil et vos coordonnées, ajustez vos préférences d\'affichage, et retrouvez dans la section Sources & Références tous les organismes officiels (CCR, MRN, BRGM, CEREMA, Géorisques) ainsi que les textes réglementaires applicables.',
     last: true
   }
 ];
@@ -5443,10 +5771,15 @@ const TUTO_STEPS = [
 let tutoStep = 0;
 
 function demarrerTutoriel(){
+  if(localStorage.getItem('argicare-tuto-disabled') === '1'){
+    showToast('🎓 Tutoriel désactivé — activez-le dans Paramètres › Aide');
+    return;
+  }
   document.getElementById('story-overlay').classList.add('hidden');
   tutoStep = 0;
   window._tutoActif = true;
   document.querySelector('.phone').dataset.tuto = '1';
+  localStorage.setItem('argicare-tuto-seen', '1');
   afficherTutoStep();
 }
 
@@ -5614,6 +5947,59 @@ function toggleSurlignage(){
 }
 // ── FIN SURLIGNAGE ──
 
+// ── TOGGLES STORY & TUTO (Paramètres) ──
+function initStoryTutoToggles(){
+  const storyDisabled = localStorage.getItem('argicare-story-disabled') === '1';
+  const tutoDisabled  = localStorage.getItem('argicare-tuto-disabled')  === '1';
+  const storySeen     = localStorage.getItem('argicare-story-seen') === '1';
+  const tutoSeen      = localStorage.getItem('argicare-tuto-seen')  === '1';
+
+  const ts = document.getElementById('toggle-story');
+  const tt = document.getElementById('toggle-tuto');
+  const ss = document.getElementById('toggle-story-slider');
+  const ts2= document.getElementById('toggle-tuto-slider');
+  const ssub = document.getElementById('story-param-sub');
+  const tsub = document.getElementById('tuto-param-sub');
+
+  if(ts)  ts.checked = !storyDisabled;
+  if(tt)  tt.checked = !tutoDisabled;
+  if(ss)  ss.style.background = storyDisabled ? '' : '#4ade80';
+  if(ts2) ts2.style.background = tutoDisabled ? '' : '#4ade80';
+  if(ssub) ssub.textContent = storyDisabled
+    ? 'Désactivé — ne s\'affiche plus au lancement'
+    : storySeen ? 'Déjà consulté — peut être relancé' : 'S\'affichera au prochain lancement';
+  if(tsub) tsub.textContent = tutoDisabled
+    ? 'Désactivé — ne se lance plus depuis le guide'
+    : tutoSeen ? 'Déjà effectué — peut être relancé' : 'Disponible depuis le guide de démarrage';
+}
+function toggleStoryParam(cb){
+  localStorage.setItem('argicare-story-disabled', cb.checked ? '0' : '1');
+  const s = document.getElementById('toggle-story-slider');
+  if(s) s.style.background = cb.checked ? '#4ade80' : '';
+  const sub = document.getElementById('story-param-sub');
+  if(sub) sub.textContent = cb.checked ? 'S\'affichera au prochain lancement' : 'Désactivé — ne s\'affiche plus au lancement';
+}
+function toggleTutoParam(cb){
+  localStorage.setItem('argicare-tuto-disabled', cb.checked ? '0' : '1');
+  const s = document.getElementById('toggle-tuto-slider');
+  if(s) s.style.background = cb.checked ? '#4ade80' : '';
+  const sub = document.getElementById('tuto-param-sub');
+  if(sub) sub.textContent = cb.checked ? 'Disponible depuis le guide de démarrage' : 'Désactivé — ne se lance plus depuis le guide';
+}
+function resetStory(){
+  localStorage.removeItem('argicare-story-seen');
+  localStorage.removeItem('argicare-story-disabled');
+  initStoryTutoToggles();
+  showToast('📖 Guide de démarrage réinitialisé — s\'affichera au prochain lancement');
+}
+function resetTuto(){
+  localStorage.removeItem('argicare-tuto-seen');
+  localStorage.removeItem('argicare-tuto-disabled');
+  initStoryTutoToggles();
+  showToast('🎓 Tutoriel réinitialisé — disponible depuis le guide de démarrage');
+}
+// ── FIN TOGGLES ──
+
 function toggleGlossaire(){
   const overlay = document.getElementById('glossaire-overlay');
   if(overlay.classList.contains('open')) closeGlossaire();
@@ -5755,12 +6141,16 @@ function toggleGlossaireItem(el){
   if(!wasOpen) el.classList.add('open');
 }
 
+// Tri alphabétique du GLOSSAIRE au chargement
+GLOSSAIRE.sort((a, b) => a.term.localeCompare(b.term, 'fr', {sensitivity:'base'}));
+
 function filterGlossaire(q){
-  const lower = q.toLowerCase().trim();
+  const normalize = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+  const lower = normalize(q);
   const filtered = lower ? GLOSSAIRE.filter(g =>
-    g.term.toLowerCase().includes(lower) ||
-    g.def.toLowerCase().includes(lower) ||
-    g.tag.toLowerCase().includes(lower)
+    normalize(g.term).includes(lower) ||
+    normalize(g.def).includes(lower) ||
+    normalize(g.tag).includes(lower)
   ) : GLOSSAIRE;
   buildGlossaire(filtered);
 }
@@ -5779,9 +6169,14 @@ if('serviceWorker' in navigator && _isProd){
 let storyCurrent = 0;
 const STORY_TOTAL = 4;
 function openStory(){
+  if(localStorage.getItem('argicare-story-disabled') === '1'){
+    showToast('📖 Guide désactivé — activez-le dans Paramètres › Aide');
+    return;
+  }
   storyCurrent = 0;
   storyRefresh();
   document.getElementById('story-overlay').classList.remove('hidden');
+  localStorage.setItem('argicare-story-seen', '1');
 }
 function closeStory(){
   document.getElementById('story-overlay').classList.add('hidden');
