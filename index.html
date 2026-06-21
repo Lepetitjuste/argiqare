@@ -3050,6 +3050,20 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           </div>
         </div>
       </div>
+
+      <!-- SOUS-BULLES — accès direct Cat Nat / Ma Maison depuis l'Accueil -->
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px;">
+        <button class="dash-card" onclick="dashQuickAction('catnat')" style="display:flex;align-items:center;gap:10px;text-align:left;border:none;cursor:pointer;font-family:inherit;width:100%;">
+          <div style="font-size:20px;flex-shrink:0;">⚖️</div>
+          <div style="flex:1;font-size:11.5px;font-weight:700;color:#1a2a0e;">Je m'informe sur le régime des catastrophes naturelles (Cat Nat)</div>
+          <div style="font-size:14px;color:#a8a092;flex-shrink:0;">›</div>
+        </button>
+        <button class="dash-card" onclick="dashQuickAction('maison')" style="display:flex;align-items:center;gap:10px;text-align:left;border:none;cursor:pointer;font-family:inherit;width:100%;">
+          <div style="font-size:20px;flex-shrink:0;">🏠</div>
+          <div style="flex:1;font-size:11.5px;font-weight:700;color:#1a2a0e;">Je renseigne les informations sur ma maison</div>
+          <div style="font-size:14px;color:#a8a092;flex-shrink:0;">›</div>
+        </button>
+      </div>
     
     </div>
 
@@ -4576,18 +4590,11 @@ function selectProfil(n, opts){
     document.getElementById('profil-actif-label').innerHTML = cfg.label + ' <span class="profil-actif-change" onclick="goToAccueilProfil(event)">Changer de profil</span>';
   }
 
-  // Scroller vers la 1ère étape active et l'ouvrir — uniquement lors
-  // d'une vraie sélection volontaire, jamais lors d'un simple retour
-  // sur l'onglet (sinon ça provoque un sursaut de scroll à chaque fois).
+  // Le profil conditionne et restructure les étapes du diagnostic en
+  // arrière-plan (grisage ci-dessus), mais ne déclenche plus aucun
+  // scroll ni changement d'écran — l'assuré reste sur l'onglet où il
+  // se trouve déjà (typiquement Accueil) après avoir choisi son profil.
   if(!silent){
-    setTimeout(()=>{
-      const firstActive = document.getElementById('step-' + cfg.startStep + 'b');
-      if(firstActive){
-        firstActive.scrollIntoView({behavior:'smooth', block:'start'});
-        setTimeout(()=> toggleDiagStep('step-' + cfg.startStep + 'b'), 400);
-      }
-    }, 300);
-
     showToast('✅ Profil ' + n + ' sélectionné');
   }
   if(typeof refreshDashboard === 'function') refreshDashboard();
