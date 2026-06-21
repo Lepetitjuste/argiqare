@@ -2944,7 +2944,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 
       <div class="page-title">🏠 Accueil</div>
       <div class="dash-greeting" id="dash-greeting">Bonjour 👋</div>
-      <div class="dash-greeting-sub">Voici où vous en êtes dans votre démarche.</div>
 
       <div class="dash-card" id="dash-profil-card">
         <div class="dash-card-title">Mon profil de situation</div>
@@ -3002,6 +3001,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
             </div>
           </div>
           <span class="dash-profil-pill" id="dash-profil-pill" style="margin-top:8px;display:inline-block;"></span>
+          <button onclick="dashChangerProfil()" style="display:block;width:100%;margin-top:10px;padding:8px 12px;background:#f0ece4;border:none;border-radius:9px;font-size:10.5px;font-weight:700;color:#5a6a52;cursor:pointer;font-family:inherit;">🔄 Changer de profil</button>
         </div>
       </div>
 
@@ -4654,7 +4654,7 @@ function switchTab(n, el, source='') {
     setTimeout(injectSuccessBadges, 100);
   }
   if(n==='maison'){setTimeout(initModeMaison, 150);}
-  if(n==='catnat'){setTimeout(refreshDashboard, 150);}
+  if(n==='accueil'){setTimeout(refreshDashboard, 150);}
   setTimeout(autoHighlightGL, 200);
   if(n==='catnat' && source==='nav' && localStorage.getItem('argicare-catnat-popup-hidden') !== '1'){
     setTimeout(()=>{
@@ -6819,6 +6819,7 @@ window.addEventListener('load', () => {
   // Restaurer champs "plus tard"
   setTimeout(loadLaterFields, 200);
   setTimeout(injectSuccessBadges, 250);
+  setTimeout(refreshDashboard, 200);
 
   // Restaurer le diagnostic
   setTimeout(loadDiag, 300);
@@ -7594,17 +7595,16 @@ function resumeDiagnostic(){
 // le grisage des étapes et le bandeau actif s'y mettent à jour automatiquement.
 function dashSelectProfil(n){
   selectProfil(n);
-  closeDashboard();
-  switchTab('diag', document.querySelectorAll('.nav-item')[3]);
+  refreshDashboard();
+}
 
-  const cfg = PROFIL_CONFIG[n];
-  if(cfg && cfg.startStep){
-    setTimeout(() => {
-      const targetId = 'step-' + cfg.startStep + 'b';
-      toggleDiagStep(targetId);
-      document.getElementById(targetId)?.scrollIntoView({behavior:'smooth', block:'start'});
-    }, 450);
-  }
+// Permet de revenir à la sélection des 3 cartes pour choisir un nouveau
+// profil, sans quitter l'onglet Accueil ni toucher au diagnostic.
+function dashChangerProfil(){
+  const emptyBlock = document.getElementById('dash-profil-empty');
+  const filledBlock = document.getElementById('dash-profil-filled');
+  if(emptyBlock) emptyBlock.style.display = 'block';
+  if(filledBlock) filledBlock.style.display = 'none';
 }
 
 function dashQuickAction(tab){
