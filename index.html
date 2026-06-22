@@ -565,7 +565,13 @@ function updateProgress(){
       else if(!nextLabel) nextLabel = ETAPE_LABELS[i] || null;
     });
     if(completedCount === 0){
-      verbal.textContent = 'Commencez par l\'étape 1 — ' + ETAPE_LABELS[0];
+      // Adapter le message selon le profil sélectionné — l'étape de
+      // départ n'est pas toujours la 1ère pour les profils 2 et 3.
+      const savedProfil = localStorage.getItem('argicare-profil');
+      const cfg = savedProfil ? PROFIL_CONFIG[savedProfil] : null;
+      const startNum = cfg ? cfg.startStep : 1;
+      const startLabel = ETAPE_LABELS[startNum - 1] || ETAPE_LABELS[0];
+      verbal.textContent = 'Commencez par l\'étape ' + startNum + ' — ' + startLabel;
     } else if(completedCount === ETAPE_LABELS.length){
       verbal.innerHTML = '✅ Parcours complet — ' + pct + '% des cases renseignées. Rendez-vous dans <strong>Mon Dossier</strong> pour générer votre synthèse PDF.';
     } else {
@@ -630,8 +636,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .header-arch-logo .g { font-size:24px; font-weight:300; color:rgba(255,255,255,.65); letter-spacing:2px; }
 .header-arch-logo .q { font-size:32px; font-weight:900; color:#f5a623; line-height:.9; }
 .header-arch-logo .a { font-size:24px; font-weight:300; color:#a8d5a2; letter-spacing:2px; }
-.header-arch-pill { display:inline-flex; align-items:center; gap:6px; background:rgba(255,255,255,.13); border:1px solid rgba(255,255,255,.22); border-radius:20px; padding:5px 14px; font-size:10px; color:rgba(255,255,255,.88); cursor:pointer; font-weight:600; font-family:inherit; backdrop-filter:blur(4px); transition:background .2s; }
-.header-arch-pill:hover { background:rgba(255,255,255,.2); }
+/* .header-arch-pill — bouton retiré du header, CSS nettoyé */
 .content { flex:1; overflow:hidden; min-height:0; position:relative; }
 .screens-wrapper { display:flex; height:100%; transition:transform 0.35s cubic-bezier(0.4,0,0.2,1); will-change:transform; }
 .screen { flex:0 0 100%; width:100%; height:100%; overflow-y:auto; padding:14px 14px 8px; box-sizing:border-box; scrollbar-width:thin; scrollbar-color:#4a7c3f #f0ece4; }
@@ -1039,14 +1044,11 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
     <div class="gl-src" id="gl-src"></div>
   </div>
 
-  <div class="header" style="background:linear-gradient(160deg,#1a3a6e 0%,#2d5a27 100%);padding:16px 14px 22px;clip-path:ellipse(110% 92% at 50% 0%);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:390;">
+  <div class="header" style="background:linear-gradient(160deg,#1a3a6e 0%,#2d5a27 100%);padding:18px 14px 24px;clip-path:ellipse(110% 92% at 50% 0%);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:390;">
     <button onclick="openParamsScreen()" style="position:absolute;top:10px;right:12px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:background .2s;" title="Paramètres">⚙️</button>
-    <div class="header-arch-logo">
+    <div class="header-arch-logo" style="font-size:1.22em;">
       <span class="g">argi</span><span class="q">Q</span><span class="a">are</span>
     </div>
-    <button class="header-arch-pill" onclick="openStory()">
-      📖 Découvrir l'application
-    </button>
   </div>
 
   <!-- POPUP "AVANT DE COMMENCER" — au niveau .phone, z-index max -->
@@ -1804,25 +1806,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
     <div class="screen" id="screen-diag">
       <div class="page-title">🔍 Mon Parcours Diagnostic</div>
 
-      <!-- INTRO COURTE -->
-      <div style="background:linear-gradient(135deg,#eef8ea,#e4f0e0);border-radius:14px;padding:14px 15px;margin-bottom:14px;border-left:3px solid #4a7c3f;">
-        <div style="font-size:12px;font-weight:800;color:#2d5a27;margin-bottom:6px;">🔍 Votre parcours diagnostic</div>
-        <div style="font-size:11px;color:#3a5a32;line-height:1.7;text-align:justify;margin-bottom:10px;">Ce parcours vous accompagne à travers <strong>14 étapes</strong> qui couvrent l'ensemble de votre situation — de la première fissure constatée jusqu'aux travaux de réparation. Répondez à chaque question au fur et à mesure, sans pression. Vous pouvez revenir à tout moment compléter ou modifier vos réponses.</div>
-        <div style="height:1px;background:rgba(45,90,39,.15);margin-bottom:10px;"></div>
-        <div style="display:flex;gap:10px;align-items:flex-start;">
-          <div style="font-size:20px;flex-shrink:0;">📄</div>
-          <div style="font-size:11px;color:#2d5a32;line-height:1.7;text-align:justify;"><strong>À quoi sert le PDF de synthèse ?</strong><br>Au fur et à mesure que vous renseignez ce parcours, ArgiQare constitue automatiquement un <strong>dossier de synthèse</strong> que vous pouvez télécharger à tout moment depuis l'onglet <strong>Mon Dossier</strong>. Ce document rassemble toutes vos réponses, vos photos et vos pièces justificatives dans un format structuré, prêt à être remis à votre <span class="gl" onclick="glOpen('expert d\'assurance',this)">expert d'assurance</span>, à votre assureur ou à tout professionnel du bâtiment qui vous accompagne.</div>
-        </div>
-        <div style="margin-top:10px;padding:8px 10px;background:rgba(45,90,39,.08);border-radius:8px;font-size:10.5px;color:#2d5a27;font-weight:600;display:flex;align-items:center;gap:6px;">
-          <span>💡</span>
-          <span>Plus vous renseignez d'informations, plus votre dossier sera solide face à l'expert.</span>
-        </div>
-        <div style="margin-top:8px;padding:8px 10px;background:rgba(154,88,0,.08);border-radius:8px;font-size:10px;color:#6a4a00;font-weight:600;display:flex;align-items:flex-start;gap:6px;line-height:1.5;">
-          <span style="flex-shrink:0;">⚖️</span>
-          <span>ArgiQare est un outil d'accompagnement indicatif, sans valeur juridique. Il ne remplace pas l'avis d'un professionnel — expert, assureur, avocat ou géotechnicien selon votre situation.</span>
-        </div>
-      </div>
-
       <!-- BANDEAU PROFIL — toujours visible : invite à choisir un profil
            depuis l'Accueil si aucun n'est encore défini, ou affiche le
            profil actif une fois choisi. Le sélecteur des 3 cartes a été
@@ -1832,23 +1815,34 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <span id="profil-actif-label">Aucun profil défini — touchez ici pour le choisir depuis l'Accueil</span>
       </div>
 
-      <!-- indicateur verbal -->
-      <div id="diag-verbal" style="font-size:11px;color:#5a7a52;font-style:italic;margin-bottom:12px;padding:0 2px;"></div>
-
-      <div class="section-block" id="acc-roles" style="margin-bottom:14px;">
-        <div class="section-header" onclick="toggleAccordion('acc-roles')" style="color:#2d5a27;">
-          <span style="font-size:15px;">👥</span> Le rôle de chaque acteur
+      <!-- INTRO — menu déroulant, fermé par défaut -->
+      <div class="section-block" id="acc-intro-diag" style="margin-bottom:14px;border-left:3px solid #4a7c3f;">
+        <div class="section-header" onclick="toggleAccordion('acc-intro-diag')" style="color:#2d5a27;">
+          <span style="font-size:15px;">🔍</span> Votre parcours diagnostic
           <span class="accordion-arrow">›</span>
         </div>
         <div class="section-body" style="padding-top:10px;">
-          <div class="acteur-card"><div class="acteur-title">👤 Vous, l'assuré</div><div class="acteur-text">Déclarez les dommages à votre assureur dans les <strong>30 jours</strong> suivant la publication de l'arrêté au Journal Officiel. Déclarez également les dommages à votre mairie de manière précise afin qu'elle puisse constituer un dossier de demande de reconnaissance Cat Nat. Vous devrez fournir à l'expert les documents listés par l'arrêté du 24 janvier 2025 ainsi que le permis de construire. Vous devrez utiliser l'indemnité d'assurance pour réparer votre bien conformément aux recommandations du rapport d'expertise.</div></div>
-          <div class="acteur-card"><div class="acteur-title">🏛️ Le maire</div><div class="acteur-text">Le maire dépose un dossier de demande de reconnaissance de l'état de catastrophe naturelle auprès du préfet, dans les <strong>24 mois</strong> suivant l'événement. Il peut également vous renseigner sur l'état d'avancement de la procédure et l'éventuelle publication d'un arrêté concernant votre commune. En l'absence de publication d'un arrêté, rapprochez-vous de votre mairie pour connaître l'état d'avancement.</div></div>
-          <div class="acteur-card"><div class="acteur-title">🏢 L'assureur</div><div class="acteur-text">Si votre commune a fait l'objet d'un <span class="gl" onclick="glOpen('arrêté interministériel',this)">arrêté</span> reconnaissant l'état de catastrophe naturelle pour le RGA, l'assureur missionne si nécessaire un <span class="gl" onclick="glOpen('expert d\'assurance',this)">expert</span> qui déterminera si le RGA est la <span class="gl" onclick="glOpen('cause déterminante',this)">cause déterminante</span> du <span class="gl" onclick="glOpen('sinistre',this)">sinistre</span>. En fonction des conclusions du <span class="gl" onclick="glOpen('expertise (rapport d\'—)',this)">rapport d'expertise</span>, il vous proposera une <span class="gl" onclick="glOpen('indemnisation',this)">indemnisation</span> dans le respect des dispositions de votre contrat. <strong>À noter :</strong> la <span class="gl" onclick="glOpen('franchise légale',this)">franchise légale</span> est fixée à <strong>1 520 €</strong> pour les biens à usage d'habitation et reste à votre charge.</div></div>
-          <div class="acteur-card" style="margin-bottom:0;"><div class="acteur-title">🔬 L'expert</div><div class="acteur-text">Missionné par l'assureur, il mène ses opérations selon une méthodologie établie et vous informe, ainsi que votre assureur, de l'état d'avancement de ses opérations. Un compte-rendu de la/des visites vous est adressé. Il détermine si le RGA est la <span class="gl" onclick="glOpen('cause déterminante',this)">cause déterminante</span> des dommages, évalue le montant des réparations et vous remet un <span class="gl" onclick="glOpen('expertise (rapport d\'—)',this)">rapport d'expertise</span>. Si le RGA n'est pas la cause déterminante, il vous donnera des orientations sur les autres causes possibles.</div></div>
+          <div style="font-size:11px;color:#3a5a32;line-height:1.7;text-align:justify;margin-bottom:10px;">Ce parcours vous accompagne à travers <strong>14 étapes</strong> qui couvrent l'ensemble de votre situation — de la première fissure constatée jusqu'aux travaux de réparation. Répondez à chaque question au fur et à mesure, sans pression. Vous pouvez revenir à tout moment compléter ou modifier vos réponses.</div>
+          <div style="height:1px;background:rgba(45,90,39,.15);margin-bottom:10px;"></div>
+          <div style="display:flex;gap:10px;align-items:flex-start;">
+            <div style="font-size:20px;flex-shrink:0;">📄</div>
+            <div style="font-size:11px;color:#2d5a32;line-height:1.7;text-align:justify;"><strong>À quoi sert le PDF de synthèse ?</strong><br>Au fur et à mesure que vous renseignez ce parcours, ArgiQare constitue automatiquement un <strong>dossier de synthèse</strong> que vous pouvez télécharger à tout moment depuis l'onglet <strong>Mon Dossier</strong>. Ce document rassemble toutes vos réponses, vos photos et vos pièces justificatives dans un format structuré, prêt à être remis à votre <span class="gl" onclick="glOpen('expert d\'assurance',this)">expert d'assurance</span>, à votre assureur ou à tout professionnel du bâtiment qui vous accompagne.</div>
+          </div>
+          <div style="margin-top:10px;padding:8px 10px;background:rgba(45,90,39,.08);border-radius:8px;font-size:10.5px;color:#2d5a27;font-weight:600;display:flex;align-items:center;gap:6px;">
+            <span>💡</span>
+            <span>Plus vous renseignez d'informations, plus votre dossier sera solide face à l'expert.</span>
+          </div>
+          <div style="margin-top:8px;padding:8px 10px;background:rgba(154,88,0,.08);border-radius:8px;font-size:10px;color:#6a4a00;font-weight:600;display:flex;align-items:flex-start;gap:6px;line-height:1.5;">
+            <span style="flex-shrink:0;">⚖️</span>
+            <span>ArgiQare est un outil d'accompagnement indicatif, sans valeur juridique. Il ne remplace pas l'avis d'un professionnel — expert, assureur, avocat ou géotechnicien selon votre situation.</span>
+          </div>
         </div>
       </div>
 
       <div class="section-divider">🗂️ Votre parcours diagnostic</div>
+
+      <!-- indicateur verbal -->
+      <div id="diag-verbal" style="font-size:11px;color:#5a7a52;font-style:italic;margin-bottom:12px;padding:0 2px;"></div>
 
       <!-- ÉTAPE 1 -->
       <div class="diag-step" id="step-1b">
@@ -3076,6 +3070,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <div class="catnat-tabs" id="catnat-tabs">
           <button class="catnat-tab active" onclick="switchCatnatTab('principes',this)">📖 C'est quoi ?</button>
           <button class="catnat-tab" onclick="switchCatnatTab('procedure',this)">🔄 Procédure</button>
+          <button class="catnat-tab" onclick="switchCatnatTab('acteurs',this)">👥 Acteurs</button>
           <button class="catnat-tab" onclick="switchCatnatTab('evolution',this)">📜 Évolution</button>
           <button class="catnat-tab" onclick="switchCatnatTab('faq',this)">❓ FAQ</button>
         </div>
@@ -3521,6 +3516,17 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
             <div class="cn-delai-row"><div class="cn-delai-num">5 ans</div><div class="cn-delai-text">Délai de prescription pour les sinistres RGA (sécheresse)</div></div>
           </div>
         </div>
+      </div>
+
+      <div class="catnat-panel" id="cn-acteurs">
+        <div class="cn-card" style="margin-bottom:14px;">
+          <div class="cn-card-title">👥 Qui fait quoi dans votre dossier ?</div>
+          <div class="cn-card-text">Votre dossier RGA implique plusieurs acteurs, chacun avec son rôle et ses délais propres. Voici un récapitulatif pour mieux vous repérer dans cette collaboration entre vous, votre mairie, votre assureur et l'expert.</div>
+        </div>
+        <div class="acteur-card"><div class="acteur-title">👤 Vous, l'assuré</div><div class="acteur-text">Déclarez les dommages à votre assureur dans les <strong>30 jours</strong> suivant la publication de l'arrêté au Journal Officiel. Déclarez également les dommages à votre mairie de manière précise afin qu'elle puisse constituer un dossier de demande de reconnaissance Cat Nat. Vous devrez fournir à l'expert les documents listés par l'arrêté du 24 janvier 2025 ainsi que le permis de construire. Vous devrez utiliser l'indemnité d'assurance pour réparer votre bien conformément aux recommandations du rapport d'expertise.</div></div>
+        <div class="acteur-card"><div class="acteur-title">🏛️ Le maire</div><div class="acteur-text">Le maire dépose un dossier de demande de reconnaissance de l'état de catastrophe naturelle auprès du préfet, dans les <strong>24 mois</strong> suivant l'événement. Il peut également vous renseigner sur l'état d'avancement de la procédure et l'éventuelle publication d'un arrêté concernant votre commune. En l'absence de publication d'un arrêté, rapprochez-vous de votre mairie pour connaître l'état d'avancement.</div></div>
+        <div class="acteur-card"><div class="acteur-title">🏢 L'assureur</div><div class="acteur-text">Si votre commune a fait l'objet d'un <span class="gl" onclick="glOpen('arrêté interministériel',this)">arrêté</span> reconnaissant l'état de catastrophe naturelle pour le RGA, l'assureur missionne si nécessaire un <span class="gl" onclick="glOpen('expert d\'assurance',this)">expert</span> qui déterminera si le RGA est la <span class="gl" onclick="glOpen('cause déterminante',this)">cause déterminante</span> du <span class="gl" onclick="glOpen('sinistre',this)">sinistre</span>. En fonction des conclusions du <span class="gl" onclick="glOpen('expertise (rapport d\'—)',this)">rapport d'expertise</span>, il vous proposera une <span class="gl" onclick="glOpen('indemnisation',this)">indemnisation</span> dans le respect des dispositions de votre contrat. <strong>À noter :</strong> la <span class="gl" onclick="glOpen('franchise légale',this)">franchise légale</span> est fixée à <strong>1 520 €</strong> pour les biens à usage d'habitation et reste à votre charge.</div></div>
+        <div class="acteur-card" style="margin-bottom:0;"><div class="acteur-title">🔬 L'expert</div><div class="acteur-text">Missionné par l'assureur, il mène ses opérations selon une méthodologie établie et vous informe, ainsi que votre assureur, de l'état d'avancement de ses opérations. Un compte-rendu de la/des visites vous est adressé. Il détermine si le RGA est la <span class="gl" onclick="glOpen('cause déterminante',this)">cause déterminante</span> des dommages, évalue le montant des réparations et vous remet un <span class="gl" onclick="glOpen('expertise (rapport d\'—)',this)">rapport d'expertise</span>. Si le RGA n'est pas la cause déterminante, il vous donnera des orientations sur les autres causes possibles.</div></div>
       </div>
 
         <!-- Contenu fusionné depuis Franchise -->
@@ -4598,6 +4604,9 @@ function selectProfil(n, opts){
     showToast('✅ Profil ' + n + ' sélectionné');
   }
   if(typeof refreshDashboard === 'function') refreshDashboard();
+  // Rafraîchir le message d'indication d'étape (diag-verbal), qui
+  // dépend désormais du profil sélectionné.
+  if(typeof updateProgress === 'function') updateProgress();
 }
 
 // Renvoie vers l'onglet Accueil pour choisir ou changer de profil — les
