@@ -282,6 +282,49 @@ button, .nav-item, .diag-step-header, .section-header,
 .dash-qa-ic { font-size:17px; margin-bottom:2px; }
 .dash-qa-label { font-size:8.5px; font-weight:700; color:#3a4a3a; line-height:1.2; }
 .dash-qa-pct { font-size:10px; font-weight:800; color:#2d5a27; margin-top:1px; }
+/* ── REPRISE DE SESSION ── */
+.dash-resume-banner {
+  background:linear-gradient(135deg,#e8f0fe,#dce8fc);
+  border-radius:12px; padding:10px 12px; margin-bottom:8px;
+  font-size:10.5px; color:#1a3a6e; font-weight:600; line-height:1.5;
+  display:flex; align-items:center; gap:8px;
+}
+.dash-resume-banner-ic { font-size:18px; flex-shrink:0; }
+
+/* ── DERNIÈRE ACTION EFFECTUÉE ── */
+.dash-last-action {
+  background:linear-gradient(135deg,#e8f5e4,#dcf0d4);
+  border-radius:12px; padding:10px 12px; margin-bottom:8px;
+  font-size:10.5px; color:#2d5a27; font-weight:600; line-height:1.5;
+  display:flex; align-items:center; gap:8px;
+}
+.dash-last-action-ic { font-size:18px; flex-shrink:0; }
+
+/* ── TIMELINE VISUELLE DU PARCOURS ── */
+.dash-timeline { display:flex; align-items:flex-start; justify-content:space-between; padding:4px 0; }
+.dash-timeline-step { display:flex; flex-direction:column; align-items:center; gap:4px; flex:1; min-width:0; }
+.dash-timeline-dot {
+  width:30px; height:30px; border-radius:50%; background:#f0ece4;
+  display:flex; align-items:center; justify-content:center; font-size:14px;
+  filter:grayscale(.7); opacity:.5; transition:all .3s; flex-shrink:0;
+}
+.dash-timeline-step.done .dash-timeline-dot { background:#e8f5e4; filter:none; opacity:1; box-shadow:0 0 0 2px #4a7c3f; }
+.dash-timeline-step.current .dash-timeline-dot { background:#fff3e0; filter:none; opacity:1; box-shadow:0 0 0 2px #f5a623; animation:timelinePulse 1.8s infinite; }
+@keyframes timelinePulse { 0%,100% { box-shadow:0 0 0 2px #f5a623; } 50% { box-shadow:0 0 0 5px rgba(245,166,35,.3); } }
+.dash-timeline-label { font-size:7.5px; font-weight:700; color:#9a8a72; text-align:center; line-height:1.2; }
+.dash-timeline-step.done .dash-timeline-label, .dash-timeline-step.current .dash-timeline-label { color:#3a4a3a; }
+.dash-timeline-line { height:2px; background:#e8e0d4; flex:0.5; margin-top:15px; }
+.dash-timeline-line.done { background:#4a7c3f; }
+
+/* ── CE QU'IL VOUS RESTE À FAIRE ── */
+.dash-todo-item {
+  display:flex; align-items:center; gap:8px; padding:7px 0;
+  border-bottom:1px solid #f0ece4; cursor:pointer;
+}
+.dash-todo-item:last-child { border-bottom:none; }
+.dash-todo-ic { font-size:14px; flex-shrink:0; }
+.dash-todo-text { flex:1; font-size:10.5px; color:#3a4a3a; font-weight:600; }
+.dash-todo-arrow { font-size:13px; color:#a8a092; flex-shrink:0; }
 /* ── FIN TABLEAU DE BORD ── */
 
 /* ── SÉLECTEUR MODE EXPRESS / COMPLET ── */
@@ -559,7 +602,15 @@ function updateProgress(){
       // Détection de la transition non-complété → complété
       if(allChecked && !wasCompleted){
         const titleEl = s.querySelector('.diag-step-title');
-        triggerStepSuccess(s, titleEl ? titleEl.textContent : null);
+        const stepLabel = titleEl ? titleEl.textContent : null;
+        triggerStepSuccess(s, stepLabel);
+        // Mémoriser la dernière action effectuée pour l'Accueil (point 6)
+        if(stepLabel){
+          localStorage.setItem('argicare-last-action', JSON.stringify({
+            label: stepLabel,
+            date: new Date().toISOString()
+          }));
+        }
       }
       if(allChecked) completedCount++;
       else if(!nextLabel) nextLabel = ETAPE_LABELS[i] || null;
@@ -937,6 +988,13 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 /* NAV — Modèle 1 : plat + indicateur ligne orange */
 .bottom-nav { background:linear-gradient(160deg,#2d5a27 0%,#1a3a6e 100%); display:flex; border-top:none; padding:0; flex-shrink:0; height:58px; position:relative; z-index:10; overflow:hidden; }
 .nav-item { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; cursor:pointer; padding:0 2px; border:none; background:transparent; border-top:2.5px solid transparent; transition:border-color 0.2s; }
+.nav-badge-dot {
+  position:absolute; top:4px; right:18%;
+  width:8px; height:8px; border-radius:50%;
+  background:#e8722e; border:1.5px solid #1a3a2a;
+  animation:navBadgePulse 2s infinite;
+}
+@keyframes navBadgePulse { 0%,100% { opacity:1; } 50% { opacity:.5; } }
 .nav-item.active { border-top-color:#f5a623; }
 .nav-icon { font-size:20px; line-height:1; }
 .nav-label { font-size:9px; font-weight:600; color:rgba(255,255,255,0.55); text-align:center; line-height:1.2; }
@@ -1797,14 +1855,14 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       <div id="later-counter" class="later-counter" onclick="scrollToLaterFields()">📌 0 champ à compléter plus tard</div>
       <button class="btn-save" onclick="saveForm()">💾 Sauvegarder ma maison</button>
       <button class="btn-pdf-mini" onclick="generatePDF()">📄 Pré-générer ma synthèse</button>
-      <button class="btn-next-tab" onclick="switchTab('diag', document.querySelectorAll('.nav-item')[3])">
-        🔍 Étape suivante — Mon Parcours Diagnostic &nbsp;›
+      <button class="btn-next-tab" onclick="switchTab('diag', document.querySelectorAll('.nav-item')[2])">
+        🔍 Étape suivante — Mon Parcours &nbsp;›
       </button>
     </div>
 
     <!-- ===== MON DIAGNOSTIC ===== -->
     <div class="screen" id="screen-diag">
-      <div class="page-title">🔍 Mon Parcours Diagnostic</div>
+      <div class="page-title">🔍 Mon Parcours</div>
 
       <!-- BANDEAU PROFIL — toujours visible : invite à choisir un profil
            depuis l'Accueil si aucun n'est encore défini, ou affiche le
@@ -2833,7 +2891,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       </div>
 
       <button class="btn-pdf-mini" onclick="generatePDF()">📄 Pré-générer ma synthèse</button>
-      <button class="btn-next-tab" onclick="switchTab('dossier', document.querySelectorAll('.nav-item')[4])">
+      <button class="btn-next-tab" onclick="switchTab('dossier', document.querySelectorAll('.nav-item')[3])">
         📁 Étape suivante — Mon Dossier &nbsp;›
       </button>
     </div>
@@ -2868,37 +2926,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <div style="font-size:10px;color:#6a4a00;line-height:1.55;">Ce dossier est un outil d'accompagnement indicatif, sans valeur juridique. Il ne remplace pas l'avis d'un professionnel — expert, assureur, avocat ou géotechnicien selon votre situation.</div>
       </div>
 
-
-      <!-- BARRES DE COMPLÉTUDE -->
-      <div style="background:white;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
-        <div style="font-size:13px;font-weight:700;color:#2d5a27;margin-bottom:12px;display:flex;align-items:center;gap:6px;">📊 Taux de complétion</div>
-
-        <!-- Ma Maison -->
-        <div style="margin-bottom:14px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
-            <span style="font-size:12px;font-weight:700;color:#2d3a1e;">🏠 Ma Maison</span>
-            <span id="maison-pct-label" style="font-size:12px;font-weight:700;color:#2d5a27;">0%</span>
-          </div>
-          <div style="background:#e8e0d0;border-radius:10px;height:8px;overflow:hidden;">
-            <div id="maison-pct-bar" style="height:100%;border-radius:10px;background:linear-gradient(90deg,#2d5a27,#6aab5f);transition:width 0.4s;width:0%"></div>
-          </div>
-          <div id="maison-pct-detail" style="font-size:10px;color:#9a8a72;margin-top:4px;"></div>
-        </div>
-
-        <!-- Mon Parcours Diagnostic -->
-        <div style="margin-bottom:14px;">
-          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px;">
-            <span style="font-size:12px;font-weight:700;color:#2d3a1e;">🔍 Mon Parcours Diagnostic</span>
-            <span id="diag-pct-label" style="font-size:12px;font-weight:700;color:#2d5a27;">0%</span>
-          </div>
-          <div style="background:#e8e0d0;border-radius:10px;height:8px;overflow:hidden;">
-            <div id="diag-pct-bar" style="height:100%;border-radius:10px;background:linear-gradient(90deg,#2d5a27,#6aab5f);transition:width 0.4s;width:0%"></div>
-          </div>
-          <div id="diag-pct-detail" style="font-size:10px;color:#9a8a72;margin-top:4px;"></div>
-        </div>
-
-        <button onclick="refreshCompletion()" style="width:100%;margin-top:6px;padding:10px;background:#f0f8ec;color:#2d5a27;border:1.5px solid #b5d9af;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;">🔄 Actualiser</button>
-      </div>
 
       <!-- APERÇU DOSSIER AUTO -->
       <div style="background:white;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
@@ -2938,6 +2965,12 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 
       <div class="page-title">🏠 Accueil</div>
       <div class="dash-greeting" id="dash-greeting">Bonjour 👋</div>
+
+      <!-- REPRISE DE SESSION — progression depuis la dernière visite -->
+      <div class="dash-resume-banner" id="dash-resume-banner" style="display:none;"></div>
+
+      <!-- DERNIÈRE ACTION EFFECTUÉE — renforcement positif -->
+      <div class="dash-last-action" id="dash-last-action" style="display:none;"></div>
 
       <div class="dash-card" id="dash-profil-card">
         <div class="dash-card-title">Mon profil de situation</div>
@@ -3018,6 +3051,43 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         </div>
       </div>
 
+      <!-- TIMELINE VISUELLE DU PARCOURS GLOBAL -->
+      <div class="dash-card">
+        <div class="dash-card-title">Vue d'ensemble de votre parcours</div>
+        <div class="dash-timeline" id="dash-timeline">
+          <div class="dash-timeline-step" data-step="constat">
+            <div class="dash-timeline-dot">🔍</div>
+            <div class="dash-timeline-label">Constat</div>
+          </div>
+          <div class="dash-timeline-line"></div>
+          <div class="dash-timeline-step" data-step="declaration">
+            <div class="dash-timeline-dot">📋</div>
+            <div class="dash-timeline-label">Déclaration</div>
+          </div>
+          <div class="dash-timeline-line"></div>
+          <div class="dash-timeline-step" data-step="expertise">
+            <div class="dash-timeline-dot">🔬</div>
+            <div class="dash-timeline-label">Expertise</div>
+          </div>
+          <div class="dash-timeline-line"></div>
+          <div class="dash-timeline-step" data-step="indemnisation">
+            <div class="dash-timeline-dot">💶</div>
+            <div class="dash-timeline-label">Indemnisation</div>
+          </div>
+          <div class="dash-timeline-line"></div>
+          <div class="dash-timeline-step" data-step="travaux">
+            <div class="dash-timeline-dot">🏗️</div>
+            <div class="dash-timeline-label">Travaux</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CE QU'IL VOUS RESTE À FAIRE — actions concrètes prioritaires -->
+      <div class="dash-card" id="dash-todo-card" style="display:none;">
+        <div class="dash-card-title">Ce qu'il vous reste à faire</div>
+        <div id="dash-todo-list"></div>
+      </div>
+
       <div class="dash-quick-actions">
         <div class="dash-qa-btn" id="dash-qa-diag" onclick="dashQuickAction('diag')">
           <div class="dash-qa-fill" id="dash-qa-fill-diag"></div>
@@ -3055,6 +3125,18 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <button class="dash-card" onclick="dashQuickAction('maison')" style="display:flex;align-items:center;gap:10px;text-align:left;border:none;cursor:pointer;font-family:inherit;width:100%;">
           <div style="font-size:20px;flex-shrink:0;">🏠</div>
           <div style="flex:1;font-size:11.5px;font-weight:700;color:#1a2a0e;">Je renseigne les informations sur ma maison</div>
+          <div style="font-size:14px;color:#a8a092;flex-shrink:0;">›</div>
+        </button>
+      </div>
+
+      <!-- ACCÈS RAPIDE AU DERNIER PDF GÉNÉRÉ -->
+      <div class="dash-card" id="dash-last-pdf-card" style="display:none;margin-top:8px;">
+        <button onclick="dashQuickAction('dossier')" style="display:flex;align-items:center;gap:10px;text-align:left;border:none;background:none;cursor:pointer;font-family:inherit;width:100%;padding:0;">
+          <div style="font-size:20px;flex-shrink:0;">📄</div>
+          <div style="flex:1;">
+            <div style="font-size:11.5px;font-weight:700;color:#1a2a0e;">Revoir mon dernier dossier PDF</div>
+            <div style="font-size:9.5px;color:#7a8a6a;margin-top:1px;" id="dash-last-pdf-date"></div>
+          </div>
           <div style="font-size:14px;color:#a8a092;flex-shrink:0;">›</div>
         </button>
       </div>
@@ -3626,7 +3708,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         </div>
 
       </div>
-      <button class="btn-next-tab" onclick="switchTab('maison', document.querySelectorAll('.nav-item')[2])">
+      <button class="btn-next-tab" onclick="switchTab('maison', document.querySelectorAll('.nav-item')[1])">
         🏠 Étape suivante — Ma Maison &nbsp;›
       </button>
     </div>
@@ -4073,7 +4155,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
             <div style="font-size:11px;color:#2a4a7a;line-height:1.6;">Renseignez les caractéristiques de votre bien et importez votre fiche Géorisques pour connaître votre niveau d'exposition au RGA.</div>
           </div>
           <div style="background:#fff8e8;border-radius:12px;padding:12px 14px;">
-            <div style="font-size:12px;font-weight:800;color:#8a6000;margin-bottom:6px;">③ Onglet Mon Parcours Diagnostic</div>
+            <div style="font-size:12px;font-weight:800;color:#8a6000;margin-bottom:6px;">③ Onglet Mon Parcours</div>
             <div style="font-size:11px;color:#6a4a00;line-height:1.6;">Suivez les 14 étapes pour documenter votre situation. Répondez à chaque question en cochant "Oui, c'est mon cas" ou "Non concerné". Des sous-questions apparaissent pour préciser chaque point.</div>
           </div>
           <div style="background:#f0e8fe;border-radius:12px;padding:12px 14px;">
@@ -4441,6 +4523,32 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           <button onclick="resetTuto()" style="flex:1;padding:6px 0;background:#f5f3ef;border:1.5px solid #d4c9b5;border-radius:8px;font-size:11px;font-weight:700;color:#9a8a72;cursor:pointer;font-family:inherit;">↺ Réinitialiser</button>
         </div>
 
+        <!-- Popup explicative Cat Nat -->
+        <div class="param-row" style="flex-wrap:wrap;gap:0;">
+          <div class="param-icon">⚖️</div>
+          <div class="param-info">
+            <div class="param-label">Popup « Le régime Cat Nat »</div>
+            <div class="param-sub" id="catnat-popup-param-sub">S'affiche à l'arrivée sur l'onglet Cat Nat</div>
+          </div>
+          <label class="param-toggle">
+            <input type="checkbox" id="toggle-catnat-popup" onchange="toggleCatnatPopupParam(this)">
+            <div class="param-toggle-slider" id="toggle-catnat-popup-slider"></div>
+          </label>
+        </div>
+
+        <!-- Popup de consentement Mon Parcours -->
+        <div class="param-row" style="flex-wrap:wrap;gap:0;border-bottom:1px solid #ece8e0;">
+          <div class="param-icon">📋</div>
+          <div class="param-info">
+            <div class="param-label">Popup « Avant de commencer »</div>
+            <div class="param-sub" id="diag-disclaimer-param-sub">S'affiche à l'arrivée sur Mon Parcours</div>
+          </div>
+          <label class="param-toggle">
+            <input type="checkbox" id="toggle-diag-disclaimer" onchange="toggleDiagDisclaimerParam(this)">
+            <div class="param-toggle-slider" id="toggle-diag-disclaimer-slider"></div>
+          </label>
+        </div>
+
         <div class="param-row" onclick="openPanel('panel-aide')"><div class="param-icon">❓</div><div class="param-info"><div class="param-label">Comment utiliser ArgiQare ?</div><div class="param-sub">Guide étape par étape</div></div><div class="param-arrow">›</div></div>
         <div class="param-row" onclick="openPanel('panel-cgu')"><div class="param-icon">📄</div><div class="param-info"><div class="param-label">Conditions Générales d'Utilisation</div><div class="param-sub">Règles d'utilisation de l'application</div></div><div class="param-arrow">›</div></div>
         <div class="param-row" onclick="openPanel('panel-contact')"><div class="param-icon">💬</div><div class="param-info"><div class="param-label">Contacter le support</div><div class="param-sub">Une question ? Écrivez-nous</div></div><div class="param-arrow">›</div></div>
@@ -4473,16 +4581,16 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
     </div>
   <div class="bottom-nav">
     <button class="nav-item active" onclick="switchTab('accueil',this,'nav')"><span class="nav-icon">🧭</span><span class="nav-label">Accueil</span><div class="nav-dot"></div></button>
-    <button class="nav-item" onclick="switchTab('catnat',this,'nav')"><span class="nav-icon">⚖️</span><span class="nav-label">Cat Nat</span><div class="nav-dot"></div></button>
     <button class="nav-item" onclick="switchTab('maison',this)"><span class="nav-icon">🏠</span><span class="nav-label">Ma Maison</span><div class="nav-dot"></div></button>
-    <button class="nav-item" onclick="switchTab('diag',this,'nav')"><span class="nav-icon">🔍</span><span class="nav-label">Mon Parcours Diagnostic</span><div class="nav-dot"></div></button>
+    <button class="nav-item" onclick="switchTab('diag',this,'nav')"><span class="nav-icon">🔍</span><span class="nav-label">Mon Parcours</span><div class="nav-dot"></div></button>
     <button class="nav-item" onclick="switchTab('dossier',this)"><span class="nav-icon">📁</span><span class="nav-label">Mon Dossier</span><div class="nav-dot"></div></button>
+    <button class="nav-item" onclick="switchTab('catnat',this,'nav')"><span class="nav-icon">⚖️</span><span class="nav-label">Cat Nat</span><div class="nav-dot"></div></button>
   </div>
 </div>
 
 <script>
 // ── Ordre des onglets (déclaré en premier) ──
-const TAB_ORDER = ['accueil','catnat','maison','diag','dossier','partager'];
+const TAB_ORDER = ['accueil','maison','diag','dossier','catnat','partager'];
 let currentTabIndex = 0;
 
 // ── Initialisation au chargement ──
@@ -4654,7 +4762,15 @@ function toggleAccordion(id){
 
 function switchTab(n, el, source='') {
   const newIndex = TAB_ORDER.indexOf(n);
-  if (newIndex === -1 || newIndex === currentTabIndex) return;
+  if (newIndex === -1) return;
+  if (newIndex === currentTabIndex){
+    // Déjà sur cet onglet — on ne rejoue pas l'animation de transition,
+    // mais on rafraîchit ses données (utile pour Accueil, écran par
+    // défaut au chargement, qui ne reçoit sinon jamais de refresh si
+    // l'assuré clique dessus sans avoir changé d'onglet auparavant).
+    if(n==='accueil') refreshDashboard();
+    return;
+  }
 
   const wrapper = document.getElementById('screens-wrapper');
   const direction = newIndex > currentTabIndex ? 1 : -1;
@@ -5513,7 +5629,7 @@ function generatePDF(){
 
   const toc=[
     ['1','Informations sur le bien assuré','3',GD],
-    ['2','Parcours diagnostic — Étapes 1 à 9','4+',GD],
+    ['2','Parcours — Étapes 1 à 9','4+',GD],
     ['   2.1','Étape 1 — Observation des fissures','4',GY],
     ['   2.2','Étape 2 — Environnement de la maison','4',GY],
     ['   2.3','Étape 3 — Facteurs déclenchants','4',GY],
@@ -5784,7 +5900,7 @@ function generatePDF(){
 
   if(allAnnexes.length===0){
     doc.setFontSize(9); doc.setFont(undefined,'italic'); doc.setTextColor(...GY);
-    doc.text('Aucune annexe jointe. Complétez les pièces dans l\'onglet Mon Parcours Diagnostic.', ML+2, y+8);
+    doc.text('Aucune annexe jointe. Complétez les pièces dans l\'onglet Mon Parcours.', ML+2, y+8);
   } else {
     allAnnexes.forEach(([ref,title,file],idx)=>{
       if(y>H-20){doc.addPage();drawHeader();y=22;}
@@ -5833,6 +5949,9 @@ function generatePDF(){
   doc.save('ArgiQare_Synthese.pdf');
   const lbl = document.getElementById('last-gen-label');
   if(lbl) lbl.textContent = '🕐 Dernière génération : ' + dateGen;
+  // Mémoriser la date et la référence pour l'accès rapide depuis l'Accueil
+  localStorage.setItem('argicare-last-pdf-date', dateGen);
+  localStorage.setItem('argicare-last-pdf-ref', dossierRef);
 } // fin generatePDF
 
 // ── Uploads diagnostic (point 4) — fonctions globales ──
@@ -5929,7 +6048,6 @@ function refreshCompletion(){
       if(bannerBtn) bannerBtn.textContent = "📄 Générer ma synthèse PDF →";
     }
   }
-  document.getElementById('diag-pct-detail') && (document.getElementById('diag-pct-detail').textContent = checkedDiag+' case(s) cochée(s) sur '+TOTAL_CHECKS);
 
   // ── Ma Maison ──
   const maisonFields=['m_nom','m_prenom','m_voie','m_cp','m_ville','m_email','m_tel','m_typecontrat','m_numcontrat','m_dateeffet','m_franchise','m_pcontrat','m_scontrat','m_dateconstr'];
@@ -5941,14 +6059,9 @@ function refreshCompletion(){
   maisonCheckboxes.forEach(id=>{const el=document.getElementById(id);if(el&&el.checked)maisonFilled++;});
   maisonRadios.forEach(name=>{if(document.querySelector('input[name="'+name+'"]:checked'))maisonFilled++;});
   const maisonPct=Math.round((maisonFilled/maisonTotal)*100);
-  document.getElementById('maison-pct-bar').style.width=maisonPct+'%';
-  document.getElementById('maison-pct-label').textContent=maisonPct+'%';
-  document.getElementById('maison-pct-detail').textContent=maisonFilled+' champ(s) renseigné(s) sur '+maisonTotal;
 
-  // ── Mon Parcours Diagnostic ──
-  document.getElementById('diag-pct-bar').style.width=diagPct+'%';
-  document.getElementById('diag-pct-label').textContent=diagPct+'%';
-  document.getElementById('diag-pct-detail').textContent=checkedDiag+' case(s) cochée(s) sur '+TOTAL_CHECKS;
+  // ── Mon Parcours ──
+  // (diagPct déjà calculé plus haut pour la bannière PDF)
 
   // ── Aperçu pièces ──
   const wrap=document.getElementById('dossier-apercu');
@@ -6864,17 +6977,8 @@ const TUTO_STEPS = [
     body: 'C\'est ici que tout commence. Choisissez le profil qui correspond à votre situation, suivez l\'avancement de votre diagnostic d\'un coup d\'œil, et accédez en un clic à Mon Parcours, Ma Maison ou Mon Dossier.'
   },
   {
-    tab: 'catnat',
-    navIdx: 1,
-    icon: '⚖️',
-    iconBg: 'linear-gradient(135deg,#1a3a6e,#2a5ca8)',
-    title: 'Onglet Cat Nat',
-    sub: 'Le régime des catastrophes naturelles',
-    body: 'Cet onglet vous explique comment fonctionne le régime Cat Nat en France, vos droits en tant qu\'assuré, et les évolutions récentes de la réglementation pour le RGA. Consultez aussi la FAQ et la chronologie des lois.'
-  },
-  {
     tab: 'maison',
-    navIdx: 2,
+    navIdx: 1,
     icon: '🏠',
     iconBg: 'linear-gradient(135deg,#2d5a27,#4a7c3f)',
     title: 'Onglet Ma Maison',
@@ -6883,21 +6987,30 @@ const TUTO_STEPS = [
   },
   {
     tab: 'diag',
-    navIdx: 3,
+    navIdx: 2,
     icon: '🔍',
     iconBg: 'linear-gradient(135deg,#8a6000,#c08000)',
-    title: 'Onglet Mon Parcours Diagnostic',
+    title: 'Onglet Mon Parcours',
     sub: '14 étapes pour documenter votre situation',
     body: 'Définissez votre profil, puis suivez les étapes pour documenter votre sinistre : du constat de vos fissures à l\'information à la mairie, de la déclaration de sinistre auprès de votre assureur jusqu\'aux travaux de réparation. Pour chaque point, indiquez si vous êtes concerné — les sous-questions apparaissent automatiquement.'
   },
   {
     tab: 'dossier',
-    navIdx: 4,
+    navIdx: 3,
     icon: '📁',
     iconBg: 'linear-gradient(135deg,#6a2a8a,#9a4ab0)',
     title: 'Onglet Mon Dossier',
     sub: 'Votre synthèse prête pour l\'expert',
     body: 'Visualisez le taux de complétion de votre dossier et générez votre PDF de synthèse. Ce document peut être remis à votre expert lors de sa visite ou joint à votre déclaration de sinistre auprès de votre assureur.'
+  },
+  {
+    tab: 'catnat',
+    navIdx: 4,
+    icon: '⚖️',
+    iconBg: 'linear-gradient(135deg,#1a3a6e,#2a5ca8)',
+    title: 'Onglet Cat Nat',
+    sub: 'Le régime des catastrophes naturelles',
+    body: 'Cet onglet vous explique comment fonctionne le régime Cat Nat en France, vos droits en tant qu\'assuré, et les évolutions récentes de la réglementation pour le RGA. Consultez aussi la FAQ et la chronologie des lois.'
   },
   {
     tab: 'params',
@@ -6987,7 +7100,7 @@ function tutoSkip(){
   document.getElementById('tuto-overlay').classList.add('hidden');
   // D'abord naviguer sur catnat SANS popup
   const navItems = document.querySelectorAll('.nav-item');
-  switchTab('catnat', navItems[1]);
+  switchTab('catnat', navItems[4]);
   // Puis ouvrir le popup catnat après un délai suffisant
   setTimeout(()=>{
     const el = document.getElementById('catnat-overlay');
@@ -7165,6 +7278,13 @@ function initStoryTutoToggles(){
   const tutoDisabled  = localStorage.getItem('argicare-tuto-disabled')  === '1';
   const storySeen     = localStorage.getItem('argicare-story-seen') === '1';
   const tutoSeen      = localStorage.getItem('argicare-tuto-seen')  === '1';
+  // Popups Cat Nat et disclaimer diagnostic : la clé "hidden"/"accepted"
+  // vaut '1' quand la popup a été masquée définitivement par l'assuré
+  // (bouton "Ne plus afficher" / case "Lu et approuvé"). Le toggle est
+  // donc "activé" quand cette clé est ABSENTE (popup encore programmée
+  // à s'afficher), et "désactivé" quand elle vaut '1'.
+  const catnatPopupHidden = localStorage.getItem('argicare-catnat-popup-hidden') === '1';
+  const diagDisclaimerAccepted = localStorage.getItem('argicare-disclaimer-diag-accepted') === '1';
 
   const ts = document.getElementById('toggle-story');
   const tt = document.getElementById('toggle-tuto');
@@ -7183,6 +7303,24 @@ function initStoryTutoToggles(){
   if(tsub) tsub.textContent = tutoDisabled
     ? 'Désactivé — ne se lance plus depuis le guide'
     : tutoSeen ? 'Déjà effectué — peut être relancé' : 'Disponible depuis le guide de démarrage';
+
+  const tcp = document.getElementById('toggle-catnat-popup');
+  const tcpSlider = document.getElementById('toggle-catnat-popup-slider');
+  const tcpSub = document.getElementById('catnat-popup-param-sub');
+  if(tcp) tcp.checked = !catnatPopupHidden;
+  if(tcpSlider) tcpSlider.style.background = catnatPopupHidden ? '' : '#4ade80';
+  if(tcpSub) tcpSub.textContent = catnatPopupHidden
+    ? 'Désactivée — ne s\'affiche plus sur l\'onglet Cat Nat'
+    : 'S\'affiche à l\'arrivée sur l\'onglet Cat Nat';
+
+  const tdd = document.getElementById('toggle-diag-disclaimer');
+  const tddSlider = document.getElementById('toggle-diag-disclaimer-slider');
+  const tddSub = document.getElementById('diag-disclaimer-param-sub');
+  if(tdd) tdd.checked = !diagDisclaimerAccepted;
+  if(tddSlider) tddSlider.style.background = diagDisclaimerAccepted ? '' : '#4ade80';
+  if(tddSub) tddSub.textContent = diagDisclaimerAccepted
+    ? 'Désactivée — ne s\'affiche plus sur Mon Parcours'
+    : 'S\'affiche à l\'arrivée sur Mon Parcours';
 }
 function toggleStoryParam(cb){
   localStorage.setItem('argicare-story-disabled', cb.checked ? '0' : '1');
@@ -7197,6 +7335,28 @@ function toggleTutoParam(cb){
   if(s) s.style.background = cb.checked ? '#4ade80' : '';
   const sub = document.getElementById('tuto-param-sub');
   if(sub) sub.textContent = cb.checked ? 'Disponible depuis le guide de démarrage' : 'Désactivé — ne se lance plus depuis le guide';
+}
+function toggleCatnatPopupParam(cb){
+  // checked = activé = la popup doit pouvoir s'afficher = clé "hidden" absente
+  if(cb.checked) localStorage.removeItem('argicare-catnat-popup-hidden');
+  else localStorage.setItem('argicare-catnat-popup-hidden', '1');
+  const s = document.getElementById('toggle-catnat-popup-slider');
+  if(s) s.style.background = cb.checked ? '#4ade80' : '';
+  const sub = document.getElementById('catnat-popup-param-sub');
+  if(sub) sub.textContent = cb.checked
+    ? 'S\'affiche à l\'arrivée sur l\'onglet Cat Nat'
+    : 'Désactivée — ne s\'affiche plus sur l\'onglet Cat Nat';
+}
+function toggleDiagDisclaimerParam(cb){
+  // checked = activé = la popup doit pouvoir s'afficher = clé "accepted" absente
+  if(cb.checked) localStorage.removeItem('argicare-disclaimer-diag-accepted');
+  else localStorage.setItem('argicare-disclaimer-diag-accepted', '1');
+  const s = document.getElementById('toggle-diag-disclaimer-slider');
+  if(s) s.style.background = cb.checked ? '#4ade80' : '';
+  const sub = document.getElementById('diag-disclaimer-param-sub');
+  if(sub) sub.textContent = cb.checked
+    ? 'S\'affiche à l\'arrivée sur Mon Parcours'
+    : 'Désactivée — ne s\'affiche plus sur Mon Parcours';
 }
 function resetStory(){
   localStorage.removeItem('argicare-story-seen');
@@ -7395,7 +7555,7 @@ function refreshDashboard(){
   if(greeting) greeting.textContent = prenom ? `Bonjour ${prenom} 👋` : 'Bonjour 👋';
 
   // Profil actif — affiche les mêmes informations (titre, sous-texte,
-  // pill) que les cartes profil de l'onglet Mon Parcours Diagnostic.
+  // pill) que les cartes profil de l'onglet Mon Parcours.
   const savedProfil = localStorage.getItem('argicare-profil');
   const emptyBlock = document.getElementById('dash-profil-empty');
   const filledBlock = document.getElementById('dash-profil-filled');
@@ -7481,11 +7641,161 @@ function refreshDashboard(){
   // Mon dossier — reflète la même progression globale que le diagnostic,
   // puisque le dossier de synthèse est constitué de ces informations.
   setQaFill('dossier', pct);
+
+  // ══ POINT 3 — REPRISE DE SESSION (progression depuis dernière visite) ══
+  // Compare le nombre d'étapes complétées à un instantané sauvegardé lors
+  // de la visite précédente, façon Strava : valorise le delta entre deux
+  // sessions plutôt qu'un simple pourcentage figé.
+  (function trackResumeSession(){
+    const banner = document.getElementById('dash-resume-banner');
+    if(!banner) return;
+    const raw = localStorage.getItem('argicare-visit-snapshot');
+    const now = Date.now();
+    if(raw){
+      try{
+        const snap = JSON.parse(raw);
+        const deltaSteps = completedCount - snap.completedCount;
+        const daysSince = Math.floor((now - snap.timestamp) / 86400000);
+        if(deltaSteps > 0 && daysSince >= 1){
+          const dayLabel = daysSince === 1 ? 'hier' : 'il y a ' + daysSince + ' jours';
+          banner.innerHTML = '<span class="dash-resume-banner-ic">📈</span><span>Vous avez complété ' + deltaSteps + ' étape' + (deltaSteps>1?'s':'') + ' depuis votre dernière visite (' + dayLabel + ').</span>';
+          banner.style.display = 'flex';
+        } else {
+          banner.style.display = 'none';
+        }
+      } catch(e){ banner.style.display = 'none'; }
+    } else {
+      banner.style.display = 'none';
+    }
+    // Mettre à jour l'instantané pour la prochaine comparaison — seulement
+    // une fois par jour pour ne pas écraser la référence à chaque clic.
+    const lastSnapDay = localStorage.getItem('argicare-visit-snapshot-day');
+    const today = new Date().toDateString();
+    if(lastSnapDay !== today){
+      localStorage.setItem('argicare-visit-snapshot', JSON.stringify({completedCount, timestamp: now}));
+      localStorage.setItem('argicare-visit-snapshot-day', today);
+    }
+  })();
+
+  // ══ POINT 6 — DERNIÈRE ACTION EFFECTUÉE (renforcement positif) ══
+  (function showLastAction(){
+    const block = document.getElementById('dash-last-action');
+    if(!block) return;
+    const raw = localStorage.getItem('argicare-last-action');
+    if(!raw){ block.style.display = 'none'; return; }
+    try{
+      const data = JSON.parse(raw);
+      const daysSince = Math.floor((Date.now() - new Date(data.date).getTime()) / 86400000);
+      const whenLabel = daysSince === 0 ? 'aujourd\'hui' : daysSince === 1 ? 'hier' : 'il y a ' + daysSince + ' jours';
+      block.innerHTML = '<span class="dash-last-action-ic">✅</span><span>Dernière étape complétée ' + whenLabel + ' : <strong>' + data.label + '</strong></span>';
+      block.style.display = 'flex';
+    } catch(e){ block.style.display = 'none'; }
+  })();
+
+  // ══ POINT 4 — TIMELINE VISUELLE DU PARCOURS GLOBAL ══
+  // Mappe les 14 étapes du diagnostic sur 5 grandes phases du parcours.
+  (function updateTimeline(){
+    const phaseRanges = {
+      constat: [1,1], declaration: [2,5], expertise: [6,12],
+      indemnisation: [13,13], travaux: [14,14]
+    };
+    const phaseOrder = ['constat','declaration','expertise','indemnisation','travaux'];
+    // Étape courante = la prochaine non complétée (ou la dernière si tout est fait)
+    const currentStepNum = nextStepIndex || steps.length;
+    let currentPhase = null;
+    phaseOrder.forEach(phase => {
+      const [start, end] = phaseRanges[phase];
+      const el = document.querySelector('.dash-timeline-step[data-step="' + phase + '"]');
+      if(!el) return;
+      const phaseDone = completedCount >= end;
+      const phaseCurrent = currentStepNum >= start && currentStepNum <= end && !phaseDone;
+      el.classList.toggle('done', phaseDone);
+      el.classList.toggle('current', phaseCurrent);
+      if(phaseCurrent) currentPhase = phase;
+    });
+    // Colorer les traits de liaison entre phases déjà complétées
+    document.querySelectorAll('.dash-timeline-line').forEach((line, i) => {
+      const phaseBefore = phaseOrder[i];
+      const [, endBefore] = phaseRanges[phaseBefore];
+      line.classList.toggle('done', completedCount >= endBefore);
+    });
+  })();
+
+  // ══ POINT 8 — CE QU'IL VOUS RESTE À FAIRE (actions concrètes) ══
+  (function updateTodoList(){
+    const card = document.getElementById('dash-todo-card');
+    const list = document.getElementById('dash-todo-list');
+    if(!card || !list) return;
+    const todos = [];
+    // Champs clés de Ma Maison non renseignés
+    const keyFields = [
+      {id:'m_nom', label:'Renseigner votre nom', tab:'maison'},
+      {id:'m_numcontrat', label:'Indiquer votre numéro de contrat', tab:'maison'},
+      {id:'m_typecontrat', label:'Préciser le type de contrat d\'assurance', tab:'maison'}
+    ];
+    keyFields.forEach(f => {
+      const el = document.getElementById(f.id);
+      if(el && (!el.value || !el.value.trim())){
+        todos.push({icon:'🏠', label:f.label, tab:f.tab});
+      }
+    });
+    // Prochaine étape du diagnostic si parcours non terminé
+    if(nextLabel){
+      todos.push({icon:'🔍', label:'Compléter : ' + nextLabel, tab:'diag'});
+    }
+    // PDF jamais généré
+    if(!localStorage.getItem('argicare-last-pdf-date')){
+      todos.push({icon:'📄', label:'Générer votre première synthèse PDF', tab:'dossier'});
+    }
+    if(todos.length === 0){
+      card.style.display = 'none';
+    } else {
+      card.style.display = 'block';
+      list.innerHTML = todos.slice(0, 3).map(t =>
+        '<div class="dash-todo-item" onclick="dashQuickAction(\'' + t.tab + '\')">' +
+        '<span class="dash-todo-ic">' + t.icon + '</span>' +
+        '<span class="dash-todo-text">' + t.label + '</span>' +
+        '<span class="dash-todo-arrow">›</span></div>'
+      ).join('');
+    }
+  })();
+
+  // ══ POINT 9 — ACCÈS RAPIDE AU DERNIER PDF GÉNÉRÉ ══
+  (function showLastPdf(){
+    const card = document.getElementById('dash-last-pdf-card');
+    const dateEl = document.getElementById('dash-last-pdf-date');
+    if(!card || !dateEl) return;
+    const lastDate = localStorage.getItem('argicare-last-pdf-date');
+    if(lastDate){
+      dateEl.textContent = 'Généré le ' + lastDate;
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  })();
+
+  // ══ POINT 5 — BADGE SUR L'ICÔNE ACCUEIL SI ACTION REQUISE ══
+  (function updateAccueilBadge(){
+    const navAccueil = document.querySelectorAll('.nav-item')[0];
+    if(!navAccueil) return;
+    let badge = navAccueil.querySelector('.nav-badge-dot');
+    // Action requise = profil non choisi, ou todo-list non vide
+    const profilManquant = !localStorage.getItem('argicare-profil');
+    const todoCard = document.getElementById('dash-todo-card');
+    const actionRequise = profilManquant || (todoCard && todoCard.style.display !== 'none');
+    if(actionRequise && !badge){
+      badge = document.createElement('span');
+      badge.className = 'nav-badge-dot';
+      navAccueil.appendChild(badge);
+    } else if(!actionRequise && badge){
+      badge.remove();
+    }
+  })();
 }
 
 function dashGoToNextStep(){
   closeDashboard();
-  switchTab('diag', document.querySelectorAll('.nav-item')[3]);
+  switchTab('diag', document.querySelectorAll('.nav-item')[2]);
 }
 
 
@@ -7583,7 +7893,7 @@ function resumeMaison(){
   scrollAndHighlight(header || section, lastId ? 'Vous en étiez ici : ' + label : 'Commencez ici', section);
 }
 
-// Renvoie l'assuré vers Mon Parcours Diagnostic, à la prochaine étape
+// Renvoie l'assuré vers Mon Parcours, à la prochaine étape
 // non complétée (cohérent avec ce qu'affiche déjà le tableau de bord).
 function resumeDiagnostic(){
   const steps = document.querySelectorAll('#screen-diag .diag-step');
@@ -7625,7 +7935,7 @@ function dashChangerProfil(){
 
 function dashQuickAction(tab){
   closeDashboard();
-  const idx = {accueil:0, catnat:1, maison:2, diag:3, dossier:4}[tab] ?? 0;
+  const idx = {accueil:0, maison:1, diag:2, dossier:3, catnat:4}[tab] ?? 0;
   switchTab(tab, document.querySelectorAll('.nav-item')[idx]);
 
   // Reprise guidée : une fois l'écran affiché, scroller vers la
