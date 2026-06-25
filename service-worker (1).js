@@ -9,7 +9,7 @@
 //  si le fichier a changé sur le serveur.
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = '1.1.3'; // ← à incrémenter à CHAQUE déploiement
+const APP_VERSION = '1.0.0'; // ← à incrémenter à CHAQUE déploiement
 const CACHE_NAME = 'argicare-' + APP_VERSION;
 
 const CACHE_URLS = [
