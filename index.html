@@ -1,3 +1,30 @@
+<!--
+  ═══════════════════════════════════════════════════════════════════
+  ArgiQare — Application web progressive (PWA)
+  Guide RGA & Catastrophes Naturelles
+
+  © 2026 Adil QSIYER — Tous droits réservés.
+
+  Ce fichier et l'ensemble de son contenu (code source HTML/CSS/JS,
+  textes, structure du parcours utilisateur, glossaire, charte
+  graphique, logo "argiQare") constituent une œuvre originale protégée
+  par le droit d'auteur (articles L111-1 et suivants du Code de la
+  propriété intellectuelle français).
+
+  Toute reproduction, représentation, traduction, adaptation,
+  modification, extraction de tout ou partie de cette œuvre, par
+  quelque procédé que ce soit, est strictement interdite sans
+  l'autorisation écrite préalable de l'auteur.
+
+  Date de création originale : 1er mai 2026
+  Preuve d'antériorité : Enveloppe Soleau INPI n°
+
+  Toute violation constatée pourra faire l'objet de poursuites au titre
+  de la contrefaçon (articles L335-2 et suivants du CPI).
+
+  Contact : via le formulaire de contact de l'application
+  ═══════════════════════════════════════════════════════════════════
+-->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -60,9 +87,11 @@
 .diag-step.profil-grise .diag-step-num { background:#c0b8a8 !important; }
 .diag-step.profil-done { border-color:#a8d5a2 !important; }
 .diag-step.profil-done .diag-step-num { background:linear-gradient(135deg,#4a7c3f,#6aac5f) !important; }
+.diag-step.profil-info { border:1.5px dashed #2a5ca8 !important; }
 .profil-step-badge { font-size:8.5px; font-weight:700; padding:2px 7px; border-radius:10px; margin-left:6px; }
 .profil-step-badge.fait { background:#e8f5e4; color:#2d5a27; }
 .profil-step-badge.bloque { background:#f0ece4; color:#9a8a72; }
+.profil-step-badge.info { background:#eef0fe; color:#1a3a6e; }
 
 /* Bandeau profil actif */
 .profil-actif-bar { display:flex; align-items:center; gap:8px; padding:10px 12px; border-radius:10px; margin-bottom:10px; font-size:11px; font-weight:700; line-height:1.4; }
@@ -442,8 +471,8 @@ button, .nav-item, .diag-step-header, .section-header,
   transition:opacity .25s ease;
 }
 .privacy-shield.visible { opacity:1; pointer-events:auto; }
-.privacy-shield__logo { font-size:26px; font-weight:900; color:white; letter-spacing:-0.5px; }
-.privacy-shield__logo span { color:#f5a623; }
+.privacy-shield__logo { font-size:26px; font-weight:300; color:rgba(255,255,255,.85); letter-spacing:-0.5px; font-family:Georgia,serif; }
+.privacy-shield__logo span { color:#D9B654; font-weight:700; }
 .privacy-shield__sub { font-size:11px; color:rgba(255,255,255,.65); text-align:center; padding:0 30px; line-height:1.5; }
 /* ── FIN VOILE DE CONFIDENTIALITÉ ── */
 
@@ -485,20 +514,18 @@ button, .nav-item, .diag-step-header, .section-header,
 </style>
 <script>
 // Défini tôt pour être disponible dès le parsing HTML
-const TOTAL_CHECKS = 109;
+const TOTAL_CHECKS = 106;
 const ETAPE_LABELS = [
   "Observation d'une fissure",
   "Vérification de l'arrêté Cat Nat",
-  "Démarche auprès de la mairie",
-  "Mon contrat d'assurance",
+  "À qui m'adresser ?",
   "Déclaration de sinistre à votre assureur",
   "Environnement de ma maison",
   "Facteurs déclencheurs potentiels",
   "Entretien et historique de la maison",
   "Description des désordres constatés",
   "Documents et informations pour l'expert",
-  "Suivi de la mission d'expertise",
-  "Investigations complémentaires",
+  "L'expertise",
   "La proposition d'indemnisation",
   "Les travaux de réparation",
 ];
@@ -596,11 +623,15 @@ function updateProgress(){
     let nextLabel = null;
     steps.forEach((s, i) => {
       const cbs = s.querySelectorAll('.diag-cb');
-      const allChecked = cbs.length > 0 && [...cbs].every(c=>c.checked);
+      // Une étape sans aucune case à cocher est purement informative
+      // (ex: "Travaux de réparation") — elle est considérée comme
+      // toujours "complétée" puisqu'il n'y a rien à valider, afin de ne
+      // pas bloquer indéfiniment le décompte global de progression.
+      const allChecked = cbs.length === 0 || [...cbs].every(c=>c.checked);
       const wasCompleted = s.classList.contains('completed');
       s.classList.toggle('completed', allChecked);
       // Détection de la transition non-complété → complété
-      if(allChecked && !wasCompleted){
+      if(allChecked && !wasCompleted && cbs.length > 0){
         const titleEl = s.querySelector('.diag-step-title');
         const stepLabel = titleEl ? titleEl.textContent : null;
         triggerStepSuccess(s, stepLabel);
@@ -610,6 +641,14 @@ function updateProgress(){
             label: stepLabel,
             date: new Date().toISOString()
           }));
+        }
+        // Dernière étape comportant des cases à cocher (l'étape suivante,
+        // "Travaux de réparation", est volontairement purement informative
+        // et ne peut donc plus jamais être "complétée" au sens des cases).
+        // On propose donc le module de satisfaction de fin de parcours
+        // dès que cette étape-ci est validée.
+        if(s.id === 'step-13b' && typeof maybeTriggerSatisfactionOnCompletion === 'function'){
+          maybeTriggerSatisfactionOnCompletion();
         }
       }
       if(allChecked) completedCount++;
@@ -631,7 +670,7 @@ function updateProgress(){
   } else {
     document.querySelectorAll('.diag-step').forEach(s=>{
       const cbs = s.querySelectorAll('.diag-cb');
-      s.classList.toggle('completed',[...cbs].every(c=>c.checked)&&cbs.length>0);
+      s.classList.toggle('completed', cbs.length===0 || [...cbs].every(c=>c.checked));
     });
   }
 }
@@ -684,9 +723,9 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .app-name .orange { color:#f5a623; }
 .app-name .green { color:#a8d5a2; }
 .header-arch-logo { display:flex; align-items:baseline; gap:1px; justify-content:center; margin-bottom:10px; }
-.header-arch-logo .g { font-size:24px; font-weight:300; color:rgba(255,255,255,.65); letter-spacing:2px; }
-.header-arch-logo .q { font-size:32px; font-weight:900; color:#f5a623; line-height:.9; }
-.header-arch-logo .a { font-size:24px; font-weight:300; color:#a8d5a2; letter-spacing:2px; }
+.header-arch-logo .g { font-size:24px; font-weight:300; color:rgba(255,255,255,.75); letter-spacing:2px; font-family:Georgia,'Times New Roman',serif; }
+.header-arch-logo .q { font-size:32px; font-weight:700; color:#D9B654; line-height:.9; font-family:Georgia,'Times New Roman',serif; }
+.header-arch-logo .a { font-size:24px; font-weight:300; color:rgba(255,255,255,.75); letter-spacing:2px; font-family:Georgia,'Times New Roman',serif; }
 /* .header-arch-pill — bouton retiré du header, CSS nettoyé */
 .content { flex:1; overflow:hidden; min-height:0; position:relative; }
 .screens-wrapper { display:flex; height:100%; transition:transform 0.35s cubic-bezier(0.4,0,0.2,1); will-change:transform; }
@@ -1083,6 +1122,164 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           .blob-badge{display:inline-block;font-size:8px;font-weight:700;padding:2px 8px;border-radius:10px;color:white;margin-top:5px;}
         
 </style>
+<style>
+/* ── AUTO-SAUVEGARDE VISIBLE ── */
+.autosave-badge {
+  position: absolute; top: 14px; right: 14px; z-index: 500;
+  background: rgba(45,90,39,.92); color: white;
+  font-size: 10px; font-weight: 700; padding: 6px 12px;
+  border-radius: 20px; display: flex; align-items: center; gap:5px;
+  opacity: 0; transform: translateY(-6px);
+  transition: opacity .25s, transform .25s;
+  pointer-events: none; box-shadow: 0 4px 12px rgba(45,90,39,.25);
+}
+.autosave-badge.visible { opacity: 1; transform: translateY(0); }
+.autosave-badge-icon { font-size: 11px; }
+/* ── FIN AUTO-SAUVEGARDE ── */
+
+/* ── QUIZ ORIENTATION PROFIL ── */
+.quiz-orientation-trigger {
+  display:flex; align-items:center; justify-content:center; gap:8px;
+  width:100%; padding:10px 12px; margin-top:10px;
+  background:#f5f3ef; border:1.5px dashed #c8bfa8; border-radius:12px;
+  font-size:11px; font-weight:700; color:#7a6a52; cursor:pointer;
+  font-family:inherit; transition:background .15s;
+}
+.quiz-orientation-trigger:active { background:#ece8e0; }
+
+.quiz-overlay {
+  position:absolute; inset:0; z-index:710; background:rgba(20,20,15,.6);
+  display:flex; align-items:center; justify-content:center; padding:18px;
+  backdrop-filter:blur(3px);
+}
+.quiz-overlay.hidden { display:none; }
+.quiz-box {
+  background:white; border-radius:18px; padding:18px 16px; width:100%;
+  max-width:320px; box-shadow:0 16px 40px rgba(0,0,0,.3);
+  animation:scaleIn .22s cubic-bezier(.34,1.56,.64,1);
+}
+.quiz-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:4px; }
+.quiz-title { font-size:13px; font-weight:800; color:#1a2a0e; }
+.quiz-close { width:24px; height:24px; border-radius:50%; background:#f0ece4; border:none; cursor:pointer; font-size:11px; color:#7a6a52; font-weight:700; }
+.quiz-progress-dots { display:flex; gap:5px; margin-bottom:14px; }
+.quiz-dot { height:4px; flex:1; border-radius:3px; background:#e8e0d0; transition:background .2s; }
+.quiz-dot.done { background:#4a7c3f; }
+.quiz-question { font-size:12.5px; font-weight:700; color:#2d3a1e; line-height:1.5; margin-bottom:12px; }
+.quiz-options { display:flex; flex-direction:column; gap:8px; }
+.quiz-opt {
+  width:100%; text-align:left; padding:11px 13px; border-radius:11px;
+  background:#faf8f4; border:1.5px solid #e8e0d0; cursor:pointer;
+  font-family:inherit; font-size:11.5px; color:#3a4a2e; font-weight:600;
+  display:flex; align-items:center; gap:9px; transition:background .12s, border-color .12s;
+}
+.quiz-opt:active { background:#f0f8ec; border-color:#a8d5a2; }
+.quiz-opt-emoji { font-size:16px; flex-shrink:0; }
+.quiz-result { text-align:center; padding:6px 0 2px; }
+.quiz-result-icon { font-size:34px; margin-bottom:8px; }
+.quiz-result-title { font-size:13px; font-weight:800; color:#2d5a27; margin-bottom:6px; }
+.quiz-result-sub { font-size:11px; color:#5a6a52; line-height:1.6; margin-bottom:16px; }
+.quiz-result-btn { width:100%; padding:11px; background:linear-gradient(135deg,#2d5a27,#4a7c3f); color:white; border:none; border-radius:11px; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; }
+.quiz-back-btn { font-size:10px; font-weight:700; color:#9a8a72; background:none; border:none; cursor:pointer; font-family:inherit; padding:4px 0; margin-top:10px; }
+/* ── FIN QUIZ ORIENTATION ── */
+
+/* ── MESSAGE RASSURANT / ADAPTATIF ── */
+.dash-reassurance-banner {
+  border-radius:13px; padding:12px 13px; margin-bottom:10px;
+  font-size:11px; line-height:1.65; display:none;
+}
+.dash-reassurance-banner.visible { display:block; }
+.dash-reassurance-banner.tone-warm { background:linear-gradient(135deg,#eef8ea,#e0f0d8); color:#2d5a27; border-left:3px solid #4a7c3f; }
+.dash-reassurance-banner.tone-gentle { background:linear-gradient(135deg,#eef0fe,#e4e8fc); color:#1a3a6e; border-left:3px solid #2a5ca8; }
+.dash-reassurance-banner.tone-encourage { background:linear-gradient(135deg,#fff3e0,#ffe8c8); color:#9a5800; border-left:3px solid #e8a800; }
+.dash-reassurance-icon { font-size:15px; margin-right:5px; }
+/* ── FIN MESSAGE RASSURANT ── */
+
+/* ── CHECKLIST JOUR J (visite expert) ── */
+.checklist-jourj-trigger {
+  display:flex; align-items:center; gap:10px; width:100%; padding:11px 13px;
+  margin-top:8px; background:linear-gradient(135deg,#fff8e8,#fff0d0);
+  border:1.5px solid #e8c94a; border-radius:12px; cursor:pointer; font-family:inherit;
+  text-align:left;
+}
+.checklist-jourj-ic { font-size:20px; flex-shrink:0; }
+.checklist-jourj-txt { flex:1; }
+.checklist-jourj-title { font-size:11.5px; font-weight:800; color:#8a6a00; }
+.checklist-jourj-sub { font-size:9.5px; color:#a08840; margin-top:1px; }
+.checklist-overlay { position:absolute; inset:0; z-index:715; background:rgba(20,20,15,.65); display:flex; align-items:flex-end; backdrop-filter:blur(2px); }
+.checklist-overlay.hidden { display:none; }
+.checklist-sheet { background:white; border-radius:20px 20px 0 0; width:100%; max-height:88%; overflow-y:auto; padding:18px 16px 26px; animation:slideUp .3s cubic-bezier(.4,0,.2,1); }
+.checklist-sheet-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:4px; }
+.checklist-sheet-title { font-size:14px; font-weight:900; color:#1a2a0e; }
+.checklist-sheet-sub { font-size:10.5px; color:#7a8a6a; line-height:1.6; margin-bottom:14px; }
+.checklist-item { display:flex; align-items:flex-start; gap:10px; padding:9px 0; border-bottom:1px solid #f0ece4; }
+.checklist-item:last-child { border-bottom:none; }
+.checklist-item-cb { width:18px; height:18px; border-radius:5px; border:2px solid #4a7c3f; flex-shrink:0; margin-top:1px; display:flex; align-items:center; justify-content:center; font-size:11px; color:white; cursor:pointer; }
+.checklist-item-cb.checked { background:#4a7c3f; }
+.checklist-item-label { font-size:11.5px; color:#2d3a1e; font-weight:600; line-height:1.5; }
+.checklist-item-sub { font-size:9.5px; color:#9a8a72; margin-top:2px; line-height:1.4; }
+/* ── FIN CHECKLIST JOUR J ── */
+
+/* ── GLOSSAIRE PROACTIF (tooltip auto) ── */
+.gloss-proactive-tip {
+  position:absolute; z-index:560; background:linear-gradient(135deg,#1a3a6e,#2a5ca8);
+  color:white; font-size:10px; font-weight:700; padding:7px 11px; border-radius:11px;
+  box-shadow:0 6px 18px rgba(26,58,110,.3); display:flex; align-items:center; gap:6px;
+  opacity:0; transform:translateY(-4px); transition:opacity .3s, transform .3s;
+  pointer-events:none; max-width:220px;
+}
+.gloss-proactive-tip.visible { opacity:1; transform:translateY(0); pointer-events:auto; cursor:pointer; }
+/* ── FIN GLOSSAIRE PROACTIF ── */
+
+/* ── RECHERCHE UNIFIÉE (Accueil) ── */
+.dash-search-wrap { position:relative; margin-bottom:10px; }
+.dash-search-input {
+  width:100%; padding:10px 14px 10px 36px; border:1.5px solid #e0d8cc; border-radius:12px;
+  font-size:11.5px; font-family:inherit; color:#2d3a1e; background:white; outline:none;
+  box-shadow:0 2px 8px rgba(0,0,0,.05);
+}
+.dash-search-input:focus { border-color:#4a7c3f; }
+.dash-search-icon { position:absolute; left:12px; top:50%; transform:translateY(-50%); font-size:13px; color:#9a8a72; pointer-events:none; }
+.dash-search-results { background:white; border-radius:12px; box-shadow:0 4px 16px rgba(0,0,0,.08); margin-top:-4px; margin-bottom:10px; overflow:hidden; display:none; }
+.dash-search-results.visible { display:block; }
+.dash-search-result-item { display:flex; align-items:flex-start; gap:9px; padding:10px 12px; border-bottom:1px solid #f0ece4; cursor:pointer; }
+.dash-search-result-item:last-child { border-bottom:none; }
+.dash-search-result-item:active { background:#f5f8f2; }
+.dash-search-result-ic { font-size:14px; flex-shrink:0; margin-top:1px; }
+.dash-search-result-title { font-size:11px; font-weight:700; color:#2d3a1e; line-height:1.4; }
+.dash-search-result-tag { font-size:8.5px; font-weight:700; color:#7a9a72; text-transform:uppercase; letter-spacing:.4px; margin-top:1px; }
+.dash-search-result-empty { padding:14px 12px; font-size:10.5px; color:#9a8a72; text-align:center; }
+/* ── FIN RECHERCHE UNIFIÉE ── */
+
+/* ── PARTAGE LECTURE SEULE ── */
+.share-link-trigger {
+  display:flex; align-items:center; gap:10px; width:100%; padding:11px 13px;
+  margin-top:8px; background:linear-gradient(135deg,#eef0fe,#e4e8fc);
+  border:1.5px solid #b8c8e8; border-radius:12px; cursor:pointer; font-family:inherit; text-align:left;
+}
+.share-link-ic { font-size:20px; flex-shrink:0; }
+.share-link-txt { flex:1; }
+.share-link-title { font-size:11.5px; font-weight:800; color:#1a3a6e; }
+.share-link-sub { font-size:9.5px; color:#5a7ab0; margin-top:1px; }
+.share-link-box { background:#f5f8fe; border:1.5px solid #b8c8e8; border-radius:10px; padding:10px 12px; margin-top:10px; word-break:break-all; font-size:9px; color:#1a3a6e; line-height:1.5; }
+.share-link-copy-btn { width:100%; margin-top:8px; padding:9px; background:#1a3a6e; color:white; border:none; border-radius:9px; font-size:11px; font-weight:700; cursor:pointer; font-family:inherit; }
+/* ── FIN PARTAGE LECTURE SEULE ── */
+
+/* ── MODULE SATISFACTION ── */
+.satisfaction-overlay { position:absolute; inset:0; z-index:720; background:rgba(20,20,15,.65); display:flex; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(2px); }
+.satisfaction-overlay.hidden { display:none; }
+.satisfaction-box { background:white; border-radius:18px; padding:22px 18px; width:100%; max-width:300px; text-align:center; box-shadow:0 16px 40px rgba(0,0,0,.3); animation:scaleIn .22s cubic-bezier(.34,1.56,.64,1); }
+.satisfaction-icon { font-size:34px; margin-bottom:8px; }
+.satisfaction-title { font-size:13.5px; font-weight:800; color:#1a2a0e; margin-bottom:6px; }
+.satisfaction-sub { font-size:10.5px; color:#7a8a6a; line-height:1.6; margin-bottom:16px; }
+.satisfaction-stars { display:flex; justify-content:center; gap:8px; margin-bottom:16px; }
+.satisfaction-star { font-size:28px; cursor:pointer; filter:grayscale(1) opacity(.35); transition:filter .15s, transform .1s; }
+.satisfaction-star.active { filter:none; opacity:1; transform:scale(1.1); }
+.satisfaction-textarea { width:100%; padding:10px 12px; border:1.5px solid #e0d8cc; border-radius:10px; font-size:11px; font-family:inherit; color:#2d3a1e; resize:none; margin-bottom:12px; outline:none; }
+.satisfaction-submit-btn { width:100%; padding:11px; background:linear-gradient(135deg,#2d5a27,#4a7c3f); color:white; border:none; border-radius:10px; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; }
+.satisfaction-skip-btn { font-size:10px; font-weight:700; color:#9a8a72; background:none; border:none; cursor:pointer; font-family:inherit; padding:8px 0 0; width:100%; }
+.satisfaction-thanks { padding:8px 0; }
+/* ── FIN MODULE SATISFACTION ── */
+</style>
 </head>
 <body>
 <div class="phone">
@@ -1091,6 +1288,9 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
     <div class="privacy-shield__sub">Vos informations sont protégées.<br>Revenez sur l'application pour continuer.</div>
   </div>
 <div class="phone-inner" id="phone-inner-bubble"></div>
+  <div class="autosave-badge" id="autosave-badge">
+    <span class="autosave-badge-icon">✓</span><span>Enregistré</span>
+  </div>
   <!-- BULLE GLOSSAIRE -->
   <div class="gl-bubble" id="gl-bubble">
     <div class="gl-head">
@@ -1151,6 +1351,40 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <span style="text-decoration:underline;cursor:pointer;color:#2d5a27;" onclick="document.getElementById('rgpd-consent-overlay').classList.add('hidden');switchTab('params',null);setTimeout(()=>openPanel('panel-cgu'),400);">Consulter les CGU</span> · <span style="text-decoration:underline;cursor:pointer;color:#2d5a27;" onclick="document.getElementById('rgpd-consent-overlay').classList.add('hidden');switchTab('params',null);setTimeout(()=>openPanel('panel-rgpd'),400);">Politique de confidentialité</span>
       </div>
     </div>
+  </div>
+
+  <!-- QUIZ ORIENTATION PROFIL -->
+  <div class="quiz-overlay hidden" id="quiz-overlay">
+    <div class="quiz-box" id="quiz-box"></div>
+  </div>
+
+  <!-- CHECKLIST JOUR J -->
+  <div class="checklist-overlay hidden" id="checklist-overlay">
+    <div class="checklist-sheet">
+      <div class="checklist-sheet-header">
+        <div class="checklist-sheet-title">🗒️ Checklist "Jour J"</div>
+        <button class="quiz-close" onclick="closeChecklistJourJ()">✕</button>
+      </div>
+      <div class="checklist-sheet-sub">À avoir sous la main le jour de la visite de l'expert. Cochez au fur et à mesure — ces cases ne sont pas liées à votre dossier officiel, juste un pense-bête personnel.</div>
+      <div id="checklist-jourj-items"></div>
+    </div>
+  </div>
+
+  <!-- PARTAGE LECTURE SEULE -->
+  <div class="checklist-overlay hidden" id="share-overlay">
+    <div class="checklist-sheet">
+      <div class="checklist-sheet-header">
+        <div class="checklist-sheet-title">🔗 Partager mon dossier</div>
+        <button class="quiz-close" onclick="closeShareLink()">✕</button>
+      </div>
+      <div class="checklist-sheet-sub">Ce lien contient un instantané en lecture seule de votre dossier (profil, avancement, informations Ma Maison). Il ne nécessite aucun serveur : les données sont encodées directement dans le lien. Ne le partagez qu'avec une personne de confiance.</div>
+      <div id="share-link-content"></div>
+    </div>
+  </div>
+
+  <!-- MODULE SATISFACTION -->
+  <div class="satisfaction-overlay hidden" id="satisfaction-overlay">
+    <div class="satisfaction-box" id="satisfaction-box"></div>
   </div>
 
   <div class="disclaimer-overlay hidden" id="disclaimer-overlay">
@@ -1227,9 +1461,9 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       <div class="story-emoji-bg">🏡</div>
       <div class="story-logo">
         <div class="story-logo-inner">
-          <span style="font-size:28px;font-weight:300;color:rgba(255,255,255,.65);letter-spacing:3px;">argi</span>
-          <span style="font-size:38px;font-weight:900;color:#f5a623;line-height:.85;">Q</span>
-          <span style="font-size:28px;font-weight:300;color:#a8d5a2;letter-spacing:3px;">are</span>
+          <span style="font-size:28px;font-weight:300;color:rgba(255,255,255,.8);letter-spacing:2px;font-family:Georgia,serif;">argi</span>
+          <span style="font-size:42px;font-weight:700;color:#D9B654;line-height:.85;font-family:Georgia,serif;">Q</span>
+          <span style="font-size:28px;font-weight:300;color:rgba(255,255,255,.8);letter-spacing:2px;font-family:Georgia,serif;">are</span>
         </div>
       </div>
       <div class="story-center">
@@ -1257,9 +1491,9 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       <div class="story-emoji-bg">🌡️</div>
       <div class="story-logo">
         <div class="story-logo-inner">
-          <span style="font-size:28px;font-weight:300;color:rgba(255,255,255,.65);letter-spacing:3px;">argi</span>
-          <span style="font-size:38px;font-weight:900;color:#f5a623;line-height:.85;">Q</span>
-          <span style="font-size:28px;font-weight:300;color:#a8d5a2;letter-spacing:3px;">are</span>
+          <span style="font-size:28px;font-weight:300;color:rgba(255,255,255,.8);letter-spacing:2px;font-family:Georgia,serif;">argi</span>
+          <span style="font-size:42px;font-weight:700;color:#D9B654;line-height:.85;font-family:Georgia,serif;">Q</span>
+          <span style="font-size:28px;font-weight:300;color:rgba(255,255,255,.8);letter-spacing:2px;font-family:Georgia,serif;">are</span>
         </div>
       </div>
       <div class="story-center">
@@ -1288,9 +1522,9 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       <div class="story-emoji-bg">⚖️</div>
       <div class="story-logo">
         <div class="story-logo-inner">
-          <span style="font-size:28px;font-weight:300;color:rgba(255,255,255,.65);letter-spacing:3px;">argi</span>
-          <span style="font-size:38px;font-weight:900;color:#f5a623;line-height:.85;">Q</span>
-          <span style="font-size:28px;font-weight:300;color:#a8d5a2;letter-spacing:3px;">are</span>
+          <span style="font-size:28px;font-weight:300;color:rgba(255,255,255,.8);letter-spacing:2px;font-family:Georgia,serif;">argi</span>
+          <span style="font-size:42px;font-weight:700;color:#D9B654;line-height:.85;font-family:Georgia,serif;">Q</span>
+          <span style="font-size:28px;font-weight:300;color:rgba(255,255,255,.8);letter-spacing:2px;font-family:Georgia,serif;">are</span>
         </div>
       </div>
       <div class="story-center">
@@ -1319,9 +1553,9 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       <div class="story-emoji-bg">📋</div>
       <div class="story-logo">
         <div class="story-logo-inner">
-          <span style="font-size:28px;font-weight:300;color:rgba(255,255,255,.65);letter-spacing:3px;">argi</span>
-          <span style="font-size:38px;font-weight:900;color:#f5a623;line-height:.85;">Q</span>
-          <span style="font-size:28px;font-weight:300;color:#a8d5a2;letter-spacing:3px;">are</span>
+          <span style="font-size:28px;font-weight:300;color:rgba(255,255,255,.8);letter-spacing:2px;font-family:Georgia,serif;">argi</span>
+          <span style="font-size:42px;font-weight:700;color:#D9B654;line-height:.85;font-family:Georgia,serif;">Q</span>
+          <span style="font-size:28px;font-weight:300;color:rgba(255,255,255,.8);letter-spacing:2px;font-family:Georgia,serif;">are</span>
         </div>
       </div>
       <div class="story-center">
@@ -1873,6 +2107,14 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <span id="profil-actif-label">Aucun profil défini — touchez ici pour le choisir depuis l'Accueil</span>
       </div>
 
+      <!-- MESSAGE INFORMATIF — visible uniquement pour les profils ayant
+           des étapes "recommandées" (ex: profil 2, étapes 1 à 3) qui
+           restent librement accessibles mais ne sont pas indispensables
+           à ce stade du parcours. -->
+      <div id="profil-info-banner" style="display:none;background:#eef0fe;border:1.5px dashed #2a5ca8;border-radius:12px;padding:11px 13px;margin-bottom:10px;font-size:10.5px;color:#1a3a6e;line-height:1.6;">
+        <span style="font-size:14px;">💡</span> <span id="profil-info-banner-text"></span>
+      </div>
+
       <!-- INTRO — menu déroulant, fermé par défaut -->
       <div class="section-block" id="acc-intro-diag" style="margin-bottom:14px;border-left:3px solid #4a7c3f;">
         <div class="section-header" onclick="toggleAccordion('acc-intro-diag')" style="color:#2d5a27;">
@@ -1880,7 +2122,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           <span class="accordion-arrow">›</span>
         </div>
         <div class="section-body" style="padding-top:10px;">
-          <div style="font-size:11px;color:#3a5a32;line-height:1.7;text-align:justify;margin-bottom:10px;">Ce parcours vous accompagne à travers <strong>14 étapes</strong> qui couvrent l'ensemble de votre situation — de la première fissure constatée jusqu'aux travaux de réparation. Répondez à chaque question au fur et à mesure, sans pression. Vous pouvez revenir à tout moment compléter ou modifier vos réponses.</div>
+          <div style="font-size:11px;color:#3a5a32;line-height:1.7;text-align:justify;margin-bottom:10px;">Ce parcours vous accompagne à travers <strong>12 étapes</strong> qui couvrent l'ensemble de votre situation — de la première fissure constatée jusqu'aux travaux de réparation. Répondez à chaque question au fur et à mesure, sans pression. Vous pouvez revenir à tout moment compléter ou modifier vos réponses.</div>
           <div style="height:1px;background:rgba(45,90,39,.15);margin-bottom:10px;"></div>
           <div style="display:flex;gap:10px;align-items:flex-start;">
             <div style="font-size:20px;flex-shrink:0;">📄</div>
@@ -1917,7 +2159,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">🔍 J'ai observé des fissures sur les murs, façades ou éléments de structure de ma maison</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step1',1,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step1',1,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step1',1,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
           </div>
@@ -1926,7 +2168,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">📅 J'ai noté approximativement la date d'apparition ou d'aggravation des fissures</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step1',2,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step1',2,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step1',2,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step1-2-detail">
@@ -1939,7 +2181,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">📍 Je suis capable de localiser les fissures (façade, mur intérieur, plancher, fondation…)</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step1',3,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step1',3,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step1',3,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step1-3-detail">
@@ -1978,15 +2220,14 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           <div class="diag-step-intro">Cette étape administrative peut sembler décourageante quand on veut surtout avancer, mais elle est incontournable. Avant toute démarche auprès de votre assureur, vérifiez si votre commune a été officiellement reconnue en état de <span class="gl" onclick="glOpen('cat nat — catastrophe naturelle',this)">catastrophe naturelle</span> pour le phénomène RGA. C'est la condition préalable indispensable à toute indemnisation.</div>
           <div class="tri-item" id="tri-step2new-1">
             <div class="tri-item-header">
-              <div class="tri-label">🔎 J'ai vérifié sur Géorisques ou Gaspar si ma commune est reconnue pour le RGA</div>
+              <div class="tri-label">🔎 J'ai vérifié sur le site Géorisques.fr si ma commune est reconnue pour le RGA</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step2new',1,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step2new',1,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step2new',1,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step2new-1-detail">
               <div style="font-size:10px;color:#5a7a52;font-weight:700;margin-bottom:6px;">Précisez :</div>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">L'arrêté couvre bien la période pendant laquelle mes fissures sont apparues</span></label>
               <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai noté la date de publication au Journal Officiel</span></label>
               <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai conservé une copie ou capture de l'arrêté</span></label>
             </div>
@@ -1996,7 +2237,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">⏳ Ma commune est en attente de reconnaissance — la demande n'est pas encore publiée</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step2new',2,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step2new',2,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step2new',2,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step2new-2-detail">
@@ -2025,18 +2266,30 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       <div class="diag-step" id="step-3b">
         <div class="diag-step-header" onclick="toggleDiagStep('step-3b')" style="cursor:pointer;">
           <div class="diag-step-num">3</div>
-          <div class="diag-step-title">Démarche auprès de la mairie</div>
+          <div class="diag-step-title">À qui m'adresser ?</div>
           <div class="diag-step-emoji">🏛️</div>
           <span class="accordion-arrow" style="margin-left:4px;font-size:14px;color:#7a9a72;transition:transform 0.25s;">›</span>
         </div>
         <div class="diag-step-body">
+          <div class="diag-step-intro">Deux interlocuteurs interviennent à ce stade, chacun avec un rôle distinct : votre <strong>mairie</strong>, qui porte la demande de reconnaissance Cat Nat auprès du préfet, et votre <strong>assureur</strong>, qui pilotera votre indemnisation une fois cette reconnaissance acquise. Choisissez la démarche que vous souhaitez consulter.</div>
+
+          <!-- SOUS-BULLE 1 : MAIRIE -->
+          <div class="substep-toggle" id="substep-mairie-toggle" onclick="toggleSubstep('substep-mairie')">
+            <div class="substep-toggle-ic">🏛️</div>
+            <div class="substep-toggle-txt">
+              <div class="substep-toggle-title">Démarche auprès de la Mairie</div>
+              <div class="substep-toggle-sub">Signaler vos dommages, suivre la demande de reconnaissance</div>
+            </div>
+            <span class="accordion-arrow substep-arrow" id="substep-mairie-arrow">›</span>
+          </div>
+          <div class="substep-body" id="substep-mairie">
           <div class="diag-step-intro">Vous n'êtes pas seul à porter cette démarche : c'est le <strong>maire de votre commune</strong> qui présente la demande de reconnaissance auprès du préfet, au nom de tous les habitants concernés. Il dispose de <strong>24 mois</strong> pour le faire. Signalez-lui vos dommages pour que votre situation soit bien prise en compte dans le dossier communal.</div>
           <div class="tri-item" id="tri-step3new-1">
             <div class="tri-item-header">
               <div class="tri-label">🏛️ J'ai contacté ma mairie pour signaler mes dommages et m'informer du statut de la demande</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step3new',1,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step3new',1,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step3new',1,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step3new-1-detail">
@@ -2051,7 +2304,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">📝 J'ai signalé mes dommages par écrit au maire (courrier recommandé ou email)</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step3new',2,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step3new',2,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step3new',2,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step3new-2-detail">
@@ -2074,55 +2327,74 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           <div class="step-feedback" id="fb-step3new">
             <span>✅</span><span id="fb-step3new-txt">Étape clé complétée — votre mairie est informée.</span>
           </div>
+          </div><!-- /substep-mairie -->
+
+          <!-- SOUS-BULLE 2 : ASSUREUR -->
+          <div class="substep-toggle" id="substep-assureur-toggle" onclick="toggleSubstep('substep-assureur')">
+            <div class="substep-toggle-ic">🏢</div>
+            <div class="substep-toggle-txt">
+              <div class="substep-toggle-title">Démarche auprès de mon assureur</div>
+              <div class="substep-toggle-sub">Prendre les devants, préparer la déclaration à venir</div>
+            </div>
+            <span class="accordion-arrow substep-arrow" id="substep-assureur-arrow">›</span>
+          </div>
+          <div class="substep-body" id="substep-assureur">
+          <div class="diag-step-intro">À ce stade, vous n'avez pas encore l'obligation de déclarer un sinistre — celle-ci ne démarre qu'à la publication de l'arrêté Cat Nat (étape 5). Mais rien ne vous empêche de <strong>prendre contact dès maintenant à titre informatif</strong> avec votre assureur, pour préparer le terrain et éviter toute mauvaise surprise le jour de la déclaration officielle.</div>
+          <div class="tri-item" id="tri-step3ass-1">
+            <div class="tri-item-header">
+              <div class="tri-label">📞 J'ai contacté mon assureur à titre informatif pour évoquer ma situation</div>
+              <div class="tri-btns">
+                <button class="tri-btn yes" onclick="triSelect('step3ass',1,'yes')">✅ Oui</button>
+                <button class="tri-btn no"  onclick="triSelect('step3ass',1,'no')">➖ Non ou non concerné</button>
+              </div>
+            </div>
+            <div class="tri-detail" id="tri-step3ass-1-detail">
+              <div style="font-size:10px;color:#5a7a52;font-weight:700;margin-bottom:6px;">Précisez :</div>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Mon assureur m'a confirmé que ma garantie Cat Nat est bien active sur mon contrat</span></label>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai noté les coordonnées de mon interlocuteur et la référence de mon contrat</span></label>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Mon assureur m'a confirmé qu'il attendait la publication de l'arrêté avant toute déclaration</span></label>
+            </div>
+          </div>
+          <div class="tri-item" id="tri-step3ass-2">
+            <div class="tri-item-header">
+              <div class="tri-label">📋 J'ai vérifié les modalités de déclaration prévues par mon contrat (en ligne, par courrier, par téléphone)</div>
+              <div class="tri-btns">
+                <button class="tri-btn yes" onclick="triSelect('step3ass',2,'yes')">✅ Oui</button>
+                <button class="tri-btn no"  onclick="triSelect('step3ass',2,'no')">➖ Non ou non concerné</button>
+              </div>
+            </div>
+            <div class="tri-detail" id="tri-step3ass-2-detail">
+              <div style="font-size:10px;color:#5a7a52;font-weight:700;margin-bottom:6px;">Précisez :</div>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Une déclaration en ligne via l'espace assuré est possible</span></label>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai identifié le numéro de téléphone dédié aux sinistres Cat Nat</span></label>
+            </div>
+          </div>
+          <div class="tri-item" id="tri-step3ass-3">
+            <div class="tri-item-header">
+              <div class="tri-label">📁 J'ai commencé à rassembler les pièces que mon assureur me demandera probablement</div>
+              <div class="tri-btns">
+                <button class="tri-btn yes" onclick="triSelect('step3ass',3,'yes')">✅ Oui</button>
+                <button class="tri-btn no"  onclick="triSelect('step3ass',3,'no')">➖ Non ou non concerné</button>
+              </div>
+            </div>
+            <div class="tri-detail" id="tri-step3ass-3-detail">
+              <div style="font-size:10px;color:#5a7a52;font-weight:700;margin-bottom:6px;">Précisez :</div>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Mon attestation d'assurance habitation est facilement accessible</span></label>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Mes premières photos de fissures sont déjà classées et datées</span></label>
+            </div>
+          </div>
+
+          <div class="important-box" style="margin-top:8px;">⏳ Cette démarche est facultative et ne remplace pas la déclaration officielle de sinistre, qui ne peut intervenir qu'une fois l'arrêté Cat Nat publié pour votre commune (voir étape 5). Elle vous permet simplement d'arriver préparé.</div>
+
+          <div class="step-feedback" id="fb-step3ass">
+            <span>✅</span><span id="fb-step3ass-txt">Démarche assureur renseignée — vous êtes bien préparé.</span>
+          </div>
+          </div><!-- /substep-assureur -->
+
         </div>
       </div>
 
-      <!-- ÉTAPE 4 — MON CONTRAT D'ASSURANCE -->
-      <div class="diag-step" id="step-4b">
-        <div class="diag-step-header" onclick="toggleDiagStep('step-4b')" style="cursor:pointer;">
-          <div class="diag-step-num">4</div>
-          <div class="diag-step-title">Mon contrat d'assurance</div>
-          <div class="diag-step-emoji">📄</div>
-          <span class="accordion-arrow" style="margin-left:4px;font-size:14px;color:#7a9a72;transition:transform 0.25s;">›</span>
-        </div>
-        <div class="diag-step-body">
-          <div class="diag-step-intro">Relire son contrat d'assurance n'est jamais la tâche la plus agréable, surtout dans un moment de stress — mais c'est une étape rapide qui vous évitera des surprises. Vérifiez que vous disposez bien d'une garantie <span class="gl" onclick="glOpen('mrh — multirisques habitation',this)">MRH</span> couvrant les dommages aux biens, et identifiez les coordonnées de votre assureur ainsi que votre numéro de contrat.</div>
-          <div class="tri-item" id="tri-step4new-1">
-            <div class="tri-item-header">
-              <div class="tri-label">📋 J'ai retrouvé mon contrat d'assurance habitation et vérifié mes garanties</div>
-              <div class="tri-btns">
-                <button class="tri-btn yes" onclick="triSelect('step4new',1,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step4new',1,'no')">➖ Non concerné</button>
-              </div>
-            </div>
-            <div class="tri-detail" id="tri-step4new-1-detail">
-              <div style="font-size:10px;color:#5a7a52;font-weight:700;margin-bottom:6px;">Précisez :</div>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Mon contrat MRH couvre bien les dommages aux biens (garantie Cat Nat)</span></label>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai noté le numéro de mon contrat et les coordonnées de mon assureur</span></label>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Mon contrat était bien en vigueur pendant la période reconnue par l'arrêté</span></label>
-            </div>
-          </div>
-          <div class="tri-item" id="tri-step4new-2">
-            <div class="tri-item-header">
-              <div class="tri-label">💶 J'ai vérifié le montant de ma franchise légale RGA (1 520 € pour une habitation)</div>
-              <div class="tri-btns">
-                <button class="tri-btn yes" onclick="triSelect('step4new',2,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step4new',2,'no')">➖ Non concerné</button>
-              </div>
-            </div>
-            <div class="tri-detail" id="tri-step4new-2-detail">
-              <div style="font-size:10px;color:#5a7a52;font-weight:700;margin-bottom:6px;">Précisez :</div>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">La franchise de 1 520 € s'applique bien à mon bien (habitation non professionnelle)</span></label>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai compris que cette franchise n'est pas rachetable</span></label>
-            </div>
-          </div>
-          <div class="step-feedback" id="fb-step4new">
-            <span>✅</span><span id="fb-step4new-txt">Étape 4 renseignée — contrat vérifié !</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- BULLE DE TRANSITION — après étape 4 -->
+      <!-- BULLE DE TRANSITION — après "À qui m'adresser ?" -->
       <div id="transition-box" style="background:linear-gradient(135deg,#eef4ff,#dce8fe);border-radius:14px;padding:14px 16px;margin:4px 0 8px;border-left:3px solid #2a5ca8;">
         <div style="font-size:12px;font-weight:800;color:#1a3a6e;margin-bottom:8px;display:flex;align-items:center;gap:6px;">📌 Étape importante</div>
         <div style="font-size:11px;color:#2a4a7a;line-height:1.7;margin-bottom:12px;">La suite du parcours est conditionnée à votre <span class="gl" onclick="glOpen('déclaration de sinistre',this)"><strong>déclaration de sinistre</strong></span> auprès de votre assureur ainsi qu'à la <span class="gl" onclick="glOpen('arrêté de reconnaissance',this)"><strong>reconnaissance</strong></span> de votre commune au Journal Officiel en état de <span class="gl" onclick="glOpen('cat nat — catastrophe naturelle',this)"><strong>catastrophe naturelle</strong></span>.<br><br>La suite du parcours vous accompagne dans la préparation de votre dossier et le suivi de la mission de l'<span class="gl" onclick="glOpen('expert d\'assurance',this)"><strong>expert</strong></span>.</div>
@@ -2137,7 +2409,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       <!-- ÉTAPE 5 — DÉCLARATION DE SINISTRE -->
       <div class="diag-step" id="step-5b">
         <div class="diag-step-header" onclick="toggleDiagStep('step-5b')" style="cursor:pointer;">
-          <div class="diag-step-num">5</div>
+          <div class="diag-step-num">4</div>
           <div class="diag-step-title">Déclaration de sinistre à votre assureur</div>
           <div class="diag-step-emoji">📮</div>
           <span class="accordion-arrow" style="margin-left:4px;font-size:14px;color:#7a9a72;transition:transform 0.25s;">›</span>
@@ -2149,7 +2421,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">📮 J'ai déclaré mon sinistre à mon assureur dans les 30 jours suivant la publication de l'arrêté</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step5new',1,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step5new',1,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step5new',1,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step5new-1-detail">
@@ -2165,7 +2437,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">📞 J'ai contacté mon assureur à titre conservatoire avant la publication de l'arrêté</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step5new',2,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step5new',2,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step5new',2,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step5new-2-detail">
@@ -2228,7 +2500,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       <!-- ÉTAPE 6 — ENVIRONNEMENT -->
       <div class="diag-step" id="step-6b">
         <div class="diag-step-header" onclick="toggleDiagStep('step-6b')" style="cursor:pointer;">
-          <div class="diag-step-num">6</div>
+          <div class="diag-step-num">5</div>
           <div class="diag-step-title">Environnement de ma maison</div>
           <div class="diag-step-emoji">🌍</div>
           <span class="accordion-arrow" style="margin-left:4px;font-size:14px;color:#7a9a72;transition:transform 0.25s;">›</span>
@@ -2240,7 +2512,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">🌍 Mon terrain contient de l'argile (sol gonflant, craquelé en été)</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step2',1,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step2',1,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step2',1,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step2-1-detail">
@@ -2255,7 +2527,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">💧 Le sous-sol de mon terrain retient ou draine mal l'eau</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step2',2,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step2',2,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step2',2,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step2-2-detail">
@@ -2270,7 +2542,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">⛰️ Ma maison est construite sur un terrain en pente ou en dévers</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step2',3,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step2',3,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step2',3,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step2-3-detail">
@@ -2285,7 +2557,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">🌳 Des arbres ou arbustes sont plantés à moins de 5 mètres de ma maison</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step2',4,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step2',4,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step2',4,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step2-4-detail">
@@ -2300,7 +2572,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">🔩 Ma maison a des fondations peu profondes ou a été construite avant les années 2000</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step2',5,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step2',5,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step2',5,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step2-5-detail">
@@ -2319,7 +2591,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       <!-- ÉTAPE 7 — FACTEURS DÉCLENCHANTS -->
       <div class="diag-step" id="step-7b">
         <div class="diag-step-header" onclick="toggleDiagStep('step-7b')" style="cursor:pointer;">
-          <div class="diag-step-num">7</div>
+          <div class="diag-step-num">6</div>
           <div class="diag-step-title">Facteurs déclencheurs potentiels</div>
           <div class="diag-step-emoji">⚡</div>
           <span class="accordion-arrow" style="margin-left:4px;font-size:14px;color:#7a9a72;transition:transform 0.25s;">›</span>
@@ -2331,7 +2603,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">☀️ Une sécheresse prolongée ou des pluies intenses ont précédé les dommages</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step3',1,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step3',1,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step3',1,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step3-1-detail">
@@ -2346,7 +2618,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">🚧 Des travaux ont été réalisés à proximité (voirie, terrassement, construction voisine)</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step3',2,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step3',2,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step3',2,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step3-2-detail">
@@ -2361,7 +2633,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">🔧 J'ai constaté une fuite d'eau enterrée (canalisation, réseau d'assainissement)</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step3',3,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step3',3,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step3',3,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step3-3-detail">
@@ -2376,7 +2648,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">🌿 Les racines d'arbres proches semblent avoir absorbé beaucoup d'eau dans le sol</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step3',4,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step3',4,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step3',4,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step3-4-detail">
@@ -2395,7 +2667,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       <!-- ÉTAPE 8 — ENTRETIEN ET HISTORIQUE -->
       <div class="diag-step" id="step-8b">
         <div class="diag-step-header" onclick="toggleDiagStep('step-8b')" style="cursor:pointer;">
-          <div class="diag-step-num">8</div>
+          <div class="diag-step-num">7</div>
           <div class="diag-step-title">Entretien et historique de la maison</div>
           <div class="diag-step-emoji">🛡️</div>
           <span class="accordion-arrow" style="margin-left:4px;font-size:14px;color:#7a9a72;transition:transform 0.25s;">›</span>
@@ -2407,7 +2679,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">🌧️ Mes gouttières, descentes d'eau pluviale et évacuations sont en bon état</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step5',1,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step5',1,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step5',1,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step5-1-detail">
@@ -2422,7 +2694,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">🚿 Mes canalisations accessibles (regards, siphons) sont entretenues régulièrement</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step5',2,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step5',2,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step5',2,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step5-2-detail">
@@ -2437,7 +2709,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">✂️ Je taille et élague les arbres et arbustes proches de ma maison</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step5',3,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step5',3,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step5',3,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step5-3-detail">
@@ -2451,7 +2723,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">🪨 Le sol autour de ma maison limite l'évaporation excessive de l'eau</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step5',4,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step5',4,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step5',4,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step5-4-detail">
@@ -2465,7 +2737,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">📜 Si un PPR existe dans ma commune, ses recommandations sont respectées</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step5',5,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step5',5,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step5',5,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step5-5-detail">
@@ -2483,7 +2755,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       <!-- ÉTAPE 9 — DESCRIPTION DES DÉSORDRES -->
       <div class="diag-step" id="step-9b">
         <div class="diag-step-header" onclick="toggleDiagStep('step-9b')" style="cursor:pointer;">
-          <div class="diag-step-num">9</div>
+          <div class="diag-step-num">8</div>
           <div class="diag-step-title">Description des désordres constatés</div>
           <div class="diag-step-emoji">🔎</div>
           <span class="accordion-arrow" style="margin-left:4px;font-size:14px;color:#7a9a72;transition:transform 0.25s;">›</span>
@@ -2495,7 +2767,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">📊 J'ai recensé et photographié toutes les fissures, déformations et dégradations visibles</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step7',1,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step7',1,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step7',1,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step7-1-detail">
@@ -2511,7 +2783,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">📸 Pour chaque dommage, je peux indiquer sa localisation, sa taille et la date de constat</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step7',2,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step7',2,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step7',2,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step7-2-detail">
@@ -2548,10 +2820,10 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         </div>
       </div>
 
-      <!-- ÉTAPE 10 — DOCUMENTS À FOURNIR À L'EXPERT -->
+      <!-- ÉTAPE 9 — DOCUMENTS À FOURNIR À L'EXPERT -->
       <div class="diag-step" id="step-10b">
         <div class="diag-step-header" onclick="toggleDiagStep('step-10b')" style="cursor:pointer;">
-          <div class="diag-step-num">10</div>
+          <div class="diag-step-num">9</div>
           <div class="diag-step-title">Documents et informations pour l'expert</div>
           <div class="diag-step-emoji">📎</div>
           <span class="accordion-arrow" style="margin-left:4px;font-size:14px;color:#7a9a72;transition:transform 0.25s;">›</span>
@@ -2563,7 +2835,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">🏚️ Ma maison a moins de 10 ans — je connais l'assureur construction et les entreprises ayant construit</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step6',1,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step6',1,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step6',1,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step6-1-detail">
@@ -2577,7 +2849,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">📅 Les dommages sont apparus pendant la période couverte par l'arrêté Cat Nat de ma commune</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step6',2,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step6',2,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step6',2,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step6-2-detail">
@@ -2591,7 +2863,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">🗓️ Je suis en mesure d'indiquer à quelle date j'ai constaté les premières dégradations</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step6',3,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step6',3,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step6',3,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step6-3-detail">
@@ -2601,48 +2873,45 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
             </div>
           </div>
           <div class="step-feedback" id="fb-step6">
-            <span>✅</span><span id="fb-step6-txt">Étape 10 renseignée — bien noté !</span>
+            <span>✅</span><span id="fb-step6-txt">Étape 9 renseignée — bien noté !</span>
           </div>
         </div>
       </div>
 
-      <!-- ÉTAPE 11 — SUIVI DE LA MISSION D'EXPERTISE -->
+      <!-- ÉTAPE 10 — L'EXPERTISE (fusion Suivi de la mission + Investigations complémentaires) -->
       <div class="diag-step" id="step-11b">
         <div class="diag-step-header" onclick="toggleDiagStep('step-11b')" style="cursor:pointer;">
-          <div class="diag-step-num">11</div>
-          <div class="diag-step-title">Suivi de la mission d'expertise</div>
+          <div class="diag-step-num">10</div>
+          <div class="diag-step-title">L'expertise</div>
           <div class="diag-step-emoji">🧑‍💼</div>
           <span class="accordion-arrow" style="margin-left:4px;font-size:14px;color:#7a9a72;transition:transform 0.25s;">›</span>
         </div>
         <div class="diag-step-body">
-          <div class="diag-step-intro">L'attente entre la déclaration et la visite de l'expert peut sembler longue — c'est normal de vouloir que les choses avancent. Sachez que votre assureur dispose d'<strong>1 mois</strong> pour ordonner cette expertise. Vous avez le droit d'être présent lors de la visite et d'exprimer vos observations.</div>
+          <div class="diag-step-intro">La visite d'expertise est souvent le moment le plus attendu — et le plus impressionnant — de votre parcours. Pour mieux vous y retrouver, cette étape est organisée en trois temps : avant, pendant et après le passage de l'expert. Choisissez la phase que vous souhaitez consulter.</div>
+
+          <!-- SOUS-BULLE 1 : AVANT LA VISITE -->
+          <div class="substep-toggle" id="substep-expertise-avant-toggle" onclick="toggleSubstep('substep-expertise-avant')">
+            <div class="substep-toggle-ic">📬</div>
+            <div class="substep-toggle-txt">
+              <div class="substep-toggle-title">Avant la visite</div>
+              <div class="substep-toggle-sub">Notification de mission, préparation, délais de l'assureur</div>
+            </div>
+            <span class="accordion-arrow substep-arrow" id="substep-expertise-avant-arrow">›</span>
+          </div>
+          <div class="substep-body" id="substep-expertise-avant">
+          <div class="diag-step-intro">L'attente entre la déclaration et la visite de l'expert peut sembler longue — c'est normal de vouloir que les choses avancent. Sachez que votre assureur dispose d'<strong>1 mois</strong> pour ordonner cette expertise.</div>
           <div class="tri-item" id="tri-step11-1">
             <div class="tri-item-header">
               <div class="tri-label">📬 J'ai reçu la notification de mission d'un expert mandaté par mon assureur</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step11',1,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step11',1,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step11',1,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step11-1-detail">
               <div style="font-size:10px;color:#5a7a52;font-weight:700;margin-bottom:6px;">Précisez :</div>
               <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai noté le nom et les coordonnées du cabinet d'expertise</span></label>
               <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai préparé l'accès à la maison et rassemblé tous mes documents</span></label>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai été présent lors de la visite et j'ai pu exprimer mes observations</span></label>
-            </div>
-          </div>
-          <div class="tri-item" id="tri-step11-2">
-            <div class="tri-item-header">
-              <div class="tri-label">📄 J'ai reçu le compte-rendu de visite et/ou le rapport d'expertise</div>
-              <div class="tri-btns">
-                <button class="tri-btn yes" onclick="triSelect('step11',2,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step11',2,'no')">➖ Non concerné</button>
-              </div>
-            </div>
-            <div class="tri-detail" id="tri-step11-2-detail">
-              <div style="font-size:10px;color:#5a7a52;font-weight:700;margin-bottom:6px;">Précisez :</div>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai demandé et obtenu une copie du rapport définitif</span></label>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai contesté par écrit les points avec lesquels je suis en désaccord</span></label>
             </div>
           </div>
           <div class="tri-item" id="tri-step11-3">
@@ -2650,7 +2919,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">⚠️ Mon assureur a dépassé le délai d'1 mois sans ordonner d'expertise</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step11',3,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step11',3,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step11',3,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step11-3-detail">
@@ -2659,38 +2928,88 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai saisi le médiateur de l'assurance si le blocage persiste</span></label>
             </div>
           </div>
+          </div><!-- /substep-expertise-avant -->
 
-        <div style="background:#f5f8f2;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
-          <div style="font-size:11px;font-weight:700;color:#2d5a27;margin-bottom:6px;">📎 Rapport d'expertise ou compte-rendu de visite</div>
-          <div id="upload-preview-rapport-expertise" style="display:none;background:#e8f5e4;border-radius:8px;padding:6px 10px;font-size:10px;color:#2d5a27;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
-            <span>✅</span><span id="upload-name-rapport-expertise"></span>
-            <button onclick="clearUpload('rapport-expertise')" style="margin-left:auto;background:none;border:none;color:#c04030;cursor:pointer;font-size:14px;line-height:1;">×</button>
+          <!-- SOUS-BULLE 2 : PENDANT LA VISITE -->
+          <div class="substep-toggle" id="substep-expertise-pendant-toggle" onclick="toggleSubstep('substep-expertise-pendant')">
+            <div class="substep-toggle-ic">🔍</div>
+            <div class="substep-toggle-txt">
+              <div class="substep-toggle-title">Pendant la visite</div>
+              <div class="substep-toggle-sub">Ce qu'il faut observer, dire et savoir le jour J</div>
+            </div>
+            <span class="accordion-arrow substep-arrow" id="substep-expertise-pendant-arrow">›</span>
           </div>
-          <button onclick="document.getElementById('upload-input-rapport-expertise').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#4a7c3f;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
-          <input type="file" id="upload-input-rapport-expertise" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="diagUpload('rapport-expertise',this)">
-        </div>
-          <div class="step-feedback" id="fb-step11">
-            <span>✅</span><span id="fb-step11-txt">Étape 11 renseignée — suivi expertise enregistré.</span>
+          <div class="substep-body" id="substep-expertise-pendant">
+          <div class="diag-step-intro">Vous avez le <strong>droit d'être présent</strong> lors de la visite et d'exprimer vos observations — c'est même recommandé. L'expert va inspecter votre bien, confronter ses constats à votre contrat (la "visite de risque") et chercher à déterminer si le RGA est bien la cause de vos dommages.</div>
+          <div class="tri-item" id="tri-step11exp-1">
+            <div class="tri-item-header">
+              <div class="tri-label">🏠 J'étais présent (ou représenté) lors de la visite de l'expert</div>
+              <div class="tri-btns">
+                <button class="tri-btn yes" onclick="triSelect('step11exp',1,'yes')">✅ Oui</button>
+                <button class="tri-btn no"  onclick="triSelect('step11exp',1,'no')">➖ Non ou non concerné</button>
+              </div>
+            </div>
+            <div class="tri-detail" id="tri-step11exp-1-detail">
+              <div style="font-size:10px;color:#5a7a52;font-weight:700;margin-bottom:6px;">Précisez :</div>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai pu montrer moi-même toutes les fissures et désordres constatés</span></label>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai exprimé oralement mes observations et l'historique des désordres</span></label>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai remis à l'expert les documents préparés à l'avance</span></label>
+            </div>
           </div>
-        </div>
-      </div>
+          <div class="tri-item" id="tri-step11exp-2">
+            <div class="tri-item-header">
+              <div class="tri-label">📝 J'ai pris des notes ou demandé des précisions sur les points évoqués par l'expert</div>
+              <div class="tri-btns">
+                <button class="tri-btn yes" onclick="triSelect('step11exp',2,'yes')">✅ Oui</button>
+                <button class="tri-btn no"  onclick="triSelect('step11exp',2,'no')">➖ Non ou non concerné</button>
+              </div>
+            </div>
+            <div class="tri-detail" id="tri-step11exp-2-detail">
+              <div style="font-size:10px;color:#5a7a52;font-weight:700;margin-bottom:6px;">Précisez :</div>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai demandé si le RGA semblait être la cause déterminante des dommages</span></label>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai demandé si des investigations complémentaires seraient nécessaires</span></label>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai demandé sous quel délai je recevrais le compte-rendu ou le rapport</span></label>
+            </div>
+          </div>
 
-      <!-- ÉTAPE 12 — INVESTIGATIONS COMPLÉMENTAIRES -->
-      <div class="diag-step" id="step-12b">
-        <div class="diag-step-header" onclick="toggleDiagStep('step-12b')" style="cursor:pointer;">
-          <div class="diag-step-num">12</div>
-          <div class="diag-step-title">Investigations complémentaires</div>
-          <div class="diag-step-emoji">🔬</div>
-          <span class="accordion-arrow" style="margin-left:4px;font-size:14px;color:#7a9a72;transition:transform 0.25s;">›</span>
-        </div>
-        <div class="diag-step-body">
-          <div class="diag-step-intro">Si des analyses complémentaires sont demandées, ce n'est pas un mauvais signe — c'est souvent le signe que votre dossier est pris au sérieux. À partir de vos déclarations et des constats de l'expert, un <span class="gl" onclick="glOpen('étude géotechnique g2',this)">diagnostic</span> peut être prescrit pour confirmer la nature du sol et le lien avec le phénomène RGA.</div>
+          <div class="important-box" style="margin-top:8px;">💡 Vous n'êtes pas tenu d'accepter immédiatement les conclusions orales de l'expert — elles ne sont définitives qu'une fois couchées dans le rapport écrit. Prenez le temps de relire ce document avant toute contestation.</div>
+
+          <div class="step-feedback" id="fb-step11exp">
+            <span>✅</span><span id="fb-step11exp-txt">Visite documentée — vous avez fait valoir vos observations.</span>
+          </div>
+          </div><!-- /substep-expertise-pendant -->
+
+          <!-- SOUS-BULLE 3 : APRÈS LA VISITE -->
+          <div class="substep-toggle" id="substep-expertise-apres-toggle" onclick="toggleSubstep('substep-expertise-apres')">
+            <div class="substep-toggle-ic">📄</div>
+            <div class="substep-toggle-txt">
+              <div class="substep-toggle-title">Après la visite</div>
+              <div class="substep-toggle-sub">Rapport, contestation, investigations complémentaires</div>
+            </div>
+            <span class="accordion-arrow substep-arrow" id="substep-expertise-apres-arrow">›</span>
+          </div>
+          <div class="substep-body" id="substep-expertise-apres">
+          <div class="diag-step-intro">Une fois la visite terminée, l'expert rédige ses conclusions. Selon les cas, des analyses complémentaires peuvent être nécessaires avant que le rapport définitif ne soit établi — ce n'est pas un mauvais signe, c'est souvent le signe que votre dossier est pris au sérieux.</div>
+          <div class="tri-item" id="tri-step11-2">
+            <div class="tri-item-header">
+              <div class="tri-label">📄 J'ai reçu le compte-rendu de visite et/ou le rapport d'expertise</div>
+              <div class="tri-btns">
+                <button class="tri-btn yes" onclick="triSelect('step11',2,'yes')">✅ Oui</button>
+                <button class="tri-btn no"  onclick="triSelect('step11',2,'no')">➖ Non ou non concerné</button>
+              </div>
+            </div>
+            <div class="tri-detail" id="tri-step11-2-detail">
+              <div style="font-size:10px;color:#5a7a52;font-weight:700;margin-bottom:6px;">Précisez :</div>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai demandé et obtenu une copie du rapport définitif</span></label>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai contesté par écrit les points avec lesquels je suis en désaccord</span></label>
+            </div>
+          </div>
           <div class="tri-item" id="tri-step8-1">
             <div class="tri-item-header">
               <div class="tri-label">🪛 L'expert a proposé une étude de sol (géotechnique G2) pour analyser la nature du terrain</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step8',1,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step8',1,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step8',1,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step8-1-detail">
@@ -2705,7 +3024,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">🔍 Une inspection vidéo de mes canalisations enterrées a été réalisée ou proposée</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step8',2,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step8',2,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step8',2,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step8-2-detail">
@@ -2720,7 +3039,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">⏱️ L'expert suit l'évolution des dommages sur une période définie avant de rendre ses conclusions</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step8',3,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step8',3,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step8',3,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step8-3-detail">
@@ -2732,6 +3051,15 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           </div>
 
         <div style="background:#f5f8f2;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
+          <div style="font-size:11px;font-weight:700;color:#2d5a27;margin-bottom:6px;">📎 Rapport d'expertise ou compte-rendu de visite</div>
+          <div id="upload-preview-rapport-expertise" style="display:none;background:#e8f5e4;border-radius:8px;padding:6px 10px;font-size:10px;color:#2d5a27;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
+            <span>✅</span><span id="upload-name-rapport-expertise"></span>
+            <button onclick="clearUpload('rapport-expertise')" style="margin-left:auto;background:none;border:none;color:#c04030;cursor:pointer;font-size:14px;line-height:1;">×</button>
+          </div>
+          <button onclick="document.getElementById('upload-input-rapport-expertise').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#4a7c3f;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
+          <input type="file" id="upload-input-rapport-expertise" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="diagUpload('rapport-expertise',this)">
+        </div>
+        <div style="background:#f5f8f2;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
           <div style="font-size:11px;font-weight:700;color:#2d5a27;margin-bottom:6px;">📎 Rapport géotechnique G2 ou résultats investigations</div>
           <div id="upload-preview-etude-g2" style="display:none;background:#e8f5e4;border-radius:8px;padding:6px 10px;font-size:10px;color:#2d5a27;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
             <span>✅</span><span id="upload-name-etude-g2"></span>
@@ -2740,16 +3068,18 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           <button onclick="document.getElementById('upload-input-etude-g2').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#4a7c3f;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
           <input type="file" id="upload-input-etude-g2" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="diagUpload('etude-g2',this)">
         </div>
-          <div class="step-feedback" id="fb-step8">
-            <span>✅</span><span id="fb-step8-txt">Étape clé complétée — investigations complémentaires documentées.</span>
+          <div class="step-feedback" id="fb-step11">
+            <span>✅</span><span id="fb-step11-txt">Étape clé complétée — expertise et investigations documentées.</span>
           </div>
+          </div><!-- /substep-expertise-apres -->
+
         </div>
       </div>
 
-      <!-- ÉTAPE 13 — PROPOSITION D'INDEMNISATION -->
+      <!-- ÉTAPE 11 — PROPOSITION D'INDEMNISATION -->
       <div class="diag-step" id="step-13b">
         <div class="diag-step-header" onclick="toggleDiagStep('step-13b')" style="cursor:pointer;">
-          <div class="diag-step-num">13</div>
+          <div class="diag-step-num">11</div>
           <div class="diag-step-title">La proposition d'indemnisation</div>
           <div class="diag-step-emoji">💶</div>
           <span class="accordion-arrow" style="margin-left:4px;font-size:14px;color:#7a9a72;transition:transform 0.25s;">›</span>
@@ -2761,7 +3091,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">📩 J'ai reçu une proposition d'indemnisation chiffrée de mon assureur</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step13',1,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step13',1,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step13',1,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step13-1-detail">
@@ -2776,7 +3106,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               <div class="tri-label">⚖️ Je conteste la proposition — elle ne couvre pas l'ensemble de mes dommages</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step13',2,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step13',2,'no')">➖ Non concerné</button>
+                <button class="tri-btn no"  onclick="triSelect('step13',2,'no')">➖ Non ou non concerné</button>
               </div>
             </div>
             <div class="tri-detail" id="tri-step13-2-detail">
@@ -2802,63 +3132,25 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         </div>
       </div>
 
-      <!-- ÉTAPE 14 — TRAVAUX DE RÉPARATION -->
+      <!-- ÉTAPE 12 — TRAVAUX DE RÉPARATION -->
       <div class="diag-step" id="step-14b">
         <div class="diag-step-header" onclick="toggleDiagStep('step-14b')" style="cursor:pointer;">
-          <div class="diag-step-num">14</div>
+          <div class="diag-step-num">12</div>
           <div class="diag-step-title">Les travaux de réparation</div>
           <div class="diag-step-emoji">🏗️</div>
           <span class="accordion-arrow" style="margin-left:4px;font-size:14px;color:#7a9a72;transition:transform 0.25s;">›</span>
         </div>
         <div class="diag-step-body">
           <div class="diag-step-intro">Vous voici enfin à l'étape des travaux — après tout ce parcours, c'est une vraie étape de soulagement. Depuis l'ordonnance du 8 février 2023, vous avez l'<strong>obligation légale</strong> d'affecter votre indemnité à la réparation effective de votre bien. Vous disposez de <strong>24 mois</strong> pour engager les travaux à compter de votre accord sur la proposition.</div>
-          <div class="tri-item" id="tri-step14-1">
-            <div class="tri-item-header">
-              <div class="tri-label">📋 J'ai obtenu au moins 3 devis auprès d'entreprises spécialisées dans la réparation RGA</div>
-              <div class="tri-btns">
-                <button class="tri-btn yes" onclick="triSelect('step14',1,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step14',1,'no')">➖ Non concerné</button>
-              </div>
-            </div>
-            <div class="tri-detail" id="tri-step14-1-detail">
-              <div style="font-size:10px;color:#5a7a52;font-weight:700;margin-bottom:6px;">Précisez :</div>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Les devis respectent les préconisations du rapport d'expertise</span></label>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai transmis les devis à mon assureur avant d'engager les travaux</span></label>
-            </div>
-          </div>
-          <div class="tri-item" id="tri-step14-2">
-            <div class="tri-item-header">
-              <div class="tri-label">🏗️ J'ai engagé les travaux dans le délai de 24 mois prévu par la réglementation</div>
-              <div class="tri-btns">
-                <button class="tri-btn yes" onclick="triSelect('step14',2,'yes')">✅ Oui</button>
-                <button class="tri-btn no"  onclick="triSelect('step14',2,'no')">➖ Non concerné</button>
-              </div>
-            </div>
-            <div class="tri-detail" id="tri-step14-2-detail">
-              <div style="font-size:10px;color:#5a7a52;font-weight:700;margin-bottom:6px;">Précisez :</div>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai conservé toutes les factures acquittées pour les transmettre à mon assureur</span></label>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Un PV de réception des travaux a été établi</span></label>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai transmis les justificatifs à mon assureur</span></label>
-            </div>
-          </div>
 
         <div style="background:#f5f8f2;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
-          <div style="font-size:11px;font-weight:700;color:#2d5a27;margin-bottom:6px;">📎 Devis de travaux de réparation</div>
-          <div id="upload-preview-devis-travaux" style="display:none;background:#e8f5e4;border-radius:8px;padding:6px 10px;font-size:10px;color:#2d5a27;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
-            <span>✅</span><span id="upload-name-devis-travaux"></span>
-            <button onclick="clearUpload('devis-travaux')" style="margin-left:auto;background:none;border:none;color:#c04030;cursor:pointer;font-size:14px;line-height:1;">×</button>
+          <div style="font-size:11px;font-weight:700;color:#2d5a27;margin-bottom:6px;">📎 Autres documents</div>
+          <div id="upload-preview-autres-travaux" style="display:none;background:#e8f5e4;border-radius:8px;padding:6px 10px;font-size:10px;color:#2d5a27;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
+            <span>✅</span><span id="upload-name-autres-travaux"></span>
+            <button onclick="clearUpload('autres-travaux')" style="margin-left:auto;background:none;border:none;color:#c04030;cursor:pointer;font-size:14px;line-height:1;">×</button>
           </div>
-          <button onclick="document.getElementById('upload-input-devis-travaux').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#4a7c3f;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
-          <input type="file" id="upload-input-devis-travaux" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="diagUpload('devis-travaux',this)">
-        </div>
-        <div style="background:#f5f8f2;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
-          <div style="font-size:11px;font-weight:700;color:#2d5a27;margin-bottom:6px;">📎 Factures acquittées des travaux réalisés</div>
-          <div id="upload-preview-factures-travaux" style="display:none;background:#e8f5e4;border-radius:8px;padding:6px 10px;font-size:10px;color:#2d5a27;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
-            <span>✅</span><span id="upload-name-factures-travaux"></span>
-            <button onclick="clearUpload('factures-travaux')" style="margin-left:auto;background:none;border:none;color:#c04030;cursor:pointer;font-size:14px;line-height:1;">×</button>
-          </div>
-          <button onclick="document.getElementById('upload-input-factures-travaux').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#4a7c3f;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
-          <input type="file" id="upload-input-factures-travaux" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="diagUpload('factures-travaux',this)">
+          <button onclick="document.getElementById('upload-input-autres-travaux').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#4a7c3f;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
+          <input type="file" id="upload-input-autres-travaux" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="diagUpload('autres-travaux',this)">
         </div>
 
         <!-- Contenu informatif neutre — choix d'une entreprise de travaux -->
@@ -2873,9 +3165,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           </div>
         </div>
 
-          <div class="step-feedback" id="fb-step14">
-            <span>✅</span><span id="fb-step14-txt">Parcours complété — travaux documentés !</span>
-          </div>
         </div>
       </div>
 
@@ -2966,6 +3255,21 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       <div class="page-title">🏠 Accueil</div>
       <div class="dash-greeting" id="dash-greeting">Bonjour 👋</div>
 
+      <!-- MESSAGE RASSURANT / ADAPTATIF — change de ton selon l'activité
+           récente et le profil. Sert d'ancre émotionnelle avant tout le
+           reste de l'écran, particulièrement pour les premiers passages. -->
+      <div class="dash-reassurance-banner" id="dash-reassurance-banner"></div>
+
+      <!-- RECHERCHE UNIFIÉE — interroge glossaire + FAQ Cat Nat + étapes
+           du parcours en une seule barre, plutôt que 3 systèmes séparés. -->
+      <div class="dash-search-wrap">
+        <span class="dash-search-icon">🔍</span>
+        <input type="text" class="dash-search-input" id="dash-search-input"
+               placeholder="Rechercher un terme, une question, une étape…"
+               oninput="dashSearchUnified(this.value)">
+      </div>
+      <div class="dash-search-results" id="dash-search-results"></div>
+
       <!-- REPRISE DE SESSION — progression depuis la dernière visite -->
       <div class="dash-resume-banner" id="dash-resume-banner" style="display:none;"></div>
 
@@ -2987,7 +3291,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               </div>
             </div>
             <div class="profil-card-footer">
-              <span class="profil-card-pill">📍 14 étapes — parcours complet</span>
+              <span class="profil-card-pill">📍 12 étapes — parcours complet</span>
             </div>
           </div>
 
@@ -3001,7 +3305,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               </div>
             </div>
             <div class="profil-card-footer">
-              <span class="profil-card-pill">📍 Étapes 1 à 4 déjà effectuées</span>
+              <span class="profil-card-pill">📍 Étapes 1 à 4 actives — étapes 1 à 3 facultatives</span>
             </div>
           </div>
 
@@ -3015,9 +3319,13 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
               </div>
             </div>
             <div class="profil-card-footer">
-              <span class="profil-card-pill">📍 Étapes 1 à 10 déjà effectuées</span>
+              <span class="profil-card-pill">📍 À partir de l'étape 12 — tout reste consultable</span>
             </div>
           </div>
+
+          <button class="quiz-orientation-trigger" onclick="openQuizOrientation()">
+            🤔 <span>Je ne sais pas par où commencer — répondre à 3 questions</span>
+          </button>
         </div>
         <div id="dash-profil-filled" style="display:none;">
           <div style="display:flex;align-items:flex-start;gap:10px;">
@@ -3140,6 +3448,24 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           <div style="font-size:14px;color:#a8a092;flex-shrink:0;">›</div>
         </button>
       </div>
+
+      <!-- CHECKLIST JOUR J — fiche condensée pour la visite de l'expert -->
+      <button class="checklist-jourj-trigger" onclick="openChecklistJourJ()">
+        <div class="checklist-jourj-ic">🗒️</div>
+        <div class="checklist-jourj-txt">
+          <div class="checklist-jourj-title">Checklist "Jour J"</div>
+          <div class="checklist-jourj-sub">Ce qu'il faut avoir sous la main pour la visite de l'expert</div>
+        </div>
+      </button>
+
+      <!-- PARTAGE LECTURE SEULE — génère un lien à transmettre à un proche -->
+      <button class="share-link-trigger" onclick="openShareLink()">
+        <div class="share-link-ic">🔗</div>
+        <div class="share-link-txt">
+          <div class="share-link-title">Partager mon dossier (lecture seule)</div>
+          <div class="share-link-sub">Générer un lien pour un proche ou un aidant</div>
+        </div>
+      </button>
     
     </div>
 
@@ -4156,7 +4482,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           </div>
           <div style="background:#fff8e8;border-radius:12px;padding:12px 14px;">
             <div style="font-size:12px;font-weight:800;color:#8a6000;margin-bottom:6px;">③ Onglet Mon Parcours</div>
-            <div style="font-size:11px;color:#6a4a00;line-height:1.6;">Suivez les 14 étapes pour documenter votre situation. Répondez à chaque question en cochant "Oui, c'est mon cas" ou "Non concerné". Des sous-questions apparaissent pour préciser chaque point.</div>
+            <div style="font-size:11px;color:#6a4a00;line-height:1.6;">Suivez les 12 étapes pour documenter votre situation. Répondez à chaque question en cochant "Oui, c'est mon cas" ou "Non ou non concerné". Des sous-questions apparaissent pour préciser chaque point.</div>
           </div>
           <div style="background:#f0e8fe;border-radius:12px;padding:12px 14px;">
             <div style="font-size:12px;font-weight:800;color:#6a2a8a;margin-bottom:6px;">④ Onglet Mon Dossier</div>
@@ -4378,9 +4704,9 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       <div class="param-panel-body">
         <div style="text-align:center;padding:20px 0 16px;">
           <div style="display:flex;align-items:baseline;gap:1px;justify-content:center;">
-            <span style="font-size:32px;font-weight:300;color:rgba(45,90,39,.6);letter-spacing:2px;">argi</span>
-            <span style="font-size:44px;font-weight:900;color:#f5a623;line-height:.9;">Q</span>
-            <span style="font-size:32px;font-weight:300;color:#4a7c3f;letter-spacing:2px;">are</span>
+            <span style="font-size:32px;font-weight:300;color:#2D5A27;letter-spacing:2px;font-family:Georgia,serif;">argi</span>
+            <span style="font-size:44px;font-weight:700;color:#C9A23A;line-height:.9;font-family:Georgia,serif;">Q</span>
+            <span style="font-size:32px;font-weight:300;color:#2D5A27;letter-spacing:2px;font-family:Georgia,serif;">are</span>
           </div>
           <div style="font-size:11px;color:#7a6a52;margin-top:8px;">Version 1.0.1 — Juin 2025</div>
         </div>
@@ -4553,6 +4879,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <div class="param-row" onclick="openPanel('panel-cgu')"><div class="param-icon">📄</div><div class="param-info"><div class="param-label">Conditions Générales d'Utilisation</div><div class="param-sub">Règles d'utilisation de l'application</div></div><div class="param-arrow">›</div></div>
         <div class="param-row" onclick="openPanel('panel-contact')"><div class="param-icon">💬</div><div class="param-info"><div class="param-label">Contacter le support</div><div class="param-sub">Une question ? Écrivez-nous</div></div><div class="param-arrow">›</div></div>
         <div class="param-row" onclick="openPanel('panel-apropos')"><div class="param-icon">ℹ️</div><div class="param-info"><div class="param-label">À propos d'ArgiQare</div><div class="param-sub">Version, auteur, mentions légales</div></div><div class="param-arrow">›</div></div>
+        <div class="param-row" onclick="openSatisfactionManual()"><div class="param-icon">💬</div><div class="param-info"><div class="param-label">Donner mon avis sur ArgiQare</div><div class="param-sub">Votre retour aide à améliorer l'application</div></div><div class="param-arrow">›</div></div>
       </div>
 
       <!-- SOURCES & RÉFÉRENCES -->
@@ -4595,6 +4922,11 @@ let currentTabIndex = 0;
 
 // ── Initialisation au chargement ──
 window.addEventListener('load', () => {
+  // Si l'app est ouverte via un lien de partage (?partage=...), afficher
+  // la vue de lecture seule par-dessus tout le reste, avant toute autre
+  // initialisation visible.
+  if(typeof checkSharedViewOnLoad === 'function') checkSharedViewOnLoad();
+
   // Réordonner les screens selon TAB_ORDER
   const wrapper = document.getElementById('screens-wrapper');
   TAB_ORDER.forEach(id => {
@@ -4638,23 +4970,428 @@ window.addEventListener('load', () => {
 // profil 2 : 1-4 grisées "déjà faites", 5-14 actives
 // profil 3 : 1-10 grisées "déjà faites", 11-14 actives
 const PROFIL_CONFIG = {
-  1: { grises:[], actives:[1,2,3,4,5,6,7,8,9,10,11,12,13,14], startStep:1,
+  1: { grises:[], infoSteps:[], actives:[1,2,3,5,6,7,8,9,10,11,13,14], startStep:1,
        icon:'🔍', label:'Profil 1 — Parcours complet', barClass:'p1',
        title:'Je viens de constater une fissure',
        sub:'Je ne sais pas encore si c\'est le RGA. Je démarre depuis le début et veux constituer mon dossier complet.',
-       pill:'📍 14 étapes — parcours complet' },
-  2: { grises:[1,2,3,4], actives:[5,6,7,8,9,10,11,12,13,14], startStep:5,
+       pill:'📍 Étapes 1 à 12 — parcours complet' },
+  2: { grises:[], infoSteps:[1,2,3], actives:[5,6,7,8,9,10,11,13,14], startStep:4,
        icon:'📋', label:'Profil 2 \u2014 J\'attends l\'arr\u00eat\u00e9 Cat Nat', barClass:'p2',
        title:'J\'ai déclaré mon sinistre — j\'attends l\'arrêté Cat Nat',
        sub:'Mon sinistre est déclaré mais ma commune n\'est pas encore reconnue. Je prépare mon dossier en attendant.',
-       pill:'📍 Étapes 1 à 4 déjà effectuées' },
-  3: { grises:[1,2,3,4,5,6,7,8,9,10], actives:[11,12,13,14], startStep:11,
+       pill:'📍 À partir de l\'étape 4' },
+  3: { grises:[], infoSteps:[], actives:[1,2,3,5,6,7,8,9,10,11,13,14], startStep:12,
        icon:'🏗️', label:'Profil 3 — Phase travaux', barClass:'p3',
        title:'L\'expert a remis son rapport — je suis en phase travaux',
        sub:'L\'expertise est terminée. Je suis en phase d\'indemnisation et de réparation de mon bien.',
-       pill:'📍 Étapes 11 à 14 actives' },
+       pill:'📍 À partir de l\'étape 12' },
 };
 let _currentProfil = null;
+
+// ══ QUIZ ORIENTATION PROFIL — 3 questions, en cas d'hésitation ══
+const QUIZ_QUESTIONS = [
+  {
+    q: "Avez-vous déjà déclaré un sinistre à votre assureur ?",
+    opts: [
+      {label:"Non, je n'ai encore rien déclaré", emoji:"📝", val:"a"},
+      {label:"Oui, c'est fait", emoji:"✅", val:"b"}
+    ]
+  },
+  {
+    q: "Un expert a-t-il déjà réalisé sa visite et rendu son rapport ?",
+    opts: [
+      {label:"Non, pas encore / je ne sais pas", emoji:"⏳", val:"a"},
+      {label:"Oui, le rapport m'a été remis", emoji:"📄", val:"b"}
+    ]
+  },
+  {
+    q: "Où en êtes-vous avec votre commune ?",
+    opts: [
+      {label:"Je ne sais pas si elle est reconnue Cat Nat", emoji:"❓", val:"a"},
+      {label:"Ma commune est déjà reconnue (arrêté publié)", emoji:"📰", val:"b"}
+    ]
+  }
+];
+let quizAnswers = [];
+let quizStep = 0;
+
+function openQuizOrientation(){
+  quizAnswers = [];
+  quizStep = 0;
+  document.getElementById('quiz-overlay').classList.remove('hidden');
+  renderQuizStep();
+}
+function closeQuizOrientation(){
+  document.getElementById('quiz-overlay').classList.add('hidden');
+}
+function renderQuizStep(){
+  const box = document.getElementById('quiz-box');
+  if(!box) return;
+  if(quizStep >= QUIZ_QUESTIONS.length){
+    renderQuizResult();
+    return;
+  }
+  const q = QUIZ_QUESTIONS[quizStep];
+  let dotsHtml = '';
+  for(let i=0;i<QUIZ_QUESTIONS.length;i++){
+    dotsHtml += '<div class="quiz-dot' + (i < quizStep ? ' done' : '') + '"></div>';
+  }
+  box.innerHTML = `
+    <div class="quiz-header">
+      <div class="quiz-title">Question ${quizStep+1} / ${QUIZ_QUESTIONS.length}</div>
+      <button class="quiz-close" onclick="closeQuizOrientation()">✕</button>
+    </div>
+    <div class="quiz-progress-dots">${dotsHtml}</div>
+    <div class="quiz-question">${q.q}</div>
+    <div class="quiz-options">
+      ${q.opts.map(o => `<button class="quiz-opt" onclick="quizAnswer('${o.val}')"><span class="quiz-opt-emoji">${o.emoji}</span><span>${o.label}</span></button>`).join('')}
+    </div>
+    ${quizStep > 0 ? '<button class="quiz-back-btn" onclick="quizBack()">‹ Question précédente</button>' : ''}
+  `;
+}
+function quizAnswer(val){
+  quizAnswers[quizStep] = val;
+  quizStep++;
+  renderQuizStep();
+}
+function quizBack(){
+  if(quizStep > 0){ quizStep--; renderQuizStep(); }
+}
+function renderQuizResult(){
+  // Logique de détermination du profil :
+  // - Si le rapport d'expertise a déjà été remis → Profil 3 (phase travaux)
+  // - Sinon, si sinistre déclaré ou commune déjà reconnue → Profil 2 (attente)
+  // - Sinon → Profil 1 (départ complet)
+  const [declare, expertise, commune] = quizAnswers;
+  let profil;
+  if(expertise === 'b'){
+    profil = 3;
+  } else if(declare === 'b' || commune === 'b'){
+    profil = 2;
+  } else {
+    profil = 1;
+  }
+  const cfg = PROFIL_CONFIG[profil];
+  const box = document.getElementById('quiz-box');
+  if(!box) return;
+  box.innerHTML = `
+    <div class="quiz-header">
+      <div class="quiz-title">Résultat</div>
+      <button class="quiz-close" onclick="closeQuizOrientation()">✕</button>
+    </div>
+    <div class="quiz-result">
+      <div class="quiz-result-icon">${cfg.icon}</div>
+      <div class="quiz-result-title">${cfg.title}</div>
+      <div class="quiz-result-sub">${cfg.sub}</div>
+      <button class="quiz-result-btn" onclick="quizApplyProfil(${profil})">Choisir ce profil →</button>
+      <button class="quiz-back-btn" onclick="quizBack()">‹ Revoir mes réponses</button>
+    </div>
+  `;
+}
+function quizApplyProfil(n){
+  closeQuizOrientation();
+  dashSelectProfil(n);
+  showToast('✅ Profil ' + n + ' sélectionné selon vos réponses');
+}
+// ══ FIN QUIZ ORIENTATION ══
+
+// ══ RECHERCHE UNIFIÉE (Accueil) ══
+// Interroge en une seule fois : glossaire, FAQ Cat Nat, intitulés des
+// 12 étapes du parcours. Construit les résultats par lecture directe du
+// DOM pour la FAQ (toujours présente, même hors de l'onglet Cat Nat),
+// et du tableau GLOSSAIRE / ETAPE_LABELS pour le reste.
+let _dashSearchTimer = null;
+function dashSearchUnified(query){
+  clearTimeout(_dashSearchTimer);
+  _dashSearchTimer = setTimeout(() => _runDashSearch(query), 120);
+}
+function _runDashSearch(query){
+  const resultsBox = document.getElementById('dash-search-results');
+  if(!resultsBox) return;
+  const q = (query || '').trim();
+  if(q.length < 2){
+    resultsBox.classList.remove('visible');
+    resultsBox.innerHTML = '';
+    return;
+  }
+  const normalize = s => (s || '').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
+  const nq = normalize(q);
+  const results = [];
+
+  // 1. Glossaire
+  if(typeof GLOSSAIRE !== 'undefined'){
+    GLOSSAIRE.forEach(g => {
+      if(normalize(g.term).includes(nq) || normalize(g.def).includes(nq)){
+        results.push({ic:'📚', tag:'Glossaire', title:g.term, action:() => {
+          closeAllDashSearchAndGo();
+          // Ouvre le glossaire directement sur ce terme
+          openGlossaire();
+          setTimeout(() => {
+            const idx = GLOSSAIRE.findIndex(x => x.term === g.term);
+            const el = document.getElementById('gi-' + idx);
+            if(el){ el.scrollIntoView({behavior:'smooth', block:'center'}); toggleGlossaireItem(el); }
+          }, 150);
+        }});
+      }
+    });
+  }
+
+  // 2. FAQ Cat Nat — lecture directe du DOM
+  document.querySelectorAll('#cn-faq .cn-faq-item').forEach(item => {
+    const qEl = item.querySelector('.cn-faq-q');
+    const aEl = item.querySelector('.cn-faq-a');
+    if(!qEl) return;
+    const qText = qEl.textContent.replace('›','').trim();
+    const aText = aEl ? aEl.textContent.trim() : '';
+    if(normalize(qText).includes(nq) || normalize(aText).includes(nq)){
+      results.push({ic:'❓', tag:'FAQ Cat Nat', title:qText, action:() => {
+        closeAllDashSearchAndGo();
+        switchTab('catnat', document.querySelectorAll('.nav-item')[4]);
+        setTimeout(() => {
+          // S'assurer que l'onglet FAQ est actif
+          const faqTab = [...document.querySelectorAll('.catnat-tab')].find(t => t.textContent.includes('FAQ'));
+          if(faqTab) switchCatnatTab('faq', faqTab);
+          setTimeout(() => {
+            item.classList.add('open');
+            item.scrollIntoView({behavior:'smooth', block:'center'});
+          }, 150);
+        }, 400);
+      }});
+    }
+  });
+
+  // 3. Étapes du parcours
+  if(typeof ETAPE_LABELS !== 'undefined'){
+    ETAPE_LABELS.forEach((label, i) => {
+      if(normalize(label).includes(nq)){
+        const stepNum = i + 1;
+        results.push({ic:'🔍', tag:'Mon Parcours', title: 'Étape ' + stepNum + ' — ' + label, action:() => {
+          closeAllDashSearchAndGo();
+          switchTab('diag', document.querySelectorAll('.nav-item')[2]);
+          setTimeout(() => {
+            const stepEl = document.getElementById('step-' + stepNum + 'b');
+            if(stepEl){
+              if(!stepEl.classList.contains('open')) toggleDiagStep(stepEl.id);
+              stepEl.scrollIntoView({behavior:'smooth', block:'center'});
+            }
+          }, 400);
+        }});
+      }
+    });
+  }
+
+  if(results.length === 0){
+    resultsBox.innerHTML = '<div class="dash-search-result-empty">Aucun résultat pour "' + q + '"</div>';
+  } else {
+    resultsBox.innerHTML = results.slice(0, 8).map((r, i) =>
+      '<div class="dash-search-result-item" data-result-idx="' + i + '">' +
+      '<span class="dash-search-result-ic">' + r.ic + '</span>' +
+      '<div><div class="dash-search-result-title">' + r.title + '</div><div class="dash-search-result-tag">' + r.tag + '</div></div>' +
+      '</div>'
+    ).join('');
+    // Brancher les actions (closures) sur les éléments générés
+    [...resultsBox.querySelectorAll('.dash-search-result-item')].forEach((el, i) => {
+      el.addEventListener('click', results[i].action);
+    });
+  }
+  resultsBox.classList.add('visible');
+}
+function closeAllDashSearchAndGo(){
+  const input = document.getElementById('dash-search-input');
+  const resultsBox = document.getElementById('dash-search-results');
+  if(input) input.value = '';
+  if(resultsBox){ resultsBox.classList.remove('visible'); resultsBox.innerHTML = ''; }
+}
+// ══ FIN RECHERCHE UNIFIÉE ══
+
+// ══ CHECKLIST JOUR J ══
+const CHECKLIST_JOURJ_ITEMS = [
+  {ic:'📋', label:"Votre attestation d'assurance habitation", sub:"Document prouvant que votre contrat était bien en vigueur"},
+  {ic:'📰', label:"Une copie de l'arrêté Cat Nat de votre commune", sub:"Disponible sur Géorisques ou auprès de votre mairie"},
+  {ic:'📸', label:"Vos photos des fissures, datées si possible", sub:"Idéalement avec une règle ou un objet pour l'échelle"},
+  {ic:'📝', label:"Votre déclaration de sinistre et son accusé de réception", sub:"Preuve de la date de votre démarche"},
+  {ic:'🏠', label:"Le permis de construire ou l'acte d'achat de votre bien", sub:"Pour situer l'époque de construction"},
+  {ic:'🔑', label:"Un accès dégagé aux zones à inspecter", sub:"Sous-sol, façades, jardin si pertinent"},
+  {ic:'📐', label:"Le plan de votre maison, si vous en disposez", sub:"Facultatif mais utile à l'expert"},
+  {ic:'✍️', label:"De quoi noter ses observations et vos questions", sub:"Vous pouvez aussi utiliser directement ArgiQare"}
+];
+function openChecklistJourJ(){
+  const saved = JSON.parse(localStorage.getItem('argicare-checklist-jourj') || '{}');
+  const container = document.getElementById('checklist-jourj-items');
+  if(container){
+    container.innerHTML = CHECKLIST_JOURJ_ITEMS.map((it, i) => `
+      <div class="checklist-item">
+        <div class="checklist-item-cb${saved[i] ? ' checked' : ''}" onclick="toggleChecklistJourJ(${i})" id="cl-cb-${i}">${saved[i] ? '✓' : ''}</div>
+        <div>
+          <div class="checklist-item-label">${it.ic} ${it.label}</div>
+          <div class="checklist-item-sub">${it.sub}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+  document.getElementById('checklist-overlay').classList.remove('hidden');
+}
+function closeChecklistJourJ(){
+  document.getElementById('checklist-overlay').classList.add('hidden');
+}
+function toggleChecklistJourJ(i){
+  const saved = JSON.parse(localStorage.getItem('argicare-checklist-jourj') || '{}');
+  saved[i] = !saved[i];
+  localStorage.setItem('argicare-checklist-jourj', JSON.stringify(saved));
+  const cb = document.getElementById('cl-cb-' + i);
+  if(cb){
+    cb.classList.toggle('checked', saved[i]);
+    cb.textContent = saved[i] ? '✓' : '';
+  }
+}
+// ══ FIN CHECKLIST JOUR J ══
+
+// ══ PARTAGE LECTURE SEULE PAR LIEN ══
+// Encode un instantané des données clés directement dans l'URL (pas de
+// backend nécessaire). Le destinataire ouvre le lien sur n'importe quel
+// navigateur et voit une page de lecture statique générée à la volée.
+function buildShareSnapshot(){
+  const savedProfil = localStorage.getItem('argicare-profil');
+  const cfg = savedProfil ? PROFIL_CONFIG[savedProfil] : null;
+  const allCb = document.querySelectorAll('#screen-diag .diag-cb');
+  const checked = [...allCb].filter(c => c.checked).length;
+  const pct = Math.round((checked / TOTAL_CHECKS) * 100);
+  return {
+    v: 1,
+    nom: (document.getElementById('m_nom')?.value || '').trim(),
+    prenom: (document.getElementById('m_prenom')?.value || '').trim(),
+    ville: (document.getElementById('m_ville')?.value || '').trim(),
+    profilLabel: cfg ? cfg.title : null,
+    pct: pct,
+    date: new Date().toLocaleDateString('fr-FR')
+  };
+}
+function openShareLink(){
+  const snapshot = buildShareSnapshot();
+  const json = JSON.stringify(snapshot);
+  const encoded = btoa(unescape(encodeURIComponent(json)));
+  const url = location.origin + location.pathname + '?partage=' + encoded;
+  const content = document.getElementById('share-link-content');
+  if(content){
+    content.innerHTML = `
+      <div class="share-link-box" id="share-link-text">${url}</div>
+      <button class="share-link-copy-btn" onclick="copyShareLink('${url.replace(/'/g,"\\'")}')">📋 Copier le lien</button>
+      <div style="font-size:9.5px;color:#9a8a72;margin-top:10px;line-height:1.5;text-align:center;">Ce lien affiche uniquement un résumé (profil, avancement, ville). Aucune photo ni document joint n'est inclus.</div>
+    `;
+  }
+  document.getElementById('share-overlay').classList.remove('hidden');
+}
+function closeShareLink(){
+  document.getElementById('share-overlay').classList.add('hidden');
+}
+function copyShareLink(url){
+  navigator.clipboard?.writeText(url).then(() => {
+    showToast('🔗 Lien copié — vous pouvez le transmettre');
+  }).catch(() => {
+    showToast('Sélectionnez et copiez le lien manuellement');
+  });
+}
+// Affichage de la page de lecture si l'app est ouverte avec ?partage=...
+function checkSharedViewOnLoad(){
+  const params = new URLSearchParams(location.search);
+  const encoded = params.get('partage');
+  if(!encoded) return;
+  try {
+    const json = decodeURIComponent(escape(atob(encoded)));
+    const data = JSON.parse(json);
+    const overlay = document.createElement('div');
+    overlay.style.cssText = 'position:fixed;inset:0;z-index:9998;background:#faf8f4;display:flex;align-items:center;justify-content:center;padding:24px;font-family:inherit;';
+    overlay.innerHTML = `
+      <div style="background:white;border-radius:18px;padding:24px 20px;max-width:340px;width:100%;box-shadow:0 16px 40px rgba(0,0,0,.15);text-align:center;">
+        <div style="font-size:13px;font-weight:800;color:#7a8a6a;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;">📄 Dossier partagé — lecture seule</div>
+        <div style="font-size:15px;font-weight:800;color:#1a2a0e;margin-bottom:4px;">${data.prenom || ''} ${data.nom || ''}</div>
+        <div style="font-size:11px;color:#9a8a72;margin-bottom:18px;">${data.ville || 'Ville non renseignée'}</div>
+        <div style="background:#f5f8f2;border-radius:12px;padding:14px;margin-bottom:14px;">
+          <div style="font-size:10px;color:#7a8a6a;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Profil</div>
+          <div style="font-size:12px;font-weight:700;color:#2d5a27;">${data.profilLabel || 'Non défini'}</div>
+        </div>
+        <div style="background:#f5f8f2;border-radius:12px;padding:14px;margin-bottom:18px;">
+          <div style="font-size:10px;color:#7a8a6a;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Avancement du dossier</div>
+          <div style="font-size:22px;font-weight:900;color:#1a3a6e;">${data.pct ?? 0}%</div>
+        </div>
+        <div style="font-size:9.5px;color:#b0a090;line-height:1.5;">Instantané généré le ${data.date || '—'}<br>ArgiQare — document indicatif sans valeur juridique</div>
+      </div>`;
+    document.body.appendChild(overlay);
+  } catch(e){ /* lien invalide, on ignore silencieusement */ }
+}
+// ══ FIN PARTAGE LECTURE SEULE ══
+
+// ══ MODULE SATISFACTION ══
+function shouldOfferSatisfaction(){
+  return localStorage.getItem('argicare-satisfaction-given') !== '1';
+}
+function maybeTriggerSatisfactionOnCompletion(){
+  // Déclenché automatiquement quand l'étape "Proposition d'indemnisation"
+  // vient d'être complétée — c'est la dernière étape du parcours qui
+  // comporte des cases à cocher, l'étape suivante (Travaux de réparation)
+  // étant volontairement purement informative.
+  if(!shouldOfferSatisfaction()) return;
+  const step13 = document.getElementById('step-13b');
+  if(!step13) return;
+  const cbs = step13.querySelectorAll('.diag-cb');
+  const allChecked = cbs.length > 0 && [...cbs].every(c => c.checked);
+  if(allChecked){
+    setTimeout(openSatisfaction, 900);
+  }
+}
+function openSatisfaction(){
+  renderSatisfactionStep();
+  document.getElementById('satisfaction-overlay').classList.remove('hidden');
+}
+function closeSatisfaction(){
+  document.getElementById('satisfaction-overlay').classList.add('hidden');
+}
+let _satisfactionRating = 0;
+function renderSatisfactionStep(){
+  _satisfactionRating = 0;
+  const box = document.getElementById('satisfaction-box');
+  if(!box) return;
+  box.innerHTML = `
+    <div class="satisfaction-icon">💬</div>
+    <div class="satisfaction-title">Votre avis compte</div>
+    <div class="satisfaction-sub">Comment s'est passée votre expérience avec ArgiQare sur ce dossier ?</div>
+    <div class="satisfaction-stars" id="satisfaction-stars">
+      ${[1,2,3,4,5].map(n => `<span class="satisfaction-star" data-n="${n}" onclick="setSatisfactionRating(${n})">⭐</span>`).join('')}
+    </div>
+    <textarea class="satisfaction-textarea" id="satisfaction-comment" rows="3" placeholder="Un commentaire à ajouter ? (facultatif)"></textarea>
+    <button class="satisfaction-submit-btn" onclick="submitSatisfaction()">Envoyer mon avis</button>
+    <button class="satisfaction-skip-btn" onclick="closeSatisfaction()">Plus tard</button>
+  `;
+}
+function setSatisfactionRating(n){
+  _satisfactionRating = n;
+  document.querySelectorAll('#satisfaction-stars .satisfaction-star').forEach(s => {
+    s.classList.toggle('active', parseInt(s.dataset.n) <= n);
+  });
+}
+function submitSatisfaction(){
+  const comment = document.getElementById('satisfaction-comment')?.value?.trim() || '';
+  const payload = { rating: _satisfactionRating, comment, date: new Date().toISOString() };
+  // Stockage local — pas de backend ; conservé pour export/consultation
+  // manuelle par l'éditeur de l'app (toi) si besoin via les outils navigateur.
+  localStorage.setItem('argicare-satisfaction-given', '1');
+  localStorage.setItem('argicare-satisfaction-data', JSON.stringify(payload));
+  const box = document.getElementById('satisfaction-box');
+  if(box){
+    box.innerHTML = `
+      <div class="satisfaction-thanks">
+        <div class="satisfaction-icon">🙏</div>
+        <div class="satisfaction-title">Merci pour votre retour</div>
+        <div class="satisfaction-sub">Votre avis aide à améliorer ArgiQare pour les prochains assurés.</div>
+        <button class="satisfaction-submit-btn" onclick="closeSatisfaction()">Fermer</button>
+      </div>`;
+  }
+}
+// Bouton manuel depuis Paramètres
+function openSatisfactionManual(){
+  openSatisfaction();
+}
+// ══ FIN MODULE SATISFACTION ══
 
 function selectProfil(n, opts){
   const silent = opts && opts.silent;
@@ -4671,24 +5408,43 @@ function selectProfil(n, opts){
     if(check) check.innerHTML = i === n ? '✓' : '';
   });
 
-  // Grisage des étapes
+  // Réinitialisation systématique de l'état "profil" sur toutes les
+  // étapes avant d'appliquer la nouvelle config — évite que des badges
+  // ou un grisage résiduel d'un profil précédent ne persistent.
+  document.querySelectorAll('.diag-step').forEach(s => {
+    s.classList.remove('profil-grise', 'profil-done', 'profil-info');
+    const badge = s.querySelector('.profil-step-badge');
+    if(badge) badge.remove();
+  });
+
+  // Grisage strict des étapes (non accessibles)
   cfg.grises.forEach(num => {
     const s = document.getElementById('step-' + num + 'b');
     if(!s) return;
-    s.classList.remove('profil-done');
     s.classList.add('profil-grise');
-    // Ajouter badge "Déjà effectuée" sur le header
     const hdr = s.querySelector('.diag-step-title');
     if(hdr && !hdr.querySelector('.profil-step-badge')){
       hdr.insertAdjacentHTML('afterend', '<span class="profil-step-badge fait">Déjà effectuée</span>');
     }
   });
 
+  // Étapes informatives — restent pleinement accessibles et modifiables,
+  // simplement signalées par un badge invitant à les compléter aussi
+  // pour un dossier plus complet (sans aucun blocage).
+  (cfg.infoSteps || []).forEach(num => {
+    const s = document.getElementById('step-' + num + 'b');
+    if(!s) return;
+    s.classList.add('profil-info');
+    const hdr = s.querySelector('.diag-step-title');
+    if(hdr && !hdr.querySelector('.profil-step-badge')){
+      hdr.insertAdjacentHTML('afterend', '<span class="profil-step-badge info">💡 Recommandé</span>');
+    }
+  });
+
   cfg.actives.forEach(num => {
     const s = document.getElementById('step-' + num + 'b');
     if(!s) return;
-    s.classList.remove('profil-grise');
-    // Retirer badge si présent
+    s.classList.remove('profil-grise', 'profil-info');
     const badge = s.querySelector('.profil-step-badge');
     if(badge) badge.remove();
   });
@@ -4702,6 +5458,24 @@ function selectProfil(n, opts){
     bar.style.cursor = 'default';
     document.getElementById('profil-actif-icon').textContent = cfg.icon;
     document.getElementById('profil-actif-label').innerHTML = cfg.label + ' <span class="profil-actif-change" onclick="goToAccueilProfil(event)">Changer de profil</span>';
+  }
+
+  // Bandeau informatif — visible uniquement si le profil comporte des
+  // étapes "recommandées" (infoSteps), restées librement accessibles.
+  const infoBanner = document.getElementById('profil-info-banner');
+  if(infoBanner){
+    if(cfg.infoSteps && cfg.infoSteps.length > 0){
+      const labels = cfg.infoSteps.map(num => {
+        const s = document.getElementById('step-' + num + 'b');
+        const titleEl = s ? s.querySelector('.diag-step-title') : null;
+        return titleEl ? titleEl.textContent : null;
+      }).filter(Boolean);
+      document.getElementById('profil-info-banner-text').textContent =
+        'Pour un dossier encore plus complet, vous pouvez aussi renseigner : ' + labels.join(', ') + '. Ces étapes restent entièrement libres à compléter, à tout moment.';
+      infoBanner.style.display = 'block';
+    } else {
+      infoBanner.style.display = 'none';
+    }
   }
 
   // Le profil conditionne et restructure les étapes du diagnostic en
@@ -4749,8 +5523,63 @@ function toggleDiagStep(id){
     clicked.style.borderColor = '#4a7c3f';
     clicked.style.boxShadow = '0 2px 12px rgba(45,90,39,.15)';
     setTimeout(()=>clicked.scrollIntoView({behavior:'smooth',block:'nearest'}),80);
+    // Glossaire proactif — signale le premier terme technique de l'étape
+    if(typeof showProactiveGlossTip === 'function'){
+      setTimeout(() => showProactiveGlossTip(clicked), 350);
+    }
   }
 }
+
+// ══ GLOSSAIRE PROACTIF ══
+// À l'ouverture d'une étape, repère le premier élément .gl (terme déjà
+// surligné par le système existant) à l'intérieur de cette étape, et
+// affiche un petit tooltip qui invite à le découvrir — une seule fois
+// par terme, pour ne pas être intrusif au fil des réouvertures.
+const _glossProactiveShown = new Set(JSON.parse(localStorage.getItem('argicare-gloss-proactive-shown') || '[]'));
+function showProactiveGlossTip(stepEl){
+  const firstTerm = stepEl.querySelector('.diag-step-body .gl');
+  if(!firstTerm) return;
+  const termKey = firstTerm.getAttribute('onclick') || '';
+  if(_glossProactiveShown.has(termKey)) return;
+
+  const phone = document.querySelector('.phone');
+  if(!phone) return;
+  let tip = document.getElementById('gloss-proactive-tip');
+  if(!tip){
+    tip = document.createElement('div');
+    tip.id = 'gloss-proactive-tip';
+    tip.className = 'gloss-proactive-tip';
+    phone.appendChild(tip);
+  }
+  tip.innerHTML = '<span>💡</span><span>Nouveau terme — appuyez pour comprendre</span>';
+  const rect = firstTerm.getBoundingClientRect();
+  const phoneRect = phone.getBoundingClientRect();
+  tip.style.top = (rect.top - phoneRect.top - 38) + 'px';
+  tip.style.left = Math.max(10, rect.left - phoneRect.left - 20) + 'px';
+  tip.onclick = () => { firstTerm.click(); tip.classList.remove('visible'); };
+
+  requestAnimationFrame(() => tip.classList.add('visible'));
+  setTimeout(() => tip.classList.remove('visible'), 3500);
+
+  _glossProactiveShown.add(termKey);
+  localStorage.setItem('argicare-gloss-proactive-shown', JSON.stringify([..._glossProactiveShown]));
+}
+// ══ FIN GLOSSAIRE PROACTIF ══
+
+// ══ SOUS-BULLES (ex: étape 3 "À qui m'adresser ?") ══
+function toggleSubstep(id){
+  const body = document.getElementById(id);
+  const toggle = document.getElementById(id + '-toggle');
+  const arrow = document.getElementById(id + '-arrow');
+  if(!body || !toggle) return;
+  const wasOpen = body.classList.contains('open');
+  body.classList.toggle('open', !wasOpen);
+  toggle.classList.toggle('open', !wasOpen);
+  if(!wasOpen){
+    setTimeout(() => toggle.scrollIntoView({behavior:'smooth', block:'nearest'}), 80);
+  }
+}
+// ══ FIN SOUS-BULLES ══
 
 function toggleAccordion(id){
   const b=document.getElementById(id);
@@ -4824,6 +5653,31 @@ function switchTab(n, el, source='') {
 }
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
 function saveForm(){showToast('✅ Informations sauvegardées !');}
+
+// ══ AUTO-SAUVEGARDE VISIBLE ══
+let _autosaveTimer = null;
+function showAutosaveBadge(){
+  const badge = document.getElementById('autosave-badge');
+  if(!badge) return;
+  badge.classList.add('visible');
+  clearTimeout(_autosaveTimer);
+  _autosaveTimer = setTimeout(() => badge.classList.remove('visible'), 1400);
+}
+// Écoute globale sur les interactions qui modifient déjà des données
+// stockées en localStorage (formulaires, checkboxes, triState...).
+// Posé une fois, ne nécessite aucune modification des onchange/onclick
+// existants ailleurs dans l'app.
+document.addEventListener('change', (e) => {
+  const t = e.target;
+  if(t.matches('.form-input, .diag-cb, .tri-sub-cb, input[type="checkbox"], input[type="radio"], input[type="date"], input[type="email"], input[type="tel"], textarea, select')){
+    if(typeof saveDiag === 'function') saveDiag();
+    showAutosaveBadge();
+  }
+});
+document.addEventListener('click', (e) => {
+  if(e.target.closest('.tri-btn')) showAutosaveBadge();
+});
+// ══ FIN AUTO-SAUVEGARDE ══
 
 // ── Second slot générique ──
 function showSlot2(prefix, suffix){
@@ -5546,13 +6400,15 @@ function generatePDF(){
 
   // Carte assuré
   const cY = photoDataUrl ? photoH+52 : 124;
-  const cH=62, cX=ML+8, cW2=W-ML-MR-16;
+  const cH=69, cX=ML+8, cW2=W-ML-MR-16;
   doc.setFillColor(30,45,30); doc.roundedRect(cX,cY,cW2,cH,3,3,'F');
   doc.setFillColor(...OR); doc.roundedRect(cX,cY,cW2,8,3,3,'F');
   doc.rect(cX,cY+5,cW2,3,'F');
   doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
   doc.text('INFORMATIONS ASSURÉ', W/2, cY+5.5, {align:'center'});
 
+  const savedProfilPdf = localStorage.getItem('argicare-profil');
+  const cfgPdf = savedProfilPdf ? PROFIL_CONFIG[savedProfilPdf] : null;
   const cardData=[
     ['Assuré', v('m_nom')+' '+v('m_prenom')],
     ['Adresse', v('m_voie')+(v('m_compl')!=='—'?' '+v('m_compl'):'')+' — '+v('m_cp')+' '+v('m_ville')],
@@ -5560,6 +6416,7 @@ function generatePDF(){
     ['Email', v('m_email')],
     ['Assureur', v('m_assureur')!=='—'?v('m_assureur'):v('m_typecontrat')],
     ['Contrat N°', v('m_numcontrat')],
+    ['Profil de situation', cfgPdf ? cfgPdf.title : 'Non défini'],
   ];
   let cy2=cY+14;
   cardData.forEach(([lbl,val])=>{
@@ -5633,7 +6490,6 @@ function generatePDF(){
     ['   2.1','Étape 1 — Observation des fissures','4',GY],
     ['   2.2','Étape 2 — Environnement de la maison','4',GY],
     ['   2.3','Étape 3 — Facteurs déclenchants','4',GY],
-    ['   2.4','Étape 4 — Mon contrat d\'assurance','5',GY],
     ['   2.5','Étape 5 — Entretien & historique','5',GY],
     ['   2.6','Étape 6 — Informations pour l\'expert','5',GY],
     ['   2.7','Étape 7 — Description des désordres','6',GY],
@@ -5714,10 +6570,10 @@ function generatePDF(){
   doc.addPage(); drawHeader(); y=22;
   y = sectionBar('2.  PARCOURS DIAGNOSTIC — RÉPONSES DÉTAILLÉES', GD, y);
   doc.setFontSize(7.5); doc.setFont(undefined,'italic'); doc.setTextColor(...GY);
-  doc.text('✓ = Oui, c\'est mon cas   −  = Non concerné   ○ = Non renseigné', ML+2, y); y+=8;
+  doc.text('✓ = Oui, c\'est mon cas   −  = Non ou non concerné   ○ = Non renseigné', ML+2, y); y+=8;
 
   // Légende
-  [['✓','Oui, c\'est mon cas',...GD],['−','Non concerné',...AM],['○','Non renseigné',150,150,150]].forEach(([ic,lb,r,g,b])=>{
+  [['✓','Oui, c\'est mon cas',...GD],['−','Non ou non concerné',...AM],['○','Non renseigné',150,150,150]].forEach(([ic,lb,r,g,b])=>{
     doc.setFillColor(r,g,b); doc.circle(ML+6,y,2,'F');
     doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...WT); doc.text(ic,ML+6,y+1,{align:'center'});
     doc.setFont(undefined,'normal'); doc.setTextColor(r,g,b); doc.text(lb, ML+10, y+1); y+=6;
@@ -5766,27 +6622,6 @@ function generatePDF(){
 
   // Étape 4 — Contrat
   if(y>H-30){doc.addPage();drawHeader();y=22;}
-  doc.setFontSize(9.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
-  doc.text('Étape 4 — Mon contrat d\'assurance', ML+2, y); y+=7;
-  // Cases diag-cb classiques de l'étape 4
-  const step4Items = document.querySelectorAll('#step-4b .diag-check-item');
-  step4Items.forEach(item=>{
-    const cb = item.querySelector('input[type=checkbox]');
-    const lbl = item.querySelector('label')?.textContent?.trim()||'';
-    if(!lbl) return;
-    const icon = cb?.checked?'✓':'○';
-    const col = cb?.checked?GD:[160,160,160];
-    doc.setFillColor(...col); doc.circle(ML+4,y+1.5,2.5,'F');
-    doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-    doc.text(icon,ML+4,y+2.5,{align:'center'});
-    doc.setFontSize(8); doc.setFont(undefined,cb?.checked?'bold':'normal');
-    doc.setTextColor(cb?.checked?BK[0]:150,cb?.checked?BK[1]:150,cb?.checked?BK[2]:150);
-    const lines=doc.splitTextToSize(lbl.substring(0,120),CW-12);
-    doc.text(lines,ML+9,y+2);
-    y+=Math.max(6,lines.length*4)+2;
-  });
-  y+=4;
-
   // Étape 5 — Entretien
   if(y>H-30){doc.addPage();drawHeader();y=22;}
   doc.setFontSize(9.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
@@ -6198,15 +7033,33 @@ function refreshCompletion(){
 .cgu-article-body { font-size:10.5px; color:#3a4a2e; line-height:1.75; }
 /* ── FIN CGU ── */
 .tri-item { margin-bottom:10px; border-radius:10px; overflow:hidden; border:1.5px solid #e8e0d0; background:white; }
-.tri-item-header { display:flex; align-items:center; }
-.tri-label { flex:1; padding:9px 10px; font-size:11px; font-weight:600; color:#2d3a1e; line-height:1.4; }
-.tri-btns { display:flex; flex-shrink:0; }
-.tri-btn { padding:8px 9px; border:none; background:none; font-size:10px; font-weight:700; cursor:pointer; font-family:inherit; border-left:1px solid #e8e0d0; transition:all .15s; white-space:nowrap; color:#9a8a72; }
-.tri-btn.yes { color:#9a8a72; }
+.tri-item-header { display:flex; align-items:stretch; }
+.tri-label { flex:1; padding:9px 10px; font-size:11px; font-weight:600; color:#2d3a1e; line-height:1.4; text-align:justify; hyphens:auto; -webkit-hyphens:auto; }
+.tri-btns { display:flex; flex-direction:column; flex-shrink:0; width:96px; border-left:1px solid #e8e0d0; }
+.tri-btn { padding:6px 6px; border:none; background:none; font-size:9px; font-weight:700; cursor:pointer; font-family:inherit; transition:all .15s; white-space:normal; line-height:1.25; color:#9a8a72; text-align:center; }
+.tri-btn.yes { color:#9a8a72; border-bottom:1px solid #e8e0d0; }
 .tri-btn.no  { color:#9a8a72; }
 .tri-btn.yes.active { background:#e8f5e4 !important; color:#2d5a27 !important; }
 .tri-btn.no.active  { background:#f5f0e8 !important; color:#8a6a42 !important; }
 .tri-btn:hover { background:#f5f5f0; }
+
+/* ── SOUS-BULLES (ex: étape 3 "À qui m'adresser ?") ── */
+.substep-toggle {
+  display:flex; align-items:center; gap:10px; padding:11px 12px;
+  background:#eef4ff; border:1.5px solid #c8d8f0; border-radius:12px;
+  cursor:pointer; margin-bottom:8px; transition:background .15s;
+}
+.substep-toggle:active { background:#e0eaff; }
+.substep-toggle.open { border-color:#2a5ca8; }
+.substep-toggle-ic { font-size:19px; flex-shrink:0; }
+.substep-toggle-txt { flex:1; }
+.substep-toggle-title { font-size:11.5px; font-weight:800; color:#1a3a6e; }
+.substep-toggle-sub { font-size:9.5px; color:#5a7ab0; margin-top:1px; line-height:1.4; }
+.substep-arrow { transition:transform .25s; flex-shrink:0; }
+.substep-toggle.open .substep-arrow { transform:rotate(90deg); }
+.substep-body { display:none; padding:2px 2px 4px; margin-bottom:6px; }
+.substep-body.open { display:block; animation:fadeIn .18s ease both; }
+/* ── FIN SOUS-BULLES ── */
 .tri-detail { display:none; padding:8px 12px 10px; background:#f8faf6; border-top:1px solid #e8f0e4; }
 .tri-detail.open { display:block; }
 .tri-sub-item { display:flex; align-items:flex-start; gap:8px; padding:6px 0; border-bottom:1px solid rgba(45,90,39,.08); }
@@ -6991,7 +7844,7 @@ const TUTO_STEPS = [
     icon: '🔍',
     iconBg: 'linear-gradient(135deg,#8a6000,#c08000)',
     title: 'Onglet Mon Parcours',
-    sub: '14 étapes pour documenter votre situation',
+    sub: '12 étapes pour documenter votre situation',
     body: 'Définissez votre profil, puis suivez les étapes pour documenter votre sinistre : du constat de vos fissures à l\'information à la mairie, de la déclaration de sinistre auprès de votre assureur jusqu\'aux travaux de réparation. Pour chaque point, indiquez si vous êtes concerné — les sous-questions apparaissent automatiquement.'
   },
   {
@@ -7554,6 +8407,54 @@ function refreshDashboard(){
   const greeting = document.getElementById('dash-greeting');
   if(greeting) greeting.textContent = prenom ? `Bonjour ${prenom} 👋` : 'Bonjour 👋';
 
+  // ══ MESSAGE RASSURANT / ADAPTATIF ══
+  // Change de ton selon : premier passage, régularité récente, ou
+  // inactivité prolongée. Toujours bienveillant, jamais culpabilisant.
+  (function updateReassuranceBanner(){
+    const banner = document.getElementById('dash-reassurance-banner');
+    if(!banner) return;
+    const hasProfil = !!localStorage.getItem('argicare-profil');
+    const lastActionRaw = localStorage.getItem('argicare-last-action');
+    let daysSinceLastAction = null;
+    if(lastActionRaw){
+      try {
+        const data = JSON.parse(lastActionRaw);
+        daysSinceLastAction = Math.floor((Date.now() - new Date(data.date).getTime()) / 86400000);
+      } catch(e){}
+    }
+
+    let tone, icon, text;
+    if(!hasProfil){
+      // Tout premier passage — pas encore de profil choisi
+      tone = 'tone-warm';
+      icon = '🤝';
+      text = "Vous n'êtes pas seul dans cette démarche. Prenez le temps qu'il vous faut — ArgiQare vous accompagne étape par étape, sans rien précipiter.";
+    } else if(daysSinceLastAction === null){
+      // Profil choisi mais aucune action enregistrée encore
+      tone = 'tone-gentle';
+      icon = '🌱';
+      text = "Chaque petite information renseignée compte. Avancez à votre rythme, vous pouvez reprendre à tout moment.";
+    } else if(daysSinceLastAction <= 2){
+      // Activité récente — encourager la régularité
+      tone = 'tone-warm';
+      icon = '👏';
+      text = "Vous progressez bien sur votre dossier. Continuez à ce rythme, chaque étape vous rapproche d'un dossier solide.";
+    } else if(daysSinceLastAction >= 14){
+      // Inactivité longue — ton doux, sans culpabiliser
+      tone = 'tone-gentle';
+      icon = '💛';
+      text = "Pas de nouvelle depuis un moment, et c'est tout à fait normal. On est là quand vous voulez reprendre, sans aucune pression.";
+    } else {
+      tone = 'tone-encourage';
+      icon = '🧭';
+      text = "Votre dossier avance. N'hésitez pas à revenir régulièrement, même quelques minutes à la fois.";
+    }
+
+    banner.className = 'dash-reassurance-banner visible ' + tone;
+    banner.innerHTML = '<span class="dash-reassurance-icon">' + icon + '</span>' + text;
+  })();
+  // ══ FIN MESSAGE RASSURANT ══
+
   // Profil actif — affiche les mêmes informations (titre, sous-texte,
   // pill) que les cartes profil de l'onglet Mon Parcours.
   const savedProfil = localStorage.getItem('argicare-profil');
@@ -7693,7 +8594,7 @@ function refreshDashboard(){
   })();
 
   // ══ POINT 4 — TIMELINE VISUELLE DU PARCOURS GLOBAL ══
-  // Mappe les 14 étapes du diagnostic sur 5 grandes phases du parcours.
+  // Mappe les 12 étapes du diagnostic sur 5 grandes phases du parcours.
   (function updateTimeline(){
     const phaseRanges = {
       constat: [1,1], declaration: [2,5], expertise: [6,12],
