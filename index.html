@@ -55,8 +55,8 @@
 /* ── FIN ISOLATION LEAFLET ── */
 
 /* ── CARTES PROFIL DIAGNOSTIC ── */
-.profil-card { border-radius:14px; padding:13px 14px; margin-bottom:9px; cursor:pointer; position:relative; overflow:hidden; transition:transform .12s, box-shadow .12s; border:2px solid transparent; }
-.profil-card:active { transform:scale(.98); }
+.profil-card { border-radius:14px; padding:13px 14px; margin-bottom:9px; cursor:pointer; position:relative; overflow:hidden; transition:transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s; border:2px solid transparent; transform-style:preserve-3d; }
+.profil-card:active { transform:scale(.97) rotateX(2deg); box-shadow:0 2px 6px rgba(0,0,0,.08); }
 .profil-card.p1 { background:linear-gradient(135deg,#e8f5e4,#d8f0d0); border-color:#a8d5a2; }
 .profil-card.p2 { background:linear-gradient(135deg,#e8f0fe,#d8e8fe); border-color:#a8c0e8; }
 .profil-card.p3 { background:linear-gradient(135deg,#fff3e0,#ffe0b0); border-color:#e8c060; }
@@ -73,10 +73,12 @@
 .profil-card.p3 .profil-card-title { color:#7a4000; }
 .profil-card-sub { font-size:10px; color:#5a6a52; line-height:1.5; }
 .profil-card-footer { display:flex; align-items:center; justify-content:space-between; }
-.profil-card-pill { font-size:9px; font-weight:800; padding:3px 9px; border-radius:20px; }
+.profil-card-pill { font-size:9px; font-weight:800; padding:3px 9px; border-radius:20px; position:relative; overflow:hidden; }
 .profil-card.p1 .profil-card-pill { background:#2d5a27; color:white; }
 .profil-card.p2 .profil-card-pill { background:#1a3a6e; color:white; }
 .profil-card.p3 .profil-card-pill { background:#9a5800; color:white; }
+@keyframes pillShimmer { 0%{transform:translateX(-120%);} 100%{transform:translateX(220%);} }
+.profil-card-pill::after { content:''; position:absolute; top:0; left:0; width:40%; height:100%; background:linear-gradient(110deg,transparent,rgba(255,255,255,.35),transparent); animation:pillShimmer 2.6s ease-in-out infinite; animation-delay:1.2s; }
 .profil-card-check { width:22px; height:22px; border-radius:50%; border:2px solid rgba(0,0,0,.15); display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; }
 .profil-card.selected .profil-card-check { background:#2d5a27; border-color:#2d5a27; color:white; }
 .profil-card.p2.selected .profil-card-check { background:#1a3a6e; border-color:#1a3a6e; }
@@ -84,6 +86,8 @@
 
 /* Étapes grisées */
 .diag-step.profil-grise { opacity:.38; pointer-events:none; }
+@keyframes stepUnlock { 0%{box-shadow:0 0 0 0 rgba(74,124,63,0);} 30%{box-shadow:0 0 0 6px rgba(74,124,63,.25);transform:scale(1.015);} 100%{box-shadow:0 0 0 0 rgba(74,124,63,0);transform:scale(1);} }
+.diag-step.step-unlock { animation: stepUnlock .55s cubic-bezier(.34,1.56,.64,1); }
 .diag-step.profil-grise .diag-step-num { background:#c0b8a8 !important; }
 .diag-step.profil-done { border-color:#a8d5a2 !important; }
 .diag-step.profil-done .diag-step-num { background:linear-gradient(135deg,#4a7c3f,#6aac5f) !important; }
@@ -192,9 +196,15 @@ button, .nav-item, .diag-step-header, .section-header,
   animation: fadeIn .22s cubic-bezier(.4,0,.2,1) both;
 }
 
-/* Entrée des étapes diagnostic quand elles s'ouvrent — fadeIn pur */
+/* Entrée des étapes diagnostic quand elles s'ouvrent — léger overshoot élastique */
+@keyframes stepOpenBounce {
+  0%   { opacity:0; transform: translateY(-6px) scaleY(.96); }
+  60%  { opacity:1; transform: translateY(1px) scaleY(1.01); }
+  100% { opacity:1; transform: translateY(0) scaleY(1); }
+}
 .diag-step.open .diag-step-body {
-  animation: fadeIn .18s ease both;
+  animation: stepOpenBounce .32s cubic-bezier(.34,1.56,.64,1) both;
+  transform-origin: top;
 }
 
 /* Entrée des cards profil — fadeIn en cascade, sans déplacement */
@@ -287,6 +297,8 @@ button, .nav-item, .diag-step-header, .section-header,
 .dash-next-btn { font-size:9.5px; font-weight:800; color:#1a3a6e; background:#e8f0fe; padding:4px 9px; border-radius:20px; cursor:pointer; white-space:nowrap; }
 
 .dash-profil-pill { display:inline-flex; align-items:center; gap:6px; font-size:9.5px; font-weight:700; padding:4px 10px; border-radius:20px; }
+@keyframes pillPop { 0%{transform:scale(.5);opacity:0;} 60%{transform:scale(1.08);opacity:1;} 100%{transform:scale(1);} }
+.dash-profil-pill { animation: pillPop .4s cubic-bezier(.34,1.56,.64,1) both; }
 .dash-profil-pill.p1 { background:#e8f5e4; color:#2d5a27; }
 .dash-profil-pill.p2 { background:#e8f0fe; color:#1a3a6e; }
 .dash-profil-pill.p3 { background:#fff3e0; color:#9a5800; }
@@ -311,6 +323,23 @@ button, .nav-item, .diag-step-header, .section-header,
 .dash-qa-ic { font-size:17px; margin-bottom:2px; }
 .dash-qa-label { font-size:8.5px; font-weight:700; color:#3a4a3a; line-height:1.2; }
 .dash-qa-pct { font-size:10px; font-weight:800; color:#2d5a27; margin-top:1px; }
+.nav-progress-pop {
+  position:absolute; top:-6px; left:50%; transform:translateX(-50%) translateY(0) scale(0.7);
+  background:#f5a623; color:#1a2a0e; font-size:8px; font-weight:800;
+  padding:1px 5px; border-radius:8px; white-space:nowrap; opacity:0;
+  pointer-events:none; box-shadow:0 2px 6px rgba(0,0,0,.25);
+}
+.nav-progress-pop.show {
+  animation: navProgressPop 1.3s ease forwards;
+}
+@keyframes navProgressPop {
+  0%   { opacity:0; transform:translateX(-50%) translateY(4px) scale(0.7); }
+  20%  { opacity:1; transform:translateX(-50%) translateY(-2px) scale(1); }
+  75%  { opacity:1; transform:translateX(-50%) translateY(-6px) scale(1); }
+  100% { opacity:0; transform:translateX(-50%) translateY(-12px) scale(0.85); }
+}
+@keyframes qaPulse { 0%{transform:scale(1);} 35%{transform:scale(1.08);box-shadow:0 0 0 4px rgba(74,124,63,.25);} 100%{transform:scale(1);box-shadow:0 0 0 0 rgba(74,124,63,0);} }
+.dash-qa-btn.qa-pulse { animation: qaPulse .65s cubic-bezier(.34,1.56,.64,1); }
 /* ── REPRISE DE SESSION ── */
 .dash-resume-banner {
   background:linear-gradient(135deg,#e8f0fe,#dce8fc);
@@ -342,8 +371,14 @@ button, .nav-item, .diag-step-header, .section-header,
 @keyframes timelinePulse { 0%,100% { box-shadow:0 0 0 2px #f5a623; } 50% { box-shadow:0 0 0 5px rgba(245,166,35,.3); } }
 .dash-timeline-label { font-size:7.5px; font-weight:700; color:#9a8a72; text-align:center; line-height:1.2; }
 .dash-timeline-step.done .dash-timeline-label, .dash-timeline-step.current .dash-timeline-label { color:#3a4a3a; }
-.dash-timeline-line { height:2px; background:#e8e0d4; flex:0.5; margin-top:15px; }
+.dash-timeline-line { height:2px; background:#e8e0d4; flex:0.5; margin-top:15px; position:relative; overflow:hidden; }
 .dash-timeline-line.done { background:#4a7c3f; }
+.dash-timeline-line.line-wave::after {
+  content:''; position:absolute; top:0; left:-30%; width:30%; height:100%;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);
+  animation: lineWaveMove .65s ease-out;
+}
+@keyframes lineWaveMove { 0%{left:-30%;} 100%{left:100%;} }
 
 /* ── CE QU'IL VOUS RESTE À FAIRE ── */
 .dash-todo-item {
@@ -615,6 +650,28 @@ function updateProgress(){
   const all = document.querySelectorAll('#screen-diag .diag-cb');
   const checked = [...all].filter(c=>c.checked).length;
   const pct = Math.round((checked/TOTAL_CHECKS)*100);
+
+  // Badge de progression flottant sur l'icône Accueil — signale une
+  // avancée même quand l'assuré n'est pas sur cet écran. Ne se déclenche
+  // que si le nombre de cases cochées augmente, et pas si l'on est déjà
+  // sur l'onglet Accueil (où la jauge réelle est visible directement).
+  if(window._lastCheckedCount === undefined) window._lastCheckedCount = checked;
+  if(checked > window._lastCheckedCount){
+    let onAccueil = false;
+    try { onAccueil = (TAB_ORDER[currentTabIndex] === 'accueil'); } catch(e){ onAccueil = false; }
+    if(!onAccueil){
+      const pop = document.getElementById('nav-progress-pop');
+      if(pop){
+        pop.textContent = '✓';
+        pop.classList.remove('show');
+        void pop.offsetWidth;
+        pop.classList.add('show');
+        setTimeout(() => pop.classList.remove('show'), 1300);
+      }
+    }
+  }
+  window._lastCheckedCount = checked;
+
   // Indicateur verbal
   const verbal = document.getElementById('diag-verbal');
   if(verbal){
@@ -623,11 +680,18 @@ function updateProgress(){
     let nextLabel = null;
     steps.forEach((s, i) => {
       const cbs = s.querySelectorAll('.diag-cb');
-      // Une étape sans aucune case à cocher est purement informative
-      // (ex: "Travaux de réparation") — elle est considérée comme
-      // toujours "complétée" puisqu'il n'y a rien à valider, afin de ne
-      // pas bloquer indéfiniment le décompte global de progression.
-      const allChecked = cbs.length === 0 || [...cbs].every(c=>c.checked);
+      // Une étape sans aucune case à cocher (ex: "Travaux de réparation",
+      // désormais purement informative) ne peut être marquée "complétée"
+      // que si le profil sélectionné correspond à cette phase du parcours
+      // (Profil 3 = phase travaux). Pour les profils 1 et 2, elle reste
+      // "à faire" comme n'importe quelle autre étape, même sans case.
+      let allChecked;
+      if(cbs.length === 0){
+        const savedProfilForStep = localStorage.getItem('argicare-profil');
+        allChecked = (savedProfilForStep === '3');
+      } else {
+        allChecked = [...cbs].every(c=>c.checked);
+      }
       const wasCompleted = s.classList.contains('completed');
       s.classList.toggle('completed', allChecked);
       // Détection de la transition non-complété → complété
@@ -668,9 +732,11 @@ function updateProgress(){
       verbal.textContent = completedCount + ' étape' + (completedCount>1?'s':'') + ' complétée' + (completedCount>1?'s':'') + ' sur ' + ETAPE_LABELS.length + ' — Prochaine étape : ' + (nextLabel || '');
     }
   } else {
+    const savedProfilFallback = localStorage.getItem('argicare-profil');
     document.querySelectorAll('.diag-step').forEach(s=>{
       const cbs = s.querySelectorAll('.diag-cb');
-      s.classList.toggle('completed', cbs.length===0 || [...cbs].every(c=>c.checked));
+      const ok = cbs.length === 0 ? (savedProfilFallback === '3') : [...cbs].every(c=>c.checked);
+      s.classList.toggle('completed', ok);
     });
   }
 }
@@ -729,6 +795,8 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 /* .header-arch-pill — bouton retiré du header, CSS nettoyé */
 .content { flex:1; overflow:hidden; min-height:0; position:relative; }
 .screens-wrapper { display:flex; height:100%; transition:transform 0.35s cubic-bezier(0.4,0,0.2,1); will-change:transform; }
+.screen-depth-out { animation: screenDepthOut .4s ease both; }
+@keyframes screenDepthOut { 0%{transform:scale(1);opacity:1;filter:brightness(1);} 40%{transform:scale(.94);opacity:.7;filter:brightness(.92);} 100%{transform:scale(1);opacity:1;filter:brightness(1);} }
 .screen { flex:0 0 100%; width:100%; height:100%; overflow-y:auto; padding:14px 14px 8px; box-sizing:border-box; scrollbar-width:thin; scrollbar-color:#4a7c3f #f0ece4; }
 .screen::-webkit-scrollbar { width:4px; }
 .screen::-webkit-scrollbar-track { background:#f0ece4; border-radius:4px; }
@@ -1036,6 +1104,8 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 @keyframes navBadgePulse { 0%,100% { opacity:1; } 50% { opacity:.5; } }
 .nav-item.active { border-top-color:#f5a623; }
 .nav-icon { font-size:20px; line-height:1; }
+@keyframes navIconPulse { 0%{transform:scale(1);} 40%{transform:scale(1.25);} 100%{transform:scale(1);} }
+.nav-icon.nav-icon-pulse { animation: navIconPulse .45s cubic-bezier(.34,1.56,.64,1); display:inline-block; }
 .nav-label { font-size:9px; font-weight:600; color:rgba(255,255,255,0.55); text-align:center; line-height:1.2; }
 .nav-item.active .nav-label { color:white; }
 .nav-dot { display:none; }
@@ -1333,7 +1403,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <div class="rgpd-consent-purpose-title">Données collectées et finalités</div>
         <div class="rgpd-consent-purpose-row"><span>👤 Profil</span><span>Pré-remplissage de votre dossier sinistre</span></div>
         <div class="rgpd-consent-purpose-row"><span>🏘️ Commune</span><span>Alerte arrêtés Cat Nat</span></div>
-        <div class="rgpd-consent-purpose-row"><span>📋 Diagnostic</span><span>Constitution de votre dossier RGA</span></div>
+        <div class="rgpd-consent-purpose-row"><span>📋 Parcours</span><span>Constitution de votre dossier RGA</span></div>
         <div class="rgpd-consent-purpose-row"><span>📎 Documents</span><span>Stockage local, génération PDF</span></div>
       </div>
       <div class="rgpd-consent-base">
@@ -1392,7 +1462,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       <button class="disclaimer-popup-close" onclick="closeDisclaimer()" title="Fermer">✕</button>
       <div class="disclaimer-popup-icon">👷</div>
       <div class="disclaimer-popup-title">Avant de commencer</div>
-      <div class="disclaimer-popup-text" style="text-align:justify;">Le diagnostic de votre habitation doit être réalisé par un professionnel, tel qu'un <span class="gl" onclick="glOpen('expert d\'assurance',this)">expert en assurance</span>, un bureau d'études géotechnique ou un bureau d'études structure.<br><br>Dans la mesure où un expert serait missionné par votre assureur, <strong>ArgiQare vous accompagne dans votre parcours</strong> et vous aide à préparer les différentes étapes pilotées par l'expert, qui détermineront si le RGA est la <span class="gl" onclick="glOpen('cause déterminante',this)"><strong>cause déterminante</strong></span> de vos dommages.</div>
+      <div class="disclaimer-popup-text" style="text-align:justify;">L'évaluation technique de votre habitation doit être réalisée par un professionnel, tel qu'un <span class="gl" onclick="glOpen('expert d\'assurance',this)">expert en assurance</span>, un bureau d'études géotechnique ou un bureau d'études structure.<br><br>Dans la mesure où un expert serait missionné par votre assureur, <strong>ArgiQare vous accompagne dans votre parcours</strong> et vous aide à préparer les différentes étapes pilotées par l'expert, qui détermineront si le RGA est la <span class="gl" onclick="glOpen('cause déterminante',this)"><strong>cause déterminante</strong></span> de vos dommages.</div>
       <div class="disclaimer-popup-sep"></div>
       <ul class="disclaimer-popup-detail" style="text-align:justify;">
         <li>Les résultats de ce parcours sont indicatifs et fondés sur vos déclarations</li>
@@ -1561,7 +1631,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       <div class="story-center">
         <div class="story-step-label" style="color:rgba(100,220,160,.5);">Étape 3 · ArgiQare</div>
         <div class="story-title">Votre dossier<br>en <em style="color:#80e0a0;">4 étapes</em></div>
-        <div class="story-body">Renseignez les informations sur votre bien → suivez votre parcours diagnostic → préconstituez votre dossier → générez votre PDF de synthèse à remettre à votre expert ou un professionnel du bâtiment.</div>
+        <div class="story-body">Renseignez les informations sur votre bien → suivez votre parcours → préconstituez votre dossier → générez votre PDF de synthèse à remettre à votre expert ou un professionnel du bâtiment.</div>
         <button class="story-start-btn" onclick="closeStory()">Démarrer mon parcours ArgiQare 🚀</button>
         <button class="story-start-btn" onclick="demarrerTutoriel()" style="background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.3);margin-top:8px;">🎓 Démarrer le tutoriel</button>
       </div>
@@ -2098,14 +2168,10 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
     <div class="screen" id="screen-diag">
       <div class="page-title">🔍 Mon Parcours</div>
 
-      <!-- BANDEAU PROFIL — toujours visible : invite à choisir un profil
-           depuis l'Accueil si aucun n'est encore défini, ou affiche le
-           profil actif une fois choisi. Le sélecteur des 3 cartes a été
-           déplacé vers l'onglet Accueil. -->
-      <div id="profil-actif-bar" class="profil-actif-bar none" onclick="goToAccueilProfil()" style="cursor:pointer;">
-        <span id="profil-actif-icon">👋</span>
-        <span id="profil-actif-label">Aucun profil défini — touchez ici pour le choisir depuis l'Accueil</span>
-      </div>
+      <!-- Le bandeau profil actif autonome a été retiré : l'information
+           (profil sélectionné + lien "Changer de profil") est désormais
+           intégrée directement dans le bloc d'introduction ci-dessous,
+           pour éviter la répétition du même message à deux endroits. -->
 
       <!-- MESSAGE INFORMATIF — visible uniquement pour les profils ayant
            des étapes "recommandées" (ex: profil 2, étapes 1 à 3) qui
@@ -2115,31 +2181,35 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <span style="font-size:14px;">💡</span> <span id="profil-info-banner-text"></span>
       </div>
 
-      <!-- INTRO — menu déroulant, fermé par défaut -->
-      <div class="section-block" id="acc-intro-diag" style="margin-bottom:14px;border-left:3px solid #4a7c3f;">
-        <div class="section-header" onclick="toggleAccordion('acc-intro-diag')" style="color:#2d5a27;">
-          <span style="font-size:15px;">🔍</span> Votre parcours diagnostic
-          <span class="accordion-arrow">›</span>
+      <!-- INTRODUCTION — directement visible sous le titre, sans accordéon -->
+      <div style="margin-bottom:16px;background:white;border-radius:14px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,0.05);">
+
+        <!-- En-tête profil actif -->
+        <div id="intro-profil-label" style="font-size:12px;font-weight:800;color:#2d5a27;margin-bottom:12px;padding-bottom:12px;border-bottom:1px solid #eee7d8;display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;">Aucun profil défini <span class="profil-actif-change" onclick="goToAccueilProfil(event)">Choisir un profil</span></div>
+
+        <!-- Texte de présentation -->
+        <div style="font-size:11.5px;color:#3a4a3a;line-height:1.75;text-align:justify;">Ce parcours vous accompagne à travers <strong style="color:#2d5a27;">12 étapes</strong> qui couvrent l'ensemble de votre situation — de la première fissure constatée jusqu'aux travaux de réparation. Répondez à chaque question au fur et à mesure, sans pression. Vous pouvez revenir à tout moment compléter ou modifier vos réponses.</div>
+
+        <!-- À quoi sert le PDF -->
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid #eee7d8;display:flex;gap:11px;align-items:flex-start;">
+          <div style="font-size:19px;flex-shrink:0;line-height:1;">📄</div>
+          <div style="font-size:11.5px;color:#3a4a3a;line-height:1.75;text-align:justify;"><strong style="color:#2d3a2e;">À quoi sert le PDF de synthèse ?</strong><br>Au fur et à mesure que vous renseignez ce parcours, ArgiQare constitue automatiquement un <strong>dossier de synthèse</strong> que vous pouvez télécharger à tout moment depuis l'onglet <strong>Mon Dossier</strong>. Ce document rassemble toutes vos réponses, vos photos et vos pièces justificatives dans un format structuré, prêt à être remis à votre <span class="gl" onclick="glOpen('expert d\'assurance',this)">expert d'assurance</span>, à votre assureur ou à tout professionnel du bâtiment qui vous accompagne.</div>
         </div>
-        <div class="section-body" style="padding-top:10px;">
-          <div style="font-size:11px;color:#3a5a32;line-height:1.7;text-align:justify;margin-bottom:10px;">Ce parcours vous accompagne à travers <strong>12 étapes</strong> qui couvrent l'ensemble de votre situation — de la première fissure constatée jusqu'aux travaux de réparation. Répondez à chaque question au fur et à mesure, sans pression. Vous pouvez revenir à tout moment compléter ou modifier vos réponses.</div>
-          <div style="height:1px;background:rgba(45,90,39,.15);margin-bottom:10px;"></div>
-          <div style="display:flex;gap:10px;align-items:flex-start;">
-            <div style="font-size:20px;flex-shrink:0;">📄</div>
-            <div style="font-size:11px;color:#2d5a32;line-height:1.7;text-align:justify;"><strong>À quoi sert le PDF de synthèse ?</strong><br>Au fur et à mesure que vous renseignez ce parcours, ArgiQare constitue automatiquement un <strong>dossier de synthèse</strong> que vous pouvez télécharger à tout moment depuis l'onglet <strong>Mon Dossier</strong>. Ce document rassemble toutes vos réponses, vos photos et vos pièces justificatives dans un format structuré, prêt à être remis à votre <span class="gl" onclick="glOpen('expert d\'assurance',this)">expert d'assurance</span>, à votre assureur ou à tout professionnel du bâtiment qui vous accompagne.</div>
-          </div>
-          <div style="margin-top:10px;padding:8px 10px;background:rgba(45,90,39,.08);border-radius:8px;font-size:10.5px;color:#2d5a27;font-weight:600;display:flex;align-items:center;gap:6px;">
-            <span>💡</span>
+
+        <!-- Encarts secondaires -->
+        <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px;">
+          <div style="padding:9px 11px;background:#f3f8f0;border-radius:9px;font-size:10.5px;color:#2d5a27;font-weight:600;display:flex;align-items:center;gap:7px;">
+            <span style="flex-shrink:0;">💡</span>
             <span>Plus vous renseignez d'informations, plus votre dossier sera solide face à l'expert.</span>
           </div>
-          <div style="margin-top:8px;padding:8px 10px;background:rgba(154,88,0,.08);border-radius:8px;font-size:10px;color:#6a4a00;font-weight:600;display:flex;align-items:flex-start;gap:6px;line-height:1.5;">
+          <div style="padding:9px 11px;background:#fdf6e8;border-radius:9px;font-size:10px;color:#8a6a1a;font-weight:600;display:flex;align-items:flex-start;gap:7px;line-height:1.55;">
             <span style="flex-shrink:0;">⚖️</span>
             <span>ArgiQare est un outil d'accompagnement indicatif, sans valeur juridique. Il ne remplace pas l'avis d'un professionnel — expert, assureur, avocat ou géotechnicien selon votre situation.</span>
           </div>
         </div>
       </div>
 
-      <div class="section-divider">🗂️ Votre parcours diagnostic</div>
+      <div class="section-divider">🗂️ Votre parcours</div>
 
       <!-- indicateur verbal -->
       <div id="diag-verbal" style="font-size:11px;color:#5a7a52;font-style:italic;margin-bottom:12px;padding:0 2px;"></div>
@@ -2935,12 +3005,12 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
             <div class="substep-toggle-ic">🔍</div>
             <div class="substep-toggle-txt">
               <div class="substep-toggle-title">Pendant la visite</div>
-              <div class="substep-toggle-sub">Ce qu'il faut observer, dire et savoir le jour J</div>
+              <div class="substep-toggle-sub">Ce qui se déroule généralement lors de la visite</div>
             </div>
             <span class="accordion-arrow substep-arrow" id="substep-expertise-pendant-arrow">›</span>
           </div>
           <div class="substep-body" id="substep-expertise-pendant">
-          <div class="diag-step-intro">Vous avez le <strong>droit d'être présent</strong> lors de la visite et d'exprimer vos observations — c'est même recommandé. L'expert va inspecter votre bien, confronter ses constats à votre contrat (la "visite de risque") et chercher à déterminer si le RGA est bien la cause de vos dommages.</div>
+          <div class="diag-step-intro">L'assuré dispose du <strong>droit d'être présent</strong> lors de la visite. L'expert inspecte le bien, confronte ses constats au contrat (la "visite de risque") et examine si le RGA peut être la cause des dommages constatés. Les questions ci-dessous permettent simplement de documenter le déroulement de cette visite, à titre indicatif.</div>
           <div class="tri-item" id="tri-step11exp-1">
             <div class="tri-item-header">
               <div class="tri-label">🏠 J'étais présent (ou représenté) lors de la visite de l'expert</div>
@@ -2951,14 +3021,14 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
             </div>
             <div class="tri-detail" id="tri-step11exp-1-detail">
               <div style="font-size:10px;color:#5a7a52;font-weight:700;margin-bottom:6px;">Précisez :</div>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai pu montrer moi-même toutes les fissures et désordres constatés</span></label>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai exprimé oralement mes observations et l'historique des désordres</span></label>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai remis à l'expert les documents préparés à l'avance</span></label>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Les fissures et désordres constatés ont été montrés à l'expert</span></label>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Des observations et l'historique des désordres ont été communiqués oralement</span></label>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Les documents préparés à l'avance ont été remis à l'expert</span></label>
             </div>
           </div>
           <div class="tri-item" id="tri-step11exp-2">
             <div class="tri-item-header">
-              <div class="tri-label">📝 J'ai pris des notes ou demandé des précisions sur les points évoqués par l'expert</div>
+              <div class="tri-label">📝 Des notes ont été prises ou des précisions ont été demandées sur les points évoqués</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step11exp',2,'yes')">✅ Oui</button>
                 <button class="tri-btn no"  onclick="triSelect('step11exp',2,'no')">➖ Non ou non concerné</button>
@@ -2966,16 +3036,16 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
             </div>
             <div class="tri-detail" id="tri-step11exp-2-detail">
               <div style="font-size:10px;color:#5a7a52;font-weight:700;margin-bottom:6px;">Précisez :</div>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai demandé si le RGA semblait être la cause déterminante des dommages</span></label>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai demandé si des investigations complémentaires seraient nécessaires</span></label>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">J'ai demandé sous quel délai je recevrais le compte-rendu ou le rapport</span></label>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Une précision a été demandée sur le caractère déterminant ou non du RGA</span></label>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Une précision a été demandée sur d'éventuelles investigations complémentaires</span></label>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Une précision a été demandée sur le délai de transmission du compte-rendu ou du rapport</span></label>
             </div>
           </div>
 
-          <div class="important-box" style="margin-top:8px;">💡 Vous n'êtes pas tenu d'accepter immédiatement les conclusions orales de l'expert — elles ne sont définitives qu'une fois couchées dans le rapport écrit. Prenez le temps de relire ce document avant toute contestation.</div>
+          <div class="important-box" style="margin-top:8px;">💡 Pour rappel, les conclusions de l'expert ne sont définitives qu'une fois consignées dans le rapport écrit qui fait foi. ArgiQare ne fournit aucune indication sur la conduite à tenir face à ces conclusions — pour toute question sur ce point, l'assuré est invité à se rapprocher de son assureur ou d'un professionnel du droit.</div>
 
           <div class="step-feedback" id="fb-step11exp">
-            <span>✅</span><span id="fb-step11exp-txt">Visite documentée — vous avez fait valoir vos observations.</span>
+            <span>✅</span><span id="fb-step11exp-txt">Informations sur la visite enregistrées.</span>
           </div>
           </div><!-- /substep-expertise-pendant -->
 
@@ -3085,7 +3155,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           <span class="accordion-arrow" style="margin-left:4px;font-size:14px;color:#7a9a72;transition:transform 0.25s;">›</span>
         </div>
         <div class="diag-step-body">
-          <div class="diag-step-intro">C'est souvent à ce moment que la tension avec l'assureur peut monter, surtout si le montant proposé semble insuffisant. Sachez que vous n'êtes pas seul face à cette décision : votre assureur dispose d'<strong>1 mois</strong> après réception du rapport pour vous soumettre une proposition, et vous n'êtes pas obligé d'accepter — vous pouvez contester et demander une <span class="gl" onclick="glOpen('contre-expertise',this)">contre-expertise</span>.</div>
+          <div class="diag-step-intro">L'assureur dispose d'<strong>1 mois</strong> après réception du rapport d'expertise pour soumettre une proposition d'indemnisation. Le Code des assurances prévoit la possibilité, pour l'assuré, de demander une <span class="gl" onclick="glOpen('contre-expertise',this)">contre-expertise</span> en cas de désaccord avec les conclusions retenues. ArgiQare ne se prononce pas sur l'opportunité d'accepter ou de contester une proposition donnée — cette décision relève de l'assuré, le cas échéant accompagné d'un professionnel.</div>
           <div class="tri-item" id="tri-step13-1">
             <div class="tri-item-header">
               <div class="tri-label">📩 J'ai reçu une proposition d'indemnisation chiffrée de mon assureur</div>
@@ -3155,13 +3225,13 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 
         <!-- Contenu informatif neutre — choix d'une entreprise de travaux -->
         <div style="background:linear-gradient(135deg,#fff8ec,#fdf0db);border-radius:12px;padding:12px 14px;border-left:3px solid #c08000;margin-top:10px;">
-          <div style="font-size:11.5px;font-weight:800;color:#8a6000;margin-bottom:6px;display:flex;align-items:center;gap:6px;"><span style="font-size:15px;">🔎</span> Comment choisir l'entreprise qui réalisera les travaux ?</div>
-          <div style="font-size:10.5px;color:#6a4a00;line-height:1.6;text-align:justify;margin-bottom:8px;">Il n'existe aujourd'hui <strong>aucune qualification ni label officiel spécifique au traitement du retrait-gonflement des argiles</strong> — contrairement à d'autres domaines du bâtiment. ArgiQare ne peut donc recommander aucune entreprise en particulier. Voici en revanche quelques questions utiles à poser avant de signer un devis :</div>
+          <div style="font-size:11.5px;font-weight:800;color:#8a6000;margin-bottom:6px;display:flex;align-items:center;gap:6px;"><span style="font-size:15px;">🔎</span> Information sur les entreprises de travaux RGA</div>
+          <div style="font-size:10.5px;color:#6a4a00;line-height:1.6;text-align:justify;margin-bottom:8px;">Il n'existe aujourd'hui <strong>aucune qualification ni label officiel spécifique au traitement du retrait-gonflement des argiles</strong> — contrairement à d'autres domaines du bâtiment. ArgiQare ne recommande, ne sélectionne et n'évalue aucune entreprise. Les éléments ci-dessous sont communiqués à titre purement informatif ; le choix et l'appréciation des devis relèvent exclusivement de l'assuré, le cas échéant avec l'appui de son assureur ou d'un professionnel du bâtiment.</div>
           <div style="display:flex;flex-direction:column;gap:5px;">
-            <div style="font-size:10px;color:#6a4a00;line-height:1.5;display:flex;gap:6px;"><span>•</span><span>L'entreprise a-t-elle déjà réalisé des chantiers de reprise en sous-œuvre ou de réparation liés au RGA ? Pouvez-vous consulter des références ?</span></div>
-            <div style="font-size:10px;color:#6a4a00;line-height:1.5;display:flex;gap:6px;"><span>•</span><span>Le devis détaille-t-il précisément la méthode envisagée (micropieux, injection de résine, reprise en fondation...) en cohérence avec les préconisations du rapport d'expertise ?</span></div>
-            <div style="font-size:10px;color:#6a4a00;line-height:1.5;display:flex;gap:6px;"><span>•</span><span>L'entreprise dispose-t-elle d'une assurance décennale en cours de validité pour ce type de travaux ? Une attestation peut être demandée avant signature.</span></div>
-            <div style="font-size:10px;color:#6a4a00;line-height:1.5;display:flex;gap:6px;"><span>•</span><span>Plusieurs devis comparables permettent-ils d'identifier une cohérence de méthode et de prix, plutôt qu'un écart injustifié ?</span></div>
+            <div style="font-size:10px;color:#6a4a00;line-height:1.5;display:flex;gap:6px;"><span>•</span><span>Une référence antérieure pour un chantier de reprise en sous-œuvre ou de réparation liée au RGA peut être demandée à l'entreprise consultée.</span></div>
+            <div style="font-size:10px;color:#6a4a00;line-height:1.5;display:flex;gap:6px;"><span>•</span><span>Un devis peut préciser la méthode envisagée (micropieux, injection de résine, reprise en fondation...), à mettre en regard des préconisations du rapport d'expertise.</span></div>
+            <div style="font-size:10px;color:#6a4a00;line-height:1.5;display:flex;gap:6px;"><span>•</span><span>Une attestation d'assurance décennale en cours de validité peut être demandée avant signature.</span></div>
+            <div style="font-size:10px;color:#6a4a00;line-height:1.5;display:flex;gap:6px;"><span>•</span><span>Plusieurs devis peuvent être mis en comparaison par l'assuré, qui reste seul juge de la méthode et du prix retenus.</span></div>
           </div>
         </div>
 
@@ -3189,23 +3259,41 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
     <div class="screen" id="screen-dossier">
       <div class="page-title">📁 Mon Dossier</div>
 
-      <!-- BANNIÈRE PDF FLOTTANTE -->
+      <!-- BANNIÈRE PDF — seul point d'action de génération sur cet écran -->
       <div id="pdf-banner" style="background:linear-gradient(135deg,#2d5a27,#4a7c3f);border-radius:14px;padding:14px 16px;margin-bottom:14px;position:relative;overflow:hidden;">
         <div style="position:absolute;top:-15px;right:-15px;width:70px;height:70px;border-radius:50%;background:rgba(255,255,255,.06);"></div>
         <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,.7);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Votre dossier de synthèse</div>
-        <div id="pdf-banner-status" style="font-size:14px;font-weight:900;color:white;margin-bottom:8px;">Complétez le parcours diagnostic</div>
-        <div id="pdf-banner-sub" style="font-size:10.5px;color:rgba(255,255,255,.8);line-height:1.6;margin-bottom:12px;text-align:justify;">Renseignez votre parcours diagnostic pour constituer automatiquement votre dossier. Ce PDF rassemble toutes vos réponses, photos et pièces justificatives dans un format prêt à remettre à votre expert.</div>
+        <div id="pdf-banner-status" style="font-size:14px;font-weight:900;color:white;margin-bottom:8px;">Complétez votre parcours</div>
+        <div id="pdf-banner-sub" style="font-size:10.5px;color:rgba(255,255,255,.8);line-height:1.6;margin-bottom:12px;text-align:justify;">Renseignez votre parcours pour constituer automatiquement votre dossier. Ce PDF rassemble toutes vos réponses, photos et pièces justificatives dans un format prêt à remettre à votre expert.</div>
         <button onclick="generatePDF()" style="width:100%;padding:11px;background:white;color:#2d5a27;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;">
           <span>📄</span> <span id="pdf-banner-btn">Générer ma synthèse PDF</span>
         </button>
         <div id="last-gen-label" style="margin-top:8px;font-size:10px;color:rgba(255,255,255,.5);text-align:center;min-height:14px;"></div>
       </div>
 
-      <!-- TEXTE INTRODUCTIF -->
-      <div style="background:linear-gradient(135deg,#eef4ff,#e8f0fe);border-radius:14px;padding:14px 16px;margin-bottom:12px;border-left:3px solid #2a5ca8;">
-        <div style="font-size:11px;color:#2a4a7a;line-height:1.75;">
-          Entre la date d'apparition des fissures que vous avez remarquées, la publication au Journal Officiel d'un arrêté reconnaissant — ou non — votre commune en état de catastrophe naturelle et l'obtention d'un rendez-vous avec un expert, les délais peuvent parfois être longs.<br><br>
-          ArgiQare vous propose d'<strong>anticiper</strong> et de préalablement constituer un dossier avec l'ensemble des informations complétées. Une synthèse peut ainsi être générée et remise à un professionnel pour faciliter la gestion de votre dossier.
+      <!-- SOMMAIRE DU PDF — ce que contiendra concrètement le document,
+           propre à cet onglet : l'utilisateur sait quoi il va télécharger
+           avant de le générer, sans redire le "pourquoi" déjà expliqué
+           dans Mon Parcours. -->
+      <div style="background:white;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+        <div style="font-size:13px;font-weight:700;color:#2d5a27;margin-bottom:10px;display:flex;align-items:center;gap:6px;">📑 Contenu du document généré</div>
+        <div style="display:flex;flex-direction:column;gap:0;">
+          <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #f0ece4;">
+            <span style="font-size:14px;flex-shrink:0;">1️⃣</span>
+            <span style="font-size:11px;color:#3a4a3a;">Page de couverture — coordonnées et profil de situation</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #f0ece4;">
+            <span style="font-size:14px;flex-shrink:0;">2️⃣</span>
+            <span style="font-size:11px;color:#3a4a3a;">Informations sur le bien assuré (onglet Ma Maison)</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #f0ece4;">
+            <span style="font-size:14px;flex-shrink:0;">3️⃣</span>
+            <span style="font-size:11px;color:#3a4a3a;">Réponses détaillées de votre parcours</span>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;padding:7px 0;">
+            <span style="font-size:14px;flex-shrink:0;">4️⃣</span>
+            <span style="font-size:11px;color:#3a4a3a;">Pièces jointes et photos déposées</span>
+          </div>
         </div>
       </div>
 
@@ -3215,33 +3303,11 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <div style="font-size:10px;color:#6a4a00;line-height:1.55;">Ce dossier est un outil d'accompagnement indicatif, sans valeur juridique. Il ne remplace pas l'avis d'un professionnel — expert, assureur, avocat ou géotechnicien selon votre situation.</div>
       </div>
 
-
-      <!-- APERÇU DOSSIER AUTO -->
+      <!-- ÉTAT DES PIÈCES JOINTES — le seul détail réellement spécifique
+           à cet onglet, non disponible ailleurs dans l'app. -->
       <div style="background:white;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
-        <div style="font-size:13px;font-weight:700;color:#2d5a27;margin-bottom:10px;display:flex;align-items:center;gap:6px;">👁️ État de mon dossier</div>
-        <!-- Chips résumé rapide -->
-        <div class="dossier-quick-bar">
-          <div class="dossier-quick-chip">
-            <div class="dossier-quick-val" id="chip-maison">—</div>
-            <div class="dossier-quick-lbl">Ma Maison</div>
-          </div>
-          <div class="dossier-quick-chip">
-            <div class="dossier-quick-val" id="chip-diag">—</div>
-            <div class="dossier-quick-lbl">Diagnostic</div>
-          </div>
-          <div class="dossier-quick-chip">
-            <div class="dossier-quick-val" id="chip-pieces">—</div>
-            <div class="dossier-quick-lbl">Pièces jointes</div>
-          </div>
-        </div>
-        <!-- Détail pièces -->
+        <div style="font-size:13px;font-weight:700;color:#2d5a27;margin-bottom:4px;display:flex;align-items:center;gap:6px;">📎 Pièces jointes <span id="chip-pieces" style="margin-left:auto;font-size:12px;font-weight:800;color:#1a3a6e;">—</span></div>
         <div id="dossier-apercu" style="margin-top:8px;"></div>
-      </div>
-
-      <div class="dossier-synth">
-        <div class="dossier-synth-title">📄 Document de synthèse ArgiQare</div>
-        <div class="dossier-synth-text">Téléchargez votre synthèse complète incluant les informations de votre maison et les résultats de votre diagnostic RGA.</div>
-        <button class="btn-pdf" onclick="generatePDF()">⬇️ Télécharger le PDF de synthèse</button>
       </div>
 
     </div>
@@ -3341,7 +3407,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       </div>
 
       <div class="dash-card">
-        <div class="dash-card-title">Avancement du diagnostic</div>
+        <div class="dash-card-title">Avancement de votre parcours</div>
         <div class="dash-progress-row">
           <svg class="dash-progress-ring" viewBox="0 0 54 54">
             <circle cx="27" cy="27" r="22" fill="none" stroke="#eee" stroke-width="5"/>
@@ -4538,7 +4604,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <div style="display:flex;flex-direction:column;gap:12px;font-size:11px;color:#3a3a3a;line-height:1.7;">
           <div style="background:#e8f5e4;border-radius:10px;padding:12px 14px;">
             <div style="font-weight:800;color:#2d5a27;margin-bottom:4px;">📍 Données stockées localement</div>
-            Toutes vos informations (profil, diagnostic, photos) sont stockées <strong>uniquement sur votre appareil</strong>. ArgiQare ne dispose d'aucun serveur de données personnelles.
+            Toutes vos informations (profil, parcours, photos) sont stockées <strong>uniquement sur votre appareil</strong>. ArgiQare ne dispose d'aucun serveur de données personnelles.
           </div>
           <div style="background:#eef4ff;border-radius:10px;padding:12px 14px;">
             <div style="font-weight:800;color:#1a3a6e;margin-bottom:4px;">🔒 Aucune transmission à des tiers</div>
@@ -4598,7 +4664,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <div class="cgu-article">
           <div class="cgu-article-title">Article 3 — Nature de l'application et limite de responsabilité</div>
           <div class="cgu-article-body">
-            <strong>3.1 Outil d'information et de pré-diagnostic</strong><br>
+            <strong>3.1 Outil d'information et d'aide à la pré-constitution de dossier</strong><br>
             ArgiQare est un outil d'information, de sensibilisation et d'aide à la pré-constitution de dossier. Il ne constitue en aucun cas :<br><br>
             • Un diagnostic technique ou géotechnique au sens de la norme NFP 94-500<br>
             • Un avis juridique ou une consultation juridique<br>
@@ -4725,7 +4791,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           </div>
           <div style="padding:12px 14px;background:#fde8c8;border-radius:10px;">
             <div style="font-weight:800;color:#c06000;margin-bottom:4px;">⚠️ Avertissement légal</div>
-            <div style="color:#8a4000;">ArgiQare est un outil d'information et de pré-diagnostic. Il ne se substitue pas à une expertise professionnelle et ne constitue pas un avis juridique.</div>
+            <div style="color:#8a4000;">ArgiQare est un outil d'information et d'aide à la pré-constitution de dossier. Il ne se substitue pas à une expertise professionnelle et ne constitue pas un avis juridique.</div>
           </div>
           <div style="padding:12px 14px;background:#fee8e8;border-radius:10px;">
             <div style="font-weight:800;color:#8a1a1a;margin-bottom:4px;">©️ Propriété intellectuelle</div>
@@ -4802,6 +4868,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <div class="param-section-title">🎨 Affichage</div>
         <div class="param-row"><div class="param-icon">🌙</div><div class="param-info"><div class="param-label">Mode sombre</div><div class="param-sub">Adapter l'affichage à la luminosité</div></div><label class="param-toggle"><input type="checkbox" id="dark-mode" onchange="toggleDarkMode(this)"><div class="param-toggle-slider"></div></label></div>
         <div class="param-row" onclick="openPanel('panel-taille')"><div class="param-icon">🔡</div><div class="param-info"><div class="param-label">Taille du texte</div><div id="taille-display" class="param-sub">Normale</div></div><div class="param-arrow">›</div></div>
+        <div class="param-row"><div class="param-icon">🔊</div><div class="param-info"><div class="param-label">Son de validation</div><div class="param-sub">Léger signal sonore quand une case est cochée</div></div><label class="param-toggle"><input type="checkbox" id="toggle-sound" onchange="toggleSoundParam(this)"><div class="param-toggle-slider" id="toggle-sound-slider"></div></label></div>
       </div>
 
       <!-- DONNÉES -->
@@ -4907,7 +4974,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       <div class="app-version">ArgiQare v1.0.1 — © 2026 Adil.Q</div>
     </div>
   <div class="bottom-nav">
-    <button class="nav-item active" onclick="switchTab('accueil',this,'nav')"><span class="nav-icon">🧭</span><span class="nav-label">Accueil</span><div class="nav-dot"></div></button>
+    <button class="nav-item active" id="nav-item-accueil" onclick="switchTab('accueil',this,'nav')"><span class="nav-icon" style="position:relative;">🧭<span class="nav-progress-pop" id="nav-progress-pop"></span></span><span class="nav-label">Accueil</span><div class="nav-dot"></div></button>
     <button class="nav-item" onclick="switchTab('maison',this)"><span class="nav-icon">🏠</span><span class="nav-label">Ma Maison</span><div class="nav-dot"></div></button>
     <button class="nav-item" onclick="switchTab('diag',this,'nav')"><span class="nav-icon">🔍</span><span class="nav-label">Mon Parcours</span><div class="nav-dot"></div></button>
     <button class="nav-item" onclick="switchTab('dossier',this)"><span class="nav-icon">📁</span><span class="nav-label">Mon Dossier</span><div class="nav-dot"></div></button>
@@ -5444,20 +5511,28 @@ function selectProfil(n, opts){
   cfg.actives.forEach(num => {
     const s = document.getElementById('step-' + num + 'b');
     if(!s) return;
+    const wasGrised = s.classList.contains('profil-grise');
     s.classList.remove('profil-grise', 'profil-info');
     const badge = s.querySelector('.profil-step-badge');
     if(badge) badge.remove();
+    // Effet de déverrouillage — uniquement si l'étape vient réellement
+    // de passer de grisée à active, pour signaler ce changement d'état.
+    if(wasGrised){
+      s.classList.remove('step-unlock');
+      void s.offsetWidth;
+      s.classList.add('step-unlock');
+      setTimeout(() => s.classList.remove('step-unlock'), 600);
+    }
   });
 
-  // Bandeau profil actif — toujours visible désormais (le sélecteur des
-  // 3 cartes a été déplacé vers l'onglet Accueil).
-  const bar = document.getElementById('profil-actif-bar');
-  if(bar){
-    bar.className = 'profil-actif-bar ' + cfg.barClass;
-    bar.onclick = null;
-    bar.style.cursor = 'default';
-    document.getElementById('profil-actif-icon').textContent = cfg.icon;
-    document.getElementById('profil-actif-label').innerHTML = cfg.label + ' <span class="profil-actif-change" onclick="goToAccueilProfil(event)">Changer de profil</span>';
+  // Le bandeau profil-actif-bar autonome a été retiré du HTML (Mon
+  // Parcours) — son contenu est désormais affiché directement dans le
+  // bloc d'introduction via #intro-profil-label, mis à jour ci-dessous.
+
+  // Libellé du profil actif affiché dans la bulle "Votre parcours"
+  const introProfilLabel = document.getElementById('intro-profil-label');
+  if(introProfilLabel){
+    introProfilLabel.innerHTML = cfg.label + ' <span class="profil-actif-change" onclick="goToAccueilProfil(event)">Changer de profil</span>';
   }
 
   // Bandeau informatif — visible uniquement si le profil comporte des
@@ -5605,6 +5680,15 @@ function switchTab(n, el, source='') {
   const direction = newIndex > currentTabIndex ? 1 : -1;
   const totalScreens = TAB_ORDER.length;
 
+  // Effet de profondeur — l'écran quitté se rétracte légèrement pendant
+  // le slide, pour donner une sensation de parallax plutôt qu'un simple
+  // glissement plat. L'effet est retiré juste après la transition.
+  const leavingScreen = document.getElementById('screen-' + TAB_ORDER[currentTabIndex]);
+  if(leavingScreen){
+    leavingScreen.classList.add('screen-depth-out');
+    setTimeout(() => leavingScreen.classList.remove('screen-depth-out'), 400);
+  }
+
   // Déplacer le wrapper vers le bon écran
   wrapper.style.transform = `translateX(-${newIndex * 100}%)`;
 
@@ -5662,6 +5746,16 @@ function showAutosaveBadge(){
   badge.classList.add('visible');
   clearTimeout(_autosaveTimer);
   _autosaveTimer = setTimeout(() => badge.classList.remove('visible'), 1400);
+
+  // Pulse discret sur l'icône de l'onglet actif — renforce le signal
+  // "c'est enregistré" directement là où l'attention est déjà posée.
+  const activeNav = document.querySelector('.nav-item.active .nav-icon');
+  if(activeNav){
+    activeNav.classList.remove('nav-icon-pulse');
+    void activeNav.offsetWidth;
+    activeNav.classList.add('nav-icon-pulse');
+    setTimeout(() => activeNav.classList.remove('nav-icon-pulse'), 500);
+  }
 }
 // Écoute globale sur les interactions qui modifient déjà des données
 // stockées en localStorage (formulaires, checkboxes, triState...).
@@ -5672,10 +5766,11 @@ document.addEventListener('change', (e) => {
   if(t.matches('.form-input, .diag-cb, .tri-sub-cb, input[type="checkbox"], input[type="radio"], input[type="date"], input[type="email"], input[type="tel"], textarea, select')){
     if(typeof saveDiag === 'function') saveDiag();
     showAutosaveBadge();
+    if(t.matches('.diag-cb, .tri-sub-cb') && t.checked) playValidationTick();
   }
 });
 document.addEventListener('click', (e) => {
-  if(e.target.closest('.tri-btn')) showAutosaveBadge();
+  if(e.target.closest('.tri-btn')) { showAutosaveBadge(); playValidationTick(); }
 });
 // ══ FIN AUTO-SAUVEGARDE ══
 
@@ -6869,7 +6964,7 @@ function refreshCompletion(){
   const bannerBtn = document.getElementById('pdf-banner-btn');
   if(bannerStatus){
     if(diagPct === 0){
-      bannerStatus.textContent = "Complétez le parcours diagnostic";
+      bannerStatus.textContent = "Complétez votre parcours";
       if(bannerBtn) bannerBtn.textContent = "Générer ma synthèse PDF";
     } else if(diagPct < 50){
       bannerStatus.textContent = "Votre dossier est en cours — " + diagPct + "% complété";
@@ -6883,17 +6978,6 @@ function refreshCompletion(){
       if(bannerBtn) bannerBtn.textContent = "📄 Générer ma synthèse PDF →";
     }
   }
-
-  // ── Ma Maison ──
-  const maisonFields=['m_nom','m_prenom','m_voie','m_cp','m_ville','m_email','m_tel','m_typecontrat','m_numcontrat','m_dateeffet','m_franchise','m_pcontrat','m_scontrat','m_dateconstr'];
-  const maisonCheckboxes=['prop','copropH','copropV','ss1','ss2','ss3'];
-  const maisonRadios=['niveaux','periode'];
-  let maisonFilled=0;
-  const maisonTotal=maisonFields.length+maisonCheckboxes.length+maisonRadios.length;
-  maisonFields.forEach(id=>{const el=document.getElementById(id);if(el&&el.value.trim())maisonFilled++;});
-  maisonCheckboxes.forEach(id=>{const el=document.getElementById(id);if(el&&el.checked)maisonFilled++;});
-  maisonRadios.forEach(name=>{if(document.querySelector('input[name="'+name+'"]:checked'))maisonFilled++;});
-  const maisonPct=Math.round((maisonFilled/maisonTotal)*100);
 
   // ── Mon Parcours ──
   // (diagPct déjà calculé plus haut pour la bannière PDF)
@@ -6914,12 +6998,9 @@ function refreshCompletion(){
     </div>`;
   }
   wrap.innerHTML=html;
-  // Chips résumé rapide
-  const cm=document.getElementById('chip-maison');
-  const cd=document.getElementById('chip-diag');
+  // Chip pièces jointes — seul indicateur chiffré restant sur cet écran,
+  // les % Ma Maison / Diagnostic étant déjà visibles depuis l'Accueil.
   const cp=document.getElementById('chip-pieces');
-  if(cm) cm.textContent=maisonPct+'%';
-  if(cd) cd.textContent=diagPct+'%';
   if(cp) cp.textContent=Object.keys(diagFiles).length+'/8';
   showToast('📊 Dossier actualisé');
 }
@@ -7604,7 +7685,7 @@ function rgpdAccept(){
     date: new Date().toISOString(),
     version: '1.0.1',
     base_legale: 'consentement art.6.1.a RGPD',
-    finalites: ['profil','commune','diagnostic','documents']
+    finalites: ['profil','commune','parcours','documents']
   }));
   document.getElementById('rgpd-consent-overlay').classList.add('hidden');
   // Après acceptation : lancer le storytelling si première visite
@@ -7715,6 +7796,39 @@ function toggleDarkMode(cb){
     localStorage.removeItem('argicare-dark');
   }
 }
+
+// ══ SON DE VALIDATION (optionnel, désactivé par défaut) ══
+// Génère un "tick" synthétique très court via Web Audio API — aucun
+// fichier audio externe nécessaire. Désactivé par défaut pour respecter
+// le silence attendu d'une app utilisée en contexte parfois sensible.
+let _audioCtx = null;
+function playValidationTick(){
+  if(localStorage.getItem('argicare-sound-enabled') !== '1') return;
+  try {
+    if(!_audioCtx) _audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    const ctx = _audioCtx;
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(880, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(1320, ctx.currentTime + 0.05);
+    gain.gain.setValueAtTime(0.08, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + 0.09);
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + 0.1);
+  } catch(e){ /* contexte audio indisponible, silencieux */ }
+}
+function toggleSoundParam(cb){
+  if(cb.checked){
+    localStorage.setItem('argicare-sound-enabled', '1');
+    playValidationTick();
+  } else {
+    localStorage.removeItem('argicare-sound-enabled');
+  }
+}
+// ══ FIN SON DE VALIDATION ══
+
 function setTaille(btn, label, scale){
   document.querySelectorAll('.taille-opt').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
@@ -7749,7 +7863,7 @@ function confirmerReinit(){
     <div style="background:white;border-radius:16px;padding:20px;width:100%;max-width:300px;text-align:center;">
       <div style="font-size:32px;margin-bottom:8px;">⚠️</div>
       <div style="font-size:14px;font-weight:800;color:#c04030;margin-bottom:8px;">Réinitialiser mes données ?</div>
-      <div style="font-size:11px;color:#7a6a52;line-height:1.6;margin-bottom:16px;">Cette action est irréversible. Toutes vos informations, votre diagnostic et vos données seront effacés.</div>
+      <div style="font-size:11px;color:#7a6a52;line-height:1.6;margin-bottom:16px;">Cette action est irréversible. Toutes vos informations, votre parcours et vos données seront effacés.</div>
       <div style="display:flex;gap:8px;">
         <button onclick="this.closest('[style*=inset]').remove()" style="flex:1;padding:10px;background:#f0ece4;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;">Annuler</button>
         <button onclick="reinitialiserDonnees()" style="flex:1;padding:10px;background:#c04030;color:white;border:none;border-radius:10px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;">Effacer tout</button>
@@ -7794,6 +7908,11 @@ window.addEventListener('load', () => {
     const cb = document.getElementById('dark-mode');
     if(cb) cb.checked = true;
   }
+  // Son de validation
+  if(localStorage.getItem('argicare-sound-enabled') === '1'){
+    const soundCb = document.getElementById('toggle-sound');
+    if(soundCb) soundCb.checked = true;
+  }
   // Restaurer le surlignage
   applySurlignage();
   // Surlignage automatique GL
@@ -7827,7 +7946,7 @@ const TUTO_STEPS = [
     iconBg: 'linear-gradient(135deg,#1a4a3a,#2d7a5a)',
     title: 'Onglet Accueil',
     sub: 'Votre point de départ et votre progression',
-    body: 'C\'est ici que tout commence. Choisissez le profil qui correspond à votre situation, suivez l\'avancement de votre diagnostic d\'un coup d\'œil, et accédez en un clic à Mon Parcours, Ma Maison ou Mon Dossier.'
+    body: 'C\'est ici que tout commence. Choisissez le profil qui correspond à votre situation, suivez l\'avancement de votre parcours d\'un coup d\'œil, et accédez en un clic à Mon Parcours, Ma Maison ou Mon Dossier.'
   },
   {
     tab: 'maison',
@@ -8522,11 +8641,23 @@ function refreshDashboard(){
   // ── 3 JAUGES DE PROGRESSION — Mon parcours / Ma Maison / Mon dossier ──
   // Remplissage visuel transparent qui monte depuis le bas de chaque
   // case selon son taux de complétion, avec le % affiché au centre.
+  // Une pulsation légère signale visuellement quand le % vient d'augmenter.
+  window._qaPctMemory = window._qaPctMemory || {};
   function setQaFill(key, percent){
     const fill = document.getElementById('dash-qa-fill-' + key);
     const pctLabel = document.getElementById('dash-qa-pct-' + key);
+    const btn = document.getElementById('dash-qa-' + key);
+    const rounded = Math.round(percent);
+    const previous = window._qaPctMemory[key];
     if(fill) fill.style.height = Math.max(0, Math.min(100, percent)) + '%';
-    if(pctLabel) pctLabel.textContent = Math.round(percent) + '%';
+    if(pctLabel) pctLabel.textContent = rounded + '%';
+    if(btn && previous !== undefined && rounded > previous){
+      btn.classList.remove('qa-pulse');
+      void btn.offsetWidth;
+      btn.classList.add('qa-pulse');
+      setTimeout(() => btn.classList.remove('qa-pulse'), 700);
+    }
+    window._qaPctMemory[key] = rounded;
   }
 
   // Mon parcours — % d'étapes entièrement complétées sur les 14
@@ -8614,11 +8745,20 @@ function refreshDashboard(){
       el.classList.toggle('current', phaseCurrent);
       if(phaseCurrent) currentPhase = phase;
     });
-    // Colorer les traits de liaison entre phases déjà complétées
+    // Colorer les traits de liaison entre phases déjà complétées, avec
+    // une vague animée au moment précis où une phase vient d'être validée.
     document.querySelectorAll('.dash-timeline-line').forEach((line, i) => {
       const phaseBefore = phaseOrder[i];
       const [, endBefore] = phaseRanges[phaseBefore];
-      line.classList.toggle('done', completedCount >= endBefore);
+      const isDone = completedCount >= endBefore;
+      const wasDone = line.classList.contains('done');
+      line.classList.toggle('done', isDone);
+      if(isDone && !wasDone){
+        line.classList.remove('line-wave');
+        void line.offsetWidth;
+        line.classList.add('line-wave');
+        setTimeout(() => line.classList.remove('line-wave'), 700);
+      }
     });
   })();
 
