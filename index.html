@@ -55,34 +55,51 @@
 /* ── FIN ISOLATION LEAFLET ── */
 
 /* ── CARTES PROFIL DIAGNOSTIC ── */
-.profil-card { border-radius:14px; padding:13px 14px; margin-bottom:9px; cursor:pointer; position:relative; overflow:hidden; transition:transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s; border:2px solid transparent; transform-style:preserve-3d; }
+.profil-card { border-radius:14px; padding:13px 14px; margin-bottom:9px; cursor:pointer; position:relative; overflow:hidden; transition:transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s; border:2px solid transparent; transform-style:preserve-3d; isolation:isolate; }
 .profil-card:active { transform:scale(.97) rotateX(2deg); box-shadow:0 2px 6px rgba(0,0,0,.08); }
-.profil-card.p1 { background:linear-gradient(135deg,#e8f5e4,#d8f0d0); border-color:#a8d5a2; }
-.profil-card.p2 { background:linear-gradient(135deg,#e8f0fe,#d8e8fe); border-color:#a8c0e8; }
-.profil-card.p3 { background:linear-gradient(135deg,#fff3e0,#ffe0b0); border-color:#e8c060; }
-.profil-card.selected.p1 { border-color:#2d5a27; box-shadow:0 4px 16px rgba(45,90,39,.25); }
-.profil-card.selected.p2 { border-color:#1a3a6e; box-shadow:0 4px 16px rgba(26,58,110,.25); }
-.profil-card.selected.p3 { border-color:#9a5800; box-shadow:0 4px 16px rgba(154,88,0,.25); }
+.profil-card-bg { position:absolute; inset:0; z-index:-1; background-size:220% 220%; }
+
+/* Profil 1 — Beige sable (constat) */
+@keyframes profilBgSlate { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+.profil-card.p1 { border-color:#C8B088; }
+.profil-card.p1 .profil-card-bg { background:linear-gradient(125deg,#EDE3D3 0%,#E4D5BC 40%,#DCC9A8 70%,#E8DBC4 100%); animation:profilBgSlate 22s ease-in-out infinite; }
+
+/* Profil 2 — Terracotta doux (attente) */
+@keyframes profilBgStone { 0%{background-position:0% 0%;} 50%{background-position:40% 100%;} 100%{background-position:0% 0%;} }
+.profil-card.p2 { border-color:#C4906A; }
+.profil-card.p2 .profil-card-bg { background:linear-gradient(135deg,#EAD2C4 0%,#E0B8A0 35%,#D4A688 65%,#E2C0A8 100%); animation:profilBgStone 26s ease-in-out infinite; }
+
+/* Profil 3 — Brun cuivré (travaux) */
+@keyframes profilBgTaupe { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
+.profil-card.p3 { border-color:#A87840; }
+.profil-card.p3 .profil-card-bg { background:linear-gradient(120deg,#E8D4BC 0%,#D8B488 40%,#C29464 70%,#DCBA94 100%); animation:profilBgTaupe 20s ease-in-out infinite; }
+
+.profil-card.selected.p1 { border-color:#6E5836; box-shadow:0 4px 16px rgba(110,88,54,.25); }
+.profil-card.selected.p2 { border-color:#8A4A28; box-shadow:0 4px 16px rgba(138,74,40,.25); }
+.profil-card.selected.p3 { border-color:#7A5024; box-shadow:0 4px 16px rgba(122,80,36,.25); }
 .profil-card-top { display:flex; align-items:flex-start; gap:10px; margin-bottom:6px; }
 .profil-card-ic { font-size:26px; flex-shrink:0; }
 .profil-card-body { flex:1; }
-.profil-card-tag { font-size:9px; font-weight:800; letter-spacing:1px; opacity:.6; margin-bottom:2px; }
+.profil-card-tag { font-size:9px; font-weight:800; letter-spacing:1px; opacity:.65; margin-bottom:2px; }
 .profil-card-title { font-size:12.5px; font-weight:800; line-height:1.3; margin-bottom:3px; }
-.profil-card.p1 .profil-card-title { color:#1a4a18; }
-.profil-card.p2 .profil-card-title { color:#1a2a6e; }
-.profil-card.p3 .profil-card-title { color:#7a4000; }
-.profil-card-sub { font-size:10px; color:#5a6a52; line-height:1.5; }
+.profil-card.p1 .profil-card-tag, .profil-card.p1 .profil-card-title { color:#5A4A2E; }
+.profil-card.p2 .profil-card-tag, .profil-card.p2 .profil-card-title { color:#6E3E22; }
+.profil-card.p3 .profil-card-tag, .profil-card.p3 .profil-card-title { color:#4A3014; }
+.profil-card-sub { font-size:10px; line-height:1.5; }
+.profil-card.p1 .profil-card-sub { color:#786448; }
+.profil-card.p2 .profil-card-sub { color:#8E5A3A; }
+.profil-card.p3 .profil-card-sub { color:#6E4A24; }
 .profil-card-footer { display:flex; align-items:center; justify-content:space-between; }
 .profil-card-pill { font-size:9px; font-weight:800; padding:3px 9px; border-radius:20px; position:relative; overflow:hidden; }
-.profil-card.p1 .profil-card-pill { background:#2d5a27; color:white; }
-.profil-card.p2 .profil-card-pill { background:#1a3a6e; color:white; }
-.profil-card.p3 .profil-card-pill { background:#9a5800; color:white; }
+.profil-card.p1 .profil-card-pill { background:#6E5836; color:white; }
+.profil-card.p2 .profil-card-pill { background:#8A4A28; color:white; }
+.profil-card.p3 .profil-card-pill { background:#7A5024; color:white; }
 @keyframes pillShimmer { 0%{transform:translateX(-120%);} 100%{transform:translateX(220%);} }
 .profil-card-pill::after { content:''; position:absolute; top:0; left:0; width:40%; height:100%; background:linear-gradient(110deg,transparent,rgba(255,255,255,.35),transparent); animation:pillShimmer 2.6s ease-in-out infinite; animation-delay:1.2s; }
 .profil-card-check { width:22px; height:22px; border-radius:50%; border:2px solid rgba(0,0,0,.15); display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; }
-.profil-card.selected .profil-card-check { background:#2d5a27; border-color:#2d5a27; color:white; }
-.profil-card.p2.selected .profil-card-check { background:#1a3a6e; border-color:#1a3a6e; }
-.profil-card.p3.selected .profil-card-check { background:#9a5800; border-color:#9a5800; }
+.profil-card.selected .profil-card-check { background:#6E5836; border-color:#6E5836; color:white; }
+.profil-card.p2.selected .profil-card-check { background:#8A4A28; border-color:#8A4A28; }
+.profil-card.p3.selected .profil-card-check { background:#7A5024; border-color:#7A5024; }
 
 /* Étapes grisées */
 .diag-step.profil-grise { opacity:.38; pointer-events:none; }
@@ -379,6 +396,38 @@ button, .nav-item, .diag-step-header, .section-header,
   animation: lineWaveMove .65s ease-out;
 }
 @keyframes lineWaveMove { 0%{left:-30%;} 100%{left:100%;} }
+
+/* ── MON DOSSIER — FRISE DE CYCLE DE VIE (point 1) ── */
+.lifecycle-step { display:flex; flex-direction:column; align-items:center; gap:5px; flex:1; min-width:0; }
+.lifecycle-dot {
+  width:30px; height:30px; border-radius:50%; background:#f0ece4;
+  display:flex; align-items:center; justify-content:center; font-size:14px;
+  filter:grayscale(.7); opacity:.45; transition:all .3s; flex-shrink:0;
+}
+.lifecycle-step.done .lifecycle-dot { background:#e8f5e4; filter:none; opacity:1; box-shadow:0 0 0 2px #4a7c3f; }
+.lifecycle-step.current .lifecycle-dot { background:#fff3e0; filter:none; opacity:1; box-shadow:0 0 0 2px #f5a623; animation:timelinePulse 1.8s infinite; }
+.lifecycle-label { font-size:7.5px; font-weight:700; color:#9a8a72; text-align:center; line-height:1.2; }
+.lifecycle-step.done .lifecycle-label, .lifecycle-step.current .lifecycle-label { color:#3a4a3a; }
+.lifecycle-line { height:2px; background:#e8e0d4; flex:0.5; margin-top:15px; }
+.lifecycle-line.done { background:#4a7c3f; }
+
+/* ── MON DOSSIER — TAGS DE STATUT PAR SECTION (point 7) ── */
+.section-tag-row { display:flex; align-items:center; gap:10px; padding:9px 0; border-bottom:1px solid #f0ece4; }
+.section-tag-row:last-child { border-bottom:none; }
+.section-tag-ic { font-size:14px; flex-shrink:0; }
+.section-tag-label { font-size:11px; color:#3a4a3a; flex:1; }
+.section-tag-badge { font-size:9px; font-weight:800; padding:3px 8px; border-radius:8px; flex-shrink:0; white-space:nowrap; }
+.section-tag-badge.complete { background:#e8f5e4; color:#2d5a27; }
+.section-tag-badge.partial { background:#fff3d6; color:#8a6000; }
+.section-tag-badge.empty { background:#f0ece4; color:#9a8a72; }
+
+/* ── MON DOSSIER — HISTORIQUE DES VERSIONS (point 3) ── */
+.history-item { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid #f0ece4; }
+.history-item:last-child { border-bottom:none; }
+.history-ic { font-size:14px; flex-shrink:0; color:#7a9a72; }
+.history-info { flex:1; }
+.history-date { font-size:10.5px; font-weight:700; color:#2d3a1e; }
+.history-pct { font-size:9.5px; color:#9a8a72; margin-top:1px; }
 
 /* ── CE QU'IL VOUS RESTE À FAIRE ── */
 .dash-todo-item {
@@ -930,12 +979,20 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .section-divider { font-size:12px; font-weight:700; color:#7a6a52; text-transform:uppercase; letter-spacing:1px; margin:14px 0 8px; display:flex; align-items:center; gap:8px; }
 .section-divider::after { content:""; flex:1; height:1px; background:#d4c9b5; }
 .diag-step { background:white; border-radius:14px; padding:14px; margin-bottom:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); border:2px solid transparent; transition:border 0.2s; }
-.diag-step.completed { border-color:#4a7c3f; background:#f8fdf7; }
+.diag-step.completed { border-color: var(--theme-accent, #4a7c3f); background:#f8fdf7; }
 .diag-step-header { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; }
-.diag-step-num { background:linear-gradient(135deg,#2d5a27,#4a7c3f); color:white; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:1px; }
+.diag-step-num { background: var(--theme-grad, linear-gradient(135deg,#2d5a27,#4a7c3f)); color:white; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:1px; }
 .diag-step-title { font-size:13px; font-weight:700; color:#2d3a1e; line-height:1.4; flex:1; }
 .diag-step-emoji { font-size:20px; flex-shrink:0; }
 .diag-step-intro { font-size:11px; color:#7a6a52; margin-bottom:8px; line-height:1.5; }
+
+/* ── THÈME LÉGER DE MON PARCOURS, selon le profil sélectionné ──
+   N'affecte que : numéro d'étape, bordure des étapes complétées,
+   bouton "Oui" activé (voir plus bas, classe .tri-btn.yes.active). */
+#screen-diag.theme-p1 { --theme-accent:#6E5836; --theme-grad:linear-gradient(135deg,#8A7048,#6E5836); --theme-yes-bg:#EDE3D3; --theme-yes-text:#5A4A2E; }
+#screen-diag.theme-p2 { --theme-accent:#8A4A28; --theme-grad:linear-gradient(135deg,#A8643E,#8A4A28); --theme-yes-bg:#EAD2C4; --theme-yes-text:#6E3E22; }
+#screen-diag.theme-p3 { --theme-accent:#7A5024; --theme-grad:linear-gradient(135deg,#98683A,#7A5024); --theme-yes-bg:#E8D4BC; --theme-yes-text:#4A3014; }
+
 .diag-check-item { display:flex; align-items:flex-start; gap:10px; padding:8px 10px; border-radius:9px; margin-bottom:6px; background:#faf8f4; cursor:pointer; transition:background 0.2s; }
 .diag-check-item:hover { background:#f0f8ec; }
 .diag-check-item.checked { background:#e8f5e4; }
@@ -1449,6 +1506,33 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       </div>
       <div class="checklist-sheet-sub">Ce lien contient un instantané en lecture seule de votre dossier (profil, avancement, informations Ma Maison). Il ne nécessite aucun serveur : les données sont encodées directement dans le lien. Ne le partagez qu'avec une personne de confiance.</div>
       <div id="share-link-content"></div>
+    </div>
+  </div>
+
+  <!-- APERÇU EN LECTURE DU DOSSIER (point 6) -->
+  <div class="checklist-overlay hidden" id="dossier-preview-overlay" style="align-items:flex-end;">
+    <div style="background:white;border-radius:18px 18px 0 0;width:100%;max-height:88%;display:flex;flex-direction:column;overflow:hidden;">
+      <!-- En-tête -->
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;border-bottom:1px solid #eee7d8;flex-shrink:0;">
+        <div>
+          <div style="font-size:13px;font-weight:800;color:#2d3a1e;">👁️ Aperçu du dossier PDF</div>
+          <div style="font-size:10px;color:#9a8a72;margin-top:2px;">Miniatures du modèle Bande Latérale — <span id="preview-page-count"></span></div>
+        </div>
+        <button class="quiz-close" onclick="closeDossierPreview()">✕</button>
+      </div>
+      <!-- Navigation pages -->
+      <div style="display:flex;align-items:center;gap:8px;padding:8px 16px;border-bottom:1px solid #f0ece4;flex-shrink:0;overflow-x:auto;">
+        <div id="preview-thumbs" style="display:flex;gap:8px;min-width:max-content;"></div>
+      </div>
+      <!-- Page active en grand -->
+      <div style="flex:1;overflow-y:auto;padding:16px;background:#f0ece4;display:flex;justify-content:center;">
+        <div id="preview-page-large" style="width:100%;max-width:340px;"></div>
+      </div>
+      <!-- Bas -->
+      <div style="padding:12px 16px;border-top:1px solid #eee7d8;flex-shrink:0;text-align:center;">
+        <div style="font-size:9.5px;color:#9a8a72;margin-bottom:8px;">Aperçu indicatif — le document PDF final peut différer légèrement</div>
+        <button onclick="closeDossierPreview();generatePDF();" style="background:#2d5a27;color:white;border:none;border-radius:10px;padding:10px 24px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;">📄 Générer le PDF complet</button>
+      </div>
     </div>
   </div>
 
@@ -2129,6 +2213,20 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
             </div>
             <input type="file" id="plan-file2" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="planFileSelected2(this)">
           </div>
+
+          <!-- BULLE CADASTRALE — lien vers le service public officiel -->
+          <div style="background:#eef4ff;border-radius:10px;padding:10px 12px;margin-top:10px;display:flex;align-items:flex-start;gap:8px;">
+            <span style="font-size:15px;flex-shrink:0;">🗺️</span>
+            <div>
+              <div style="font-size:11px;font-weight:700;color:#1a3a6e;margin-bottom:3px;">Vous n'avez pas le plan de votre bien ?</div>
+              <div style="font-size:10.5px;color:#3a5a82;line-height:1.55;margin-bottom:8px;">Vous pouvez consulter et télécharger le <strong>plan cadastral</strong> de votre parcelle gratuitement sur le service officiel de l'État.</div>
+              <a href="https://www.cadastre.gouv.fr" target="_blank" rel="noopener noreferrer"
+                style="display:inline-flex;align-items:center;gap:6px;background:#1a3a6e;color:white;text-decoration:none;font-size:10.5px;font-weight:700;padding:7px 12px;border-radius:8px;">
+                <span>🔗</span> Accéder au cadastre.gouv.fr
+              </a>
+            </div>
+          </div>
+
         </div>
 
         <button class="section-modifier-btn" id="modifier-acc-4" onclick="modifierSection(4)">✏️ Modifier cette section</button>
@@ -3259,76 +3357,137 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
     <div class="screen" id="screen-dossier">
       <div class="page-title">📁 Mon Dossier</div>
 
-      <!-- BANNIÈRE PDF — seul point d'action de génération sur cet écran -->
-      <div id="pdf-banner" style="background:linear-gradient(135deg,#2d5a27,#4a7c3f);border-radius:14px;padding:14px 16px;margin-bottom:14px;position:relative;overflow:hidden;">
-        <div style="position:absolute;top:-15px;right:-15px;width:70px;height:70px;border-radius:50%;background:rgba(255,255,255,.06);"></div>
-        <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,.7);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Votre dossier de synthèse</div>
-        <div id="pdf-banner-status" style="font-size:14px;font-weight:900;color:white;margin-bottom:8px;">Complétez votre parcours</div>
-        <div id="pdf-banner-sub" style="font-size:10.5px;color:rgba(255,255,255,.8);line-height:1.6;margin-bottom:12px;text-align:justify;">Renseignez votre parcours pour constituer automatiquement votre dossier. Ce PDF rassemble toutes vos réponses, photos et pièces justificatives dans un format prêt à remettre à votre expert.</div>
-        <button onclick="generatePDF()" style="width:100%;padding:11px;background:white;color:#2d5a27;border:none;border-radius:10px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:8px;">
-          <span>📄</span> <span id="pdf-banner-btn">Générer ma synthèse PDF</span>
-        </button>
-        <div id="last-gen-label" style="margin-top:8px;font-size:10px;color:rgba(255,255,255,.5);text-align:center;min-height:14px;"></div>
-      </div>
-
-      <!-- SOMMAIRE DU PDF — ce que contiendra concrètement le document,
-           propre à cet onglet : l'utilisateur sait quoi il va télécharger
-           avant de le générer, sans redire le "pourquoi" déjà expliqué
-           dans Mon Parcours. -->
-      <div style="background:white;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
-        <div style="font-size:13px;font-weight:700;color:#2d5a27;margin-bottom:10px;display:flex;align-items:center;gap:6px;">📑 Contenu du document généré</div>
-        <div style="display:flex;flex-direction:column;gap:0;">
-          <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #f0ece4;">
-            <span style="font-size:14px;flex-shrink:0;">1️⃣</span>
-            <span style="font-size:11px;color:#3a4a3a;">Page de couverture — coordonnées et profil de situation</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #f0ece4;">
-            <span style="font-size:14px;flex-shrink:0;">2️⃣</span>
-            <span style="font-size:11px;color:#3a4a3a;">Informations sur le bien assuré (onglet Ma Maison)</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:10px;padding:7px 0;border-bottom:1px solid #f0ece4;">
-            <span style="font-size:14px;flex-shrink:0;">3️⃣</span>
-            <span style="font-size:11px;color:#3a4a3a;">Réponses détaillées de votre parcours</span>
-          </div>
-          <div style="display:flex;align-items:center;gap:10px;padding:7px 0;">
-            <span style="font-size:14px;flex-shrink:0;">4️⃣</span>
-            <span style="font-size:11px;color:#3a4a3a;">Pièces jointes et photos déposées</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- MENTION DE NON-VALEUR JURIDIQUE — visible à l'écran -->
+      <!-- MENTION DE NON-VALEUR JURIDIQUE — positionnée juste sous le titre -->
       <div style="background:rgba(154,88,0,.08);border-radius:12px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:flex-start;gap:8px;">
         <span style="font-size:15px;flex-shrink:0;">⚖️</span>
         <div style="font-size:10px;color:#6a4a00;line-height:1.55;">Ce dossier est un outil d'accompagnement indicatif, sans valeur juridique. Il ne remplace pas l'avis d'un professionnel — expert, assureur, avocat ou géotechnicien selon votre situation.</div>
       </div>
 
-      <!-- ÉTAT DES PIÈCES JOINTES — le seul détail réellement spécifique
-           à cet onglet, non disponible ailleurs dans l'app. -->
-      <div style="background:white;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
-        <div style="font-size:13px;font-weight:700;color:#2d5a27;margin-bottom:4px;display:flex;align-items:center;gap:6px;">📎 Pièces jointes <span id="chip-pieces" style="margin-left:auto;font-size:12px;font-weight:800;color:#1a3a6e;">—</span></div>
-        <div id="dossier-apercu" style="margin-top:8px;"></div>
+      <!-- POINT 4 — INDICATEUR DE FRAÎCHEUR DES DONNÉES -->
+      <div id="dossier-freshness" style="display:none;font-size:10px;color:#7a8a6a;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
+        <span>🕐</span><span id="dossier-freshness-text"></span>
       </div>
+
+      <!-- POINT 1 — FRISE DE PROGRESSION DU CYCLE DE VIE DU DOSSIER -->
+      <div style="background:white;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+        <div style="font-size:10.5px;font-weight:800;color:#7a8a6a;text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;">Cycle de vie du dossier</div>
+        <div id="dossier-lifecycle" style="display:flex;align-items:flex-start;justify-content:space-between;">
+          <div class="lifecycle-step" data-stage="constitution">
+            <div class="lifecycle-dot">📝</div>
+            <div class="lifecycle-label">Constitution</div>
+          </div>
+          <div class="lifecycle-line"></div>
+          <div class="lifecycle-step" data-stage="verification">
+            <div class="lifecycle-dot">🔎</div>
+            <div class="lifecycle-label">Vérification</div>
+          </div>
+          <div class="lifecycle-line"></div>
+          <div class="lifecycle-step" data-stage="pret">
+            <div class="lifecycle-dot">✅</div>
+            <div class="lifecycle-label">Prêt</div>
+          </div>
+          <div class="lifecycle-line"></div>
+          <div class="lifecycle-step" data-stage="telecharge">
+            <div class="lifecycle-dot">📤</div>
+            <div class="lifecycle-label">Téléchargé</div>
+          </div>
+        </div>
+        <!-- POINT 10 — MINI-FRISE D'ÉVOLUTION DE LA PROGRESSION -->
+        <div id="dossier-sparkline-wrap" style="margin-top:14px;padding-top:12px;border-top:1px solid #f0ece4;display:none;">
+          <div style="font-size:9.5px;color:#9a8a72;margin-bottom:6px;">Évolution de votre avancement</div>
+          <svg id="dossier-sparkline" width="100%" height="36" viewBox="0 0 280 36" preserveAspectRatio="none" style="display:block;"></svg>
+        </div>
+      </div>
+
+      <!-- BANNIÈRE PDF -->
+      <div id="pdf-banner" style="background:linear-gradient(135deg,#2d5a27,#4a7c3f);border-radius:14px;padding:14px 16px;margin-bottom:14px;position:relative;overflow:hidden;">
+        <div style="position:absolute;top:-15px;right:-15px;width:70px;height:70px;border-radius:50%;background:rgba(255,255,255,.06);"></div>
+        <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,.7);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Votre dossier de synthèse</div>
+        <div id="pdf-banner-status" style="font-size:14px;font-weight:900;color:white;margin-bottom:8px;">Complétez votre parcours</div>
+        <div id="pdf-banner-sub" style="font-size:10.5px;color:rgba(255,255,255,.8);line-height:1.6;margin-bottom:12px;text-align:justify;">Renseignez votre parcours pour constituer automatiquement votre dossier. Ce PDF rassemble toutes vos réponses, photos et pièces justificatives dans un format prêt à remettre à votre expert.</div>
+
+        <!-- POINT 2 — VIGNETTE DE PREVIEW DU PDF -->
+        <div id="pdf-preview-thumb" style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.1);border-radius:10px;padding:8px 10px;margin-bottom:10px;">
+          <div style="width:34px;height:44px;background:white;border-radius:3px;flex-shrink:0;position:relative;box-shadow:0 2px 6px rgba(0,0,0,.2);overflow:hidden;">
+            <div style="position:absolute;top:0;left:0;right:0;height:10px;background:#2d5a27;"></div>
+            <div style="position:absolute;top:14px;left:4px;right:4px;height:2px;background:#d8d8d0;"></div>
+            <div style="position:absolute;top:19px;left:4px;right:4px;height:2px;background:#d8d8d0;"></div>
+            <div style="position:absolute;top:24px;left:4px;right:8px;height:2px;background:#d8d8d0;"></div>
+            <div style="position:absolute;top:31px;left:4px;right:4px;height:2px;background:#d8d8d0;"></div>
+            <div style="position:absolute;top:36px;left:4px;right:10px;height:2px;background:#d8d8d0;"></div>
+          </div>
+          <div style="font-size:9.5px;color:rgba(255,255,255,.85);line-height:1.5;"><span id="pdf-preview-pages">~9 pages</span> — couverture, profil, parcours, pièces jointes</div>
+        </div>
+
+        <!-- POINT 6 — BOUTONS GÉNÉRER / APERÇU SÉPARÉS -->
+        <div style="display:flex;gap:8px;">
+          <button onclick="generatePDF()" style="flex:1;padding:11px;background:white;color:#2d5a27;border:none;border-radius:10px;font-size:12.5px;font-weight:800;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;">
+            <span>📄</span> <span id="pdf-banner-btn">Générer</span>
+          </button>
+          <button onclick="previewDossierContent()" style="flex:0 0 auto;padding:11px 14px;background:rgba(255,255,255,.15);color:white;border:1.5px solid rgba(255,255,255,.3);border-radius:10px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;">
+            👁️ Aperçu
+          </button>
+        </div>
+
+        <!-- POINT 8 — PARTAGE NATIF -->
+        <button id="dossier-share-btn" onclick="shareLastPdf()" style="display:none;width:100%;margin-top:8px;padding:9px;background:rgba(255,255,255,.1);color:white;border:1px solid rgba(255,255,255,.25);border-radius:9px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit;align-items:center;justify-content:center;gap:6px;">
+          📤 Partager mon dossier
+        </button>
+
+        <div id="last-gen-label" style="margin-top:8px;font-size:10px;color:rgba(255,255,255,.5);text-align:center;min-height:14px;"></div>
+      </div>
+
+      <!-- POINT 7 — TAGS DE STATUT PAR SECTION (remplace le sommaire numéroté) -->
+      <div style="background:white;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+        <div style="font-size:13px;font-weight:700;color:#2d5a27;margin-bottom:10px;display:flex;align-items:center;gap:6px;">📑 Contenu du document généré</div>
+        <div id="dossier-section-tags" style="display:flex;flex-direction:column;gap:0;"></div>
+      </div>
+
+      <!-- DOCUMENTS JOINTS AU PDF + SUGGESTIONS -->
+      <div style="background:white;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+        <div style="font-size:13px;font-weight:700;color:#2d5a27;margin-bottom:4px;display:flex;align-items:center;gap:6px;">📎 Documents joints au PDF <span id="chip-pieces" style="margin-left:auto;font-size:12px;font-weight:800;color:#1a3a6e;">—</span></div>
+        <div id="dossier-joints-list" style="margin-top:8px;"></div>
+
+        <div id="dossier-suggestions-sep" style="display:none;height:1px;background:#eee7d8;margin:14px 0 12px;"></div>
+        <div id="dossier-suggestions-wrap" style="display:none;">
+          <div style="font-size:11px;font-weight:800;color:#9a8a72;text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px;">Suggestions de documents à joindre</div>
+          <div id="dossier-suggestions-list"></div>
+        </div>
+      </div>
+
+      <!-- POINT 3 — HISTORIQUE DES VERSIONS GÉNÉRÉES -->
+      <div id="dossier-history-card" style="display:none;background:white;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+        <div style="font-size:13px;font-weight:700;color:#2d5a27;margin-bottom:8px;display:flex;align-items:center;gap:6px;">🕓 Historique des versions</div>
+        <div id="dossier-history-list"></div>
+      </div>
+
+      <!-- L'aperçu en lecture (point 6) est positionné plus haut dans le
+           document, au même niveau que les autres modales globales de
+           l'app (checklist-overlay, share-overlay), pour ne pas être
+           contenu par l'overflow:auto de cet écran. Voir #dossier-preview-overlay. -->
 
     </div>
 
     <!-- ===== CATNAT ===== -->
-    
+        
     <!-- ===== ACCUEIL (ex tableau de bord) ===== -->
     <div class="screen" id="screen-accueil">
 
 
-      <div class="page-title">🏠 Accueil</div>
-      <div class="dash-greeting" id="dash-greeting">Bonjour 👋</div>
+      <div class="page-title" style="justify-content:space-between;">
+        <span id="dash-greeting-title">🏠 Bonjour 👋</span>
+        <span id="dash-search-toggle" onclick="toggleDashSearch()" style="cursor:pointer;font-size:16px;flex-shrink:0;">🔍</span>
+      </div>
 
       <!-- MESSAGE RASSURANT / ADAPTATIF — change de ton selon l'activité
            récente et le profil. Sert d'ancre émotionnelle avant tout le
            reste de l'écran, particulièrement pour les premiers passages. -->
       <div class="dash-reassurance-banner" id="dash-reassurance-banner"></div>
 
-      <!-- RECHERCHE UNIFIÉE — interroge glossaire + FAQ Cat Nat + étapes
-           du parcours en une seule barre, plutôt que 3 systèmes séparés. -->
-      <div class="dash-search-wrap">
+      <!-- RECHERCHE UNIFIÉE — repliée par défaut, se déploie au clic sur
+           la loupe en haut de l'écran. Interroge glossaire + FAQ Cat Nat
+           + étapes du parcours en une seule barre. -->
+      <div class="dash-search-wrap" id="dash-search-wrap" style="display:none;">
         <span class="dash-search-icon">🔍</span>
         <input type="text" class="dash-search-input" id="dash-search-input"
                placeholder="Rechercher un terme, une question, une étape…"
@@ -3348,6 +3507,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           <div style="font-size:11px;color:#7a8a6a;margin-bottom:10px;line-height:1.5;text-align:justify;">Votre parcours s'adapte à votre situation. Choisissez le profil qui correspond à votre démarche actuelle.</div>
 
           <div class="profil-card p1" onclick="dashSelectProfil(1)">
+            <div class="profil-card-bg"></div>
             <div class="profil-card-top">
               <div class="profil-card-ic">🔍</div>
               <div class="profil-card-body">
@@ -3362,6 +3522,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           </div>
 
           <div class="profil-card p2" onclick="dashSelectProfil(2)">
+            <div class="profil-card-bg"></div>
             <div class="profil-card-top">
               <div class="profil-card-ic">📋</div>
               <div class="profil-card-body">
@@ -3376,6 +3537,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           </div>
 
           <div class="profil-card p3" onclick="dashSelectProfil(3)">
+            <div class="profil-card-bg"></div>
             <div class="profil-card-top">
               <div class="profil-card-ic">🏗️</div>
               <div class="profil-card-body">
@@ -4100,9 +4262,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         </div>
 
       </div>
-      <button class="btn-next-tab" onclick="switchTab('maison', document.querySelectorAll('.nav-item')[1])">
-        🏠 Étape suivante — Ma Maison &nbsp;›
-      </button>
     </div>
 
     <!-- ===== PARTAGER — masqué, contenu déplacé dans Paramètres ===== -->
@@ -5077,6 +5236,20 @@ const QUIZ_QUESTIONS = [
       {label:"Je ne sais pas si elle est reconnue Cat Nat", emoji:"❓", val:"a"},
       {label:"Ma commune est déjà reconnue (arrêté publié)", emoji:"📰", val:"b"}
     ]
+  },
+  {
+    q: "Les fissures ou désordres sont-ils apparus après une longue période de sécheresse ou de forte chaleur ?",
+    opts: [
+      {label:"Oui, clairement après une période sèche", emoji:"☀️", val:"b"},
+      {label:"Non ou je ne sais pas exactement", emoji:"🤔", val:"a"}
+    ]
+  },
+  {
+    q: "Des travaux de réparation ont-ils déjà commencé sur votre bien ?",
+    opts: [
+      {label:"Non, les travaux n'ont pas encore commencé", emoji:"🔒", val:"a"},
+      {label:"Oui, les travaux sont en cours ou terminés", emoji:"🪜", val:"b"}
+    ]
   }
 ];
 let quizAnswers = [];
@@ -5129,7 +5302,7 @@ function renderQuizResult(){
   // - Si le rapport d'expertise a déjà été remis → Profil 3 (phase travaux)
   // - Sinon, si sinistre déclaré ou commune déjà reconnue → Profil 2 (attente)
   // - Sinon → Profil 1 (départ complet)
-  const [declare, expertise, commune] = quizAnswers;
+  const [declare, expertise, commune, secheresse, travaux] = quizAnswers;
   let profil;
   if(expertise === 'b'){
     profil = 3;
@@ -5138,6 +5311,18 @@ function renderQuizResult(){
   } else {
     profil = 1;
   }
+
+  // Message contextuel complémentaire selon les réponses Q4 et Q5
+  let contextMsg = '';
+  if(secheresse === 'a'){
+    contextMsg = '💡 Même sans lien évident avec la sécheresse, les désordres constatés méritent d\'être documentés : l\'expert déterminera la cause déterminante.';
+  }
+  if(profil === 3 && travaux === 'b'){
+    contextMsg = '💡 Vos travaux sont en cours ou terminés — veillez à conserver tous les devis, factures et PV de réception, ils seront essentiels pour finaliser votre dossier.';
+  } else if(profil === 3 && travaux === 'a'){
+    contextMsg = '💡 Les travaux n\'ont pas encore commencé — c\'est le bon moment pour pré-constituer votre dossier et rassembler les documents attendus par votre assureur.';
+  }
+
   const cfg = PROFIL_CONFIG[profil];
   const box = document.getElementById('quiz-box');
   if(!box) return;
@@ -5150,6 +5335,7 @@ function renderQuizResult(){
       <div class="quiz-result-icon">${cfg.icon}</div>
       <div class="quiz-result-title">${cfg.title}</div>
       <div class="quiz-result-sub">${cfg.sub}</div>
+      ${contextMsg ? `<div style="background:#fdf6e8;border-left:3px solid #C9A23A;border-radius:8px;padding:10px 12px;margin:10px 0;font-size:10.5px;color:#6a5000;line-height:1.6;text-align:left;">${contextMsg}</div>` : ''}
       <button class="quiz-result-btn" onclick="quizApplyProfil(${profil})">Choisir ce profil →</button>
       <button class="quiz-back-btn" onclick="quizBack()">‹ Revoir mes réponses</button>
     </div>
@@ -5167,6 +5353,25 @@ function quizApplyProfil(n){
 // 12 étapes du parcours. Construit les résultats par lecture directe du
 // DOM pour la FAQ (toujours présente, même hors de l'onglet Cat Nat),
 // et du tableau GLOSSAIRE / ETAPE_LABELS pour le reste.
+
+// Affiche/replie la barre de recherche au clic sur la loupe placée en
+// haut de l'écran Accueil, à côté du message de bienvenue.
+function toggleDashSearch(){
+  const wrap = document.getElementById('dash-search-wrap');
+  const input = document.getElementById('dash-search-input');
+  if(!wrap) return;
+  const isHidden = wrap.style.display === 'none';
+  wrap.style.display = isHidden ? 'block' : 'none';
+  if(isHidden){
+    setTimeout(() => input?.focus(), 100);
+  } else {
+    // Repli : on vide aussi la recherche en cours et ses résultats
+    if(input) input.value = '';
+    const results = document.getElementById('dash-search-results');
+    if(results){ results.classList.remove('visible'); results.innerHTML = ''; }
+  }
+}
+
 let _dashSearchTimer = null;
 function dashSearchUnified(query){
   clearTimeout(_dashSearchTimer);
@@ -5266,8 +5471,10 @@ function _runDashSearch(query){
 function closeAllDashSearchAndGo(){
   const input = document.getElementById('dash-search-input');
   const resultsBox = document.getElementById('dash-search-results');
+  const wrap = document.getElementById('dash-search-wrap');
   if(input) input.value = '';
   if(resultsBox){ resultsBox.classList.remove('visible'); resultsBox.innerHTML = ''; }
+  if(wrap) wrap.style.display = 'none';
 }
 // ══ FIN RECHERCHE UNIFIÉE ══
 
@@ -5474,6 +5681,16 @@ function selectProfil(n, opts){
     card.classList.toggle('selected', i === n);
     if(check) check.innerHTML = i === n ? '✓' : '';
   });
+
+  // Thème léger de l'onglet Mon Parcours — reprend la teinte de la carte
+  // du profil sélectionné (numéros d'étape, bordure des étapes
+  // complétées, bouton "Oui" activé), pour une cohérence visuelle
+  // immédiate entre l'Accueil et le parcours.
+  const diagScreen = document.getElementById('screen-diag');
+  if(diagScreen){
+    diagScreen.classList.remove('theme-p1', 'theme-p2', 'theme-p3');
+    diagScreen.classList.add('theme-p' + n);
+  }
 
   // Réinitialisation systématique de l'état "profil" sur toutes les
   // étapes avant d'appliquer la nouvelle config — évite que des badges
@@ -6331,215 +6548,48 @@ function generatePDF(){
   const {jsPDF} = window.jspdf;
   const doc = new jsPDF({unit:'mm', format:'a4'});
 
-  // ── Photo de couverture ──
+  // ── Données de base ──
   const photoDataUrl = localStorage.getItem('argicare-photo-maison') || null;
-  const W=210, H=297, ML=14, MR=14, CW=W-ML-MR;
+  const W=210, H=297;
 
-  // ── Couleurs ──
-  const GD=[45,90,39], GM=[74,124,63], GL=[168,213,162], OR=[245,166,35];
-  const BD=[26,58,110], BM=[42,92,168], BL=[232,240,254];
-  const WT=[255,255,255], BK=[30,30,30], GY=[90,100,80], GLN=[220,216,210], GLP=[245,251,244];
-  const RD=[180,40,40], AM=[200,150,0];
+  // ── Palette logo : vert sapin + doré ──
+  const VD=[45,90,39];       // vert sapin (sidebar, header)
+  const VL=[235,245,232];    // vert très clair (fond section)
+  const OR=[201,162,58];     // doré du logo (accents, titres)
+  const OR2=[245,166,35];    // doré vif (badges, puces actives)
+  const WT=[255,255,255];    // blanc
+  const BK=[30,30,30];       // texte principal
+  const GY=[100,105,95];     // texte secondaire
+  const LN=[220,216,210];    // ligne de séparation neutre
+  const BG=[250,248,244];    // fond page crème
 
-  // ── Helpers ──
+  // ── Layout bande latérale ──
+  const SB=12;       // largeur sidebar en mm
+  const ML=SB+6;     // marge gauche du contenu
+  const MR=12;       // marge droite
+  const CW=W-ML-MR;  // largeur utile du contenu
+
+  // ── Helpers de récupération des données ──
   const v = id => (document.getElementById(id)||{}).value?.trim()||'—';
   const ck = id => document.getElementById(id)?.checked||false;
+
   const now = new Date();
   const dateStr = now.toLocaleDateString('fr-FR');
   const timeStr = now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
   const dateGen = dateStr + ' à ' + timeStr;
 
-  // ── Référence de dossier unique (déterministe par assuré + persistante) ──
   let dossierRef = localStorage.getItem('argicare-dossier-ref');
   if(!dossierRef){
     const rand = Math.random().toString(36).substring(2,6).toUpperCase();
     dossierRef = 'AQ-' + now.getFullYear() + '-' + rand;
     localStorage.setItem('argicare-dossier-ref', dossierRef);
   }
-  const nomAssure = (v('m_nom') + ' ' + v('m_prenom')).trim();
-  const civiliteNom = nomAssure !== '—' ? nomAssure : 'l\'assuré';
-
-  // ── En-tête / pied de page ──
-  let pageNum = 0;
-  const drawHeader = () => {
-    pageNum++;
-    doc.setFillColor(...GD); doc.rect(0,0,W,16,'F');
-    doc.setFontSize(10); doc.setFont(undefined,'normal');
-    doc.setTextColor(220,239,216); doc.text('argi', W/2-7, 10, {align:'center'});
-    doc.setFontSize(13); doc.setFont(undefined,'bold');
-    doc.setTextColor(...OR); doc.text('Q', W/2+1, 10);
-    doc.setFontSize(10); doc.setFont(undefined,'normal');
-    doc.setTextColor(...GL); doc.text('are', W/2+7, 10);
-    doc.setFontSize(7); doc.setTextColor(180,220,180);
-    doc.text('Synthèse de dossier RGA & Cat Nat — Réf. '+dossierRef, ML, 10);
-    doc.setTextColor(180,220,180);
-    doc.text('Page '+pageNum, W-ML, 10, {align:'right'});
-    // Footer
-    doc.setDrawColor(...GLN); doc.setLineWidth(0.3); doc.line(ML,H-12,W-MR,H-12);
-    doc.setFontSize(6.5); doc.setTextColor(160,160,160);
-    doc.text("ArgiQare — Document d'accompagnement indicatif, sans valeur juridique — © 2026", ML, H-7);
-    doc.text('Généré le '+dateGen, W-MR, H-7, {align:'right'});
-  };
-
-  // ── Bandeau de section ──
-  const sectionBar = (title, color, y) => {
-    doc.setFillColor(...color); doc.roundedRect(ML,y,CW,8,1.5,1.5,'F');
-    doc.setFontSize(9); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-    doc.text(title, ML+4, y+5.5);
-    return y+12;
-  };
-
-  // ── Ligne champ/valeur ──
-  const fieldRow = (label, value, y, color) => {
-    if(y > H-22){ doc.addPage(); drawHeader(); y=22; }
-    doc.setFontSize(7.5); doc.setFont(undefined,'bold');
-    doc.setTextColor(...(color||GY)); doc.text(label, ML+2, y);
-    doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
-    const lines = doc.splitTextToSize(String(value||'—'), CW-52);
-    doc.text(lines, ML+52, y);
-    doc.setDrawColor(...GLN); doc.setLineWidth(0.2); doc.line(ML,y+2,W-MR,y+2);
-    return y + Math.max(6, lines.length*4.5);
-  };
-
-  // ── Item tristate dans le PDF ──
-  const triRow = (label, stepId, itemN, subLabels, y) => {
-    if(y > H-28){ doc.addPage(); drawHeader(); y=22; }
-    const key = stepId+'-'+itemN;
-    const choice = triState[key];
-    const icon = choice==='yes' ? '✓' : choice==='no' ? '−' : '○';
-    const col = choice==='yes' ? GD : choice==='no' ? AM : [160,160,160];
-    // Cercle icône
-    doc.setFillColor(...col); doc.circle(ML+4, y+1.5, 2.5,'F');
-    doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-    doc.text(icon, ML+4, y+2.5, {align:'center'});
-    // Label
-    doc.setFontSize(8); doc.setFont(undefined, choice?'bold':'normal');
-    doc.setTextColor(choice?BK[0]:150, choice?BK[1]:150, choice?BK[2]:150);
-    const lblLines = doc.splitTextToSize(label.replace(/^[^\s]+\s/,''), CW-12);
-    doc.text(lblLines, ML+9, y+2);
-    y += Math.max(6, lblLines.length*4);
-    // Sous-réponses si oui
-    if(choice==='yes' && subLabels){
-      const detail = document.getElementById('tri-'+stepId+'-'+itemN+'-detail');
-      if(detail){
-        const cbs = detail.querySelectorAll('.tri-sub-cb');
-        const labs = detail.querySelectorAll('.tri-sub-label');
-        cbs.forEach((cb,i)=>{
-          if(y > H-18){ doc.addPage(); drawHeader(); y=22; }
-          if(cb.checked){ doc.setFillColor(...GM); } else { doc.setFillColor(220,220,220); }
-          doc.roundedRect(ML+10,y-1,3,3,0.5,0.5,'F');
-          doc.setFontSize(7); doc.setFont(undefined,'normal');
-          doc.setTextColor(cb.checked?GD[0]:130, cb.checked?GD[1]:130, cb.checked?GD[2]:130);
-          const subLine = doc.splitTextToSize(labs[i]?.textContent||'', CW-20);
-          doc.text(subLine, ML+15, y+1.5);
-          y += Math.max(5, subLine.length*4);
-        });
-      }
-    }
-    doc.setDrawColor(...GLN); doc.setLineWidth(0.15); doc.line(ML+8,y,W-MR,y);
-    return y+3;
-  };
-
-  // ══════════════════════════════════════
-  // PAGE 1 — COUVERTURE
-  // ══════════════════════════════════════
-  pageNum=0;
-
-  // Fond de couverture
-  doc.setFillColor(...GD); doc.rect(0,0,W,H,'F');
-  for(let i=0;i<30;i++){
-    const f=i/30;
-    doc.setFillColor(Math.round(45+f*30),Math.round(90+f*20),Math.round(39+f*15));
-    doc.rect(0,H*(0.55+f*0.45/1),W,H*0.45/30+1,'F');
-  }
-  doc.setFillColor(20,30,20); doc.rect(0,0,W,H*0.42,'F');
-
-  // ── PHOTO DE LA MAISON en couverture ──
-  const photoH = 80; // hauteur de la bande photo en mm
-  if(photoDataUrl){
-    try{
-      const fmt = photoDataUrl.includes('image/png') ? 'PNG' : 'JPEG';
-      doc.addImage(photoDataUrl, fmt, 0, 0, W, photoH);
-      // Dégradé bas sur la photo
-      for(let i=0;i<20;i++){
-        const f=i/20;
-        const alpha=Math.round(f*200);
-        doc.setFillColor(20,30,20);
-        doc.setGState(new doc.GState({opacity:f*0.85}));
-        doc.rect(0,photoH-20+i,W,1,'F');
-      }
-      doc.setGState(new doc.GState({opacity:1}));
-    } catch(e){ console.warn('Photo couverture erreur:',e); }
-  }
-
-  // Logo
-  const logoY = photoDataUrl ? photoH - 10 : 55;
-  doc.setFontSize(26); doc.setFont(undefined,'normal');
-  doc.setTextColor(180,220,170); doc.text('argi', W/2-14, logoY, {align:'center'});
-  doc.setFontSize(36); doc.setFont(undefined,'bold');
-  doc.setTextColor(...OR); doc.text('Q', W/2+4, logoY);
-  doc.setFontSize(26); doc.setFont(undefined,'normal');
-  doc.setTextColor(...GL); doc.text('are', W/2+16, logoY);
-  doc.setFontSize(9); doc.setTextColor(120,180,120);
-  doc.text('Guide RGA & Catastrophes Naturelles', W/2, logoY+9, {align:'center'});
-
-  // Titre
-  const titreY = photoDataUrl ? photoH + 14 : 72;
-  doc.setDrawColor(...OR); doc.setLineWidth(1.5); doc.line(W/2-35,titreY,W/2+35,titreY);
-  doc.setFontSize(20); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-  doc.text('SYNTHÈSE', W/2, titreY+12, {align:'center'});
-  doc.text('DE DOSSIER', W/2, titreY+23, {align:'center'});
-  doc.setFontSize(9); doc.setFont(undefined,'normal'); doc.setTextColor(...GL);
-  doc.text('Retrait-Gonflement des Argiles — Catastrophe Naturelle', W/2, titreY+32, {align:'center'});
-  doc.setDrawColor(...OR); doc.setLineWidth(1.5); doc.line(W/2-35,titreY+36,W/2+35,titreY+36);
-
-  // Carte assuré
-  const cY = photoDataUrl ? photoH+52 : 124;
-  const cH=69, cX=ML+8, cW2=W-ML-MR-16;
-  doc.setFillColor(30,45,30); doc.roundedRect(cX,cY,cW2,cH,3,3,'F');
-  doc.setFillColor(...OR); doc.roundedRect(cX,cY,cW2,8,3,3,'F');
-  doc.rect(cX,cY+5,cW2,3,'F');
-  doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-  doc.text('INFORMATIONS ASSURÉ', W/2, cY+5.5, {align:'center'});
-
+  const nomAssure = (v('m_nom') + ' ' + v('m_prenom')).trim().replace(/^—\s*|—$/g,'').trim();
+  const civiliteNom = nomAssure || 'l\'assuré';
   const savedProfilPdf = localStorage.getItem('argicare-profil');
   const cfgPdf = savedProfilPdf ? PROFIL_CONFIG[savedProfilPdf] : null;
-  const cardData=[
-    ['Assuré', v('m_nom')+' '+v('m_prenom')],
-    ['Adresse', v('m_voie')+(v('m_compl')!=='—'?' '+v('m_compl'):'')+' — '+v('m_cp')+' '+v('m_ville')],
-    ['Téléphone', v('m_tel')],
-    ['Email', v('m_email')],
-    ['Assureur', v('m_assureur')!=='—'?v('m_assureur'):v('m_typecontrat')],
-    ['Contrat N°', v('m_numcontrat')],
-    ['Profil de situation', cfgPdf ? cfgPdf.title : 'Non défini'],
-  ];
-  let cy2=cY+14;
-  cardData.forEach(([lbl,val])=>{
-    doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(150,200,150);
-    doc.text(lbl+' :', cX+4, cy2);
-    doc.setFont(undefined,'normal'); doc.setTextColor(...WT);
-    doc.text(String(val).substring(0,55), cX+32, cy2);
-    doc.setDrawColor(40,60,40); doc.setLineWidth(0.2); doc.line(cX+4,cy2+1.5,cX+cW2-4,cy2+1.5);
-    cy2+=7;
-  });
 
-  // ── Bandeau de légitimité du document ──
-  const legitY = cY + cH + 8;
-  doc.setFillColor(255,255,255); doc.setGState(new doc.GState({opacity:0.06}));
-  doc.roundedRect(cX, legitY, cW2, 20, 2, 2, 'F');
-  doc.setGState(new doc.GState({opacity:1}));
-  doc.setDrawColor(...OR); doc.setLineWidth(0.4); doc.line(cX, legitY, cX, legitY+20);
-  doc.setFontSize(7); doc.setFont(undefined,'normal'); doc.setTextColor(210,230,205);
-  const legitLines = doc.splitTextToSize(
-    'Ce document a été constitué par ' + civiliteNom + ' dans le cadre de sa déclaration de sinistre Cat Nat — Retrait-Gonflement des Argiles, à l\'aide de l\'application ArgiQare.',
-    cW2 - 10
-  );
-  doc.text(legitLines, cX+5, legitY+6);
-  doc.setFontSize(6.5); doc.setFont(undefined,'bold'); doc.setTextColor(...OR);
-  doc.text('Référence dossier : ' + dossierRef, cX+5, legitY+16.5);
-
-  // Indicateurs
-  const indicsY = legitY + 27;
+  // ── Statistiques d'avancement ──
   const maisonFields=['m_nom','m_prenom','m_voie','m_cp','m_ville','m_email','m_tel','m_typecontrat','m_numcontrat','m_assureur'];
   let mFilled=0; maisonFields.forEach(id=>{if((document.getElementById(id)||{}).value?.trim())mFilled++;});
   const mPct=Math.round((mFilled/maisonFields.length)*100);
@@ -6549,330 +6599,505 @@ function generatePDF(){
   const triKeys=Object.keys(triState).length;
   const nJoints=Object.keys(diagFiles).length;
 
+  // ════════════════════════════════════════
+  // HELPERS COMMUNS
+  // ════════════════════════════════════════
+
+  // Sidebar verte sur toute la hauteur + filet doré
+  const drawSidebar = () => {
+    doc.setFillColor(...VD); doc.rect(0,0,SB,H,'F');
+    doc.setFillColor(...OR); doc.rect(SB,0,0.8,H,'F');
+  };
+
+  // Texte vertical dans la sidebar (logo + ref)
+  const drawSidebarText = (refText) => {
+    doc.setFontSize(7.5); doc.setFont(undefined,'bold');
+    doc.setTextColor(...OR);
+    // Logo argiQare en vertical centré
+    doc.text('argi', SB/2, H/2+8, {align:'center', angle:90});
+    doc.setTextColor(...WT);
+    doc.text('Q', SB/2, H/2-2, {align:'center', angle:90});
+    doc.setFontSize(7.5); doc.setFont(undefined,'normal');
+    doc.text('are', SB/2, H/2-12, {align:'center', angle:90});
+    // Référence en bas de sidebar
+    doc.setFontSize(5.5); doc.setTextColor(180,220,170);
+    doc.text(refText, SB/2, H-8, {align:'center', angle:90});
+  };
+
+  let pageNum = 0;
+  // Pied de page sobre
+  const drawFooter = () => {
+    doc.setDrawColor(...LN); doc.setLineWidth(0.2);
+    doc.line(ML, H-10, W-MR, H-10);
+    doc.setFontSize(6); doc.setFont(undefined,'normal');
+    doc.setTextColor(...GY);
+    doc.text("Document d'accompagnement indicatif, sans valeur juridique — ArgiQare", ML, H-6);
+    doc.text('p. '+pageNum+' / —', W-MR, H-6, {align:'right'});
+  };
+
+  // Nouvelle page avec sidebar + pied
+  const newPage = (withSidebar=true) => {
+    pageNum++;
+    if(withSidebar){
+      drawSidebar();
+      drawSidebarText(dossierRef);
+    }
+    drawFooter();
+    // Fond crème pour le contenu
+    doc.setFillColor(...BG); doc.rect(SB+0.8,0,W-SB-0.8,H,'F');
+  };
+
+  // En-tête de page interne (bande titre de section)
+  const pageHeader = (sectionLabel, pageLabel) => {
+    doc.setFillColor(...VL);
+    doc.rect(ML, 0, W-ML, 14, 'F');
+    doc.setFontSize(8); doc.setFont(undefined,'bold');
+    doc.setTextColor(...VD);
+    doc.text(sectionLabel, ML+4, 9);
+    doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
+    doc.setFontSize(7);
+    doc.text(pageLabel, W-MR, 9, {align:'right'});
+    doc.setDrawColor(...OR); doc.setLineWidth(0.5);
+    doc.line(ML, 14, W-MR, 14);
+    return 22;
+  };
+
+  // Titre de section (H2 dans le contenu)
+  const sectionTitle = (text, y) => {
+    if(y > H-20){ doc.addPage(); newPage(); y = pageHeader('(suite)',''); }
+    doc.setFillColor(...OR);
+    doc.rect(ML, y, 2.5, 7, 'F');
+    doc.setFontSize(10); doc.setFont(undefined,'bold');
+    doc.setTextColor(...VD);
+    doc.text(text, ML+5, y+5.5);
+    doc.setDrawColor(...LN); doc.setLineWidth(0.2);
+    doc.line(ML+5, y+8, W-MR, y+8);
+    return y + 13;
+  };
+
+  // Ligne champ/valeur sobre
+  const fieldRow = (label, value, y) => {
+    if(y > H-18){ doc.addPage(); newPage(); y = pageHeader('(suite)',''); }
+    doc.setFontSize(7); doc.setFont(undefined,'bold');
+    doc.setTextColor(...GY);
+    doc.text(label, ML+2, y);
+    doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
+    const lines = doc.splitTextToSize(String(value||'—'), CW-48);
+    doc.text(lines, ML+48, y);
+    doc.setDrawColor(...LN); doc.setLineWidth(0.15);
+    doc.line(ML, y+2.5, W-MR, y+2.5);
+    return y + Math.max(6, lines.length*4.5);
+  };
+
+  // Item tristate (étape du parcours)
+  const triRow = (label, stepId, itemN, y) => {
+    if(y > H-20){ doc.addPage(); newPage(); y = pageHeader('2 — Mon Parcours',''); }
+    const key = stepId+'-'+itemN;
+    const choice = triState[key];
+    const icon = choice==='yes' ? '✓' : choice==='no' ? '−' : '○';
+    const col = choice==='yes' ? OR2 : choice==='no' ? [160,160,155] : [210,205,195];
+    doc.setFillColor(...col);
+    doc.circle(ML+3.5, y+1.5, 2.5,'F');
+    doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
+    doc.text(icon, ML+3.5, y+2.5, {align:'center'});
+    doc.setFontSize(8);
+    doc.setFont(undefined, choice ? 'bold' : 'normal');
+    doc.setTextColor(choice ? BK[0] : 150, choice ? BK[1] : 150, choice ? BK[2] : 150);
+    const lblLines = doc.splitTextToSize(label.replace(/^[^\s]+\s/,''), CW-12);
+    doc.text(lblLines, ML+9, y+2);
+    y += Math.max(6, lblLines.length*4);
+    // Sous-réponses si oui
+    if(choice==='yes'){
+      const detail = document.getElementById('tri-'+stepId+'-'+itemN+'-detail');
+      if(detail){
+        const cbs = detail.querySelectorAll('.tri-sub-cb');
+        const labs = detail.querySelectorAll('.tri-sub-label');
+        cbs.forEach((cb,i)=>{
+          if(y > H-14){ doc.addPage(); newPage(); y = pageHeader('2 — Mon Parcours',''); }
+          doc.setFillColor(cb.checked ? OR[0] : 210, cb.checked ? OR[1] : 205, cb.checked ? OR[2] : 195);
+          doc.roundedRect(ML+10, y-1, 2.5, 2.5, 0.4, 0.4,'F');
+          doc.setFontSize(6.5); doc.setFont(undefined,'normal');
+          doc.setTextColor(cb.checked ? VD[0] : 140, cb.checked ? VD[1] : 140, cb.checked ? VD[2] : 140);
+          const subLine = doc.splitTextToSize(labs[i]?.textContent||'', CW-18);
+          doc.text(subLine, ML+15, y+1.5);
+          y += Math.max(5, subLine.length*4);
+        });
+      }
+    }
+    doc.setDrawColor(...LN); doc.setLineWidth(0.1);
+    doc.line(ML+8, y, W-MR, y);
+    return y + 3;
+  };
+
+  // ════════════════════════════════════════
+  // PAGE 1 — COUVERTURE
+  // ════════════════════════════════════════
+  pageNum++;
+
+  // Fond crème
+  doc.setFillColor(...BG); doc.rect(0,0,W,H,'F');
+
+  // Sidebar verte complète
+  drawSidebar();
+  drawSidebarText(dossierRef);
+
+  // Photo du bien (si disponible) — en haut, pleine largeur hors sidebar
+  let coverY = 0;
+  if(photoDataUrl){
+    try{
+      const fmt = photoDataUrl.includes('image/png') ? 'PNG' : 'JPEG';
+      doc.addImage(photoDataUrl, fmt, SB+0.8, 0, W-SB-0.8, 72);
+      // Dégradé bas
+      for(let i=0;i<18;i++){
+        const f=i/18;
+        doc.setFillColor(...BG);
+        doc.setGState(new doc.GState({opacity: f*0.9}));
+        doc.rect(SB+0.8, 72-18+i, W-SB-0.8, 1, 'F');
+      }
+      doc.setGState(new doc.GState({opacity:1}));
+      coverY = 78;
+    } catch(e){ coverY = 20; }
+  } else {
+    coverY = 30;
+    // Zone photo placeholder
+    doc.setFillColor(240,244,238);
+    doc.roundedRect(ML, coverY, CW, 50, 3, 3, 'F');
+    doc.setFontSize(9); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
+    doc.text('📸  Photo du bien', W/2, coverY+28, {align:'center'});
+    coverY += 60;
+  }
+
+  // Logo
+  doc.setFontSize(20); doc.setFont(undefined,'normal');
+  doc.setTextColor(VD[0],VD[1],VD[2]); doc.text('argi', ML+2, coverY+10);
+  doc.setFontSize(24); doc.setFont(undefined,'bold');
+  doc.setTextColor(...OR2); doc.text('Q', ML+28, coverY+10);
+  doc.setFontSize(20); doc.setFont(undefined,'normal');
+  doc.setTextColor(VD[0],VD[1],VD[2]); doc.text('are', ML+36, coverY+10);
+
+  // Ligne dorée sous le logo
+  doc.setDrawColor(...OR); doc.setLineWidth(1);
+  doc.line(ML+2, coverY+13, ML+62, coverY+13);
+  coverY += 20;
+
+  // Titre du document
+  doc.setFontSize(8); doc.setFont(undefined,'bold');
+  doc.setTextColor(...GY);
+  doc.text('DOSSIER DE SYNTHÈSE', ML+2, coverY);
+  doc.text('Retrait-Gonflement des Argiles — Cat Nat', ML+2, coverY+5);
+  coverY += 16;
+
+  // Carte assuré sobre
+  doc.setFillColor(...WT);
+  doc.roundedRect(ML, coverY, CW, 62, 3, 3, 'F');
+  doc.setDrawColor(...OR); doc.setLineWidth(0.4);
+  doc.roundedRect(ML, coverY, CW, 62, 3, 3, 'D');
+  // Tag "ASSURÉ"
+  doc.setFillColor(...VD); doc.roundedRect(ML, coverY, 28, 6, 1.5, 0, 'F');
+  doc.setFontSize(6); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
+  doc.text('ASSURÉ', ML+14, coverY+4, {align:'center'});
+  let cY = coverY + 10;
+  doc.setFontSize(13); doc.setFont(undefined,'bold');
+  doc.setTextColor(...BK);
+  doc.text(nomAssure || '—', ML+4, cY); cY += 6;
+  doc.setFontSize(8); doc.setFont(undefined,'normal');
+  doc.setTextColor(...GY);
+  const adresse = [v('m_voie'), v('m_cp')+' '+v('m_ville')].filter(x=>x!=='—').join(' — ');
+  doc.text(adresse || '—', ML+4, cY); cY += 6;
+  doc.setDrawColor(...LN); doc.setLineWidth(0.2); doc.line(ML+4, cY, ML+CW-4, cY); cY += 5;
+  // Profil
+  doc.setFontSize(6.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GY);
+  doc.text('Profil de situation', ML+4, cY);
+  doc.setFont(undefined,'normal'); doc.setTextColor(...VD);
+  doc.text(cfgPdf ? cfgPdf.title : 'Non défini', ML+4, cY+4); cY += 10;
+  // Contrat
+  doc.setFontSize(6.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GY);
+  doc.text('Contrat', ML+4, cY);
+  doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
+  doc.text(v('m_typecontrat')+' — N° '+v('m_numcontrat'), ML+4, cY+4); cY += 10;
+  // Indicateurs 4 cases
   const indics=[
-    [mPct+'%','Ma Maison',...GD],
-    [diagPct+'%','Diagnostic',...BD],
-    [triKeys+' rép.','Parcours',...AM],
-    [nJoints+'/8','Documents',...RD]
+    [mPct+'%', 'Ma Maison', VD],
+    [diagPct+'%', 'Parcours', VD],
+    [triKeys+' rép.', 'Étapes', OR],
+    [nJoints+'/8', 'Documents', OR]
   ];
-  const iW=(CW-6)/4;
-  indics.forEach(([val,lbl,r,g,b],i)=>{
-    const ix=ML+i*(iW+2);
-    doc.setFillColor(r,g,b); doc.roundedRect(ix,indicsY,iW,18,2,2,'F');
-    doc.setFontSize(11); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-    doc.text(val, ix+iW/2, indicsY+11, {align:'center'});
-    doc.setFontSize(6.5); doc.setFont(undefined,'normal');
-    doc.text(lbl, ix+iW/2, indicsY+15, {align:'center'});
+  const iW2=(CW-8)/4;
+  indics.forEach(([val,lbl,col],i)=>{
+    const ix = ML+4 + i*(iW2+2);
+    doc.setFillColor(...col); doc.roundedRect(ix, cY-1, iW2, 10, 1.5, 1.5,'F');
+    doc.setFontSize(9); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
+    doc.text(val, ix+iW2/2, cY+5, {align:'center'});
+    doc.setFontSize(6); doc.setFont(undefined,'normal');
+    doc.text(lbl, ix+iW2/2, cY+8.5, {align:'center'});
   });
+  cY += 14;
+  coverY = cY + 6;
 
-  doc.setFontSize(7.5); doc.setFont(undefined,'normal'); doc.setTextColor(140,180,140);
-  doc.text('Généré le '+dateGen, W/2, indicsY+28, {align:'center'});
-  doc.setFontSize(7); doc.setTextColor(80,120,80);
-  doc.text("Document d'accompagnement indicatif — Ne se substitue pas à une expertise professionnelle", W/2, indicsY+35, {align:'center'});
+  // Référence + date
+  doc.setFontSize(7); doc.setFont(undefined,'bold');
+  doc.setTextColor(...VD); doc.text('Réf. '+dossierRef, ML+2, coverY);
+  doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
+  doc.text('Généré le '+dateGen, W-MR, coverY, {align:'right'});
+  coverY += 10;
 
-  // ══════════════════════════════════════
+  // Bandeau légitimité
+  doc.setFillColor(...VL);
+  doc.roundedRect(ML, coverY, CW, 14, 2, 2, 'F');
+  doc.setFontSize(7); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
+  const legitText = doc.splitTextToSize(
+    'Ce document a été constitué par '+civiliteNom+' à l\'aide de l\'application ArgiQare, outil d\'accompagnement indicatif dans le cadre d\'une déclaration de sinistre Cat Nat — Retrait-Gonflement des Argiles.',
+    CW-6
+  );
+  doc.text(legitText, ML+3, coverY+5);
+
+  // Pied de couverture
+  drawFooter();
+
+  // ════════════════════════════════════════
   // PAGE 2 — SOMMAIRE
-  // ══════════════════════════════════════
-  doc.addPage(); drawHeader();
-  let y=26;
-  doc.setFontSize(14); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
-  doc.text('Sommaire', ML, y); y+=2;
-  doc.setDrawColor(...OR); doc.setLineWidth(1.2); doc.line(ML,y,ML+30,y); y+=10;
+  // ════════════════════════════════════════
+  doc.addPage(); newPage();
+  let y = pageHeader('Sommaire', 'p. 2');
 
-  const toc=[
-    ['1','Informations sur le bien assuré','3',GD],
-    ['2','Parcours — Étapes 1 à 9','4+',GD],
-    ['   2.1','Étape 1 — Observation des fissures','4',GY],
-    ['   2.2','Étape 2 — Environnement de la maison','4',GY],
-    ['   2.3','Étape 3 — Facteurs déclenchants','4',GY],
-    ['   2.5','Étape 5 — Entretien & historique','5',GY],
-    ['   2.6','Étape 6 — Informations pour l\'expert','5',GY],
-    ['   2.7','Étape 7 — Description des désordres','6',GY],
-    ['   2.8','Étape 8 — Investigations complémentaires','6',GY],
-    ['3','Documents à fournir à l\'expert','7',BD],
-    ['4','Annexes — Documents joints','8',BD],
+  const tocItems = [
+    { num:'1', title:'Ma Maison — Informations sur le bien assuré', pg:'3', main:true },
+    { num:'  1.1', title:'Informations générales & coordonnées', pg:'3', main:false },
+    { num:'  1.2', title:'Caractéristiques du bien', pg:'3', main:false },
+    { num:'  1.3', title:'Environnement et exposition au RGA', pg:'4', main:false },
+    { num:'2', title:'Mon Parcours — Réponses détaillées', pg:'5', main:true },
+    { num:'  2.1', title:'Constat & démarches officielles (étapes 1-4)', pg:'5', main:false },
+    { num:'  2.2', title:'Préparation de l\'expertise (étapes 5-9)', pg:'6', main:false },
+    { num:'  2.3', title:'Expertise & indemnisation (étapes 10-11)', pg:'7', main:false },
+    { num:'  2.4', title:'Travaux de réparation (étape 12)', pg:'8', main:false },
+    { num:'3', title:'Annexes — Documents joints', pg:'9', main:true },
+    { num:'  3.1', title:'Liste des pièces jointes ('+nJoints+' fichier'+(nJoints>1?'s':'')+')', pg:'9', main:false },
   ];
-  toc.forEach(([num,title,pg,col])=>{
-    if(y>H-20){doc.addPage();drawHeader();y=22;}
-    const isMain = num.length===1;
-    doc.setFillColor(isMain?GLP[0]:250, isMain?GLP[1]:252, isMain?GLP[2]:252);
-    doc.roundedRect(ML,y-3.5,CW,8,1,1,'F');
-    if(isMain){ doc.setFillColor(...col); doc.circle(ML+5,y+0.5,3,'F');
-      doc.setFontSize(7.5); doc.setFont(undefined,'bold'); doc.setTextColor(...WT); doc.text(num,ML+5,y+1.5,{align:'center'}); }
-    doc.setFontSize(isMain?9:8); doc.setFont(undefined,isMain?'bold':'normal');
-    doc.setTextColor(col[0],col[1],col[2]); doc.text(title, isMain?ML+11:ML+14, y+1);
-    doc.setFontSize(8); doc.setFont(undefined,'bold'); doc.setTextColor(...GY);
-    doc.text(pg, W-MR, y+1, {align:'right'});
-    y+=isMain?11:9;
+
+  tocItems.forEach(item => {
+    if(y > H-20){ doc.addPage(); newPage(); y = pageHeader('Sommaire (suite)',''); }
+    const isMain = item.main;
+    // Fond léger pour les items principaux
+    if(isMain){
+      doc.setFillColor(...VL);
+      doc.rect(ML, y-3, CW, 7, 'F');
+      doc.setFontSize(8.5); doc.setFont(undefined,'bold'); doc.setTextColor(...VD);
+    } else {
+      doc.setFontSize(8); doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
+    }
+    doc.text(item.num, ML+2, y+1);
+    doc.text(item.title, ML+22, y+1);
+    // Points de conduite
+    if(!isMain){
+      doc.setTextColor(...LN);
+      doc.setFontSize(7);
+      const dotsW = W-MR - (ML+22) - doc.getTextWidth(item.title) - 4;
+      let dotsX = ML+22 + doc.getTextWidth(item.title) + 2;
+      while(dotsX < W-MR-8){ doc.text('.', dotsX, y+1); dotsX += 3; }
+    }
+    doc.setFontSize(8); doc.setFont(undefined,'bold');
+    doc.setTextColor(...OR); doc.text(item.pg, W-MR, y+1, {align:'right'});
+    y += isMain ? 8 : 6;
   });
 
-  // ══════════════════════════════════════
-  // PAGE 3 — MA MAISON COMPLÈTE
-  // ══════════════════════════════════════
-  doc.addPage(); drawHeader(); y=22;
-  y = sectionBar('1.  INFORMATIONS SUR LE BIEN ASSURÉ', GD, y);
+  // ════════════════════════════════════════
+  // PAGE 3 — MA MAISON
+  // ════════════════════════════════════════
+  doc.addPage(); newPage();
+  y = pageHeader('1 — Ma Maison', 'p. 3');
 
-  // 1.1 Identité
-  doc.setFontSize(9); doc.setFont(undefined,'bold'); doc.setTextColor(...GM);
-  doc.text('1.1  Identité de l\'assuré', ML+2, y); y+=6;
-  y = fieldRow('Nom', v('m_nom'), y);
-  y = fieldRow('Prénom', v('m_prenom'), y);
+  y = sectionTitle('Informations générales', y);
+  y = fieldRow('Nom / Prénom', v('m_nom')+' '+v('m_prenom'), y);
+  y = fieldRow('Adresse', v('m_voie')+(v('m_compl')!=='—'?' '+v('m_compl'):'')+', '+v('m_cp')+' '+v('m_ville'), y);
   y = fieldRow('Téléphone', v('m_tel'), y);
   y = fieldRow('Email', v('m_email'), y);
-  y = fieldRow('Adresse personnelle', v('m_voie')+(v('m_compl')!=='—'?' '+v('m_compl'):''), y);
-  y = fieldRow('Code postal / Ville', v('m_cp')+' '+v('m_ville'), y);
-  y = fieldRow('Adresse du bien sinistré', v('m_bien')!=='—'?v('m_bien'):'Identique à l\'adresse personnelle', y);
-
-  y+=4; doc.setFontSize(9); doc.setFont(undefined,'bold'); doc.setTextColor(...GM);
-  doc.text('1.2  Contrat d\'assurance', ML+2, y); y+=6;
-  y = fieldRow('Assureur', v('m_assureur'), y);
-  y = fieldRow('Type de contrat', v('m_typecontrat'), y);
-  y = fieldRow('Numéro de contrat', v('m_numcontrat'), y);
+  y = fieldRow('Assureur', v('m_assureur')!=='—'?v('m_assureur'):v('m_typecontrat'), y);
+  y = fieldRow('N° de contrat', v('m_numcontrat'), y);
   y = fieldRow('Date d\'effet', v('m_dateeffet'), y);
-  y = fieldRow('Franchise légale RGA', v('m_franchise')!=='—'?v('m_franchise'):'1 520 €', y);
+  y = fieldRow('Prime / Franchise', v('m_pcontrat')+'  /  '+v('m_franchise'), y);
+  y += 4;
 
-  // Attestation
-  const attName = document.getElementById('attest-fname')?.textContent||'';
-  y = fieldRow('Attestation d\'assurance', attName||'Non jointe', y);
+  y = sectionTitle('Caractéristiques du bien', y);
+  y = fieldRow('Type de bien', v('m_typebien')!=='—' ? v('m_typebien') : 'Maison individuelle', y);
+  y = fieldRow('Date de construction', v('m_dateconstr'), y);
+  y = fieldRow('Nombre de niveaux', [document.querySelector('input[name="niveaux"]:checked')]
+    .filter(Boolean).map(r=>r.closest('label')?.textContent?.trim()||r.value).join('')||'—', y);
+  y = fieldRow('Fondations', [ck('fond1')?'Semelles filantes':null, ck('fond2')?'Radier':null, ck('fond3')?'Pieux':null, ck('fond4')?'Inconnues':null].filter(Boolean).join(', ')||'—', y);
+  y = fieldRow('Système de drainage', ck('drain_oui')?'Oui':ck('drain_non')?'Non':'Non renseigné', y);
+  y = fieldRow('Arbres à proximité (< 10m)', ck('arb_oui')?'Oui — risque d\'assèchement':ck('arb_non')?'Non':'Non renseigné', y);
+  y = fieldRow('Période de construction', [document.querySelector('input[name="periode"]:checked')]
+    .filter(Boolean).map(r=>r.closest('label')?.textContent?.trim()||r.value).join('')||'—', y);
+  y += 4;
 
-  y+=4; doc.setFontSize(9); doc.setFont(undefined,'bold'); doc.setTextColor(...GM);
-  doc.text('1.3  Caractéristiques du bien', ML+2, y); y+=6;
-  y = fieldRow('Nbre de pièces (contrat)', v('m_pcontrat'), y);
-  y = fieldRow('Surface (m²)', v('m_scontrat'), y);
-  y = fieldRow('Date d\'acquisition', v('m_dateacq'), y);
-  y = fieldRow('Vendeur précédent', v('m_precprop'), y);
+  y = sectionTitle('Exposition au risque RGA', y);
+  y = fieldRow('Aléa BRGM', v('m_alea_brgm')!=='—'?v('m_alea_brgm'):'À vérifier sur Géorisques', y);
+  y = fieldRow('Zone climatique', v('m_zone')!=='—'?v('m_zone'):'—', y);
+  y = fieldRow('Commune', v('m_ville'), y);
 
-  y+=4; doc.setFontSize(9); doc.setFont(undefined,'bold'); doc.setTextColor(...GM);
-  doc.text('1.4  Travaux & construction', ML+2, y); y+=6;
-  y = fieldRow('Date ouverture chantier', v('m_datechantier'), y);
-  y = fieldRow('Date réception travaux', v('m_datereception'), y);
-  y = fieldRow('Date travaux extension', v('m_datetravaux'), y);
-  y = fieldRow('Surface extension (m²)', v('m_superficie'), y);
-  y = fieldRow('Entreprise de travaux', v('m_societe'), y);
+  // ════════════════════════════════════════
+  // PAGE 4+ — MON PARCOURS
+  // ════════════════════════════════════════
+  doc.addPage(); newPage();
+  y = pageHeader('2 — Mon Parcours', 'p. 5');
 
-  // Niveau aléa RGA
-  const aleaEl = document.getElementById('m_alea_display') || document.querySelector('#alea-value');
-  const aleaDept = document.getElementById('m_dept')?.value||'—';
-  y+=4; doc.setFontSize(9); doc.setFont(undefined,'bold'); doc.setTextColor(...GM);
-  doc.text('1.5  Exposition RGA (Géorisques)', ML+2, y); y+=6;
-  y = fieldRow('Département', aleaDept, y);
-  const aleaText = document.querySelector('.alea-level-label')?.textContent||'—';
-  y = fieldRow('Niveau d\'aléa RGA', aleaText, y);
+  // Barre de progression globale
+  doc.setFillColor(...VL); doc.roundedRect(ML, y, CW, 12, 2, 2, 'F');
+  doc.setFontSize(8); doc.setFont(undefined,'bold'); doc.setTextColor(...VD);
+  doc.text('Avancement global : '+diagPct+' % — '+diagChecked+' cases sur '+diagCbs.length, ML+4, y+7.5);
+  // Barre de progression
+  const barW = CW - 8;
+  doc.setFillColor(210, 220, 205); doc.roundedRect(ML+4, y+9, barW, 2, 1, 1,'F');
+  doc.setFillColor(...OR2); doc.roundedRect(ML+4, y+9, barW*(diagPct/100), 2, 1, 1,'F');
+  y += 18;
 
-  // ══════════════════════════════════════
-  // PAGES 4+ — PARCOURS DIAGNOSTIC COMPLET
-  // ══════════════════════════════════════
-  doc.addPage(); drawHeader(); y=22;
-  y = sectionBar('2.  PARCOURS DIAGNOSTIC — RÉPONSES DÉTAILLÉES', GD, y);
-  doc.setFontSize(7.5); doc.setFont(undefined,'italic'); doc.setTextColor(...GY);
-  doc.text('✓ = Oui, c\'est mon cas   −  = Non ou non concerné   ○ = Non renseigné', ML+2, y); y+=8;
+  const etapesData = [
+    { id:'step-1b', stepId:'step1', label:'Étape 1 — Observation d\'une fissure', items:[
+      ['1','J\'ai observé des fissures sur les murs, façades ou éléments de structure'],
+      ['2','J\'ai noté la date d\'apparition ou d\'aggravation'],
+      ['3','Je suis capable de localiser les fissures'],
+    ]},
+    { id:'step-2b', stepId:'step2', label:'Étape 2 — Vérification de l\'arrêté Cat Nat', items:[
+      ['1','J\'ai vérifié si ma commune est reconnue Cat Nat'],
+      ['2','J\'ai noté la date de publication de l\'arrêté au JO'],
+    ]},
+    { id:'step-3b', stepId:'step3', label:'Étape 3 — À qui m\'adresser ?', items:[
+      ['1','J\'ai informé ma mairie par écrit'],
+      ['2','J\'ai contacté mon assureur'],
+    ]},
+    { id:'step-4b', stepId:'step4', label:'Étape 4 — Déclaration de sinistre', items:[
+      ['1','J\'ai déclaré mon sinistre à l\'assureur dans les délais'],
+      ['2','J\'ai conservé le récépissé de déclaration'],
+    ]},
+    { id:'step-5b', stepId:'step5', label:'Étape 5 — Environnement de ma maison', items:[
+      ['1','J\'ai documenté le type de sol (argile, terrain)'],
+      ['2','J\'ai noté la végétation et les arbres proches'],
+    ]},
+    { id:'step-6b', stepId:'step6', label:'Étape 6 — Facteurs déclencheurs potentiels', items:[
+      ['1','J\'ai identifié des périodes de sécheresse ou de fortes pluies'],
+      ['2','J\'ai noté des travaux récents à proximité'],
+    ]},
+    { id:'step-7b', stepId:'step7', label:'Étape 7 — Entretien et historique', items:[
+      ['1','J\'ai rassemblé les éléments d\'entretien du bien'],
+      ['2','J\'ai listé les travaux passés'],
+    ]},
+    { id:'step-8b', stepId:'step8', label:'Étape 8 — Description des désordres', items:[
+      ['1','J\'ai décrit et photographié toutes les fissures'],
+      ['2','J\'ai classé les fissures par niveau (< 2mm, 2-5mm, > 5mm)'],
+    ]},
+    { id:'step-9b', stepId:'step9', label:'Étape 9 — Documents pour l\'expert', items:[
+      ['1','J\'ai préparé les documents à remettre à l\'expert'],
+      ['2','J\'ai réuni les photos et plans'],
+    ]},
+    { id:'step-11b', stepId:'step11', label:'Étape 10 — L\'expertise', items:[
+      ['1','J\'étais présent lors de la visite de l\'expert'],
+      ['2','J\'ai communiqué mes observations à l\'expert'],
+    ]},
+    { id:'step-13b', stepId:'step13', label:'Étape 11 — Proposition d\'indemnisation', items:[
+      ['1','J\'ai reçu la proposition d\'indemnisation'],
+      ['2','J\'ai vérifié les montants et la franchise'],
+    ]},
+    { id:'step-14b', stepId:'step14', label:'Étape 12 — Les travaux de réparation', items:[
+      ['1','Les travaux ont débuté ou sont planifiés'],
+    ]},
+  ];
 
-  // Légende
-  [['✓','Oui, c\'est mon cas',...GD],['−','Non ou non concerné',...AM],['○','Non renseigné',150,150,150]].forEach(([ic,lb,r,g,b])=>{
-    doc.setFillColor(r,g,b); doc.circle(ML+6,y,2,'F');
-    doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...WT); doc.text(ic,ML+6,y+1,{align:'center'});
-    doc.setFont(undefined,'normal'); doc.setTextColor(r,g,b); doc.text(lb, ML+10, y+1); y+=6;
-  });
-  y+=4;
-
-  // Étape 1
-  if(y>H-30){doc.addPage();drawHeader();y=22;}
-  doc.setFontSize(9.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
-  doc.text('Étape 1 — Observation d\'une fissure', ML+2, y); y+=7;
-  y = triRow('🔍 J\'ai observé des fissures sur les murs, façades ou éléments de structure','step1',1,true,y);
-  y = fieldRow('Date d\'apparition des fissures', v('fissure-date'), y, AM);
-  y = triRow('📍 Je suis capable de localiser les fissures','step1',3,true,y);
-  y+=4;
-
-  // Étape 2
-  if(y>H-30){doc.addPage();drawHeader();y=22;}
-  doc.setFontSize(9.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
-  doc.text('Étape 2 — Environnement de la maison', ML+2, y); y+=7;
-  ['step2-1:🌍 Sol argileux (gonflant, craquelé en été)',
-   'step2-2:💧 Sous-sol retient ou draine mal l\'eau',
-   'step2-3:⛰️ Terrain en pente ou en dévers',
-   'step2-4:🌳 Arbres ou arbustes à moins de 5 mètres',
-   'step2-5:🔩 Fondations superficielles / construction avant 2000'
-  ].forEach(s=>{
-    const [key,lbl]=s.split(':');
-    const [sid,n]=key.split('-');
-    y=triRow(lbl,sid,parseInt(n),true,y);
-  });
-  y+=4;
-
-  // Étape 3
-  if(y>H-30){doc.addPage();drawHeader();y=22;}
-  doc.setFontSize(9.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
-  doc.text('Étape 3 — Facteurs déclenchants', ML+2, y); y+=7;
-  ['step3-1:☀️ Sécheresse prolongée ou pluies intenses ont précédé les dommages',
-   'step3-2:🚧 Travaux réalisés à proximité',
-   'step3-3:🔧 Fuite d\'eau enterrée constatée',
-   'step3-4:🌿 Racines d\'arbres proches (turbosuccion)'
-  ].forEach(s=>{
-    const [key,lbl]=s.split(':');
-    const [sid,n]=key.split('-');
-    y=triRow(lbl,sid,parseInt(n),true,y);
-  });
-  y+=4;
-
-  // Étape 4 — Contrat
-  if(y>H-30){doc.addPage();drawHeader();y=22;}
-  // Étape 5 — Entretien
-  if(y>H-30){doc.addPage();drawHeader();y=22;}
-  doc.setFontSize(9.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
-  doc.text('Étape 5 — Entretien et historique', ML+2, y); y+=7;
-  ['step5-1:🌧️ Gouttières et évacuations en bon état',
-   'step5-2:🚿 Canalisations accessibles entretenues',
-   'step5-3:✂️ Arbres et arbustes taillés régulièrement',
-   'step5-4:🪨 Sol autour de la maison limite l\'évaporation',
-   'step5-5:📜 Recommandations PPR respectées'
-  ].forEach(s=>{
-    const [key,lbl]=s.split(':');
-    const [sid,n]=key.split('-');
-    y=triRow(lbl,sid,parseInt(n),true,y);
-  });
-  y+=4;
-
-  // Étape 6 — Infos expert
-  if(y>H-30){doc.addPage();drawHeader();y=22;}
-  doc.setFontSize(9.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
-  doc.text('Étape 6 — Informations pour l\'expert', ML+2, y); y+=7;
-  ['step6-1:🏚️ Assureur construction et entreprises connues (< 10 ans)',
-   'step6-2:📅 Dommages pendant la période de l\'arrêté Cat Nat',
-   'step6-3:🗓️ Date de constat des premières dégradations connue'
-  ].forEach(s=>{
-    const [key,lbl]=s.split(':');
-    const [sid,n]=key.split('-');
-    y=triRow(lbl,sid,parseInt(n),true,y);
-  });
-  y+=4;
-
-  // Étape 7 — Description désordres
-  if(y>H-30){doc.addPage();drawHeader();y=22;}
-  doc.setFontSize(9.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
-  doc.text('Étape 7 — Description des désordres', ML+2, y); y+=7;
-  ['step7-1:📊 Fissures et dégradations recensées et photographiées',
-   'step7-2:📸 Localisation, taille et date de constat renseignées'
-  ].forEach(s=>{
-    const [key,lbl]=s.split(':');
-    const [sid,n]=key.split('-');
-    y=triRow(lbl,sid,parseInt(n),true,y);
-  });
-  y+=4;
-
-  // Étape 8 — Investigations
-  if(y>H-30){doc.addPage();drawHeader();y=22;}
-  doc.setFontSize(9.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
-  doc.text('Étape 8 — Investigations complémentaires', ML+2, y); y+=7;
-  ['step8-1:🪛 Étude géotechnique G2 proposée ou réalisée',
-   'step8-2:🔍 Inspection vidéo des canalisations réalisée',
-   'step8-3:⏱️ Suivi de l\'évolution des dommages sur une période'
-  ].forEach(s=>{
-    const [key,lbl]=s.split(':');
-    const [sid,n]=key.split('-');
-    y=triRow(lbl,sid,parseInt(n),true,y);
+  etapesData.forEach(etape => {
+    if(y > H-28){ doc.addPage(); newPage(); y = pageHeader('2 — Mon Parcours (suite)',''); }
+    const stepEl = document.getElementById(etape.id);
+    const isCompleted = stepEl && stepEl.classList.contains('completed');
+    // Titre d'étape
+    doc.setFillColor(isCompleted ? VL[0] : 248, isCompleted ? VL[1] : 246, isCompleted ? VL[2] : 242);
+    doc.roundedRect(ML, y, CW, 7, 1.5, 1.5, 'F');
+    doc.setFillColor(isCompleted ? OR2[0] : 200, isCompleted ? OR2[1] : 195, isCompleted ? OR2[2] : 185);
+    doc.rect(ML, y, 1.5, 7, 'F');
+    doc.setFontSize(8); doc.setFont(undefined,'bold');
+    doc.setTextColor(isCompleted ? VD[0] : GY[0], isCompleted ? VD[1] : GY[1], isCompleted ? VD[2] : GY[2]);
+    doc.text(etape.label, ML+5, y+4.8);
+    if(isCompleted){
+      doc.setFontSize(7); doc.setFont(undefined,'normal'); doc.setTextColor(...OR);
+      doc.text('✓ Complété', W-MR, y+4.8, {align:'right'});
+    }
+    y += 10;
+    etape.items.forEach(([n, lbl]) => {
+      y = triRow(lbl, etape.stepId, parseInt(n), y);
+    });
+    y += 3;
   });
 
-  // ══════════════════════════════════════
-  // PAGE — DOCUMENTS À FOURNIR
-  // ══════════════════════════════════════
-  doc.addPage(); drawHeader(); y=22;
-  y = sectionBar("3.  DOCUMENTS À FOURNIR À L'EXPERT (Arrêté 24/01/2025)", BD, y);
-  doc.setFontSize(7.5); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
-  doc.text("L'expert peut demander tout ou partie de ces pièces selon les particularités de votre dossier.", ML+2, y, {maxWidth:CW}); y+=10;
+  // ════════════════════════════════════════
+  // PAGE — ANNEXES
+  // ════════════════════════════════════════
+  doc.addPage(); newPage();
+  y = pageHeader('3 — Annexes — Documents joints', 'p. 9');
 
-  const diagLabelsLocal=['📝 Description du sinistre','⚠️ Dégâts causés à des tiers','🔬 Études géotechniques','🏠 Acte d\'achat','🏗️ Permis de construire','🔑 États des lieux','🧾 Devis, factures et PV','✍️ Déclaration sur l\'honneur'];
-  diagLabelsLocal.forEach((lbl,i)=>{
-    if(y>H-20){doc.addPage();drawHeader();y=22;}
+  // Récapitulatif des 8 types de pièces
+  y = sectionTitle('Récapitulatif des pièces', y);
+  const piecesLabels=['Description du sinistre','Dégâts causés à des tiers','Études géotechniques','Acte d\'achat','Permis de construire','États des lieux','Devis, factures et PV','Déclaration sur l\'honneur'];
+  piecesLabels.forEach((lbl, i) => {
+    if(y > H-18){ doc.addPage(); newPage(); y = pageHeader('3 — Annexes (suite)',''); }
     const joint=!!diagFiles[i+1];
     const cb=document.querySelector('#diag-piece-'+(i+1)+' .doc-piece-cb');
     const checked=cb&&cb.checked;
-    const label=lbl.replace(/^[^\s]+\s/,'');
-    if(joint){doc.setFillColor(...GD);}
-    else if(checked){doc.setFillColor(...AM);}
-    else{doc.setFillColor(200,200,200);}
-    doc.roundedRect(ML,y-1,5,5,0.8,0.8,'F');
+    // Statut badge
+    if(joint){ doc.setFillColor(...VD); }
+    else if(checked){ doc.setFillColor(...OR); }
+    else { doc.setFillColor(210,205,200); }
+    doc.roundedRect(ML, y-1, 4, 4, 0.5, 0.5,'F');
     doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-    doc.text(joint?'✓':checked?'−':'○',ML+2.5,y+2.5,{align:'center'});
-    doc.setFontSize(8); doc.setFont(undefined,'normal');
-    doc.setTextColor(joint?GD[0]:checked?AM[0]:150, joint?GD[1]:checked?AM[1]:150, joint?GD[2]:checked?AM[2]:150);
-    doc.text(label+(joint?' [Fichier joint]':''), ML+8, y+2.5);
-    doc.setDrawColor(...GLN); doc.setLineWidth(0.2); doc.line(ML,y+4.5,W-MR,y+4.5);
-    y+=8;
+    doc.text(joint?'✓':checked?'−':'○', ML+2, y+2, {align:'center'});
+    doc.setFontSize(8); doc.setFont(undefined, joint?'bold':'normal');
+    doc.setTextColor(joint?VD[0]:checked?OR[0]:150, joint?VD[1]:checked?OR[1]:150, joint?VD[2]:checked?OR[2]:150);
+    doc.text(lbl+(joint?' — Fichier joint':''), ML+7, y+2.5);
+    if(joint && diagFiles[i+1] && diagFiles[i+1].name){
+      doc.setFontSize(6.5); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
+      doc.text(diagFiles[i+1].name+' — '+(diagFiles[i+1].uploadedAt ? new Date(diagFiles[i+1].uploadedAt).toLocaleDateString('fr-FR') : ''), ML+7, y+6.5);
+      y += 4;
+    }
+    doc.setDrawColor(...LN); doc.setLineWidth(0.1); doc.line(ML, y+4.5, W-MR, y+4.5);
+    y += 8;
   });
 
-  const nJ=Object.keys(diagFiles).length;
-  y+=4;
-  doc.setFillColor(...GLP); doc.roundedRect(ML,y,CW,12,2,2,'F');
-  doc.setFontSize(8); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
-  doc.text(nJ+' fichier(s) joint(s) sur '+diagLabelsLocal.length+' — '+(diagLabelsLocal.length-nJ)+' pièce(s) à compléter', W/2, y+7, {align:'center'});
-  y+=18;
+  // Bilan
+  y += 4;
+  doc.setFillColor(...VL); doc.roundedRect(ML, y, CW, 11, 2, 2,'F');
+  doc.setFillColor(...VD); doc.roundedRect(ML, y, 2, 11, 0, 0,'F');
+  doc.setFontSize(8); doc.setFont(undefined,'bold'); doc.setTextColor(...VD);
+  doc.text(nJoints+' fichier'+(nJoints>1?'s':'')+' joint'+(nJoints>1?'s':'')+' sur '+piecesLabels.length+' — '+(piecesLabels.length-nJoints)+' pièce'+(piecesLabels.length-nJoints>1?'s':'')+' restante'+(piecesLabels.length-nJoints>1?'s':''), ML+5, y+7);
+  y += 18;
 
-  // Base réglementaire
-  doc.setFillColor(255,248,232); doc.roundedRect(ML,y,CW,14,2,2,'F');
-  doc.setDrawColor(...OR); doc.setLineWidth(0.5); doc.roundedRect(ML,y,CW,14,2,2,'D');
-  doc.setFontSize(7.5); doc.setFont(undefined,'bold'); doc.setTextColor(138,106,0);
-  doc.text('⚠  Rappel — 3 conditions cumulatives pour l\'indemnisation Cat Nat', ML+4, y+5.5);
-  doc.setFont(undefined,'normal'); doc.setFontSize(7); doc.setTextColor(122,96,0);
-  doc.text('① Arrêté JO publié pour votre commune   ②  RGA = cause déterminante   ③  Contrat MRH en vigueur', ML+4, y+10.5, {maxWidth:CW-8});
-
-  // ══════════════════════════════════════
-  // PAGE — ANNEXES
-  // ══════════════════════════════════════
-  doc.addPage(); drawHeader(); y=22;
-  y = sectionBar('4.  ANNEXES — DOCUMENTS JOINTS', BD, y);
-
+  // Images en pleine page
   const allAnnexes=[];
-  if(planFile) allAnnexes.push(['Annexe A','Plan de ma maison',planFile]);
-  diagLabelsLocal.forEach((lbl,i)=>{
-    if(diagFiles[i+1]) allAnnexes.push(['Annexe '+(i+1),lbl.replace(/^[^\s]+\s/,''),diagFiles[i+1]]);
+  if(planFile) allAnnexes.push(['Plan de ma maison', planFile]);
+  piecesLabels.forEach((lbl,i)=>{ if(diagFiles[i+1]) allAnnexes.push([lbl, diagFiles[i+1]]); });
+
+  allAnnexes.forEach(([title, file], idx) => {
+    if(file && file.type && file.type.startsWith('image/')){
+      doc.addPage(); newPage();
+      y = pageHeader('3 — Annexes / '+(idx+1), 'Pièce jointe');
+      doc.setFontSize(9); doc.setFont(undefined,'bold'); doc.setTextColor(...VD);
+      doc.text(title, ML, y);
+      doc.setFontSize(7); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
+      doc.text('Fichier : '+(file.name||'—'), ML, y+5);
+      try{
+        doc.addImage(file.data, file.type.includes('png')?'PNG':'JPEG', ML, y+10, CW, 140);
+      } catch(e){}
+    }
   });
 
-  if(allAnnexes.length===0){
+  if(allAnnexes.length === 0){
     doc.setFontSize(9); doc.setFont(undefined,'italic'); doc.setTextColor(...GY);
-    doc.text('Aucune annexe jointe. Complétez les pièces dans l\'onglet Mon Parcours.', ML+2, y+8);
-  } else {
-    allAnnexes.forEach(([ref,title,file],idx)=>{
-      if(y>H-20){doc.addPage();drawHeader();y=22;}
-      doc.setFillColor(240,244,255); doc.roundedRect(ML,y-4,CW,9,1.5,1.5,'F');
-      doc.setFillColor(...BD); doc.roundedRect(ML,y-4,18,9,1.5,1.5,'F');
-      doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-      doc.text(ref, ML+9, y+1, {align:'center'});
-      doc.setFontSize(7.5); doc.setFont(undefined,'bold'); doc.setTextColor(...BK);
-      doc.text(title, ML+22, y+1);
-      if(file && file.name){
-        doc.setFontSize(6.5); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
-        doc.text(file.name, ML+22, y+5);
-      }
-      doc.setFillColor(...GD); doc.roundedRect(W-MR-18,y-3,16,7,1.5,1.5,'F');
-      doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-      doc.text('✅ Joint', W-MR-10, y+1.5, {align:'center'});
-      y+=13;
-    });
-
-    // Ajouter les images en pages séparées
-    allAnnexes.forEach(([ref,title,file])=>{
-      if(file && file.type && file.type.startsWith('image/')){
-        doc.addPage(); drawHeader();
-        doc.setFontSize(11); doc.setFont(undefined,'bold'); doc.setTextColor(...GD);
-        doc.text(ref+' — '+title, ML, 26);
-        doc.setFontSize(7.5); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
-        doc.text('Fichier : '+file.name, ML, 32);
-        try{ doc.addImage(file.data, file.type.includes('png')?'PNG':'JPEG', ML, 36, CW, 130); }
-        catch(e){}
-      }
-    });
+    doc.text('Aucun document joint pour le moment.', ML+2, y+8);
+    doc.setFontSize(8); doc.setFont(undefined,'normal');
+    doc.text('Ajoutez vos pièces depuis l\'onglet Mon Parcours → étape Documents.', ML+2, y+15);
   }
 
   // ── Finalisation pagination "Page N / Total" ──
   const totalPages = doc.internal.getNumberOfPages();
   for(let p = 1; p <= totalPages; p++){
     doc.setPage(p);
-    // Recouvrir la zone du texte de pagination avec la couleur du header puis réécrire
-    doc.setFillColor(...GD);
-    doc.rect(W-ML-30, 2, 30, 12, 'F');
-    doc.setFontSize(7); doc.setFont(undefined,'normal'); doc.setTextColor(180,220,180);
-    doc.text('Page '+p+' / '+totalPages, W-ML, 10, {align:'right'});
+    doc.setFillColor(...BG); doc.rect(W-MR-24, H-12, 28, 8,'F');
+    doc.setFontSize(6); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
+    doc.text('p. '+p+' / '+totalPages, W-MR, H-6, {align:'right'});
   }
 
   // Sauvegarde
@@ -6882,6 +7107,14 @@ function generatePDF(){
   // Mémoriser la date et la référence pour l'accès rapide depuis l'Accueil
   localStorage.setItem('argicare-last-pdf-date', dateGen);
   localStorage.setItem('argicare-last-pdf-ref', dossierRef);
+
+  // ── POINT 3 — Historique des versions générées ──
+  try {
+    let versions = JSON.parse(localStorage.getItem('argicare-pdf-versions') || '[]');
+    versions.push({ date: dateGen, ref: dossierRef, pct: diagPct });
+    if(versions.length > 10) versions = versions.slice(-10);
+    localStorage.setItem('argicare-pdf-versions', JSON.stringify(versions));
+  } catch(e){ /* historique non critique, silencieux */ }
 } // fin generatePDF
 
 // ── Uploads diagnostic (point 4) — fonctions globales ──
@@ -6965,44 +7198,517 @@ function refreshCompletion(){
   if(bannerStatus){
     if(diagPct === 0){
       bannerStatus.textContent = "Complétez votre parcours";
-      if(bannerBtn) bannerBtn.textContent = "Générer ma synthèse PDF";
+      if(bannerBtn) bannerBtn.textContent = "Générer";
     } else if(diagPct < 50){
       bannerStatus.textContent = "Votre dossier est en cours — " + diagPct + "% complété";
-      if(bannerBtn) bannerBtn.textContent = "Générer une synthèse partielle";
+      if(bannerBtn) bannerBtn.textContent = "Générer";
     } else if(diagPct < 80){
       bannerStatus.textContent = "Votre dossier est bien avancé — " + diagPct + "% complété";
-      if(bannerBtn) bannerBtn.textContent = "Générer ma synthèse PDF";
+      if(bannerBtn) bannerBtn.textContent = "Générer";
     } else {
       bannerStatus.textContent = "Votre dossier est prêt à " + diagPct + "%";
       if(bannerSub) bannerSub.textContent = "Votre dossier est complet. Téléchargez votre synthèse PDF et remettez-la à votre expert d'assurance, à votre assureur ou à tout professionnel du bâtiment qui vous accompagne.";
-      if(bannerBtn) bannerBtn.textContent = "📄 Générer ma synthèse PDF →";
+      if(bannerBtn) bannerBtn.textContent = "📄 Générer";
     }
   }
 
-  // ── Mon Parcours ──
-  // (diagPct déjà calculé plus haut pour la bannière PDF)
+  // ── POINT 4 — Indicateur de fraîcheur des données ──
+  (function updateFreshness(){
+    const el = document.getElementById('dossier-freshness');
+    const txt = document.getElementById('dossier-freshness-text');
+    if(!el || !txt) return;
+    const lastAction = localStorage.getItem('argicare-last-action');
+    if(!lastAction){ el.style.display = 'none'; return; }
+    try {
+      const data = JSON.parse(lastAction);
+      const days = Math.floor((Date.now() - new Date(data.date).getTime()) / 86400000);
+      let label;
+      if(days === 0) label = "Données mises à jour aujourd'hui";
+      else if(days === 1) label = "Données mises à jour hier";
+      else label = "Données mises à jour il y a " + days + " jours";
+      txt.textContent = label;
+      el.style.display = 'flex';
+    } catch(e){ el.style.display = 'none'; }
+  })();
 
-  // ── Aperçu pièces ──
-  const wrap=document.getElementById('dossier-apercu');
-  if(!wrap)return;
-  let html='';
-  for(let i=1;i<=8;i++){
-    const cb=document.querySelector('#diag-piece-'+i+' .doc-piece-cb');
-    const hasFile=!!diagFiles[i];
-    const checked=cb&&cb.checked;
-    const status=hasFile?'✅ Fichier joint':checked?'☑️ Déclaré':'⬜ Non renseigné';
-    const color=hasFile?'#2d5a27':checked?'#7a6a52':'#c04030';
-    html+=`<div style="display:flex;align-items:center;justify-content:space-between;padding:7px 0;border-bottom:1px solid #f0ece4;font-size:11px;">
-      <span style="color:#2d3a1e;font-weight:600;flex:1;">${diagLabels[i-1]}</span>
-      <span style="color:${color};font-weight:700;font-size:10px;margin-left:8px;flex-shrink:0;">${status}</span>
-    </div>`;
-  }
-  wrap.innerHTML=html;
-  // Chip pièces jointes — seul indicateur chiffré restant sur cet écran,
-  // les % Ma Maison / Diagnostic étant déjà visibles depuis l'Accueil.
-  const cp=document.getElementById('chip-pieces');
-  if(cp) cp.textContent=Object.keys(diagFiles).length+'/8';
+  // ── POINT 1 — Frise de cycle de vie du dossier ──
+  (function updateLifecycle(){
+    const steps = document.querySelectorAll('#dossier-lifecycle .lifecycle-step');
+    const lines = document.querySelectorAll('#dossier-lifecycle .lifecycle-line');
+    if(!steps.length) return;
+    const hasStarted = checkedDiag > 0;
+    const isVerified = diagPct >= 50;
+    const isReady = diagPct >= 80;
+    const hasDownloaded = !!localStorage.getItem('argicare-last-pdf-date');
+    const stageDone = { constitution: hasStarted, verification: isVerified, pret: isReady, telecharge: hasDownloaded };
+    const order = ['constitution','verification','pret','telecharge'];
+    let currentFound = false;
+    order.forEach((stage, i) => {
+      const el = [...steps].find(s => s.dataset.stage === stage);
+      if(!el) return;
+      const done = stageDone[stage];
+      el.classList.toggle('done', done);
+      el.classList.remove('current');
+      if(!done && !currentFound){ el.classList.add('current'); currentFound = true; }
+    });
+    lines.forEach((line, i) => {
+      const stageBefore = order[i];
+      line.classList.toggle('done', stageDone[stageBefore]);
+    });
+  })();
+
+  // ── POINT 10 — Mini-frise d'évolution de la progression ──
+  (function updateSparkline(){
+    const wrap = document.getElementById('dossier-sparkline-wrap');
+    const svg = document.getElementById('dossier-sparkline');
+    if(!wrap || !svg) return;
+    let history = [];
+    try { history = JSON.parse(localStorage.getItem('argicare-pct-history') || '[]'); } catch(e){ history = []; }
+    const today = new Date().toDateString();
+    if(!history.length || history[history.length-1].day !== today){
+      history.push({ day: today, pct: diagPct });
+    } else {
+      history[history.length-1].pct = diagPct;
+    }
+    if(history.length > 14) history = history.slice(-14);
+    localStorage.setItem('argicare-pct-history', JSON.stringify(history));
+
+    if(history.length < 2){ wrap.style.display = 'none'; return; }
+    wrap.style.display = 'block';
+    const w = 280, h = 36, pad = 4;
+    const maxPct = 100;
+    const stepX = (w - pad*2) / (history.length - 1);
+    const points = history.map((pt, i) => {
+      const x = pad + i * stepX;
+      const y = h - pad - ((pt.pct / maxPct) * (h - pad*2));
+      return x + ',' + y;
+    }).join(' ');
+    const lastPt = history[history.length-1];
+    const lastX = pad + (history.length-1) * stepX;
+    const lastY = h - pad - ((lastPt.pct / maxPct) * (h - pad*2));
+    svg.innerHTML = `
+      <polyline points="${points}" fill="none" stroke="#4a7c3f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="${lastX}" cy="${lastY}" r="3" fill="#2d5a27"/>
+    `;
+  })();
+
+  // ── POINT 2 — Vignette de preview : estimation du nombre de pages ──
+  (function updatePreviewThumb(){
+    const pagesEl = document.getElementById('pdf-preview-pages');
+    if(!pagesEl) return;
+    const basePages = 4; // couverture, sommaire, maison, dossier annexes
+    const stepPages = Math.ceil(checkedDiag / 14); // approx. 14 cases par page de parcours
+    const total = basePages + stepPages + Object.keys(diagFiles).length;
+    pagesEl.textContent = '~' + Math.max(total, 5) + ' pages';
+  })();
+
+  // ── POINT 8 — Bouton de partage natif, visible si un PDF existe déjà ──
+  (function updateShareButton(){
+    const btn = document.getElementById('dossier-share-btn');
+    if(!btn) return;
+    const hasPdf = !!localStorage.getItem('argicare-last-pdf-date');
+    btn.style.display = hasPdf ? 'flex' : 'none';
+  })();
+
+  // ── POINT 7 — Tags de statut par section (remplace le sommaire) ──
+  (function updateSectionTags(){
+    const wrap = document.getElementById('dossier-section-tags');
+    if(!wrap) return;
+    const maisonInputs = document.querySelectorAll('#screen-maison .form-input');
+    const maisonFilled = [...maisonInputs].filter(inp => inp.value && inp.value.trim() !== '').length;
+    const maisonPct = maisonInputs.length ? Math.round((maisonFilled/maisonInputs.length)*100) : 0;
+    const piecesCount = Object.keys(diagFiles).length;
+
+    function badgeFor(pct){
+      if(pct >= 80) return ['complete', '✅ Complet'];
+      if(pct > 0) return ['partial', '⚠️ Incomplet'];
+      return ['empty', '➖ Non renseigné'];
+    }
+    const sections = [
+      { ic:'1️⃣', label:'Page de couverture — coordonnées et profil', pct: 100 },
+      { ic:'2️⃣', label:'Informations sur le bien (Ma Maison)', pct: maisonPct },
+      { ic:'3️⃣', label:'Réponses détaillées du parcours', pct: diagPct },
+      { ic:'4️⃣', label:'Pièces jointes et photos', pct: piecesCount > 0 ? Math.min(100, piecesCount*15) : 0 },
+    ];
+    wrap.innerHTML = sections.map(s => {
+      const [cls, label] = badgeFor(s.pct);
+      return `<div class="section-tag-row">
+        <span class="section-tag-ic">${s.ic}</span>
+        <span class="section-tag-label">${s.label}</span>
+        <span class="section-tag-badge ${cls}">${label}</span>
+      </div>`;
+    }).join('');
+  })();
+
+  // ── POINT 3 — Historique des versions générées ──
+  (function updateHistory(){
+    const card = document.getElementById('dossier-history-card');
+    const list = document.getElementById('dossier-history-list');
+    if(!card || !list) return;
+    let versions = [];
+    try { versions = JSON.parse(localStorage.getItem('argicare-pdf-versions') || '[]'); } catch(e){ versions = []; }
+    if(!versions.length){ card.style.display = 'none'; return; }
+    card.style.display = 'block';
+    list.innerHTML = versions.slice().reverse().slice(0, 5).map(v => `
+      <div class="history-item">
+        <span class="history-ic">📄</span>
+        <div class="history-info">
+          <div class="history-date">Généré le ${v.date}</div>
+          <div class="history-pct">${v.pct}% complété — réf. ${v.ref}</div>
+        </div>
+      </div>
+    `).join('');
+  })();
+
+  // ── DOCUMENTS JOINTS AU PDF + SUGGESTIONS ──
+  // Table de correspondance des pièces du parcours (système diagUploads,
+  // avec horodatage) vers leur étape d'origine, pour permettre un renvoi
+  // direct ("Aller à l'étape X") quand un document n'est pas encore joint.
+  const DOSSIER_PIECES_MAP = [
+    { uid:'fissure-initiale',          label:'📷 Photo de la première fissure observée',        stepId:'step-1b',  stepNum:1,  stepLabel:"Observation d'une fissure" },
+    { uid:'arrete-catnat',             label:'📋 Copie de l\'arrêté Cat Nat',                    stepId:'step-2b',  stepNum:2,  stepLabel:"Vérification de l'arrêté Cat Nat" },
+    { uid:'courrier-mairie',           label:'✉️ Courrier ou email envoyé à la mairie',          stepId:'step-3b',  stepNum:3,  stepLabel:"À qui m'adresser ?" },
+    { uid:'declaration-sinistre',      label:'📮 Déclaration de sinistre + accusé de réception', stepId:'step-5b',  stepNum:4,  stepLabel:'Déclaration de sinistre' },
+    { uid:'photos-desordres',          label:'📸 Photos supplémentaires des désordres',          stepId:'step-9b',  stepNum:8,  stepLabel:'Description des désordres constatés' },
+    { uid:'rapport-expertise',         label:'📄 Rapport d\'expertise ou compte-rendu de visite', stepId:'step-11b', stepNum:10, stepLabel:"L'expertise" },
+    { uid:'etude-g2',                  label:'🪨 Rapport géotechnique G2',                       stepId:'step-11b', stepNum:10, stepLabel:"L'expertise" },
+    { uid:'proposition-indemnisation', label:'💶 Proposition d\'indemnisation de l\'assureur',    stepId:'step-13b', stepNum:11, stepLabel:'La proposition d\'indemnisation' },
+    { uid:'autres-travaux',            label:'🏗️ Autres documents (travaux)',                    stepId:'step-14b', stepNum:12, stepLabel:'Les travaux de réparation' },
+  ];
+
+  (function renderDossierPieces(){
+    const joinedWrap = document.getElementById('dossier-joints-list');
+    if(!joinedWrap) return;
+    const sep = document.getElementById('dossier-suggestions-sep');
+    const sugWrap = document.getElementById('dossier-suggestions-wrap');
+    const sugList = document.getElementById('dossier-suggestions-list');
+
+    const joined = DOSSIER_PIECES_MAP.filter(p => diagUploads[p.uid]);
+    const missing = DOSSIER_PIECES_MAP.filter(p => !diagUploads[p.uid]);
+
+    // Documents joints — nom du fichier, date et heure d'ajout
+    if(joined.length === 0){
+      joinedWrap.innerHTML = '<div style="font-size:10.5px;color:#9a8a72;text-align:center;padding:10px 0;">Aucun document joint pour l\'instant.</div>';
+    } else {
+      joinedWrap.innerHTML = joined.map(p => {
+        const file = diagUploads[p.uid];
+        let dateLabel = '';
+        if(file.uploadedAt){
+          const d = new Date(file.uploadedAt);
+          dateLabel = d.toLocaleDateString('fr-FR') + ' à ' + d.toLocaleTimeString('fr-FR', {hour:'2-digit', minute:'2-digit'});
+        }
+        return `<div style="display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f0ece4;">
+          <span style="font-size:14px;flex-shrink:0;margin-top:1px;">✅</span>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:11px;font-weight:600;color:#2d3a1e;">${p.label}</div>
+            <div style="font-size:9.5px;color:#9a8a72;margin-top:2px;">${file.name || 'Document'}${dateLabel ? ' — ' + dateLabel : ''}</div>
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // Suggestions — documents pas encore joints, avec renvoi vers l'étape
+    if(missing.length === 0){
+      sep.style.display = 'none';
+      sugWrap.style.display = 'none';
+    } else {
+      sep.style.display = 'block';
+      sugWrap.style.display = 'block';
+      sugList.innerHTML = missing.map(p => `
+        <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #f0ece4;cursor:pointer;" onclick="goToDossierPieceStep('${p.stepId}')">
+          <span style="font-size:13px;flex-shrink:0;">⬜</span>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:10.5px;font-weight:600;color:#5a6a52;">${p.label}</div>
+            <div style="font-size:9px;color:#9a8a72;margin-top:1px;">Étape ${p.stepNum} — ${p.stepLabel}</div>
+          </div>
+          <span style="font-size:11px;color:#2d5a27;font-weight:700;flex-shrink:0;">›</span>
+        </div>
+      `).join('');
+    }
+
+    const cp=document.getElementById('chip-pieces');
+    if(cp) cp.textContent = joined.length + '/' + DOSSIER_PIECES_MAP.length;
+  })();
+
   showToast('📊 Dossier actualisé');
+}
+
+// Renvoie vers l'onglet Mon Parcours et ouvre directement l'étape
+// concernée par une pièce jointe suggérée, pour la localiser facilement.
+function goToDossierPieceStep(stepId){
+  switchTab('diag', document.querySelectorAll('.nav-item')[2]);
+  setTimeout(() => {
+    const stepEl = document.getElementById(stepId);
+    if(stepEl){
+      if(!stepEl.classList.contains('open')) toggleDiagStep(stepId);
+      setTimeout(() => stepEl.scrollIntoView({behavior:'smooth', block:'center'}), 350);
+    }
+  }, 400);
+}
+
+// ── POINT 6 — Aperçu en lecture du contenu, sans télécharger ──
+function previewDossierContent(){
+  // ── Données réelles de l'utilisateur ──
+  const v = id => (document.getElementById(id)||{}).value?.trim()||'—';
+  const nom = v('m_nom'), prenom = v('m_prenom');
+  const nomComplet = [prenom, nom].filter(x=>x!=='—').join(' ') || '—';
+  const adresse = [v('m_voie'), v('m_cp')+' '+v('m_ville')].filter(x=>x&&x.trim()!=='— —'&&x.trim()!=='—').join(' – ');
+  const contrat = v('m_typecontrat')+' n° '+v('m_numcontrat');
+  const assureur = v('m_assureur')!=='—' ? v('m_assureur') : v('m_typecontrat');
+  const savedProfil = localStorage.getItem('argicare-profil');
+  const cfg = savedProfil ? PROFIL_CONFIG[savedProfil] : null;
+  const profilLabel = cfg ? cfg.title : 'Profil non défini';
+  const dossierRef = localStorage.getItem('argicare-dossier-ref') || 'AQ-' + new Date().getFullYear() + '-XXXX';
+  const dateGen = new Date().toLocaleDateString('fr-FR');
+  const diagCbs = document.querySelectorAll('#screen-diag .diag-cb');
+  const diagChecked = [...diagCbs].filter(c=>c.checked).length;
+  const diagPct = Math.round((diagChecked/Math.max(diagCbs.length,1))*100);
+  const nJoints = Object.keys(diagFiles).length;
+  const photoDataUrl = localStorage.getItem('argicare-photo-maison');
+
+  // ── Styles communs aux miniatures ──
+  const VD='#2d5a27', OR='#c9a23a', BG='#faf8f4', GY='#9a8a72', LN='#e0d8cc';
+
+  // ── Helper : squelette d'une page A4 miniature avec sidebar ──
+  const page = (content, scale=1) => {
+    const w = 210 * scale, h = 297 * scale, sb = 12 * scale;
+    return `<div style="width:${w}px;height:${h}px;background:${BG};position:relative;overflow:hidden;flex-shrink:0;border-radius:3px;box-shadow:0 2px 8px rgba(0,0,0,.15);">
+      <!-- Sidebar verte -->
+      <div style="position:absolute;left:0;top:0;width:${sb}px;height:100%;background:${VD};"></div>
+      <div style="position:absolute;left:${sb}px;top:0;width:${0.8*scale}px;height:100%;background:${OR};"></div>
+      <!-- Logo vertical sidebar -->
+      <div style="position:absolute;left:${2*scale}px;top:50%;transform:translateY(-50%) rotate(-90deg);transform-origin:center;white-space:nowrap;font-size:${5.5*scale}px;font-weight:700;color:${OR};letter-spacing:.5px;">argi<span style="color:white;">Q</span>are</div>
+      <div style="position:absolute;left:${2*scale}px;bottom:${10*scale}px;transform:rotate(-90deg);transform-origin:left center;white-space:nowrap;font-size:${4*scale}px;color:rgba(255,255,255,.4);">${dossierRef}</div>
+      <!-- Contenu de la page -->
+      <div style="position:absolute;left:${sb+1.5*scale}px;top:0;right:0;bottom:0;overflow:hidden;">${content}</div>
+    </div>`;
+  };
+
+  // ── Miniature en-tête de section ──
+  const secHeader = (label, scale) => {
+    const ml=4*scale, fs=6*scale;
+    return `<div style="background:#eef3ea;padding:${4*scale}px ${ml}px;border-bottom:${0.5*scale}px solid ${OR};font-size:${fs}px;font-weight:700;color:${VD};">${label}</div>`;
+  };
+
+  // ── Ligne champ/valeur miniature ──
+  const fRow = (lbl, val, scale) => {
+    const fs = 4.8*scale;
+    return `<div style="display:flex;gap:${2*scale}px;padding:${2.5*scale}px ${4*scale}px;border-bottom:${0.15*scale}px solid ${LN};font-size:${fs}px;line-height:1.3;">
+      <span style="color:${GY};min-width:${30*scale}px;flex-shrink:0;">${lbl}</span>
+      <span style="color:#2a2a22;font-weight:600;word-break:break-word;">${val}</span>
+    </div>`;
+  };
+
+  // ── Étape miniature ──
+  const stepRow = (num, label, done, scale) => {
+    const fs = 4.5*scale;
+    return `<div style="display:flex;align-items:center;gap:${3*scale}px;padding:${2*scale}px ${4*scale}px;border-bottom:${0.1*scale}px solid ${LN};font-size:${fs}px;">
+      <div style="width:${7*scale}px;height:${7*scale}px;border-radius:50%;background:${done?OR:LN};display:flex;align-items:center;justify-content:center;font-size:${4*scale}px;color:white;flex-shrink:0;">${done?'✓':num}</div>
+      <span style="color:${done?'#2a2a22':GY};">${label}</span>
+    </div>`;
+  };
+
+  const SCALE = 0.42;
+  const W = 210*SCALE, H = 297*SCALE;
+
+  // ══ PAGE 1 — COUVERTURE ══
+  const photoBg = photoDataUrl
+    ? `<div style="width:100%;height:${70*SCALE}px;overflow:hidden;flex-shrink:0;"><img src="${photoDataUrl}" style="width:100%;height:100%;object-fit:cover;"></div>`
+    : `<div style="width:100%;height:${70*SCALE}px;background:linear-gradient(135deg,#e8ede4,#d0ddc8);display:flex;align-items:center;justify-content:center;font-size:${7*SCALE}px;color:${GY};flex-shrink:0;">📸 Photo du bien</div>`;
+  const cover = `<div style="display:flex;flex-direction:column;height:100%;">
+    ${photoBg}
+    <div style="padding:${5*SCALE}px ${6*SCALE}px;flex:1;">
+      <div style="font-size:${8*SCALE}px;font-weight:800;color:${VD};">argi<span style="color:${OR};">Q</span>are</div>
+      <div style="width:${32*SCALE}px;height:${0.8*SCALE}px;background:${OR};margin:${2*SCALE}px 0 ${3*SCALE}px;"></div>
+      <div style="font-size:${4*SCALE}px;color:${GY};font-weight:700;margin-bottom:${6*SCALE}px;">DOSSIER DE SYNTHÈSE — RGA / CAT NAT</div>
+      <div style="background:white;border-radius:${2*SCALE}px;padding:${5*SCALE}px;border:${0.5*SCALE}px solid ${OR};">
+        <div style="font-size:${6*SCALE}px;font-weight:800;color:#1a2a0e;margin-bottom:${2*SCALE}px;">${nomComplet}</div>
+        <div style="font-size:${4.5*SCALE}px;color:${GY};margin-bottom:${3*SCALE}px;">${adresse||'—'}</div>
+        <div style="height:${0.3*SCALE}px;background:${LN};margin:${2*SCALE}px 0;"></div>
+        <div style="font-size:${4*SCALE}px;color:${GY};">Profil</div>
+        <div style="font-size:${4.5*SCALE}px;font-weight:700;color:${VD};margin-bottom:${3*SCALE}px;">${profilLabel}</div>
+        <div style="display:flex;gap:${2*SCALE}px;">
+          <div style="flex:1;background:${VD};border-radius:${1.5*SCALE}px;padding:${2*SCALE}px;text-align:center;">
+            <div style="font-size:${6*SCALE}px;font-weight:800;color:white;">${diagPct}%</div>
+            <div style="font-size:${3.5*SCALE}px;color:rgba(255,255,255,.7);">Parcours</div>
+          </div>
+          <div style="flex:1;background:${OR};border-radius:${1.5*SCALE}px;padding:${2*SCALE}px;text-align:center;">
+            <div style="font-size:${6*SCALE}px;font-weight:800;color:white;">${nJoints}/8</div>
+            <div style="font-size:${3.5*SCALE}px;color:rgba(255,255,255,.8);">Documents</div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:${4*SCALE}px;font-size:${3.5*SCALE}px;color:${GY};">Réf. ${dossierRef} — ${dateGen}</div>
+    </div>
+  </div>`;
+
+  // ══ PAGE 2 — SOMMAIRE ══
+  const toc = `<div style="height:100%;display:flex;flex-direction:column;">
+    ${secHeader('Sommaire', SCALE)}
+    <div style="padding:${6*SCALE}px ${4*SCALE}px;flex:1;">
+      ${[
+        ['1','Ma Maison — Informations sur le bien',true],
+        ['  1.1','Informations générales & coordonnées',false],
+        ['  1.2','Caractéristiques du bien',false],
+        ['2','Mon Parcours — Réponses détaillées',true],
+        ['  2.1','Constat & démarches (étapes 1-4)',false],
+        ['  2.2','Préparation expertise (étapes 5-9)',false],
+        ['  2.3','Expertise & indemnisation (étapes 10-11)',false],
+        ['3','Annexes — Documents joints',true],
+      ].map(([n,t,main]) => `<div style="display:flex;align-items:center;gap:${3*SCALE}px;padding:${main?3.5:2.5}px ${2*SCALE}px;${main?`background:#eef3ea;margin:${1*SCALE}px 0;border-radius:${1*SCALE}px;`:'margin-left:'+6*SCALE+'px;'}">
+        <span style="font-size:${main?5:4}px;font-weight:${main?700:400};color:${main?VD:GY};min-width:${14*SCALE}px;">${n}</span>
+        <span style="font-size:${main?5:4}px;font-weight:${main?700:400};color:${main?'#1a2a0e':GY};flex:1;">${t}</span>
+      </div>`).join('')}
+    </div>
+  </div>`;
+
+  // ══ PAGE 3 — MA MAISON ══
+  const maison = `<div style="height:100%;display:flex;flex-direction:column;">
+    ${secHeader('1 — Ma Maison', SCALE)}
+    <div style="flex:1;overflow:hidden;">
+      <div style="padding:${4*SCALE}px ${4*SCALE}px ${1*SCALE}px;border-left:${1.5*SCALE}px solid ${OR};margin:${4*SCALE}px ${4*SCALE}px ${2*SCALE}px;font-size:${5*SCALE}px;font-weight:700;color:${VD};">Informations générales</div>
+      ${fRow('Assuré', nomComplet, SCALE)}
+      ${fRow('Adresse', adresse||'—', SCALE)}
+      ${fRow('Contrat', contrat, SCALE)}
+      ${fRow('Assureur', assureur, SCALE)}
+      <div style="padding:${4*SCALE}px ${4*SCALE}px ${1*SCALE}px;border-left:${1.5*SCALE}px solid ${OR};margin:${4*SCALE}px ${4*SCALE}px ${2*SCALE}px;font-size:${5*SCALE}px;font-weight:700;color:${VD};">Caractéristiques</div>
+      ${fRow('Type', 'Maison individuelle', SCALE)}
+      ${fRow('Année', v('m_dateconstr'), SCALE)}
+      ${fRow('Fondations', 'Superficielles', SCALE)}
+    </div>
+  </div>`;
+
+  // ══ PAGE 4 — MON PARCOURS ══
+  const ETAPES_MINI = [
+    'Observation d\'une fissure','Vérification arrêté Cat Nat','À qui m\'adresser ?',
+    'Déclaration de sinistre','Environnement de ma maison','Facteurs déclencheurs',
+    'Entretien & historique','Description des désordres','Documents pour l\'expert',
+    'L\'expertise','Proposition d\'indemnisation','Les travaux de réparation'
+  ];
+  const diag = `<div style="height:100%;display:flex;flex-direction:column;">
+    ${secHeader('2 — Mon Parcours', SCALE)}
+    <div style="padding:${3*SCALE}px ${4*SCALE}px;background:#f9fcf7;border-bottom:${0.3*SCALE}px solid ${LN};font-size:${4.5*SCALE}px;color:${VD};font-weight:700;">
+      Avancement : ${diagPct}% — ${diagChecked} cases sur ${diagCbs.length}
+      <div style="height:${2*SCALE}px;background:#ddeedd;border-radius:${1*SCALE}px;margin-top:${2*SCALE}px;overflow:hidden;">
+        <div style="width:${diagPct}%;height:100%;background:${OR};"></div>
+      </div>
+    </div>
+    <div style="flex:1;overflow:hidden;">
+      ${ETAPES_MINI.map((lbl,i) => {
+        const el = document.getElementById('step-'+(i+1)+'b') || document.getElementById('step-'+(i<9?i+1:i===9?11:i===10?13:14)+'b');
+        const done = el && el.classList.contains('completed');
+        return stepRow(i+1, lbl, done, SCALE);
+      }).join('')}
+    </div>
+  </div>`;
+
+  // ══ PAGE 5 — ANNEXES ══
+  const piecesLabels=['Description du sinistre','Dégâts causés à des tiers','Études géotechniques','Acte d\'achat','Permis de construire','États des lieux','Devis, factures et PV','Déclaration sur l\'honneur'];
+  const annexes = `<div style="height:100%;display:flex;flex-direction:column;">
+    ${secHeader('3 — Annexes', SCALE)}
+    <div style="padding:${3*SCALE}px ${4*SCALE}px;background:#f9fcf7;border-bottom:${0.3*SCALE}px solid ${LN};font-size:${4.5*SCALE}px;color:${VD};font-weight:700;">
+      ${nJoints} fichier${nJoints>1?'s':''} joint${nJoints>1?'s':''} sur ${piecesLabels.length}
+    </div>
+    <div style="flex:1;overflow:hidden;padding:${2*SCALE}px 0;">
+      ${piecesLabels.map((lbl,i) => {
+        const joint = !!diagFiles[i+1];
+        const cb = document.querySelector('#diag-piece-'+(i+1)+' .doc-piece-cb');
+        const checked = cb && cb.checked;
+        return `<div style="display:flex;align-items:center;gap:${3*SCALE}px;padding:${2.5*SCALE}px ${4*SCALE}px;border-bottom:${0.1*SCALE}px solid ${LN};font-size:${4.5*SCALE}px;">
+          <div style="width:${6*SCALE}px;height:${6*SCALE}px;border-radius:${1*SCALE}px;background:${joint?VD:checked?OR:'#d0d0c8'};display:flex;align-items:center;justify-content:center;font-size:${3.5*SCALE}px;color:white;flex-shrink:0;">${joint?'✓':checked?'−':'○'}</div>
+          <span style="color:${joint?'#1a2a0e':GY};font-weight:${joint?600:400};">${lbl}</span>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`;
+
+  // ══ Assemblage des pages ══
+  const pages = [
+    { id:'cover',  label:'Couverture', html:page(cover, SCALE) },
+    { id:'toc',    label:'Sommaire',   html:page(toc,   SCALE) },
+    { id:'maison', label:'Ma Maison',  html:page(maison,SCALE) },
+    { id:'diag',   label:'Parcours',   html:page(diag,  SCALE) },
+    { id:'annex',  label:'Annexes',    html:page(annexes,SCALE) },
+  ];
+
+  let activePage = 0;
+
+  const thumbsEl = document.getElementById('preview-thumbs');
+  const largeEl  = document.getElementById('preview-page-large');
+  const countEl  = document.getElementById('preview-page-count');
+
+  if(!thumbsEl || !largeEl) return;
+  if(countEl) countEl.textContent = pages.length + ' pages';
+
+  // Génère les miniatures de navigation (encore plus petites)
+  const MINI = 0.18;
+  thumbsEl.innerHTML = pages.map((p,i) => `
+    <div id="preview-thumb-${i}" onclick="previewSelectPage(${i})"
+         style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
+      <div style="border:2px solid ${i===0?'#2d5a27':'#e0d8cc'};border-radius:3px;overflow:hidden;transform-origin:top left;">
+        ${p.html.replace(/style="/g, 'style="').replace(new RegExp(W*SCALE/MINI*MINI+'px','g'), W*MINI+'px')}
+      </div>
+      <div id="preview-thumb-label-${i}" style="font-size:9px;color:${i===0?'#2d5a27':'#9a8a72'};font-weight:${i===0?700:400};">${p.label}</div>
+    </div>`
+  ).join('');
+
+  // Fonction de sélection de page
+  window.previewSelectPage = (idx) => {
+    activePage = idx;
+    // Mettre à jour les miniatures
+    pages.forEach((_,i) => {
+      const th = document.getElementById('preview-thumb-'+i);
+      const lbl = document.getElementById('preview-thumb-label-'+i);
+      if(th) th.querySelector('div').style.borderColor = i===idx ? '#2d5a27' : '#e0d8cc';
+      if(lbl){ lbl.style.color = i===idx ? '#2d5a27' : '#9a8a72'; lbl.style.fontWeight = i===idx ? '700' : '400'; }
+    });
+    // Afficher la grande miniature
+    largeEl.innerHTML = `<div style="display:flex;justify-content:center;">${pages[idx].html}</div>`;
+  };
+
+  // Afficher la première page
+  window.previewSelectPage(0);
+
+  // Générer les miniatures de nav correctement (taille fixe)
+  const TNAIL = 0.2;
+  thumbsEl.innerHTML = pages.map((p,i) => {
+    const w = Math.round(210*TNAIL), h = Math.round(297*TNAIL);
+    return `<div onclick="previewSelectPage(${i})" id="preview-thumb-${i}"
+       style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
+      <div style="width:${w}px;height:${h}px;border:2px solid ${i===0?VD:LN};border-radius:2px;overflow:hidden;position:relative;background:${BG};">
+        <!-- Sidebar miniature -->
+        <div style="position:absolute;left:0;top:0;width:${Math.round(12*TNAIL)}px;height:100%;background:${VD};"></div>
+        <div style="position:absolute;left:${Math.round(12*TNAIL)}px;top:0;width:1px;height:100%;background:${OR};"></div>
+        <!-- Contenu simplifié selon la page -->
+        <div style="position:absolute;left:${Math.round(13*TNAIL)}px;top:${Math.round(14*TNAIL)}px;right:0;bottom:0;padding:${Math.round(2*TNAIL)}px;">
+          <div style="font-size:${Math.round(6*TNAIL)}px;font-weight:800;color:${VD};margin-bottom:${Math.round(2*TNAIL)}px;">${p.label}</div>
+          ${Array(8).fill(0).map((_,j) => `<div style="height:1px;background:${LN};margin-bottom:${Math.round(3*TNAIL)}px;width:${60+Math.random()*40}%;"></div>`).join('')}
+        </div>
+      </div>
+      <div id="preview-thumb-label-${i}" style="font-size:8.5px;color:${i===0?VD:GY};font-weight:${i===0?700:400};">${p.label}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('dossier-preview-overlay').classList.remove('hidden');
+}
+function closeDossierPreview(){
+  document.getElementById('dossier-preview-overlay').classList.add('hidden');
+}
+
+// ── POINT 8 — Partage natif du dernier PDF généré ──
+function shareLastPdf(){
+  const ref = localStorage.getItem('argicare-last-pdf-ref') || '';
+  const date = localStorage.getItem('argicare-last-pdf-date') || '';
+  const shareText = `Mon dossier ArgiQare (réf. ${ref}) généré le ${date}. Synthèse RGA / Cat Nat à consulter.`;
+  if(navigator.share){
+    navigator.share({ title: 'Dossier ArgiQare', text: shareText }).catch(() => {});
+  } else {
+    navigator.clipboard?.writeText(shareText).then(() => {
+      showToast('📋 Informations copiées — collez-les dans votre message');
+    }).catch(() => {
+      showToast('Partage non disponible sur ce navigateur');
+    });
+  }
 }
 </script>
 <!-- ═══════════════════════════════════════
@@ -7123,6 +7829,11 @@ function refreshCompletion(){
 .tri-btn.yes.active { background:#e8f5e4 !important; color:#2d5a27 !important; }
 .tri-btn.no.active  { background:#f5f0e8 !important; color:#8a6a42 !important; }
 .tri-btn:hover { background:#f5f5f0; }
+
+/* Thème léger Mon Parcours — bouton "Oui" activé selon le profil */
+#screen-diag.theme-p1 .tri-btn.yes.active { background: var(--theme-yes-bg) !important; color: var(--theme-yes-text) !important; }
+#screen-diag.theme-p2 .tri-btn.yes.active { background: var(--theme-yes-bg) !important; color: var(--theme-yes-text) !important; }
+#screen-diag.theme-p3 .tri-btn.yes.active { background: var(--theme-yes-bg) !important; color: var(--theme-yes-text) !important; }
 
 /* ── SOUS-BULLES (ex: étape 3 "À qui m'adresser ?") ── */
 .substep-toggle {
@@ -8140,7 +8851,7 @@ function diagUpload(uid, input){
   const file = input.files[0];
   const reader = new FileReader();
   reader.onload = e => {
-    diagUploads[uid] = {name: file.name, data: e.target.result, type: file.type};
+    diagUploads[uid] = {name: file.name, data: e.target.result, type: file.type, uploadedAt: new Date().toISOString()};
     const preview = document.getElementById('upload-preview-'+uid);
     const nameEl  = document.getElementById('upload-name-'+uid);
     if(preview){ preview.style.display='flex'; }
@@ -8461,6 +9172,35 @@ function loadLaterFields(){
   });
   checkLaterCount();
 }
+
+// Scroll vers le premier champ "À compléter plus tard" visible,
+// en ouvrant l'accordéon de la section parente si nécessaire.
+function scrollToLaterFields(){
+  const firstLater = document.querySelector('#screen-maison .form-input.later');
+  if(!firstLater) return;
+  // Remonter jusqu'au section-body parent pour vérifier si l'accordéon est ouvert
+  let parent = firstLater.parentElement;
+  while(parent && !parent.classList.contains('section-block')){
+    parent = parent.parentElement;
+  }
+  if(parent){
+    const body = parent.querySelector('.section-body');
+    // Si le body est masqué (accordéon fermé), on ouvre la section
+    if(body && body.style.display === 'none'){
+      const header = parent.querySelector('.section-header');
+      if(header) header.click();
+      setTimeout(() => firstLater.scrollIntoView({behavior:'smooth', block:'center'}), 300);
+    } else {
+      firstLater.scrollIntoView({behavior:'smooth', block:'center'});
+    }
+  } else {
+    firstLater.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+  // Mettre en évidence brièvement le champ ciblé
+  firstLater.style.outline = '2px solid #f5a623';
+  setTimeout(() => { firstLater.style.outline = ''; }, 1500);
+}
+
 // ── FIN COMPLÉTER PLUS TARD ──
 // ── AUTO-SURLIGNAGE GL{} ──
 function autoHighlightGL(){
@@ -8521,10 +9261,11 @@ function closeDashboard(){
 }
 
 function refreshDashboard(){
-  // Salutation avec le prénom si renseigné
+  // Salutation avec le prénom si renseigné — désormais affichée
+  // directement sur la ligne du titre, à côté de l'emoji maison.
   const prenom = document.getElementById('m_prenom')?.value?.trim();
-  const greeting = document.getElementById('dash-greeting');
-  if(greeting) greeting.textContent = prenom ? `Bonjour ${prenom} 👋` : 'Bonjour 👋';
+  const greeting = document.getElementById('dash-greeting-title');
+  if(greeting) greeting.textContent = prenom ? `🏠 Bonjour ${prenom} 👋` : '🏠 Bonjour 👋';
 
   // ══ MESSAGE RASSURANT / ADAPTATIF ══
   // Change de ton selon : premier passage, régularité récente, ou
