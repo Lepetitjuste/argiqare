@@ -112,14 +112,14 @@
 .profil-step-badge { font-size:8.5px; font-weight:700; padding:2px 7px; border-radius:10px; margin-left:6px; }
 .profil-step-badge.fait { background:#e8f5e4; color:#2d5a27; }
 .profil-step-badge.bloque { background:#f0ece4; color:#9a8a72; }
-.profil-step-badge.info { background:#eef0fe; color:#1a3a6e; }
+.profil-step-badge.info { background:#f0f7ec; color:#1a3a6e; }
 
 /* Bandeau profil actif */
 .profil-actif-bar { display:flex; align-items:center; gap:8px; padding:10px 12px; border-radius:10px; margin-bottom:10px; font-size:11px; font-weight:700; line-height:1.4; }
 .profil-actif-bar.none { background:#f0ece4; color:#7a6a52; }
-.profil-actif-bar.p1 { background:#eef8ea; color:#2d5a27; }
-.profil-actif-bar.p2 { background:#eef0fe; color:#1a3a6e; }
-.profil-actif-bar.p3 { background:#fff3e0; color:#9a5800; }
+.profil-actif-bar.p1 { background:#e8f5e4; color:#2d5a27; }
+.profil-actif-bar.p2 { background:#f0f7ec; color:#1a3a6e; }
+.profil-actif-bar.p3 { background:#fdf6e8; color:#9a5800; }
 .profil-actif-bar #profil-actif-icon { font-size:16px; flex-shrink:0; }
 .profil-actif-change { margin-left:auto; font-size:10px; font-weight:600; text-decoration:underline; cursor:pointer; opacity:.7; flex-shrink:0; }
 /* ── FIN CARTES PROFIL ── */
@@ -317,8 +317,8 @@ button, .nav-item, .diag-step-header, .section-header,
 @keyframes pillPop { 0%{transform:scale(.5);opacity:0;} 60%{transform:scale(1.08);opacity:1;} 100%{transform:scale(1);} }
 .dash-profil-pill { animation: pillPop .4s cubic-bezier(.34,1.56,.64,1) both; }
 .dash-profil-pill.p1 { background:#e8f5e4; color:#2d5a27; }
-.dash-profil-pill.p2 { background:#e8f0fe; color:#1a3a6e; }
-.dash-profil-pill.p3 { background:#fff3e0; color:#9a5800; }
+.dash-profil-pill.p2 { background:#eaf0ff; color:#1a3a6e; }
+.dash-profil-pill.p3 { background:#fdf6e8; color:#9a5800; }
 .dash-profil-pill.none { background:#f0ece4; color:#9a8a72; }
 
 .dash-quick-actions { display:flex; gap:6px; }
@@ -384,7 +384,7 @@ button, .nav-item, .diag-step-header, .section-header,
   filter:grayscale(.7); opacity:.5; transition:all .3s; flex-shrink:0;
 }
 .dash-timeline-step.done .dash-timeline-dot { background:#e8f5e4; filter:none; opacity:1; box-shadow:0 0 0 2px #4a7c3f; }
-.dash-timeline-step.current .dash-timeline-dot { background:#fff3e0; filter:none; opacity:1; box-shadow:0 0 0 2px #f5a623; animation:timelinePulse 1.8s infinite; }
+.dash-timeline-step.current .dash-timeline-dot { background:#fdf6e8; filter:none; opacity:1; box-shadow:0 0 0 2px #f5a623; animation:timelinePulse 1.8s infinite; }
 @keyframes timelinePulse { 0%,100% { box-shadow:0 0 0 2px #f5a623; } 50% { box-shadow:0 0 0 5px rgba(245,166,35,.3); } }
 .dash-timeline-label { font-size:7.5px; font-weight:700; color:#9a8a72; text-align:center; line-height:1.2; }
 .dash-timeline-step.done .dash-timeline-label, .dash-timeline-step.current .dash-timeline-label { color:#3a4a3a; }
@@ -405,7 +405,7 @@ button, .nav-item, .diag-step-header, .section-header,
   filter:grayscale(.7); opacity:.45; transition:all .3s; flex-shrink:0;
 }
 .lifecycle-step.done .lifecycle-dot { background:#e8f5e4; filter:none; opacity:1; box-shadow:0 0 0 2px #4a7c3f; }
-.lifecycle-step.current .lifecycle-dot { background:#fff3e0; filter:none; opacity:1; box-shadow:0 0 0 2px #f5a623; animation:timelinePulse 1.8s infinite; }
+.lifecycle-step.current .lifecycle-dot { background:#fdf6e8; filter:none; opacity:1; box-shadow:0 0 0 2px #f5a623; animation:timelinePulse 1.8s infinite; }
 .lifecycle-label { font-size:7.5px; font-weight:700; color:#9a8a72; text-align:center; line-height:1.2; }
 .lifecycle-step.done .lifecycle-label, .lifecycle-step.current .lifecycle-label { color:#3a4a3a; }
 .lifecycle-line { height:2px; background:#e8e0d4; flex:0.5; margin-top:15px; }
@@ -470,7 +470,7 @@ button, .nav-item, .diag-step-header, .section-header,
 /* Bouton Modifier sous chaque accordéon */
 .section-modifier-btn {
   display:none; width:100%; margin-top:8px; padding:10px;
-  background:#eef0fe; color:#1a3a6e; border:1.5px solid #b8c8e8;
+  background:#f0f7ec; color:#1a3a6e; border:1.5px solid #b8c8e8;
   border-radius:10px; font-size:11px; font-weight:700; cursor:pointer;
   font-family:inherit; align-items:center; justify-content:center; gap:6px;
 }
@@ -490,7 +490,7 @@ button, .nav-item, .diag-step-header, .section-header,
 
 /* ── FEEDBACK SUCCÈS ÉTAPE COMPLÉTÉE ── */
 .diag-step.completed {
-  border-color:#4a7c3f; background:#f8fdf7;
+  border-color:#4a7c3f; background:#e8f5e4;
   transition: border-color .3s, background .3s;
 }
 .diag-step.just-completed {
@@ -843,6 +843,10 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .header-arch-logo .a { font-size:24px; font-weight:300; color:rgba(255,255,255,.75); letter-spacing:2px; font-family:Georgia,'Times New Roman',serif; }
 /* .header-arch-pill — bouton retiré du header, CSS nettoyé */
 .content { flex:1; overflow:hidden; min-height:0; position:relative; }
+/* Garantit que l'aperçu PDF ne peut jamais déborder du .phone */
+#dossier-preview-overlay,
+#preview-reader-zone,
+#preview-page-large { overflow:hidden !important; max-width:100% !important; }
 .screens-wrapper { display:flex; height:100%; transition:transform 0.35s cubic-bezier(0.4,0,0.2,1); will-change:transform; }
 .screen-depth-out { animation: screenDepthOut .4s ease both; }
 @keyframes screenDepthOut { 0%{transform:scale(1);opacity:1;filter:brightness(1);} 40%{transform:scale(.94);opacity:.7;filter:brightness(.92);} 100%{transform:scale(1);opacity:1;filter:brightness(1);} }
@@ -855,7 +859,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 /* FORM */
 .section-block { background:white; border-radius:14px; margin-bottom:12px; box-shadow:0 2px 8px rgba(0,0,0,0.06); overflow:hidden; }
 .section-header { font-size:13px; font-weight:700; color:#2d5a27; text-transform:uppercase; letter-spacing:0.5px; padding:14px; display:flex; align-items:center; gap:6px; cursor:pointer; user-select:none; }
-.section-header:hover { background:#f5fbf4; }
+.section-header:hover { background:#e8f5e4; }
 .section-header .accordion-arrow { margin-left:auto; font-size:14px; color:#7a9a72; transition:transform 0.25s; }
 .section-block.open .accordion-arrow { transform:rotate(90deg); }
 .section-body { padding:0 14px 14px; display:none; border-top:2px solid #e8f5e4; padding-top:12px; }
@@ -877,7 +881,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .form-table td input { width:100%; border:none; background:transparent; font-size:11px; outline:none; color:#2d3a1e; font-family:inherit; }
 .radio-inline { display:flex; gap:16px; flex-wrap:wrap; margin-top:4px; }
 .radio-inline .checkbox-item { margin-bottom:0; }
-.sub-section { background:#f5f8f2; border-radius:10px; padding:10px 12px; margin-top:10px; margin-bottom:10px; border-left:3px solid #4a7c3f; }
+.sub-section { background:#F5F8F4; border-radius:10px; padding:10px 12px; margin-top:10px; margin-bottom:10px; border-left:3px solid #4a7c3f; }
 .sub-section-title { font-size:12px; font-weight:700; color:#2d5a27; margin-bottom:8px; }
 .btn-save { width:100%; padding:13px; background:linear-gradient(135deg,#2d5a27,#4a7c3f); color:white; border:none; border-radius:12px; font-size:14px; font-weight:600; cursor:pointer; margin-top:4px; margin-bottom:16px; font-family:inherit; }
 .toast { position:absolute; bottom:80px; left:50%; transform:translateX(-50%); background:#2d5a27; color:white; padding:10px 20px; border-radius:20px; font-size:12px; font-weight:600; opacity:0; transition:opacity 0.3s; white-space:nowrap; pointer-events:none; z-index:200; }
@@ -894,7 +898,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .photo-maison-label { font-size:12px; font-weight:600; color:#2d3a1e; }
 .btn-photo-sm { padding:5px 10px; border-radius:8px; font-size:11px; font-weight:600; cursor:pointer; font-family:inherit; border:none; }
 .btn-photo-add { background:#e8f5e4; color:#2d5a27; }
-.btn-photo-del { background:#fde8e4; color:#c04030; display:none; }
+.btn-photo-del { background:#fef0ec; color:#c04030; display:none; }
 
 /* GEORISQUES */
 .georisques-btn { width:100%; padding:11px 14px; background:linear-gradient(135deg,#e8f5e4,#d4ecd0); border:1.5px solid #4a7c3f; border-radius:10px; display:flex; align-items:center; gap:10px; cursor:pointer; margin-top:4px; font-family:inherit; }
@@ -918,8 +922,8 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .rga-section-title { font-size:10px; font-weight:700; color:#7a9a72; text-transform:uppercase; letter-spacing:0.8px; margin:10px 0 6px; }
 .rga-section-title:first-child { margin-top:0; }
 .rga-info-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:4px; }
-.rga-info-cell { background:#f5f8f2; border-radius:9px; padding:8px 10px; }
-.rga-info-cell-full { background:#f5f8f2; border-radius:9px; padding:8px 10px; margin-bottom:6px; }
+.rga-info-cell { background:#F5F8F4; border-radius:9px; padding:8px 10px; }
+.rga-info-cell-full { background:#F5F8F4; border-radius:9px; padding:8px 10px; margin-bottom:6px; }
 .rga-info-label { font-size:9.5px; color:#7a9a72; font-weight:600; margin-bottom:2px; }
 .rga-info-value { font-size:12px; color:#2d3a1e; font-weight:700; line-height:1.3; }
 .rga-info-value.accent { color:#2d5a27; }
@@ -932,7 +936,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .rga-prevention-item { display:flex; align-items:flex-start; gap:8px; padding:6px 0; font-size:11px; color:#4a5a3a; line-height:1.5; border-bottom:1px solid #f0ece4; }
 .rga-prevention-item:last-child { border-bottom:none; }
 .rga-prevention-icon { width:18px; height:18px; border-radius:50%; background:#e8f5e4; display:flex; align-items:center; justify-content:center; font-size:10px; flex-shrink:0; margin-top:1px; }
-.rga-footer { background:#f5f8f2; padding:10px 14px; display:flex; align-items:center; justify-content:space-between; border-top:1px solid #e8f0e4; }
+.rga-footer { background:#F5F8F4; padding:10px 14px; display:flex; align-items:center; justify-content:space-between; border-top:1px solid #e8f0e4; }
 .rga-footer-date { font-size:10px; color:#9a8a72; }
 .rga-footer-link { display:flex; align-items:center; gap:4px; font-size:10px; color:#4a7c3f; font-weight:700; cursor:pointer; text-decoration:underline; }
 .rga-alea-bar-wrap { margin-top:8px; }
@@ -946,7 +950,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .diag-preambule-title { font-size:13px; font-weight:700; color:#2d5a27; margin-bottom:5px; }
 .diag-preambule-text { font-size:11px; color:#3a5a32; line-height:1.6; }
 
-.disclaimer-banner { background:#fff8e8; border:1.5px solid #e8c94a; border-radius:12px; padding:12px 14px; margin-bottom:14px; }
+.disclaimer-banner { background:#fdf6e8; border:1.5px solid #e8c94a; border-radius:12px; padding:12px 14px; margin-bottom:14px; }
 .disclaimer-title { font-size:12px; font-weight:700; color:#8a6a00; margin-bottom:4px; }
 .disclaimer-text { font-size:11px; color:#7a6a00; line-height:1.5; }
 
@@ -979,7 +983,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .section-divider { font-size:12px; font-weight:700; color:#7a6a52; text-transform:uppercase; letter-spacing:1px; margin:14px 0 8px; display:flex; align-items:center; gap:8px; }
 .section-divider::after { content:""; flex:1; height:1px; background:#d4c9b5; }
 .diag-step { background:white; border-radius:14px; padding:14px; margin-bottom:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); border:2px solid transparent; transition:border 0.2s; }
-.diag-step.completed { border-color: var(--theme-accent, #4a7c3f); background:#f8fdf7; }
+.diag-step.completed { border-color: var(--theme-accent, #4a7c3f); background:#e8f5e4; }
 .diag-step-header { display:flex; align-items:flex-start; gap:10px; margin-bottom:10px; }
 .diag-step-num { background: var(--theme-grad, linear-gradient(135deg,#2d5a27,#4a7c3f)); color:white; width:26px; height:26px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700; flex-shrink:0; margin-top:1px; }
 .diag-step-title { font-size:13px; font-weight:700; color:#2d3a1e; line-height:1.4; flex:1; }
@@ -994,7 +998,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 #screen-diag.theme-p3 { --theme-accent:#7A5024; --theme-grad:linear-gradient(135deg,#98683A,#7A5024); --theme-yes-bg:#E8D4BC; --theme-yes-text:#4A3014; }
 
 .diag-check-item { display:flex; align-items:flex-start; gap:10px; padding:8px 10px; border-radius:9px; margin-bottom:6px; background:#faf8f4; cursor:pointer; transition:background 0.2s; }
-.diag-check-item:hover { background:#f0f8ec; }
+.diag-check-item:hover { background:#e8f5e4; }
 .diag-check-item.checked { background:#e8f5e4; }
 .diag-check-item input[type="checkbox"] { width:16px; height:16px; accent-color:#4a7c3f; cursor:pointer; flex-shrink:0; margin-top:2px; }
 .diag-check-item label { font-size:12px; color:#4a5a3a; cursor:pointer; line-height:1.5; flex:1; }
@@ -1019,11 +1023,11 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .face-photo-box.has-photo { border-style:solid; border-color:#4a7c3f; }
 .face-photo-preview { width:100%; height:90px; display:flex; align-items:center; justify-content:center; position:relative; }
 .face-placeholder { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:6px; }
-.face-label { font-size:10px; font-weight:700; color:#4a7c3f; text-align:center; padding:5px 0 6px; background:#f5f8f2; }
+.face-label { font-size:10px; font-weight:700; color:#4a7c3f; text-align:center; padding:5px 0 6px; background:#F5F8F4; }
 .face-photo-box.has-photo .face-label { background:#e8f5e4; }
 
 /* DOSSIER */
-.dossier-preambule { background:#fff8e8; border:1.5px solid #e8c94a; border-radius:12px; padding:12px 14px; margin-bottom:12px; }
+.dossier-preambule { background:#fdf6e8; border:1.5px solid #e8c94a; border-radius:12px; padding:12px 14px; margin-bottom:12px; }
 .dossier-preambule-title { font-size:12px; font-weight:700; color:#8a6a00; margin-bottom:5px; }
 .dossier-preambule-text { font-size:11px; color:#6a5000; line-height:1.6; }
 .dossier-preambule-link { color:#c07000; font-weight:700; text-decoration:underline; cursor:pointer; }
@@ -1034,9 +1038,9 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .doc-piece-title { font-size:13px; font-weight:700; color:#2d3a1e; line-height:1.4; cursor:pointer; }
 .doc-piece-desc { font-size:11px; color:#7a6a52; margin-top:3px; line-height:1.4; }
 .doc-piece.has-file .doc-piece-title { color:#2d5a27; }
-.upload-zone { margin-top:10px; border:2px dashed #c8dfc4; border-radius:10px; padding:10px 12px; background:#f5fbf4; display:none; cursor:pointer; }
+.upload-zone { margin-top:10px; border:2px dashed #c8dfc4; border-radius:10px; padding:10px 12px; background:#e8f5e4; display:none; cursor:pointer; }
 .upload-zone.visible { display:block; }
-.upload-zone.filled { border-style:solid; border-color:#4a7c3f; background:#e8f5e4; }
+.upload-zone.filled { border-style:solid; border-color:#3a6ea8; background:#e8f5e4; }
 .upload-inner { display:flex; align-items:center; gap:8px; }
 .upload-icon { font-size:20px; flex-shrink:0; }
 .upload-text { font-size:11px; color:#4a7c3f; font-weight:600; flex:1; }
@@ -1094,7 +1098,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .cn-franchise-label { font-size:12px; opacity:0.9; margin-top:2px; }
 .cn-franchise-note { font-size:10px; opacity:0.7; margin-top:6px; font-style:italic; }
 .cn-delai-row { display:flex; align-items:center; gap:10px; background:white; border-radius:10px; padding:10px 12px; margin-bottom:6px; box-shadow:0 1px 4px rgba(0,0,0,0.05); }
-.cn-delai-num { background:#e8f0fe; color:#1a3a6e; font-size:13px; font-weight:800; padding:4px 8px; border-radius:8px; flex-shrink:0; min-width:36px; text-align:center; }
+.cn-delai-num { background:#eaf0ff; color:#1a3a6e; font-size:13px; font-weight:800; padding:4px 8px; border-radius:8px; flex-shrink:0; min-width:36px; text-align:center; }
 .cn-delai-text { font-size:11px; color:#3a4a5a; line-height:1.4; flex:1; }
 
 /* PARAMÈTRES */
@@ -1110,7 +1114,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 }
 
 .param-row { background:white; border-radius:12px; padding:13px 14px; display:flex; align-items:center; gap:12px; margin-bottom:6px; box-shadow:0 1px 4px rgba(0,0,0,0.05); cursor:pointer; }
-.param-icon { font-size:20px; width:36px; height:36px; background:#f0f8ec; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+.param-icon { font-size:20px; width:36px; height:36px; background:#e8f5e4; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
 .param-info { flex:1; }
 .param-label { font-size:13px; font-weight:600; color:#2d3a1e; line-height:1.3; }
 .param-sub { font-size:11px; color:#9a8a72; margin-top:2px; }
@@ -1169,20 +1173,20 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 @keyframes barPulse{0%{box-shadow:0 0 0 0 rgba(74,124,63,0.5)}100%{box-shadow:0 0 0 6px rgba(74,124,63,0)}}
 .prog-pulse{animation:barPulse 0.45s ease-out;}
 .btn-pdf-mini{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:9px;background:transparent;border:1.5px solid #b5d9af;border-radius:10px;color:#2d5a27;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;margin-top:10px;}
-.btn-pdf-mini:active{background:#f0f8ec;}
+.btn-pdf-mini:active{background:#e8f5e4;}
 .dossier-quick-bar{display:flex;gap:6px;margin-bottom:12px;}
 .dossier-quick-chip{flex:1;background:white;border-radius:10px;padding:8px 6px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.06);border:1.5px solid #e8e0d0;}
 .dossier-quick-val{font-size:16px;font-weight:800;color:#2d5a27;}
 .dossier-quick-lbl{font-size:9px;color:#9a8a72;margin-top:1px;}
 .res-link-item{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #f0ece4;text-decoration:none;cursor:pointer;}
-.res-link-num{width:26px;height:26px;border-radius:8px;background:#f0f8ec;border:1.5px solid #b5d9af;font-size:9px;font-weight:800;color:#2d5a27;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.res-link-num{width:26px;height:26px;border-radius:8px;background:#e8f5e4;border:1.5px solid #b5d9af;font-size:9px;font-weight:800;color:#2d5a27;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
 .res-link-body{flex:1;}
 .res-link-title{font-size:11px;font-weight:700;color:#2d3a1e;margin-bottom:2px;}
 .res-link-url{font-size:9.5px;color:#9a8a72;font-style:italic;}
 .res-link-arrow{font-size:13px;color:#b5d9af;flex-shrink:0;}
 /* ── Second slot upload ── */
-.upload-add-btn{display:none;width:100%;margin-top:5px;padding:7px;background:transparent;border:1.5px dashed #b5d9af;border-radius:8px;color:#4a7c3f;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;text-align:center;transition:background .15s;}
-.upload-add-btn:active{background:#f0f8ec;}
+.upload-add-btn{display:none;width:100%;margin-top:5px;padding:7px;background:transparent;border:1.5px dashed #b5d9af;border-radius:8px;color:#3a6ea8;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;text-align:center;transition:background .15s;}
+.upload-add-btn:active{background:#e8f5e4;}
 .upload-slot2{display:none;margin-top:5px;}
 .upload-slot2 .upload-zone{margin-top:0;}
 
@@ -1203,7 +1207,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .gl-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;}
 .gl-term{font-size:12px;font-weight:800;color:#1a3a6e;}
 .gl-close{width:22px;height:22px;border-radius:50%;background:#f0ece4;border:none;cursor:pointer;font-size:11px;color:#7a6a52;}
-.gl-badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;background:#eef4ff;color:#2a5ca8;margin-bottom:8px;}
+.gl-badge{display:inline-block;font-size:9px;font-weight:700;padding:2px 8px;border-radius:10px;background:#eaf0ff;color:#2a5ca8;margin-bottom:8px;}
 .gl-def{font-size:11.5px;color:#3a4a5a;line-height:1.65;}
 .gl-src{font-size:9.5px;color:#9a8a72;margin-top:8px;padding-top:6px;border-top:1px solid #f0ece4;}
 </style>
@@ -1232,9 +1236,9 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           .acc-mesure-dot { width:5px; height:5px; border-radius:50%; flex-shrink:0; margin-top:4px; }
           .acc-vigueur { display:inline-block; background:#e8f5e4; color:#2d5a27; font-size:9px; font-weight:700; padding:1px 6px; border-radius:6px; margin-top:3px; }
           .acc-vigueur-pending { display:inline-block; background:#f0ece4; color:#9a8a72; font-size:9px; font-weight:700; padding:1px 6px; border-radius:6px; margin-top:3px; }
-          .acc-acronyme { background:#eef4ff; border-left:2px solid #2a5ca8; border-radius:0 6px 6px 0; padding:5px 8px; margin-top:6px; font-size:10px; color:#2a5ca8; line-height:1.5; }
+          .acc-acronyme { background:#eaf0ff; border-left:2px solid #2a5ca8; border-radius:0 6px 6px 0; padding:5px 8px; margin-top:6px; font-size:10px; color:#2a5ca8; line-height:1.5; }
           .acc-section-label { font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:0.6px; color:#9a8a72; margin:8px 0 4px; }
-          .acc-exclusion { background:#fff8e8; border-left:2px solid #e8c94a; border-radius:0 6px 6px 0; padding:5px 8px; margin-top:5px; font-size:10px; color:#7a6a00; line-height:1.5; }
+          .acc-exclusion { background:#fdf6e8; border-left:2px solid #e8c94a; border-radius:0 6px 6px 0; padding:5px 8px; margin-top:5px; font-size:10px; color:#7a6a00; line-height:1.5; }
         
 
           .blob-tl{position:relative;padding-left:50px;}
@@ -1299,7 +1303,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
   font-family:inherit; font-size:11.5px; color:#3a4a2e; font-weight:600;
   display:flex; align-items:center; gap:9px; transition:background .12s, border-color .12s;
 }
-.quiz-opt:active { background:#f0f8ec; border-color:#a8d5a2; }
+.quiz-opt:active { background:#e8f5e4; border-color:#a8d5a2; }
 .quiz-opt-emoji { font-size:16px; flex-shrink:0; }
 .quiz-result { text-align:center; padding:6px 0 2px; }
 .quiz-result-icon { font-size:34px; margin-bottom:8px; }
@@ -1316,7 +1320,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 }
 .dash-reassurance-banner.visible { display:block; }
 .dash-reassurance-banner.tone-warm { background:linear-gradient(135deg,#eef8ea,#e0f0d8); color:#2d5a27; border-left:3px solid #4a7c3f; }
-.dash-reassurance-banner.tone-gentle { background:linear-gradient(135deg,#eef0fe,#e4e8fc); color:#1a3a6e; border-left:3px solid #2a5ca8; }
+.dash-reassurance-banner.tone-gentle { background:linear-gradient(135deg,#f0f7ec,#e8f4e0); color:#2d5a27; border-left:3px solid #c9a23a; }
 .dash-reassurance-banner.tone-encourage { background:linear-gradient(135deg,#fff3e0,#ffe8c8); color:#9a5800; border-left:3px solid #e8a800; }
 .dash-reassurance-icon { font-size:15px; margin-right:5px; }
 /* ── FIN MESSAGE RASSURANT ── */
@@ -1324,7 +1328,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 /* ── CHECKLIST JOUR J (visite expert) ── */
 .checklist-jourj-trigger {
   display:flex; align-items:center; gap:10px; width:100%; padding:11px 13px;
-  margin-top:8px; background:linear-gradient(135deg,#fff8e8,#fff0d0);
+  margin-top:8px; background:linear-gradient(135deg,#fdf6e8,#f7edd8);
   border:1.5px solid #e8c94a; border-radius:12px; cursor:pointer; font-family:inherit;
   text-align:left;
 }
@@ -1370,7 +1374,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .dash-search-results.visible { display:block; }
 .dash-search-result-item { display:flex; align-items:flex-start; gap:9px; padding:10px 12px; border-bottom:1px solid #f0ece4; cursor:pointer; }
 .dash-search-result-item:last-child { border-bottom:none; }
-.dash-search-result-item:active { background:#f5f8f2; }
+.dash-search-result-item:active { background:#F5F8F4; }
 .dash-search-result-ic { font-size:14px; flex-shrink:0; margin-top:1px; }
 .dash-search-result-title { font-size:11px; font-weight:700; color:#2d3a1e; line-height:1.4; }
 .dash-search-result-tag { font-size:8.5px; font-weight:700; color:#7a9a72; text-transform:uppercase; letter-spacing:.4px; margin-top:1px; }
@@ -1380,7 +1384,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 /* ── PARTAGE LECTURE SEULE ── */
 .share-link-trigger {
   display:flex; align-items:center; gap:10px; width:100%; padding:11px 13px;
-  margin-top:8px; background:linear-gradient(135deg,#eef0fe,#e4e8fc);
+  margin-top:8px; background:linear-gradient(135deg,#f0f7ec,#e8f4e0);
   border:1.5px solid #b8c8e8; border-radius:12px; cursor:pointer; font-family:inherit; text-align:left;
 }
 .share-link-ic { font-size:20px; flex-shrink:0; }
@@ -1430,7 +1434,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
   </div>
 
   <div class="header" style="background:linear-gradient(160deg,#1a3a6e 0%,#2d5a27 100%);padding:18px 14px 24px;clip-path:ellipse(110% 92% at 50% 0%);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:390;">
-    <button onclick="openParamsScreen()" style="position:absolute;top:10px;right:12px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:background .2s;" title="Paramètres">⚙️</button>
+    <button id="params-btn" onclick="openParamsScreen()" style="position:absolute;top:10px;right:12px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:background .2s;" title="Paramètres">⚙️</button>
     <div class="header-arch-logo" style="font-size:1.22em;">
       <span class="g">argi</span><span class="q">Q</span><span class="a">are</span>
     </div>
@@ -1511,7 +1515,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       </div>
       <!-- Contenu onglet PDF -->
       <div id="share-content-pdf" style="flex:1;overflow-y:auto;padding:16px;">
-        <div style="background:#f5f8f2;border-radius:12px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:flex-start;gap:10px;">
+        <div style="background:#F5F8F4;border-radius:12px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:flex-start;gap:10px;">
           <span style="font-size:20px;flex-shrink:0;">📄</span>
           <div>
             <div style="font-size:12px;font-weight:700;color:#1a2a0e;margin-bottom:3px;">Envoyer votre dossier en PDF</div>
@@ -1549,30 +1553,42 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
   </div>
 
   <!-- APERÇU EN LECTURE DU DOSSIER (point 6) -->
-  <div class="checklist-overlay hidden" id="dossier-preview-overlay" style="align-items:flex-end;">
-    <div style="background:white;border-radius:18px 18px 0 0;width:100%;max-height:88%;display:flex;flex-direction:column;overflow:hidden;">
-      <!-- En-tête -->
-      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;border-bottom:1px solid #eee7d8;flex-shrink:0;">
-        <div>
-          <div style="font-size:13px;font-weight:800;color:#2d3a1e;">👁️ Aperçu du dossier PDF</div>
-          <div style="font-size:10px;color:#9a8a72;margin-top:2px;">Miniatures du modèle Bande Latérale — <span id="preview-page-count"></span></div>
-        </div>
-        <button class="quiz-close" onclick="closeDossierPreview()">✕</button>
+  <!-- APERÇU EN LECTURE — position:absolute dans .phone, bloque tous les événements -->
+  <div id="dossier-preview-overlay" class="hidden"
+       style="position:absolute;inset:0;z-index:820;background:#f5f0e8;display:none;flex-direction:column;overflow:hidden;border-radius:34px;"
+       onclick="event.stopPropagation()"
+       ontouchstart="event.stopPropagation()"
+       ontouchmove="event.stopPropagation()"
+       ontouchend="event.stopPropagation()">
+
+    <!-- Barre supérieure — vert sapin -->
+    <div style="background:linear-gradient(135deg,#2d5a27,#3a6e32);display:flex;align-items:center;justify-content:space-between;padding:10px 14px;flex-shrink:0;gap:10px;height:52px;box-sizing:border-box;border-radius:28px 28px 0 0;">
+      <button onclick="event.stopPropagation();closeDossierPreview()"
+              style="background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:5px 12px;font-size:11.5px;font-weight:700;color:white;cursor:pointer;font-family:inherit;flex-shrink:0;white-space:nowrap;">✕ Fermer</button>
+      <div style="text-align:center;flex:1;min-width:0;overflow:hidden;">
+        <div id="preview-page-title" style="font-size:12px;font-weight:800;color:white;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+        <div id="preview-page-indicator" style="font-size:10px;color:rgba(255,255,255,.6);margin-top:1px;"></div>
       </div>
-      <!-- Navigation pages -->
-      <div style="display:flex;align-items:center;gap:8px;padding:8px 16px;border-bottom:1px solid #f0ece4;flex-shrink:0;overflow-x:auto;">
-        <div id="preview-thumbs" style="display:flex;gap:8px;min-width:max-content;"></div>
-      </div>
-      <!-- Page active en grand -->
-      <div style="flex:1;overflow-y:auto;padding:16px;background:#f0ece4;display:flex;justify-content:center;">
-        <div id="preview-page-large" style="width:100%;max-width:340px;"></div>
-      </div>
-      <!-- Bas -->
-      <div style="padding:12px 16px;border-top:1px solid #eee7d8;flex-shrink:0;text-align:center;">
-        <div style="font-size:9.5px;color:#9a8a72;margin-bottom:8px;">Aperçu indicatif — le document PDF final peut différer légèrement</div>
-        <button onclick="closeDossierPreview();generatePDF();" style="background:#2d5a27;color:white;border:none;border-radius:10px;padding:10px 24px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;">📄 Générer le PDF complet</button>
-      </div>
+      <button onclick="event.stopPropagation();closeDossierPreview();generatePDF();"
+              style="background:#c9a23a;border:none;border-radius:20px;padding:5px 12px;font-size:11px;font-weight:800;color:#1a1a00;cursor:pointer;font-family:inherit;flex-shrink:0;white-space:nowrap;">📄 Générer</button>
     </div>
+
+    <!-- Zone de lecture — fond crème doux -->
+    <div id="preview-reader-zone"
+         style="flex:1;min-height:0;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;background:#ece6da;">
+      <button id="preview-btn-prev" onclick="event.stopPropagation();previewChangePage(-1)"
+              style="position:absolute;left:6px;top:50%;transform:translateY(-50%);z-index:3;background:rgba(45,90,39,.15);border:1.5px solid rgba(45,90,39,.2);border-radius:50%;width:34px;height:34px;font-size:18px;color:#2d5a27;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;">‹</button>
+      <div id="preview-page-large"
+           style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:10px 48px;box-sizing:border-box;overflow:hidden;max-width:100%;max-height:100%;"></div>
+      <button id="preview-btn-next" onclick="event.stopPropagation();previewChangePage(1)"
+              style="position:absolute;right:6px;top:50%;transform:translateY(-50%);z-index:3;background:rgba(45,90,39,.15);border:1.5px solid rgba(45,90,39,.2);border-radius:50%;width:34px;height:34px;font-size:18px;color:#2d5a27;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;">›</button>
+    </div>
+
+    <!-- Barre miniatures — fond blanc cassé avec séparateur doré -->
+    <div style="background:#faf8f4;flex-shrink:0;height:68px;box-sizing:border-box;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;display:flex;align-items:center;padding:0 10px;border-top:2px solid #c9a23a;">
+      <div id="preview-thumbs" style="display:flex;gap:8px;min-width:max-content;align-items:center;margin:0 auto;"></div>
+    </div>
+
   </div>
 
   <!-- MODULE SATISFACTION -->
@@ -1593,7 +1609,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <li>La <span class="gl" onclick="glOpen('arrêté de reconnaissance',this)">reconnaissance Cat Nat</span> est soumise à l'<span class="gl" onclick="glOpen('arrêté interministériel',this)">arrêté interministériel</span> de votre commune</li>
       </ul>
       <!-- Case "lu et approuvé" -->
-      <div style="display:flex;align-items:center;gap:10px;margin:12px 0 4px;padding:10px 12px;background:#f5f8f2;border-radius:10px;border:1.5px solid #d4e8cc;cursor:pointer;" onclick="toggleLuApprouve(this)">
+      <div style="display:flex;align-items:center;gap:10px;margin:12px 0 4px;padding:10px 12px;background:#F5F8F4;border-radius:10px;border:1.5px solid #d4e8cc;cursor:pointer;" onclick="toggleLuApprouve(this)">
         <div id="lu-check" style="width:20px;height:20px;border-radius:6px;border:2px solid #4a7c3f;background:white;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;transition:all .15s;"></div>
         <div style="font-size:11px;font-weight:700;color:#2d5a27;line-height:1.4;">Lu et approuvé — je comprends que ce parcours est indicatif et ne remplace pas une expertise professionnelle</div>
       </div>
@@ -2067,7 +2083,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 
             <!-- BLOC LANGAGE COURANT -->
             <div class="rga-section-title">🏡 Ce que ça veut dire pour votre maison</div>
-            <div style="background:linear-gradient(135deg,#fffbf0,#fff8e8);border-radius:12px;padding:12px;border-left:3px solid #e8a800;">
+            <div style="background:linear-gradient(135deg,#f0f7ec,#e8f4e0);border-radius:12px;padding:12px;border-left:3px solid #c9a23a;">
               <div style="font-size:11px;color:#5a4a00;line-height:1.7;margin-bottom:8px;">
                 <strong>En clair :</strong> votre maison est construite sur un sol qui bouge selon les saisons.
               </div>
@@ -2150,7 +2166,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         </div>
 
         <!-- Bulle téléchargement attestation -->
-        <div style="background:linear-gradient(135deg,#eef4ff,#e0eaff);border:1.5px solid #2a5ca8;border-radius:12px;padding:12px 14px;margin-top:8px;">
+        <div style="background:linear-gradient(135deg,#eaf0ff,#d8e8ff);border:1.5px solid #3a6ea8;border-radius:12px;padding:12px 14px;margin-top:8px;">
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
             <span style="font-size:18px;">📄</span>
             <div>
@@ -2229,7 +2245,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         </div>
 
         <!-- Plan de maison facultatif -->
-        <div style="background:#f5f8f2;border-radius:10px;padding:10px 12px;margin-top:8px;border-left:3px solid #4a7c3f;">
+        <div style="background:#F5F8F4;border-radius:10px;padding:10px 12px;margin-top:8px;border-left:3px solid #4a7c3f;">
           <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
             <span style="font-size:13px;">📐</span>
             <span style="font-size:12px;font-weight:700;color:#2d5a27;">Plan de ma maison</span>
@@ -2254,7 +2270,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           </div>
 
           <!-- BULLE CADASTRALE — lien vers le service public officiel -->
-          <div style="background:#eef4ff;border-radius:10px;padding:10px 12px;margin-top:10px;display:flex;align-items:flex-start;gap:8px;">
+          <div style="background:#eaf0ff;border-radius:10px;padding:10px 12px;margin-top:10px;display:flex;align-items:flex-start;gap:8px;">
             <span style="font-size:15px;flex-shrink:0;">🗺️</span>
             <div>
               <div style="font-size:11px;font-weight:700;color:#1a3a6e;margin-bottom:3px;">Vous n'avez pas le plan de votre bien ?</div>
@@ -2314,7 +2330,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
            des étapes "recommandées" (ex: profil 2, étapes 1 à 3) qui
            restent librement accessibles mais ne sont pas indispensables
            à ce stade du parcours. -->
-      <div id="profil-info-banner" style="display:none;background:#eef0fe;border:1.5px dashed #2a5ca8;border-radius:12px;padding:11px 13px;margin-bottom:10px;font-size:10.5px;color:#1a3a6e;line-height:1.6;">
+      <div id="profil-info-banner" style="display:none;background:#f0f7ec;border:1.5px dashed #2a5ca8;border-radius:12px;padding:11px 13px;margin-bottom:10px;font-size:10.5px;color:#1a3a6e;line-height:1.6;">
         <span style="font-size:14px;">💡</span> <span id="profil-info-banner-text"></span>
       </div>
 
@@ -2396,13 +2412,13 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
             </div>
           </div>
 
-        <div style="background:#f5f8f2;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
+        <div style="background:#F5F8F4;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
           <div style="font-size:11px;font-weight:700;color:#2d5a27;margin-bottom:6px;">📎 Photo de la première fissure observée</div>
           <div id="upload-preview-fissure-initiale" style="display:none;background:#e8f5e4;border-radius:8px;padding:6px 10px;font-size:10px;color:#2d5a27;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
             <span>✅</span><span id="upload-name-fissure-initiale"></span>
             <button onclick="clearUpload('fissure-initiale')" style="margin-left:auto;background:none;border:none;color:#c04030;cursor:pointer;font-size:14px;line-height:1;">×</button>
           </div>
-          <button onclick="document.getElementById('upload-input-fissure-initiale').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#4a7c3f;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
+          <button onclick="document.getElementById('upload-input-fissure-initiale').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#3a6ea8;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
           <input type="file" id="upload-input-fissure-initiale" accept="image/*" style="display:none" onchange="diagUpload('fissure-initiale',this)">
         </div>
           <div class="step-feedback" id="fb-step1">
@@ -2450,13 +2466,13 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
             </div>
           </div>
 
-        <div style="background:#f5f8f2;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
+        <div style="background:#F5F8F4;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
           <div style="font-size:11px;font-weight:700;color:#2d5a27;margin-bottom:6px;">📎 Copie de l'arrêté Cat Nat (PDF ou capture d'écran)</div>
           <div id="upload-preview-arrete-catnat" style="display:none;background:#e8f5e4;border-radius:8px;padding:6px 10px;font-size:10px;color:#2d5a27;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
             <span>✅</span><span id="upload-name-arrete-catnat"></span>
             <button onclick="clearUpload('arrete-catnat')" style="margin-left:auto;background:none;border:none;color:#c04030;cursor:pointer;font-size:14px;line-height:1;">×</button>
           </div>
-          <button onclick="document.getElementById('upload-input-arrete-catnat').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#4a7c3f;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
+          <button onclick="document.getElementById('upload-input-arrete-catnat').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#3a6ea8;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
           <input type="file" id="upload-input-arrete-catnat" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="diagUpload('arrete-catnat',this)">
         </div>
           <div class="step-feedback" id="fb-step2new">
@@ -2518,13 +2534,13 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
             </div>
           </div>
 
-        <div style="background:#f5f8f2;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
+        <div style="background:#F5F8F4;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
           <div style="font-size:11px;font-weight:700;color:#2d5a27;margin-bottom:6px;">📎 Copie du courrier ou email envoyé à la mairie</div>
           <div id="upload-preview-courrier-mairie" style="display:none;background:#e8f5e4;border-radius:8px;padding:6px 10px;font-size:10px;color:#2d5a27;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
             <span>✅</span><span id="upload-name-courrier-mairie"></span>
             <button onclick="clearUpload('courrier-mairie')" style="margin-left:auto;background:none;border:none;color:#c04030;cursor:pointer;font-size:14px;line-height:1;">×</button>
           </div>
-          <button onclick="document.getElementById('upload-input-courrier-mairie').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#4a7c3f;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
+          <button onclick="document.getElementById('upload-input-courrier-mairie').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#3a6ea8;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
           <input type="file" id="upload-input-courrier-mairie" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="diagUpload('courrier-mairie',this)">
         </div>
           <div class="step-feedback" id="fb-step3new">
@@ -2598,7 +2614,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       </div>
 
       <!-- BULLE DE TRANSITION — après "À qui m'adresser ?" -->
-      <div id="transition-box" style="background:linear-gradient(135deg,#eef4ff,#dce8fe);border-radius:14px;padding:14px 16px;margin:4px 0 8px;border-left:3px solid #2a5ca8;">
+      <div id="transition-box" style="background:linear-gradient(135deg,#eaf0ff,#d8e8ff);border-radius:14px;padding:14px 16px;margin:4px 0 8px;border-left:3px solid #3a6ea8;">
         <div style="font-size:12px;font-weight:800;color:#1a3a6e;margin-bottom:8px;display:flex;align-items:center;gap:6px;">📌 Étape importante</div>
         <div style="font-size:11px;color:#2a4a7a;line-height:1.7;margin-bottom:12px;">La suite du parcours est conditionnée à votre <span class="gl" onclick="glOpen('déclaration de sinistre',this)"><strong>déclaration de sinistre</strong></span> auprès de votre assureur ainsi qu'à la <span class="gl" onclick="glOpen('arrêté de reconnaissance',this)"><strong>reconnaissance</strong></span> de votre commune au Journal Officiel en état de <span class="gl" onclick="glOpen('cat nat — catastrophe naturelle',this)"><strong>catastrophe naturelle</strong></span>.<br><br>La suite du parcours vous accompagne dans la préparation de votre dossier et le suivi de la mission de l'<span class="gl" onclick="glOpen('expert d\'assurance',this)"><strong>expert</strong></span>.</div>
         <div style="font-size:11px;font-weight:700;color:#1a3a6e;margin-bottom:8px;">Souhaitez-vous poursuivre le parcours ?</div>
@@ -2650,13 +2666,13 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
             </div>
           </div>
 
-        <div style="background:#f5f8f2;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
+        <div style="background:#F5F8F4;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
           <div style="font-size:11px;font-weight:700;color:#2d5a27;margin-bottom:6px;">📎 Déclaration de sinistre + accusé de réception</div>
           <div id="upload-preview-declaration-sinistre" style="display:none;background:#e8f5e4;border-radius:8px;padding:6px 10px;font-size:10px;color:#2d5a27;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
             <span>✅</span><span id="upload-name-declaration-sinistre"></span>
             <button onclick="clearUpload('declaration-sinistre')" style="margin-left:auto;background:none;border:none;color:#c04030;cursor:pointer;font-size:14px;line-height:1;">×</button>
           </div>
-          <button onclick="document.getElementById('upload-input-declaration-sinistre').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#4a7c3f;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
+          <button onclick="document.getElementById('upload-input-declaration-sinistre').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#3a6ea8;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
           <input type="file" id="upload-input-declaration-sinistre" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="diagUpload('declaration-sinistre',this)">
         </div>
           <div class="step-feedback" id="fb-step5new">
@@ -2997,7 +3013,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
             </div>
           </div>
 
-        <div style="background:#f5f8f2;border-radius:12px;padding:12px;border:1.5px solid #b5d9af;margin-top:10px;">
+        <div style="background:#F5F8F4;border-radius:12px;padding:12px;border:1.5px solid #b5d9af;margin-top:10px;">
           <div style="font-size:12px;font-weight:700;color:#2d5a27;margin-bottom:4px;">📸 Photographiez les 4 faces de votre maison</div>
           <div style="font-size:11px;color:#7a6a52;margin-bottom:10px;line-height:1.5;">Prenez une photo de chaque façade et annotez les zones endommagées.</div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
@@ -3008,13 +3024,13 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           </div>
           <div style="font-size:10px;color:#7a9a72;margin-top:8px;text-align:center;font-style:italic;">💡 Appuyez sur une façade pour ajouter une photo</div>
         </div>
-        <div style="background:#f5f8f2;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
+        <div style="background:#F5F8F4;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
           <div style="font-size:11px;font-weight:700;color:#2d5a27;margin-bottom:6px;">📎 Photos supplémentaires des désordres (intérieur, détails)</div>
           <div id="upload-preview-photos-desordres" style="display:none;background:#e8f5e4;border-radius:8px;padding:6px 10px;font-size:10px;color:#2d5a27;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
             <span>✅</span><span id="upload-name-photos-desordres"></span>
             <button onclick="clearUpload('photos-desordres')" style="margin-left:auto;background:none;border:none;color:#c04030;cursor:pointer;font-size:14px;line-height:1;">×</button>
           </div>
-          <button onclick="document.getElementById('upload-input-photos-desordres').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#4a7c3f;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
+          <button onclick="document.getElementById('upload-input-photos-desordres').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#3a6ea8;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
           <input type="file" id="upload-input-photos-desordres" accept="image/*" style="display:none" onchange="diagUpload('photos-desordres',this)">
         </div>
           <div class="step-feedback" id="fb-step7">
@@ -3253,22 +3269,22 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
             </div>
           </div>
 
-        <div style="background:#f5f8f2;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
+        <div style="background:#F5F8F4;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
           <div style="font-size:11px;font-weight:700;color:#2d5a27;margin-bottom:6px;">📎 Rapport d'expertise ou compte-rendu de visite</div>
           <div id="upload-preview-rapport-expertise" style="display:none;background:#e8f5e4;border-radius:8px;padding:6px 10px;font-size:10px;color:#2d5a27;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
             <span>✅</span><span id="upload-name-rapport-expertise"></span>
             <button onclick="clearUpload('rapport-expertise')" style="margin-left:auto;background:none;border:none;color:#c04030;cursor:pointer;font-size:14px;line-height:1;">×</button>
           </div>
-          <button onclick="document.getElementById('upload-input-rapport-expertise').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#4a7c3f;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
+          <button onclick="document.getElementById('upload-input-rapport-expertise').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#3a6ea8;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
           <input type="file" id="upload-input-rapport-expertise" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="diagUpload('rapport-expertise',this)">
         </div>
-        <div style="background:#f5f8f2;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
+        <div style="background:#F5F8F4;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
           <div style="font-size:11px;font-weight:700;color:#2d5a27;margin-bottom:6px;">📎 Rapport géotechnique G2 ou résultats investigations</div>
           <div id="upload-preview-etude-g2" style="display:none;background:#e8f5e4;border-radius:8px;padding:6px 10px;font-size:10px;color:#2d5a27;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
             <span>✅</span><span id="upload-name-etude-g2"></span>
             <button onclick="clearUpload('etude-g2')" style="margin-left:auto;background:none;border:none;color:#c04030;cursor:pointer;font-size:14px;line-height:1;">×</button>
           </div>
-          <button onclick="document.getElementById('upload-input-etude-g2').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#4a7c3f;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
+          <button onclick="document.getElementById('upload-input-etude-g2').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#3a6ea8;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
           <input type="file" id="upload-input-etude-g2" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="diagUpload('etude-g2',this)">
         </div>
           <div class="step-feedback" id="fb-step11">
@@ -3276,6 +3292,16 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           </div>
           </div><!-- /substep-expertise-apres -->
 
+        </div>
+      </div>
+
+      <!-- BULLE DE TRANSITION — entre étape 10 (expertise) et étapes 11-12 (suivi personnel) -->
+      <div style="background:linear-gradient(135deg,#f0f7ec,#e8f4e0);border-radius:14px;padding:14px 16px;margin:4px 0 8px;border-left:3px solid #c9a23a;">
+        <div style="font-size:12px;font-weight:800;color:#2d5a27;margin-bottom:8px;display:flex;align-items:center;gap:6px;">📋 Après le rapport de l'expert</div>
+        <div style="font-size:11px;color:#3a5a2a;line-height:1.7;margin-bottom:12px;">Les étapes suivantes interviennent <strong>après la fin des opérations d'expertise</strong> et le <strong>dépôt du rapport final</strong> par l'<span class="gl" onclick="glOpen('expert d\'assurance',this)"><strong>expert</strong></span> mandaté par votre assureur.<br><br>Les <strong>étapes 11 et 12</strong> sont à destination de l'assuré pour son <strong>suivi personnel</strong> de dossier. Elles vous permettent de suivre et de comprendre les dernières étapes de la gestion de votre sinistre : la <span class="gl" onclick="glOpen('proposition d\'indemnisation',this)"><strong>proposition d'indemnisation</strong></span> reçue de votre assureur, et le démarrage de vos <strong>travaux de réparation</strong>.</div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:10px;color:#7a8a6a;background:rgba(255,255,255,.6);border-radius:8px;padding:6px 10px;">
+          <span style="flex-shrink:0;">💡</span>
+          <span>Ces étapes n'ont pas d'impact sur la recevabilité de votre dossier — elles vous aident à garder une vue d'ensemble jusqu'à la clôture de votre sinistre.</span>
         </div>
       </div>
 
@@ -3320,13 +3346,13 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
             </div>
           </div>
 
-        <div style="background:#f5f8f2;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
+        <div style="background:#F5F8F4;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
           <div style="font-size:11px;font-weight:700;color:#2d5a27;margin-bottom:6px;">📎 Proposition d'indemnisation de l'assureur</div>
           <div id="upload-preview-proposition-indemnisation" style="display:none;background:#e8f5e4;border-radius:8px;padding:6px 10px;font-size:10px;color:#2d5a27;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
             <span>✅</span><span id="upload-name-proposition-indemnisation"></span>
             <button onclick="clearUpload('proposition-indemnisation')" style="margin-left:auto;background:none;border:none;color:#c04030;cursor:pointer;font-size:14px;line-height:1;">×</button>
           </div>
-          <button onclick="document.getElementById('upload-input-proposition-indemnisation').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#4a7c3f;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
+          <button onclick="document.getElementById('upload-input-proposition-indemnisation').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#3a6ea8;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
           <input type="file" id="upload-input-proposition-indemnisation" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="diagUpload('proposition-indemnisation',this)">
         </div>
           <div class="step-feedback" id="fb-step13">
@@ -3346,19 +3372,19 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <div class="diag-step-body">
           <div class="diag-step-intro">Vous voici enfin à l'étape des travaux — après tout ce parcours, c'est une vraie étape de soulagement. Depuis l'ordonnance du 8 février 2023, vous avez l'<strong>obligation légale</strong> d'affecter votre indemnité à la réparation effective de votre bien. Vous disposez de <strong>24 mois</strong> pour engager les travaux à compter de votre accord sur la proposition.</div>
 
-        <div style="background:#f5f8f2;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
+        <div style="background:#F5F8F4;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
           <div style="font-size:11px;font-weight:700;color:#2d5a27;margin-bottom:6px;">📎 Autres documents</div>
           <div id="upload-preview-autres-travaux" style="display:none;background:#e8f5e4;border-radius:8px;padding:6px 10px;font-size:10px;color:#2d5a27;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
             <span>✅</span><span id="upload-name-autres-travaux"></span>
             <button onclick="clearUpload('autres-travaux')" style="margin-left:auto;background:none;border:none;color:#c04030;cursor:pointer;font-size:14px;line-height:1;">×</button>
           </div>
-          <button onclick="document.getElementById('upload-input-autres-travaux').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#4a7c3f;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
+          <button onclick="document.getElementById('upload-input-autres-travaux').click()" style="width:100%;padding:7px;background:white;border:1.5px solid #b5d9af;border-radius:8px;font-size:11px;color:#3a6ea8;font-weight:600;cursor:pointer;font-family:inherit;">📷 Ajouter une photo ou un document</button>
           <input type="file" id="upload-input-autres-travaux" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="diagUpload('autres-travaux',this)">
         </div>
 
         <!-- Contenu informatif neutre — choix d'une entreprise de travaux -->
         <div style="background:linear-gradient(135deg,#fff8ec,#fdf0db);border-radius:12px;padding:12px 14px;border-left:3px solid #c08000;margin-top:10px;">
-          <div style="font-size:11.5px;font-weight:800;color:#8a6000;margin-bottom:6px;display:flex;align-items:center;gap:6px;"><span style="font-size:15px;">🔎</span> Information sur les entreprises de travaux RGA</div>
+          <div style="font-size:11.5px;font-weight:800;color:#6a4a00;margin-bottom:6px;display:flex;align-items:center;gap:6px;"><span style="font-size:15px;">🔎</span> Information sur les entreprises de travaux RGA</div>
           <div style="font-size:10.5px;color:#6a4a00;line-height:1.6;text-align:justify;margin-bottom:8px;">Il n'existe aujourd'hui <strong>aucune qualification ni label officiel spécifique au traitement du retrait-gonflement des argiles</strong> — contrairement à d'autres domaines du bâtiment. ArgiQare ne recommande, ne sélectionne et n'évalue aucune entreprise. Les éléments ci-dessous sont communiqués à titre purement informatif ; le choix et l'appréciation des devis relèvent exclusivement de l'assuré, le cas échéant avec l'appui de son assureur ou d'un professionnel du bâtiment.</div>
           <div style="display:flex;flex-direction:column;gap:5px;">
             <div style="font-size:10px;color:#6a4a00;line-height:1.5;display:flex;gap:6px;"><span>•</span><span>Une référence antérieure pour un chantier de reprise en sous-œuvre ou de réparation liée au RGA peut être demandée à l'entreprise consultée.</span></div>
@@ -3695,11 +3721,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         </button>
       </div>
 
-      <!-- BOUTON ÉTAPE SUIVANTE — Ma Maison, style cohérent avec les autres onglets -->
-      <button class="btn-next-tab" onclick="switchTab('maison', document.querySelectorAll('.nav-item')[1])">
-        🏠 Étape suivante — Ma Maison
-      </button>
-
       <!-- ACCÈS RAPIDE AU DERNIER PDF GÉNÉRÉ -->
       <div class="dash-card" id="dash-last-pdf-card" style="display:none;margin-top:8px;">
         <button onclick="dashQuickAction('dossier')" style="display:flex;align-items:center;gap:10px;text-align:left;border:none;background:none;cursor:pointer;font-family:inherit;width:100%;padding:0;">
@@ -3712,15 +3733,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         </button>
       </div>
 
-      <!-- CHECKLIST JOUR J — fiche condensée pour la visite de l'expert -->
-      <button class="checklist-jourj-trigger" onclick="openChecklistJourJ()">
-        <div class="checklist-jourj-ic">🗒️</div>
-        <div class="checklist-jourj-txt">
-          <div class="checklist-jourj-title">Checklist "Jour J"</div>
-          <div class="checklist-jourj-sub">Ce qu'il faut avoir sous la main pour la visite de l'expert</div>
-        </div>
-      </button>
-
       <!-- PARTAGE LECTURE SEULE — génère un lien à transmettre à un proche -->
       <button class="share-link-trigger" onclick="openShareLink()">
         <div class="share-link-ic">🔗</div>
@@ -3728,6 +3740,11 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           <div class="share-link-title">Partager mon dossier (lecture seule)</div>
           <div class="share-link-sub">Générer un lien pour un proche ou un aidant</div>
         </div>
+      </button>
+
+      <!-- BOUTON ÉTAPE SUIVANTE — Ma Maison, en dernier -->
+      <button class="btn-next-tab" onclick="switchTab('maison', document.querySelectorAll('.nav-item')[1])">
+        🏠 Étape suivante — Ma Maison
       </button>
     
     </div>
@@ -3782,7 +3799,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         </div>
 
         <!-- Sous-titre -->
-        <div style="background:#eef4ff;border-radius:12px 12px 0 0;padding:8px 12px;border:1.5px solid #dce8fe;border-bottom:1px solid #dce8fe;">
+        <div style="background:#eaf0ff;border-radius:12px 12px 0 0;padding:8px 12px;border:1.5px solid #dce8fe;border-bottom:1px solid #dce8fe;">
           <div style="font-size:11px;font-weight:800;color:#1a3a6e;">📅 Chronologie des textes</div>
           <div style="font-size:9px;color:#5a7ab0;margin-top:1px;">Déroulez chaque loi pour consulter les textes et mesures associés</div>
         </div>
@@ -3791,19 +3808,19 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           <!-- ═══ LOI BAUDU ═══ -->
           <div class="acc-loi" id="acc-baudu">
             <div class="acc-loi-header" onclick="toggleAccLoi('acc-baudu')">
-              <div class="acc-loi-badge" style="background:#dce8fe;color:#1a3a6e;">Loi Baudu</div>
+              <div class="acc-loi-badge" style="background:#eaf0ff;color:#1a3a6e;">Loi Baudu</div>
               <div class="acc-loi-info">
                 <div class="acc-loi-name" style="color:#1a3a6e;">Indemnisation Cat Nat</div>
                 <div class="acc-loi-date">Publication JORF : 29 décembre 2021 — 4 textes</div>
               </div>
-              <div class="acc-loi-count" style="background:#dce8fe;color:#1a3a6e;">4 textes</div>
+              <div class="acc-loi-count" style="background:#eaf0ff;color:#1a3a6e;">4 textes</div>
               <div class="acc-arrow">›</div>
             </div>
             <div class="acc-loi-body">
 
               <!-- Texte fondateur -->
               <div class="acc-event">
-                <div class="acc-event-year" style="background:#dce8fe;color:#1a3a6e;">2021</div>
+                <div class="acc-event-year" style="background:#eaf0ff;color:#1a3a6e;">2021</div>
                 <div style="flex:1;">
                   <div class="acc-event-text"><strong>Loi du 28 décembre 2021 relative à l'indemnisation des catastrophes naturelles</strong></div>
                   <div class="acc-event-sub">Publiée au JORF le 29 décembre 2021</div>
@@ -3973,13 +3990,13 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
                       </div>
 
                       <div style="margin:6px 0 0 14px;display:flex;flex-direction:column;gap:5px;">
-                        <div style="background:#f0f8ec;border-radius:8px;padding:7px 9px;border-left:3px solid #4a7c3f;font-size:10px;color:#2d5a27;line-height:1.5;">
+                        <div style="background:#e8f5e4;border-radius:8px;padding:7px 9px;border-left:3px solid #4a7c3f;font-size:10px;color:#2d5a27;line-height:1.5;">
                           <strong>① Période de retour ≥ 10 ans</strong><br>L'indice d'humidité des sols superficiels minimum de l'année présente une période de retour supérieure ou égale à 10 ans
                         </div>
-                        <div style="background:#f0f8ec;border-radius:8px;padding:7px 9px;border-left:3px solid #4a7c3f;font-size:10px;color:#2d5a27;line-height:1.5;">
+                        <div style="background:#e8f5e4;border-radius:8px;padding:7px 9px;border-left:3px solid #4a7c3f;font-size:10px;color:#2d5a27;line-height:1.5;">
                           <strong>② Succession anormale d'épisodes significatifs</strong><br>L'épisode intervient au terme d'une succession anormale d'épisodes de sécheresse significatifs — seuil fixé par l'ordonnance du 8 février 2023
                         </div>
-                        <div style="background:#f0f8ec;border-radius:8px;padding:7px 9px;border-left:3px solid #4a7c3f;font-size:10px;color:#2d5a27;line-height:1.5;">
+                        <div style="background:#e8f5e4;border-radius:8px;padding:7px 9px;border-left:3px solid #4a7c3f;font-size:10px;color:#2d5a27;line-height:1.5;">
                           <strong>③ Commune limitrophe</strong><br>L'épisode intervient sur le territoire d'une commune limitrophe d'une commune ayant subi un épisode de sécheresse anormal ou une succession d'épisodes significatifs
                         </div>
                       </div>
@@ -4055,8 +4072,8 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 
           <!-- 2 -->
           <div class="blob-step">
-            <div class="blob-ico" style="background:#dce8fe;">🏛️</div>
-            <div class="blob-card" style="background:#dce8fe;">
+            <div class="blob-ico" style="background:#eaf0ff;">🏛️</div>
+            <div class="blob-card" style="background:#eaf0ff;">
               <div class="blob-header">
                 <div class="blob-num" style="background:#2a5ca8;">2</div>
                 <div class="blob-title" style="color:#2a5ca8;">Le préfet transmet</div>
@@ -4160,7 +4177,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         </div>
 
         <!-- RAPPEL 3 CONDITIONS -->
-        <div style="background:#fff8e8;border:1.5px solid #e8c94a;border-radius:14px;padding:14px;margin-bottom:12px;">
+        <div style="background:#fdf6e8;border:1.5px solid #e8c94a;border-radius:14px;padding:14px;margin-bottom:12px;">
           <div style="font-size:12px;font-weight:700;color:#8a6a00;margin-bottom:8px;display:flex;align-items:center;gap:6px;">⚠️ Rappel — Indemnisation uniquement si 3 conditions réunies</div>
           <div style="font-size:11px;color:#6a5000;margin-bottom:10px;line-height:1.6;">Même si votre dossier est complet et l'expertise favorable, l'indemnisation n'est possible que si ces 3 conditions sont simultanément réunies :</div>
           <div style="background:white;border-radius:10px;padding:9px 11px;margin-bottom:7px;display:flex;align-items:flex-start;gap:10px;border-left:3px solid #e8c94a;">
@@ -4219,7 +4236,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       </div>
       <div class="catnat-panel" id="cn-faq">
 
-        <div style="background:#eef4ff;border-radius:12px;padding:10px 12px;margin-bottom:12px;border-left:3px solid #2a5ca8;">
+        <div style="background:#eaf0ff;border-radius:12px;padding:10px 12px;margin-bottom:12px;border-left:3px solid #2a5ca8;">
           <div style="font-size:10px;font-weight:700;color:#1a3a6e;margin-bottom:2px;">📘 Source</div>
           <div style="font-size:10px;color:#4a5a6a;line-height:1.5;">Questions & réponses issues du <strong>Guide pratique d'indemnisation Cat Nat — Synthèse CCR, mars 2025</strong>. Ces réponses ont pour vocation d'harmoniser les pratiques et ne se substituent pas à une décision faisant autorité.</div>
         </div>
@@ -4524,7 +4541,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       <div class="param-panel-body">
 
         <!-- Mention légale -->
-        <div style="background:#fff8e8;border:1px solid #e8d070;border-radius:10px;padding:10px 12px;margin-bottom:14px;display:flex;gap:8px;align-items:flex-start;">
+        <div style="background:#fdf6e8;border:1px solid #e8d070;border-radius:10px;padding:10px 12px;margin-bottom:14px;display:flex;gap:8px;align-items:flex-start;">
           <span style="font-size:14px;flex-shrink:0;">⚠️</span>
           <div style="font-size:10.5px;color:#8a6000;line-height:1.6;">Les sources marquées <span style="background:#e0e0e0;color:#888;padding:1px 6px;border-radius:10px;font-size:9.5px;font-weight:600;">Sous réserve d'accord</span> sont des partenariats institutionnels en cours de négociation. Leur contenu n'est pas encore disponible dans l'application.</div>
         </div>
@@ -4736,11 +4753,11 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
             <div style="font-size:12px;font-weight:800;color:#2d5a27;margin-bottom:6px;">① Onglet Cat Nat</div>
             <div style="font-size:11px;color:#3a5a32;line-height:1.6;">Comprenez les bases du régime des catastrophes naturelles et vos droits en tant qu'assuré. Consultez la chronologie des lois récentes et la FAQ.</div>
           </div>
-          <div style="background:#eef4ff;border-radius:12px;padding:12px 14px;">
+          <div style="background:#eaf0ff;border-radius:12px;padding:12px 14px;">
             <div style="font-size:12px;font-weight:800;color:#1a3a6e;margin-bottom:6px;">② Onglet Ma Maison</div>
             <div style="font-size:11px;color:#2a4a7a;line-height:1.6;">Renseignez les caractéristiques de votre bien et importez votre fiche Géorisques pour connaître votre niveau d'exposition au RGA.</div>
           </div>
-          <div style="background:#fff8e8;border-radius:12px;padding:12px 14px;">
+          <div style="background:#fdf6e8;border-radius:12px;padding:12px 14px;">
             <div style="font-size:12px;font-weight:800;color:#8a6000;margin-bottom:6px;">③ Onglet Mon Parcours</div>
             <div style="font-size:11px;color:#6a4a00;line-height:1.6;">Suivez les 12 étapes pour documenter votre situation. Répondez à chaque question en cochant "Oui, c'est mon cas" ou "Non ou non concerné". Des sous-questions apparaissent pour préciser chaque point.</div>
           </div>
@@ -4748,7 +4765,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
             <div style="font-size:12px;font-weight:800;color:#6a2a8a;margin-bottom:6px;">④ Onglet Mon Dossier</div>
             <div style="font-size:11px;color:#4a2a6a;line-height:1.6;">Visualisez le taux de complétion de votre dossier et générez votre PDF de synthèse à remettre à votre expert ou votre assureur.</div>
           </div>
-          <div style="background:#fde8c8;border-radius:12px;padding:12px 14px;">
+          <div style="background:#fdf6e8;border-radius:12px;padding:12px 14px;">
             <div style="font-size:12px;font-weight:800;color:#c06000;margin-bottom:6px;">📚 Le Glossaire</div>
             <div style="font-size:11px;color:#8a4000;line-height:1.6;">À tout moment, la barre "Glossaire" en bas de l'écran vous donne accès à 80 définitions. Tous les termes soulignés en pointillés dans l'app sont cliquables.</div>
           </div>
@@ -4800,11 +4817,11 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
             <div style="font-weight:800;color:#2d5a27;margin-bottom:4px;">📍 Données stockées localement</div>
             Toutes vos informations (profil, parcours, photos) sont stockées <strong>uniquement sur votre appareil</strong>. ArgiQare ne dispose d'aucun serveur de données personnelles.
           </div>
-          <div style="background:#eef4ff;border-radius:10px;padding:12px 14px;">
+          <div style="background:#eaf0ff;border-radius:10px;padding:12px 14px;">
             <div style="font-weight:800;color:#1a3a6e;margin-bottom:4px;">🔒 Aucune transmission à des tiers</div>
             Vos données ne sont jamais vendues, partagées ou transmises à des assureurs, courtiers ou organismes tiers sans votre consentement explicite.
           </div>
-          <div style="background:#fff8e8;border-radius:10px;padding:12px 14px;">
+          <div style="background:#fdf6e8;border-radius:10px;padding:12px 14px;">
             <div style="font-weight:800;color:#8a6000;margin-bottom:4px;">🗑️ Droit à l'effacement</div>
             Vous pouvez supprimer l'intégralité de vos données à tout moment via "Réinitialiser mes données" dans la zone critique des paramètres.
           </div>
@@ -4815,7 +4832,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           <div id="rgpd-consent-status" style="background:#e8f5e4;border-radius:10px;padding:12px 14px;margin-top:10px;">
             <div style="font-weight:800;color:#2d5a27;margin-bottom:4px;">✅ Votre consentement</div>
             <div id="rgpd-consent-date" style="font-size:10px;color:#4a5a3a;line-height:1.6;"></div>
-            <button onclick="rgpdWithdraw()" style="margin-top:8px;width:100%;padding:9px;background:#fee8e8;border:1.5px solid #f0b8b8;border-radius:8px;font-size:11px;font-weight:700;color:#c04030;cursor:pointer;font-family:inherit;">🔒 Retirer mon consentement</button>
+            <button onclick="rgpdWithdraw()" style="margin-top:8px;width:100%;padding:9px;background:#fef0ec;border:1.5px solid #f0b8b8;border-radius:8px;font-size:11px;font-weight:700;color:#c04030;cursor:pointer;font-family:inherit;">🔒 Retirer mon consentement</button>
           </div>
         </div>
       </div>
@@ -4947,7 +4964,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           </div>
         </div>
 
-        <div style="margin-top:16px;padding:10px 12px;background:#f5f8f2;border-radius:10px;font-size:10px;color:#7a6a52;text-align:center;line-height:1.7;">
+        <div style="margin-top:16px;padding:10px 12px;background:#F5F8F4;border-radius:10px;font-size:10px;color:#7a6a52;text-align:center;line-height:1.7;">
           En utilisant ArgiQare, vous reconnaissez avoir lu,<br>compris et accepté les présentes CGU.<br><br>
           © 2026 ArgiQare — Adil.Q — Tous droits réservés
         </div>
@@ -4971,23 +4988,23 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           <div style="font-size:11px;color:#7a6a52;margin-top:8px;">Version 1.0.1 — Juin 2025</div>
         </div>
         <div style="display:flex;flex-direction:column;gap:10px;font-size:11px;line-height:1.6;">
-          <div style="padding:12px 14px;background:#f5f8f2;border-radius:10px;">
+          <div style="padding:12px 14px;background:#F5F8F4;border-radius:10px;">
             <div style="font-weight:800;color:#2d5a27;margin-bottom:4px;">✍️ Conception & expertise métier</div>
             <div style="color:#4a5a3a;">Conçu par un expert en risques naturels et droit des assurances (IARD), spécialisé dans le régime Cat Nat et la politique de prévention des risques naturels en France.</div>
           </div>
-          <div style="padding:12px 14px;background:#f5f8f2;border-radius:10px;">
+          <div style="padding:12px 14px;background:#F5F8F4;border-radius:10px;">
             <div style="font-weight:800;color:#2d5a27;margin-bottom:4px;">🎯 Objectif</div>
             <div style="color:#4a5a3a;">Permettre à tout assuré, même sans connaissance préalable du RGA, de comprendre sa situation et de pré-constituer un dossier solide avant l'intervention d'un expert.</div>
           </div>
-          <div style="padding:12px 14px;background:#f5f8f2;border-radius:10px;">
+          <div style="padding:12px 14px;background:#F5F8F4;border-radius:10px;">
             <div style="font-weight:800;color:#2d5a27;margin-bottom:4px;">📚 Sources scientifiques</div>
             <div style="color:#4a5a3a;">Travaux d'Alain-Franck Béchade (CSTB/DOMEX) · Guide CCR mars 2025 · Arrêté du 24 janvier 2025 · Loi Baudu (28/12/2021) · Ordonnance 2023-78 · Circulaire DGPR 15/05/2024.</div>
           </div>
-          <div style="padding:12px 14px;background:#fde8c8;border-radius:10px;">
+          <div style="padding:12px 14px;background:#fdf6e8;border-radius:10px;">
             <div style="font-weight:800;color:#c06000;margin-bottom:4px;">⚠️ Avertissement légal</div>
             <div style="color:#8a4000;">ArgiQare est un outil d'information et d'aide à la pré-constitution de dossier. Il ne se substitue pas à une expertise professionnelle et ne constitue pas un avis juridique.</div>
           </div>
-          <div style="padding:12px 14px;background:#fee8e8;border-radius:10px;">
+          <div style="padding:12px 14px;background:#fef0ec;border-radius:10px;">
             <div style="font-weight:800;color:#8a1a1a;margin-bottom:4px;">©️ Propriété intellectuelle</div>
             <div style="color:#6a1a1a;font-size:11px;line-height:1.65;">© 2026 ArgiQare — Tous droits réservés.<br>L'ensemble des contenus, textes, structure et code de cette application est protégé par le droit d'auteur (art. L111-1 CPI). Toute reproduction, même partielle, est interdite sans autorisation écrite préalable de l'auteur.<br><br>Œuvre déposée à l'INPI (Enveloppe Soleau).</div>
           </div>
@@ -5037,12 +5054,15 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
     </div>
   </div>
 
-    <div id="screen-params" style="position:absolute;inset:0;z-index:400;background:white;overflow-y:auto;display:none;">
-      <div style="background:linear-gradient(160deg,#1a3a6e 0%,#2d5a27 100%);padding:14px 16px 18px;clip-path:ellipse(110% 92% at 50% 0%);display:flex;align-items:center;gap:10px;position:relative;margin-bottom:4px;">
+    <div id="screen-params" style="position:absolute;inset:0;z-index:400;background:white;display:none;flex-direction:column;overflow:hidden;">
+      <!-- HEADER FIXE — ne scroll jamais -->
+      <div style="background:linear-gradient(160deg,#1a3a6e 0%,#2d5a27 100%);padding:14px 16px 18px;clip-path:ellipse(110% 92% at 50% 0%);display:flex;align-items:center;gap:10px;position:relative;margin-bottom:4px;flex-shrink:0;">
         <button onclick="closeParamsScreen()" style="background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:700;color:white;cursor:pointer;font-family:inherit;backdrop-filter:blur(4px);">‹ Retour</button>
         <div style="font-size:15px;font-weight:900;color:white;flex:1;text-align:center;letter-spacing:-.2px;">⚙️ Paramètres</div>
         <div style="width:68px;"></div>
       </div>
+      <!-- CONTENU SCROLLABLE — limité sous le header -->
+      <div style="flex:1;overflow-y:auto;">
       <!-- MON PROFIL -->
       <div class="param-section">
         <div class="param-section-title">👤 Mon profil</div>
@@ -5106,7 +5126,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           </label>
         </div>
         <div style="display:flex;gap:8px;padding:6px 12px 10px 44px;border-bottom:1px solid #ece8e0;">
-          <button onclick="openStory();setTimeout(()=>document.querySelector('.story-start-btn')?.click(),600)" style="flex:1;padding:6px 0;background:#e8f5e4;border:1.5px solid #a8d5a2;border-radius:8px;font-size:11px;font-weight:700;color:#2d5a27;cursor:pointer;font-family:inherit;">🎓 Relancer le tutoriel</button>
+          <button onclick="demarrerTutoriel()" style="flex:1;padding:6px 0;background:#e8f5e4;border:1.5px solid #a8d5a2;border-radius:8px;font-size:11px;font-weight:700;color:#2d5a27;cursor:pointer;font-family:inherit;">🎓 Relancer le tutoriel</button>
           <button onclick="resetTuto()" style="flex:1;padding:6px 0;background:#f5f3ef;border:1.5px solid #d4c9b5;border-radius:8px;font-size:11px;font-weight:700;color:#9a8a72;cursor:pointer;font-family:inherit;">↺ Réinitialiser</button>
         </div>
 
@@ -5166,6 +5186,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
       </div>
 
       <div class="app-version">ArgiQare v1.0.1 — © 2026 Adil.Q</div>
+      </div><!-- fin contenu scrollable -->
     </div>
   <div class="bottom-nav">
     <button class="nav-item active" id="nav-item-accueil" onclick="switchTab('accueil',this,'nav')"><span class="nav-icon" style="position:relative;">🧭<span class="nav-progress-pop" id="nav-progress-pop"></span></span><span class="nav-label">Accueil</span><div class="nav-dot"></div></button>
@@ -5370,7 +5391,7 @@ function renderQuizResult(){
       <div class="quiz-result-icon">${cfg.icon}</div>
       <div class="quiz-result-title">${cfg.title}</div>
       <div class="quiz-result-sub">${cfg.sub}</div>
-      ${contextMsg ? `<div style="background:#fdf6e8;border-left:3px solid #C9A23A;border-radius:8px;padding:10px 12px;margin:10px 0;font-size:10.5px;color:#6a5000;line-height:1.6;text-align:left;">${contextMsg}</div>` : ''}
+      ${contextMsg ? `<div style="background:#f0f7ec;border-left:3px solid #C9A23A;border-radius:8px;padding:10px 12px;margin:10px 0;font-size:10.5px;color:#6a5000;line-height:1.6;text-align:left;">${contextMsg}</div>` : ''}
       <button class="quiz-result-btn" onclick="quizApplyProfil(${profil})">Choisir ce profil →</button>
       <button class="quiz-back-btn" onclick="quizBack()">‹ Revoir mes réponses</button>
     </div>
@@ -5615,11 +5636,11 @@ function checkSharedViewOnLoad(){
         <div style="font-size:13px;font-weight:800;color:#7a8a6a;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;">📄 Dossier partagé — lecture seule</div>
         <div style="font-size:15px;font-weight:800;color:#1a2a0e;margin-bottom:4px;">${data.prenom || ''} ${data.nom || ''}</div>
         <div style="font-size:11px;color:#9a8a72;margin-bottom:18px;">${data.ville || 'Ville non renseignée'}</div>
-        <div style="background:#f5f8f2;border-radius:12px;padding:14px;margin-bottom:14px;">
+        <div style="background:#F5F8F4;border-radius:12px;padding:14px;margin-bottom:14px;">
           <div style="font-size:10px;color:#7a8a6a;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Profil</div>
           <div style="font-size:12px;font-weight:700;color:#2d5a27;">${data.profilLabel || 'Non défini'}</div>
         </div>
-        <div style="background:#f5f8f2;border-radius:12px;padding:14px;margin-bottom:18px;">
+        <div style="background:#F5F8F4;border-radius:12px;padding:14px;margin-bottom:18px;">
           <div style="font-size:10px;color:#7a8a6a;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;">Avancement du dossier</div>
           <div style="font-size:22px;font-weight:900;color:#1a3a6e;">${data.pct ?? 0}%</div>
         </div>
@@ -7483,17 +7504,16 @@ function goToDossierPieceStep(stepId){
 
 // ── POINT 6 — Aperçu en lecture du contenu, sans télécharger ──
 function previewDossierContent(){
-  // ── Données réelles de l'utilisateur ──
+  // ── Données réelles ──
   const v = id => (document.getElementById(id)||{}).value?.trim()||'—';
-  const nom = v('m_nom'), prenom = v('m_prenom');
-  const nomComplet = [prenom, nom].filter(x=>x!=='—').join(' ') || '—';
+  const nomComplet = [v('m_prenom'), v('m_nom')].filter(x=>x!=='—').join(' ') || '—';
   const adresse = [v('m_voie'), v('m_cp')+' '+v('m_ville')].filter(x=>x&&x.trim()!=='— —'&&x.trim()!=='—').join(' – ');
-  const contrat = v('m_typecontrat')+' n° '+v('m_numcontrat');
-  const assureur = v('m_assureur')!=='—' ? v('m_assureur') : v('m_typecontrat');
+  const contrat = v('m_typecontrat')!=='—' ? v('m_typecontrat')+' n° '+v('m_numcontrat') : '—';
+  const assureur = v('m_assureur')!=='—' ? v('m_assureur') : (v('m_typecontrat')!=='—' ? v('m_typecontrat') : '—');
   const savedProfil = localStorage.getItem('argicare-profil');
   const cfg = savedProfil ? PROFIL_CONFIG[savedProfil] : null;
   const profilLabel = cfg ? cfg.title : 'Profil non défini';
-  const dossierRef = localStorage.getItem('argicare-dossier-ref') || 'AQ-' + new Date().getFullYear() + '-XXXX';
+  const dossierRef = localStorage.getItem('argicare-dossier-ref') || 'AQ-'+new Date().getFullYear()+'-XXXX';
   const dateGen = new Date().toLocaleDateString('fr-FR');
   const diagCbs = document.querySelectorAll('#screen-diag .diag-cb');
   const diagChecked = [...diagCbs].filter(c=>c.checked).length;
@@ -7501,233 +7521,331 @@ function previewDossierContent(){
   const nJoints = Object.keys(diagFiles).length;
   const photoDataUrl = localStorage.getItem('argicare-photo-maison');
 
-  // ── Styles communs aux miniatures ──
-  const VD='#2d5a27', OR='#c9a23a', BG='#faf8f4', GY='#9a8a72', LN='#e0d8cc';
+  const VD='#2d5a27', OR='#c9a23a', BG='#faf8f4', GY='#9a8a72', LN='#e8e0d4';
 
-  // ── Helper : squelette d'une page A4 miniature avec sidebar ──
-  const page = (content, scale=1) => {
-    const w = 210 * scale, h = 297 * scale, sb = 12 * scale;
-    return `<div style="width:${w}px;height:${h}px;background:${BG};position:relative;overflow:hidden;flex-shrink:0;border-radius:3px;box-shadow:0 2px 8px rgba(0,0,0,.15);">
-      <!-- Sidebar verte -->
+  // ── Calcul de la taille de page optimale ──
+  // On vise la hauteur max disponible (zone reader = phone - topbar - thumbs)
+  const phoneEl = document.querySelector('.phone');
+  const phoneH = phoneEl ? phoneEl.clientHeight : 700;
+  const phoneW = phoneEl ? phoneEl.clientWidth : 300;
+  const readerH = phoneH - 48 - 64; // topbar + thumbbar
+  const readerW = phoneW - 100;     // flèches de navigation
+  // Format A4 : ratio 1:√2 (210:297)
+  const scaleH = readerH / 297;
+  const scaleW = readerW / 210;
+  const S = Math.min(scaleH, scaleW, 1.2); // jamais plus grand que 1.2x
+  const PW = Math.round(210 * S);
+  const PH = Math.round(297 * S);
+  const sb = Math.round(12 * S);
+  const fs = (mm) => Math.round(mm * S * 0.9) + 'px';
+
+  // ── Générateur de page A4 avec sidebar ──
+  const page = (contentHtml) => `
+    <div style="width:${PW}px;height:${PH}px;background:${BG};position:relative;overflow:hidden;
+      box-shadow:0 8px 32px rgba(0,0,0,.5),0 2px 8px rgba(0,0,0,.3);border-radius:${Math.round(2*S)}px;flex-shrink:0;">
       <div style="position:absolute;left:0;top:0;width:${sb}px;height:100%;background:${VD};"></div>
-      <div style="position:absolute;left:${sb}px;top:0;width:${0.8*scale}px;height:100%;background:${OR};"></div>
-      <!-- Logo vertical sidebar -->
-      <div style="position:absolute;left:${2*scale}px;top:50%;transform:translateY(-50%) rotate(-90deg);transform-origin:center;white-space:nowrap;font-size:${5.5*scale}px;font-weight:700;color:${OR};letter-spacing:.5px;">argi<span style="color:white;">Q</span>are</div>
-      <div style="position:absolute;left:${2*scale}px;bottom:${10*scale}px;transform:rotate(-90deg);transform-origin:left center;white-space:nowrap;font-size:${4*scale}px;color:rgba(255,255,255,.4);">${dossierRef}</div>
-      <!-- Contenu de la page -->
-      <div style="position:absolute;left:${sb+1.5*scale}px;top:0;right:0;bottom:0;overflow:hidden;">${content}</div>
+      <div style="position:absolute;left:${sb}px;top:0;width:${Math.round(0.8*S)}px;height:100%;background:${OR};"></div>
+      <div style="position:absolute;left:${Math.round(2*S)}px;top:50%;transform:translateY(-50%) rotate(-90deg);transform-origin:center;white-space:nowrap;font-size:${fs(5.5)};font-weight:700;color:${OR};">argi<span style="color:white;">Q</span>are</div>
+      <div style="position:absolute;left:${Math.round(1.5*S)}px;bottom:${Math.round(8*S)}px;transform:rotate(-90deg);transform-origin:left center;white-space:nowrap;font-size:${fs(3.5)};color:rgba(255,255,255,.35);">${dossierRef}</div>
+      <div style="position:absolute;left:${sb+Math.round(1.5*S)}px;top:0;right:0;bottom:0;overflow:hidden;">${contentHtml}</div>
     </div>`;
-  };
 
-  // ── Miniature en-tête de section ──
-  const secHeader = (label, scale) => {
-    const ml=4*scale, fs=6*scale;
-    return `<div style="background:#eef3ea;padding:${4*scale}px ${ml}px;border-bottom:${0.5*scale}px solid ${OR};font-size:${fs}px;font-weight:700;color:${VD};">${label}</div>`;
-  };
+  const secHeader = (label) => `
+    <div style="background:#eef3ea;padding:${fs(3)} ${fs(4)};border-bottom:${Math.round(0.5*S)}px solid ${OR};
+      font-size:${fs(6)};font-weight:800;color:${VD};flex-shrink:0;">${label}</div>`;
 
-  // ── Ligne champ/valeur miniature ──
-  const fRow = (lbl, val, scale) => {
-    const fs = 4.8*scale;
-    return `<div style="display:flex;gap:${2*scale}px;padding:${2.5*scale}px ${4*scale}px;border-bottom:${0.15*scale}px solid ${LN};font-size:${fs}px;line-height:1.3;">
-      <span style="color:${GY};min-width:${30*scale}px;flex-shrink:0;">${lbl}</span>
-      <span style="color:#2a2a22;font-weight:600;word-break:break-word;">${val}</span>
+  const subTitle = (text) => `
+    <div style="padding:${fs(3)} ${fs(4)} ${fs(1)};border-left:${Math.round(1.5*S)}px solid ${OR};
+      margin:${fs(4)} ${fs(4)} ${fs(2)};font-size:${fs(5)};font-weight:700;color:${VD};">${text}</div>`;
+
+  const fRow = (lbl, val) => `
+    <div style="display:flex;gap:${fs(2)};padding:${fs(2.5)} ${fs(4)};border-bottom:${Math.round(0.15*S)}px solid ${LN};font-size:${fs(5)};line-height:1.35;">
+      <span style="color:${GY};min-width:${fs(28)};flex-shrink:0;">${lbl}</span>
+      <span style="color:#2a2a22;font-weight:600;word-break:break-all;">${val}</span>
     </div>`;
-  };
 
-  // ── Étape miniature ──
-  const stepRow = (num, label, done, scale) => {
-    const fs = 4.5*scale;
-    return `<div style="display:flex;align-items:center;gap:${3*scale}px;padding:${2*scale}px ${4*scale}px;border-bottom:${0.1*scale}px solid ${LN};font-size:${fs}px;">
-      <div style="width:${7*scale}px;height:${7*scale}px;border-radius:50%;background:${done?OR:LN};display:flex;align-items:center;justify-content:center;font-size:${4*scale}px;color:white;flex-shrink:0;">${done?'✓':num}</div>
-      <span style="color:${done?'#2a2a22':GY};">${label}</span>
+  const stepRow = (num, label, done) => `
+    <div style="display:flex;align-items:center;gap:${fs(3)};padding:${fs(2)} ${fs(4)};border-bottom:${Math.round(0.1*S)}px solid ${LN};font-size:${fs(5)};">
+      <div style="width:${fs(7)};height:${fs(7)};border-radius:50%;background:${done?OR:LN};display:flex;align-items:center;justify-content:center;font-size:${fs(4)};color:${done?'#1a1a00':'#9a8a72'};font-weight:700;flex-shrink:0;">${done?'✓':num}</div>
+      <span style="color:${done?'#1a2a0e':GY};">${label}</span>
     </div>`;
-  };
 
-  const SCALE = 0.42;
-  const W = 210*SCALE, H = 297*SCALE;
+  const ETAPES = [
+    "Observation d'une fissure","Vérification de l'arrêté Cat Nat","À qui m'adresser ?",
+    "Déclaration de sinistre","Environnement de ma maison","Facteurs déclencheurs",
+    "Entretien & historique","Description des désordres","Documents pour l'expert",
+    "L'expertise","Proposition d'indemnisation","Les travaux de réparation"
+  ];
+  const STEP_IDS = ['step-1b','step-2b','step-3b','step-4b','step-5b','step-6b',
+                    'step-7b','step-8b','step-9b','step-11b','step-13b','step-14b'];
 
-  // ══ PAGE 1 — COUVERTURE ══
-  const photoBg = photoDataUrl
-    ? `<div style="width:100%;height:${70*SCALE}px;overflow:hidden;flex-shrink:0;"><img src="${photoDataUrl}" style="width:100%;height:100%;object-fit:cover;"></div>`
-    : `<div style="width:100%;height:${70*SCALE}px;background:linear-gradient(135deg,#e8ede4,#d0ddc8);display:flex;align-items:center;justify-content:center;font-size:${7*SCALE}px;color:${GY};flex-shrink:0;">📸 Photo du bien</div>`;
-  const cover = `<div style="display:flex;flex-direction:column;height:100%;">
-    ${photoBg}
-    <div style="padding:${5*SCALE}px ${6*SCALE}px;flex:1;">
-      <div style="font-size:${8*SCALE}px;font-weight:800;color:${VD};">argi<span style="color:${OR};">Q</span>are</div>
-      <div style="width:${32*SCALE}px;height:${0.8*SCALE}px;background:${OR};margin:${2*SCALE}px 0 ${3*SCALE}px;"></div>
-      <div style="font-size:${4*SCALE}px;color:${GY};font-weight:700;margin-bottom:${6*SCALE}px;">DOSSIER DE SYNTHÈSE — RGA / CAT NAT</div>
-      <div style="background:white;border-radius:${2*SCALE}px;padding:${5*SCALE}px;border:${0.5*SCALE}px solid ${OR};">
-        <div style="font-size:${6*SCALE}px;font-weight:800;color:#1a2a0e;margin-bottom:${2*SCALE}px;">${nomComplet}</div>
-        <div style="font-size:${4.5*SCALE}px;color:${GY};margin-bottom:${3*SCALE}px;">${adresse||'—'}</div>
-        <div style="height:${0.3*SCALE}px;background:${LN};margin:${2*SCALE}px 0;"></div>
-        <div style="font-size:${4*SCALE}px;color:${GY};">Profil</div>
-        <div style="font-size:${4.5*SCALE}px;font-weight:700;color:${VD};margin-bottom:${3*SCALE}px;">${profilLabel}</div>
-        <div style="display:flex;gap:${2*SCALE}px;">
-          <div style="flex:1;background:${VD};border-radius:${1.5*SCALE}px;padding:${2*SCALE}px;text-align:center;">
-            <div style="font-size:${6*SCALE}px;font-weight:800;color:white;">${diagPct}%</div>
-            <div style="font-size:${3.5*SCALE}px;color:rgba(255,255,255,.7);">Parcours</div>
+  const piecesLabels = ['Description du sinistre','Dégâts causés à des tiers','Études géotechniques',
+    'Acte d\'achat','Permis de construire','États des lieux','Devis, factures et PV','Déclaration sur l\'honneur'];
+
+  // ══ Construction des 5 pages ══
+  const coverContent = `
+    <div style="display:flex;flex-direction:column;height:100%;">
+      ${photoDataUrl
+        ? `<div style="width:100%;height:${fs(60)};overflow:hidden;flex-shrink:0;"><img src="${photoDataUrl}" style="width:100%;height:100%;object-fit:cover;"></div>`
+        : `<div style="width:100%;height:${fs(55)};background:linear-gradient(135deg,#e8ede4,#d0ddc8);display:flex;align-items:center;justify-content:center;font-size:${fs(8)};color:${GY};flex-shrink:0;">📸</div>`
+      }
+      <div style="padding:${fs(5)} ${fs(6)};flex:1;">
+        <div style="font-size:${fs(11)};font-weight:800;color:${VD};">argi<span style="color:${OR};">Q</span>are</div>
+        <div style="width:${fs(36)};height:${Math.round(0.8*S)}px;background:${OR};margin:${fs(2)} 0 ${fs(3)};"></div>
+        <div style="font-size:${fs(4)};color:${GY};font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:${fs(6)};">Dossier de synthèse — RGA / Cat Nat</div>
+        <div style="background:white;border-radius:${fs(2)};padding:${fs(5)};border:${Math.round(0.5*S)}px solid ${OR};margin-bottom:${fs(4)};">
+          <div style="font-size:${fs(8)};font-weight:800;color:#1a2a0e;margin-bottom:${fs(2)};">${nomComplet}</div>
+          <div style="font-size:${fs(5)};color:${GY};margin-bottom:${fs(3)};">${adresse||'—'}</div>
+          <div style="height:${Math.round(0.3*S)}px;background:${LN};margin:${fs(2)} 0;"></div>
+          <div style="font-size:${fs(4)};color:${GY};margin-bottom:${fs(1)};">Profil de situation</div>
+          <div style="font-size:${fs(5)};font-weight:700;color:${VD};margin-bottom:${fs(3)};">${profilLabel}</div>
+          <div style="font-size:${fs(4)};color:${GY};margin-bottom:${fs(1)};">Contrat</div>
+          <div style="font-size:${fs(5)};font-weight:600;color:#2a2a22;">${contrat}</div>
+        </div>
+        <div style="display:flex;gap:${fs(2)};margin-bottom:${fs(4)};">
+          <div style="flex:1;background:${VD};border-radius:${fs(1.5)};padding:${fs(3)};text-align:center;">
+            <div style="font-size:${fs(9)};font-weight:800;color:white;">${diagPct}%</div>
+            <div style="font-size:${fs(3.5)};color:rgba(255,255,255,.7);">Parcours</div>
           </div>
-          <div style="flex:1;background:${OR};border-radius:${1.5*SCALE}px;padding:${2*SCALE}px;text-align:center;">
-            <div style="font-size:${6*SCALE}px;font-weight:800;color:white;">${nJoints}/8</div>
-            <div style="font-size:${3.5*SCALE}px;color:rgba(255,255,255,.8);">Documents</div>
+          <div style="flex:1;background:${OR};border-radius:${fs(1.5)};padding:${fs(3)};text-align:center;">
+            <div style="font-size:${fs(9)};font-weight:800;color:#1a1a00;">${nJoints}/8</div>
+            <div style="font-size:${fs(3.5)};color:rgba(0,0,0,.55);">Documents</div>
           </div>
         </div>
+        <div style="font-size:${fs(3.5)};color:${GY};">Réf. ${dossierRef} — ${dateGen}</div>
       </div>
-      <div style="margin-top:${4*SCALE}px;font-size:${3.5*SCALE}px;color:${GY};">Réf. ${dossierRef} — ${dateGen}</div>
-    </div>
-  </div>`;
+    </div>`;
 
-  // ══ PAGE 2 — SOMMAIRE ══
-  const toc = `<div style="height:100%;display:flex;flex-direction:column;">
-    ${secHeader('Sommaire', SCALE)}
-    <div style="padding:${6*SCALE}px ${4*SCALE}px;flex:1;">
-      ${[
-        ['1','Ma Maison — Informations sur le bien',true],
-        ['  1.1','Informations générales & coordonnées',false],
-        ['  1.2','Caractéristiques du bien',false],
-        ['2','Mon Parcours — Réponses détaillées',true],
-        ['  2.1','Constat & démarches (étapes 1-4)',false],
-        ['  2.2','Préparation expertise (étapes 5-9)',false],
-        ['  2.3','Expertise & indemnisation (étapes 10-11)',false],
-        ['3','Annexes — Documents joints',true],
-      ].map(([n,t,main]) => `<div style="display:flex;align-items:center;gap:${3*SCALE}px;padding:${main?3.5:2.5}px ${2*SCALE}px;${main?`background:#eef3ea;margin:${1*SCALE}px 0;border-radius:${1*SCALE}px;`:'margin-left:'+6*SCALE+'px;'}">
-        <span style="font-size:${main?5:4}px;font-weight:${main?700:400};color:${main?VD:GY};min-width:${14*SCALE}px;">${n}</span>
-        <span style="font-size:${main?5:4}px;font-weight:${main?700:400};color:${main?'#1a2a0e':GY};flex:1;">${t}</span>
-      </div>`).join('')}
-    </div>
-  </div>`;
-
-  // ══ PAGE 3 — MA MAISON ══
-  const maison = `<div style="height:100%;display:flex;flex-direction:column;">
-    ${secHeader('1 — Ma Maison', SCALE)}
-    <div style="flex:1;overflow:hidden;">
-      <div style="padding:${4*SCALE}px ${4*SCALE}px ${1*SCALE}px;border-left:${1.5*SCALE}px solid ${OR};margin:${4*SCALE}px ${4*SCALE}px ${2*SCALE}px;font-size:${5*SCALE}px;font-weight:700;color:${VD};">Informations générales</div>
-      ${fRow('Assuré', nomComplet, SCALE)}
-      ${fRow('Adresse', adresse||'—', SCALE)}
-      ${fRow('Contrat', contrat, SCALE)}
-      ${fRow('Assureur', assureur, SCALE)}
-      <div style="padding:${4*SCALE}px ${4*SCALE}px ${1*SCALE}px;border-left:${1.5*SCALE}px solid ${OR};margin:${4*SCALE}px ${4*SCALE}px ${2*SCALE}px;font-size:${5*SCALE}px;font-weight:700;color:${VD};">Caractéristiques</div>
-      ${fRow('Type', 'Maison individuelle', SCALE)}
-      ${fRow('Année', v('m_dateconstr'), SCALE)}
-      ${fRow('Fondations', 'Superficielles', SCALE)}
-    </div>
-  </div>`;
-
-  // ══ PAGE 4 — MON PARCOURS ══
-  const ETAPES_MINI = [
-    'Observation d\'une fissure','Vérification arrêté Cat Nat','À qui m\'adresser ?',
-    'Déclaration de sinistre','Environnement de ma maison','Facteurs déclencheurs',
-    'Entretien & historique','Description des désordres','Documents pour l\'expert',
-    'L\'expertise','Proposition d\'indemnisation','Les travaux de réparation'
+  const tocItems = [
+    [true,'1','Ma Maison — Informations sur le bien','3'],
+    [false,'1.1','Informations générales & coordonnées','3'],
+    [false,'1.2','Caractéristiques du bien','4'],
+    [true,'2','Mon Parcours — Réponses détaillées','5'],
+    [false,'2.1','Constat & démarches (étapes 1-4)','5'],
+    [false,'2.2','Préparation expertise (étapes 5-9)','6'],
+    [false,'2.3','Expertise & indemnisation','7'],
+    [true,'3','Annexes — Documents joints','9'],
+    [false,'3.1','Liste des pièces jointes ('+nJoints+' fichier'+(nJoints!==1?'s':'')+')','9'],
   ];
-  const diag = `<div style="height:100%;display:flex;flex-direction:column;">
-    ${secHeader('2 — Mon Parcours', SCALE)}
-    <div style="padding:${3*SCALE}px ${4*SCALE}px;background:#f9fcf7;border-bottom:${0.3*SCALE}px solid ${LN};font-size:${4.5*SCALE}px;color:${VD};font-weight:700;">
-      Avancement : ${diagPct}% — ${diagChecked} cases sur ${diagCbs.length}
-      <div style="height:${2*SCALE}px;background:#ddeedd;border-radius:${1*SCALE}px;margin-top:${2*SCALE}px;overflow:hidden;">
-        <div style="width:${diagPct}%;height:100%;background:${OR};"></div>
+  const tocContent = `
+    <div style="display:flex;flex-direction:column;height:100%;">
+      ${secHeader('Sommaire')}
+      <div style="padding:${fs(5)} ${fs(4)};flex:1;">
+        ${tocItems.map(([main,num,title,pg]) => `
+          <div style="display:flex;align-items:center;gap:${fs(3)};padding:${main?fs(3.5):fs(2.5)} ${fs(2)};
+            ${main?`background:#eef3ea;border-radius:${fs(1)};margin-bottom:${fs(1)};`:`margin-left:${fs(6)};`}">
+            <span style="font-size:${main?fs(5):fs(4)};font-weight:${main?700:400};color:${main?VD:GY};min-width:${fs(14)};flex-shrink:0;">${num}</span>
+            <span style="font-size:${main?fs(5):fs(4)};font-weight:${main?700:400};color:${main?'#1a2a0e':GY};flex:1;">${title}</span>
+            <span style="font-size:${main?fs(5):fs(4)};font-weight:700;color:${OR};flex-shrink:0;">${pg}</span>
+          </div>`).join('')}
       </div>
-    </div>
-    <div style="flex:1;overflow:hidden;">
-      ${ETAPES_MINI.map((lbl,i) => {
-        const el = document.getElementById('step-'+(i+1)+'b') || document.getElementById('step-'+(i<9?i+1:i===9?11:i===10?13:14)+'b');
-        const done = el && el.classList.contains('completed');
-        return stepRow(i+1, lbl, done, SCALE);
-      }).join('')}
-    </div>
-  </div>`;
+    </div>`;
 
-  // ══ PAGE 5 — ANNEXES ══
-  const piecesLabels=['Description du sinistre','Dégâts causés à des tiers','Études géotechniques','Acte d\'achat','Permis de construire','États des lieux','Devis, factures et PV','Déclaration sur l\'honneur'];
-  const annexes = `<div style="height:100%;display:flex;flex-direction:column;">
-    ${secHeader('3 — Annexes', SCALE)}
-    <div style="padding:${3*SCALE}px ${4*SCALE}px;background:#f9fcf7;border-bottom:${0.3*SCALE}px solid ${LN};font-size:${4.5*SCALE}px;color:${VD};font-weight:700;">
-      ${nJoints} fichier${nJoints>1?'s':''} joint${nJoints>1?'s':''} sur ${piecesLabels.length}
-    </div>
-    <div style="flex:1;overflow:hidden;padding:${2*SCALE}px 0;">
-      ${piecesLabels.map((lbl,i) => {
-        const joint = !!diagFiles[i+1];
-        const cb = document.querySelector('#diag-piece-'+(i+1)+' .doc-piece-cb');
-        const checked = cb && cb.checked;
-        return `<div style="display:flex;align-items:center;gap:${3*SCALE}px;padding:${2.5*SCALE}px ${4*SCALE}px;border-bottom:${0.1*SCALE}px solid ${LN};font-size:${4.5*SCALE}px;">
-          <div style="width:${6*SCALE}px;height:${6*SCALE}px;border-radius:${1*SCALE}px;background:${joint?VD:checked?OR:'#d0d0c8'};display:flex;align-items:center;justify-content:center;font-size:${3.5*SCALE}px;color:white;flex-shrink:0;">${joint?'✓':checked?'−':'○'}</div>
-          <span style="color:${joint?'#1a2a0e':GY};font-weight:${joint?600:400};">${lbl}</span>
-        </div>`;
-      }).join('')}
-    </div>
-  </div>`;
+  const maisonContent = `
+    <div style="display:flex;flex-direction:column;height:100%;">
+      ${secHeader('1 — Ma Maison')}
+      <div style="flex:1;overflow:hidden;">
+        ${subTitle('Informations générales')}
+        ${fRow('Assuré', nomComplet)}
+        ${fRow('Adresse', adresse||'—')}
+        ${fRow('Contrat', contrat)}
+        ${fRow('Assureur', assureur)}
+        ${fRow('Tél.', v('m_tel'))}
+        ${fRow('Email', v('m_email'))}
+        ${subTitle('Caractéristiques')}
+        ${fRow('Type', 'Maison individuelle')}
+        ${fRow('Année', v('m_dateconstr'))}
+        ${fRow('Fondations', 'Superficielles')}
+      </div>
+    </div>`;
+
+  const etapesHtml = ETAPES.map((lbl,i) => {
+    const el = document.getElementById(STEP_IDS[i]);
+    return stepRow(i+1, lbl, el && el.classList.contains('completed'));
+  }).join('');
+  const diagContent = `
+    <div style="display:flex;flex-direction:column;height:100%;">
+      ${secHeader('2 — Mon Parcours')}
+      <div style="padding:${fs(3)} ${fs(4)};background:#f9fcf7;border-bottom:${Math.round(0.3*S)}px solid ${LN};flex-shrink:0;">
+        <div style="font-size:${fs(5)};font-weight:700;color:${VD};margin-bottom:${fs(2)};">Avancement : ${diagPct}% — ${diagChecked}/${diagCbs.length}</div>
+        <div style="height:${Math.round(2*S)}px;background:#dde8d8;border-radius:${fs(1)};overflow:hidden;">
+          <div style="width:${diagPct}%;height:100%;background:${OR};"></div>
+        </div>
+      </div>
+      <div style="flex:1;overflow:hidden;">${etapesHtml}</div>
+    </div>`;
+
+  const annexContent = `
+    <div style="display:flex;flex-direction:column;height:100%;">
+      ${secHeader('3 — Annexes')}
+      <div style="padding:${fs(3)} ${fs(4)};background:#f9fcf7;border-bottom:${Math.round(0.3*S)}px solid ${LN};font-size:${fs(5)};font-weight:700;color:${VD};flex-shrink:0;">
+        ${nJoints} fichier${nJoints!==1?'s':''} joint${nJoints!==1?'s':''} sur ${piecesLabels.length}
+      </div>
+      <div style="flex:1;overflow:hidden;padding:${fs(2)} 0;">
+        ${piecesLabels.map((lbl,i) => {
+          const joint = !!diagFiles[i+1];
+          const cb = document.querySelector('#diag-piece-'+(i+1)+' .doc-piece-cb');
+          const checked = cb && cb.checked;
+          return `<div style="display:flex;align-items:center;gap:${fs(3)};padding:${fs(2.5)} ${fs(4)};border-bottom:${Math.round(0.1*S)}px solid ${LN};font-size:${fs(5)};">
+            <div style="width:${fs(6)};height:${fs(6)};border-radius:${fs(1)};background:${joint?VD:checked?OR:'#d0d0c8'};display:flex;align-items:center;justify-content:center;font-size:${fs(3.5)};color:white;flex-shrink:0;">${joint?'✓':checked?'−':'○'}</div>
+            <span style="color:${joint?'#1a2a0e':GY};font-weight:${joint?600:400};">${lbl}</span>
+          </div>`;
+        }).join('')}
+      </div>
+    </div>`;
 
   // ══ Assemblage des pages ══
-  const pages = [
-    { id:'cover',  label:'Couverture', html:page(cover, SCALE) },
-    { id:'toc',    label:'Sommaire',   html:page(toc,   SCALE) },
-    { id:'maison', label:'Ma Maison',  html:page(maison,SCALE) },
-    { id:'diag',   label:'Parcours',   html:page(diag,  SCALE) },
-    { id:'annex',  label:'Annexes',    html:page(annexes,SCALE) },
-  ];
-
-  let activePage = 0;
-
-  const thumbsEl = document.getElementById('preview-thumbs');
-  const largeEl  = document.getElementById('preview-page-large');
-  const countEl  = document.getElementById('preview-page-count');
-
-  if(!thumbsEl || !largeEl) return;
-  if(countEl) countEl.textContent = pages.length + ' pages';
-
-  // Génère les miniatures de navigation (encore plus petites)
-  const MINI = 0.18;
-  thumbsEl.innerHTML = pages.map((p,i) => `
-    <div id="preview-thumb-${i}" onclick="previewSelectPage(${i})"
-         style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
-      <div style="border:2px solid ${i===0?'#2d5a27':'#e0d8cc'};border-radius:3px;overflow:hidden;transform-origin:top left;">
-        ${p.html.replace(/style="/g, 'style="').replace(new RegExp(W*SCALE/MINI*MINI+'px','g'), W*MINI+'px')}
-      </div>
-      <div id="preview-thumb-label-${i}" style="font-size:9px;color:${i===0?'#2d5a27':'#9a8a72'};font-weight:${i===0?700:400};">${p.label}</div>
-    </div>`
-  ).join('');
-
-  // Fonction de sélection de page
-  window.previewSelectPage = (idx) => {
-    activePage = idx;
-    // Mettre à jour les miniatures
-    pages.forEach((_,i) => {
-      const th = document.getElementById('preview-thumb-'+i);
-      const lbl = document.getElementById('preview-thumb-label-'+i);
-      if(th) th.querySelector('div').style.borderColor = i===idx ? '#2d5a27' : '#e0d8cc';
-      if(lbl){ lbl.style.color = i===idx ? '#2d5a27' : '#9a8a72'; lbl.style.fontWeight = i===idx ? '700' : '400'; }
-    });
-    // Afficher la grande miniature
-    largeEl.innerHTML = `<div style="display:flex;justify-content:center;">${pages[idx].html}</div>`;
+  // Les pages seront construites avec le bon scale après le rendu (dans requestAnimationFrame ci-dessous)
+  // On stocke les contenus pour les réutiliser
+  window._previewContents = {
+    cover: coverContent, toc: tocContent, maison: maisonContent,
+    diag: diagContent, annex: annexContent,
   };
+  window._previewPageFn = page; // la fonction de mise en page sera recréée avec le bon scale
 
-  // Afficher la première page
-  window.previewSelectPage(0);
+  // ── Swipe tactile ──
+  const zone = document.getElementById('preview-reader-zone');
+  let _swipeX = null;
+  zone.addEventListener('touchstart', e => {
+    e.stopPropagation();
+    _swipeX = e.touches[0].clientX;
+  }, {passive:true});
+  zone.addEventListener('touchmove', e => {
+    e.stopPropagation();
+  }, {passive:true});
+  zone.addEventListener('touchend', e => {
+    e.stopPropagation();
+    if(_swipeX === null) return;
+    const dx = e.changedTouches[0].clientX - _swipeX;
+    if(Math.abs(dx) > 40) previewChangePage(dx < 0 ? 1 : -1);
+    _swipeX = null;
+  }, {passive:true});
 
-  // Générer les miniatures de nav correctement (taille fixe)
-  const TNAIL = 0.2;
-  thumbsEl.innerHTML = pages.map((p,i) => {
-    const w = Math.round(210*TNAIL), h = Math.round(297*TNAIL);
-    return `<div onclick="previewSelectPage(${i})" id="preview-thumb-${i}"
-       style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
-      <div style="width:${w}px;height:${h}px;border:2px solid ${i===0?VD:LN};border-radius:2px;overflow:hidden;position:relative;background:${BG};">
-        <!-- Sidebar miniature -->
-        <div style="position:absolute;left:0;top:0;width:${Math.round(12*TNAIL)}px;height:100%;background:${VD};"></div>
-        <div style="position:absolute;left:${Math.round(12*TNAIL)}px;top:0;width:1px;height:100%;background:${OR};"></div>
-        <!-- Contenu simplifié selon la page -->
-        <div style="position:absolute;left:${Math.round(13*TNAIL)}px;top:${Math.round(14*TNAIL)}px;right:0;bottom:0;padding:${Math.round(2*TNAIL)}px;">
-          <div style="font-size:${Math.round(6*TNAIL)}px;font-weight:800;color:${VD};margin-bottom:${Math.round(2*TNAIL)}px;">${p.label}</div>
-          ${Array(8).fill(0).map((_,j) => `<div style="height:1px;background:${LN};margin-bottom:${Math.round(3*TNAIL)}px;width:${60+Math.random()*40}%;"></div>`).join('')}
+  // ── Afficher le reader — les dimensions sont calculées APRÈS rendu ──
+  const overlay = document.getElementById('dossier-preview-overlay');
+  overlay.classList.remove('hidden');
+  overlay.style.display = 'flex';
+
+  // On attend que le DOM soit rendu pour calculer les vraies dimensions
+  requestAnimationFrame(() => {
+    // Calcul depuis les dimensions fixes du .phone (375×780)
+    // plutôt que getBoundingClientRect qui peut être instable au premier frame
+    const phoneEl2 = document.querySelector('.phone');
+    const phoneW2  = phoneEl2 ? phoneEl2.clientWidth  : 375;
+    const phoneH2  = phoneEl2 ? phoneEl2.clientHeight : 780;
+    // Zones déduites : topbar 52px + thumbbar 68px = 120px de hauteur fixe
+    // Flèches : 48px de chaque côté = 96px de largeur occupée
+    const availW = phoneW2 - 96;
+    const availH = phoneH2 - 120 - 20; // marge supplémentaire de sécurité
+
+    // Scale avec cap strict : la page ne peut jamais dépasser availW × availH
+    const scaleW2 = availW / 210;
+    const scaleH2 = availH / 297;
+    const S2 = Math.min(scaleW2, scaleH2); // pas de cap à la hausse, uniquement la contrainte
+
+    // Vérification : PW et PH ne doivent jamais dépasser les dimensions disponibles
+    const PW2 = Math.round(210 * S2);
+    const PH2 = Math.round(297 * S2);
+    if(PW2 > availW || PH2 > availH){
+      console.warn('Preview scale trop grand, recalcul de sécurité');
+    }
+
+    // Recalculer les pages avec ce scale précis
+    window._previewPages = _buildPreviewPages(S2);
+    window._previewCurrent = 0;
+
+    // Rebuilder les miniatures — palette claire cohérente avec l'app
+    const TNAIL = 0.17;
+    const TW = Math.round(210*TNAIL), TH = Math.round(297*TNAIL), TSB = Math.round(12*TNAIL);
+    const VD2='#2d5a27', OR2='#c9a23a', BG2='#faf8f4', LN2='#e0d8cc', GY2='#9a8a72';
+    document.getElementById('preview-thumbs').innerHTML = window._previewPages.map((p,i) => `
+      <div onclick="event.stopPropagation();previewSelectPage(${i})" id="pthumb-${i}"
+           style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
+        <div style="width:${TW}px;height:${TH}px;border:2px solid ${i===0?OR2:LN2};
+             border-radius:2px;overflow:hidden;position:relative;background:${BG2};
+             box-shadow:${i===0?'0 2px 8px rgba(201,162,58,.3)':'0 1px 4px rgba(0,0,0,.1)'};">
+          <div style="position:absolute;left:0;top:0;width:${TSB}px;height:100%;background:${VD2};"></div>
+          <div style="position:absolute;left:${TSB}px;top:0;width:1px;height:100%;background:${OR2};"></div>
+          <div style="position:absolute;left:${TSB+2}px;top:${Math.round(6*TNAIL)}px;right:2px;font-size:${Math.max(4, Math.round(5*TNAIL))}px;font-weight:700;color:${VD2};">${p.label}</div>
+          ${Array(6).fill(0).map((_,j)=>`<div style="position:absolute;left:${TSB+2}px;top:${Math.round((14+j*9)*TNAIL)}px;right:${(2+(j%3)*4)}px;height:${Math.max(1,Math.round(1.5*TNAIL))}px;background:${LN2};"></div>`).join('')}
         </div>
-      </div>
-      <div id="preview-thumb-label-${i}" style="font-size:8.5px;color:${i===0?VD:GY};font-weight:${i===0?700:400};">${p.label}</div>
-    </div>`;
-  }).join('');
+        <div id="pthumb-label-${i}" style="font-size:8px;color:${i===0?VD2:GY2};font-weight:${i===0?700:400};white-space:nowrap;">${p.label}</div>
+      </div>`).join('');
 
-  document.getElementById('dossier-preview-overlay').classList.remove('hidden');
+    previewSelectPage(0);
+  });
 }
+
+// ── Construit les 5 pages avec un scale précis ──
+function _buildPreviewPages(S){
+  const c = window._previewContents;
+  if(!c) return [];
+  const PW = Math.round(210*S), PH = Math.round(297*S), sb = Math.round(12*S);
+  const OR='#c9a23a', VD='#2d5a27', BG='#faf8f4', LN='#e8e0d4';
+  const dossierRef = localStorage.getItem('argicare-dossier-ref') || '';
+  const pageFn = (content) => `
+    <div style="width:${PW}px;height:${PH}px;max-width:100%;max-height:100%;background:${BG};position:relative;overflow:hidden;flex-shrink:0;
+      box-shadow:0 6px 24px rgba(0,0,0,.18),0 2px 6px rgba(0,0,0,.1);border-radius:${Math.round(2*S)}px;">
+      <div style="position:absolute;left:0;top:0;width:${sb}px;height:100%;background:${VD};"></div>
+      <div style="position:absolute;left:${sb}px;top:0;width:${Math.round(0.8*S)}px;height:100%;background:${OR};"></div>
+      <div style="position:absolute;left:${Math.round(2*S)}px;top:50%;transform:translateY(-50%) rotate(-90deg);transform-origin:center;white-space:nowrap;font-size:${Math.round(5.5*S*0.9)}px;font-weight:700;color:${OR};">argi<span style="color:white;">Q</span>are</div>
+      <div style="position:absolute;left:${Math.round(1.5*S)}px;bottom:${Math.round(8*S)}px;transform:rotate(-90deg);transform-origin:left center;white-space:nowrap;font-size:${Math.round(3.5*S*0.9)}px;color:rgba(255,255,255,.3);">${dossierRef}</div>
+      <div style="position:absolute;left:${sb+Math.round(1.5*S)}px;top:0;right:0;bottom:0;overflow:hidden;">${content}</div>
+    </div>`;
+  return [
+    { label:'Couverture', html: pageFn(c.cover) },
+    { label:'Sommaire',   html: pageFn(c.toc)   },
+    { label:'Ma Maison',  html: pageFn(c.maison) },
+    { label:'Parcours',   html: pageFn(c.diag)   },
+    { label:'Annexes',    html: pageFn(c.annex)  },
+  ];
+}
+
+// ── Navigation dans le mode lecture ──
+window.previewSelectPage = function(idx){
+  const pages = window._previewPages || [];
+  if(idx < 0 || idx >= pages.length) return;
+  window._previewCurrent = idx;
+
+  // Grande page
+  const largeEl = document.getElementById('preview-page-large');
+  if(largeEl) largeEl.innerHTML = pages[idx].html;
+
+  // Titre + indicateur
+  const titleEl = document.getElementById('preview-page-title');
+  const indEl   = document.getElementById('preview-page-indicator');
+  if(titleEl) titleEl.textContent = pages[idx].label;
+  if(indEl)   indEl.textContent   = (idx+1) + ' / ' + pages.length;
+
+  // Flèches
+  const prev = document.getElementById('preview-btn-prev');
+  const next = document.getElementById('preview-btn-next');
+  if(prev) prev.style.opacity = idx === 0 ? '0.2' : '1';
+  if(next) next.style.opacity = idx === pages.length-1 ? '0.2' : '1';
+
+  // Miniatures
+  pages.forEach((_,i) => {
+    const th  = document.getElementById('pthumb-'+i);
+    const lbl = document.getElementById('pthumb-label-'+i);
+    if(th)  th.querySelector('div').style.borderColor  = i===idx ? '#c9a23a' : '#e0d8cc';
+    if(th)  th.querySelector('div').style.boxShadow    = i===idx ? '0 2px 8px rgba(201,162,58,.3)' : '0 1px 4px rgba(0,0,0,.08)';
+    if(lbl){ lbl.style.color = i===idx ? '#2d5a27' : '#9a8a72'; lbl.style.fontWeight = i===idx ? '700' : '400'; }
+    // Scroll auto vers la miniature active
+    if(i===idx && th) th.scrollIntoView({inline:'center', behavior:'smooth'});
+  });
+};
+
+window.previewChangePage = function(dir){
+  const cur = window._previewCurrent || 0;
+  const len = (window._previewPages || []).length;
+  const next = Math.max(0, Math.min(len-1, cur + dir));
+  if(next !== cur) previewSelectPage(next);
+};
+
 function closeDossierPreview(){
-  document.getElementById('dossier-preview-overlay').classList.add('hidden');
+  const overlay = document.getElementById('dossier-preview-overlay');
+  overlay.classList.add('hidden');
+  overlay.style.display = 'none';
 }
 
 // ── POINT 8 — Partage natif du dernier PDF généré ──
@@ -7898,7 +8016,7 @@ function shareQRCode(){
 .rgpd-consent-text { font-size:11px; color:#3a4a2e; line-height:1.7; margin-bottom:12px; }
 .rgpd-consent-list { font-size:10.5px; color:#3a5a32; line-height:1.8; margin:0 0 12px 4px; list-style:none; padding:0; }
 .rgpd-consent-list li { padding:2px 0; }
-.rgpd-consent-purpose { background:#f5f8f2; border-radius:10px; padding:10px 12px; margin-bottom:12px; }
+.rgpd-consent-purpose { background:#F5F8F4; border-radius:10px; padding:10px 12px; margin-bottom:12px; }
 .rgpd-consent-purpose-title { font-size:10px; font-weight:800; color:#2d5a27; text-transform:uppercase; letter-spacing:.5px; margin-bottom:6px; }
 .rgpd-consent-purpose-row { display:flex; justify-content:space-between; font-size:10px; color:#4a5a3a; padding:3px 0; border-bottom:1px solid rgba(45,90,39,.08); gap:8px; }
 .rgpd-consent-purpose-row:last-child { border-bottom:none; }
@@ -8010,7 +8128,7 @@ function shareQRCode(){
 /* ── SOUS-BULLES (ex: étape 3 "À qui m'adresser ?") ── */
 .substep-toggle {
   display:flex; align-items:center; gap:10px; padding:11px 12px;
-  background:#eef4ff; border:1.5px solid #c8d8f0; border-radius:12px;
+  background:#eaf0ff; border:1.5px solid #c8d8f0; border-radius:12px;
   cursor:pointer; margin-bottom:8px; transition:background .15s;
 }
 .substep-toggle:active { background:#e0eaff; }
@@ -8034,8 +8152,8 @@ function shareQRCode(){
 .step-feedback { display:none; margin:6px 0 4px; padding:9px 12px; border-radius:10px; font-size:11px; font-weight:700; align-items:center; gap:8px; }
 .step-feedback.visible { display:flex; }
 .step-feedback.done { background:#e8f5e4; color:#2d5a27; border:1.5px solid #b8d9b4; }
-.step-feedback.key  { background:#fff8e8; color:#8a6000; border:1.5px solid #e8c94a; }
-.step-feedback.mid  { background:#eef4ff; color:#1a3a6e; border:1.5px solid #b8d0f8; }
+.step-feedback.key  { background:#fdf6e8; color:#8a6000; border:1.5px solid #e8c94a; }
+.step-feedback.mid  { background:#eaf0ff; color:#1a3a6e; border:1.5px solid #b8d0f8; }
 .step-feedback.end  { background:linear-gradient(135deg,#e8f5e4,#d4ecd0); color:#1e3a1e; border:1.5px solid #2d5a27; }
 .glossaire-bubble-wrap { position:absolute; right:12px; bottom:78px; z-index:290; display:none; flex-direction:column; align-items:center; gap:0; }
 .glossaire-bubble-wrap.hidden-fab { display:none; }
@@ -8869,10 +8987,11 @@ const TUTO_STEPS = [
   },
   {
     tab: 'params',
-    navIdx: 5,
+    navIdx: null,        // Paramètres n'a pas d'onglet dans la bottom nav
+    navTarget: 'params-btn', // cible le bouton ⚙️ du header
     icon: '⚙️',
     iconBg: 'linear-gradient(135deg,#3a4a5a,#5a7a8a)',
-    title: 'Onglet Paramètres',
+    title: 'Paramètres',
     sub: 'Votre profil, préférences et sources',
     body: 'Renseignez votre profil et vos coordonnées, ajustez vos préférences d\'affichage, et retrouvez dans la section Sources & Références tous les organismes officiels (CCR, MRN, BRGM, CEREMA, Géorisques) ainsi que les textes réglementaires applicables.',
     last: true
@@ -8891,14 +9010,28 @@ function demarrerTutoriel(){
   window._tutoActif = true;
   document.querySelector('.phone').dataset.tuto = '1';
   localStorage.setItem('argicare-tuto-seen', '1');
-  afficherTutoStep();
+
+  // Fermer screen-params s'il est ouvert, puis lancer le tutoriel
+  // après un délai pour laisser la transition se terminer
+  const params = document.getElementById('screen-params');
+  if(params && params.style.display !== 'none'){
+    closeParamsScreen();
+    setTimeout(afficherTutoStep, 350);
+  } else {
+    afficherTutoStep();
+  }
 }
 
 function afficherTutoStep(){
   const step = TUTO_STEPS[tutoStep];
   document.getElementById('tuto-overlay').classList.remove('hidden');
   const navItems = document.querySelectorAll('.nav-item');
-  switchTab(step.tab, navItems[step.navIdx]);
+  // Pour l'étape Paramètres (navIdx null), on ouvre directement sans passer par un nav-item
+  if(step.navIdx !== null && step.navIdx !== undefined){
+    switchTab(step.tab, navItems[step.navIdx]);
+  } else if(step.tab === 'params'){
+    openParamsScreen();
+  }
   document.getElementById('tuto-icon').style.background = step.iconBg;
   document.getElementById('tuto-icon').textContent = step.icon;
   document.getElementById('tuto-title').textContent = step.title;
@@ -8918,26 +9051,46 @@ function afficherTutoStep(){
     d.className = 'tuto-popup-dot' + (i === tutoStep ? ' active' : '');
     dotsEl.appendChild(d);
   });
-  positionnerTutoPopup();
+  // Différer le positionnement pour laisser le DOM se repeindre
+  // (notamment après fermeture de screen-params)
+  requestAnimationFrame(() => requestAnimationFrame(positionnerTutoPopup));
 }
 
 function positionnerTutoPopup(){
   const popup = document.getElementById('tuto-popup');
   const phone = document.querySelector('.phone');
   const navH = 58;
+  const step = TUTO_STEPS[tutoStep];
   const navItems = document.querySelectorAll('.nav-item');
-  const activeNav = navItems[TUTO_STEPS[tutoStep].navIdx];
-  if(activeNav){
-    const r = activeNav.getBoundingClientRect();
+
+  // Déterminer la cible du spotlight
+  let targetEl = null;
+  if(step.navIdx !== null && step.navIdx !== undefined){
+    targetEl = navItems[step.navIdx];
+  } else if(step.navTarget){
+    targetEl = document.getElementById(step.navTarget);
+  }
+
+  if(targetEl){
+    const r = targetEl.getBoundingClientRect();
     const pr = phone.getBoundingClientRect();
     const spotlight = document.getElementById('tuto-spotlight');
     spotlight.style.left = (r.left - pr.left - 4) + 'px';
-    spotlight.style.top = (r.top - pr.top - 4) + 'px';
-    spotlight.style.width = (r.width + 8) + 'px';
+    spotlight.style.top  = (r.top  - pr.top  - 4) + 'px';
+    spotlight.style.width  = (r.width  + 8) + 'px';
     spotlight.style.height = (r.height + 8) + 'px';
+    // Si la cible est en haut (bouton ⚙️), la bulle s'affiche en dessous
+    if(step.tab === 'params'){
+      popup.style.top = (r.bottom - phone.getBoundingClientRect().top + 12) + 'px';
+      popup.style.bottom = 'auto';
+    } else {
+      popup.style.bottom = (navH + 16) + 'px';
+      popup.style.top = 'auto';
+    }
+  } else {
+    popup.style.bottom = (navH + 16) + 'px';
+    popup.style.top = 'auto';
   }
-  popup.style.bottom = (navH + 16) + 'px';
-  popup.style.top = 'auto';
 }
 
 function tutoNext(){
@@ -8953,14 +9106,9 @@ function tutoSkip(){
   window._tutoActif = false;
   document.querySelector('.phone').dataset.tuto = '0';
   document.getElementById('tuto-overlay').classList.add('hidden');
-  // D'abord naviguer sur catnat SANS popup
+  // Retour sur l'Accueil à la fin du tutoriel
   const navItems = document.querySelectorAll('.nav-item');
-  switchTab('catnat', navItems[4]);
-  // Puis ouvrir le popup catnat après un délai suffisant
-  setTimeout(()=>{
-    const el = document.getElementById('catnat-overlay');
-    if(el) el.classList.remove('hidden');
-  }, 800);
+  switchTab('accueil', navItems[0]);
 }
 
 // Ferme le tutoriel depuis l'étape Mon Dossier et renvoie directement
@@ -9118,7 +9266,7 @@ function initModeMaison(){
 
 // ── OUVERTURE PARAMÈTRES ──
 function openParamsScreen(){
-  document.getElementById('screen-params').style.display = 'block';
+  document.getElementById('screen-params').style.display = 'flex';
   document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
   setTimeout(initStoryTutoToggles, 100);
 }
