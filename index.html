@@ -1498,14 +1498,53 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
   </div>
 
   <!-- PARTAGE LECTURE SEULE -->
-  <div class="checklist-overlay hidden" id="share-overlay">
-    <div class="checklist-sheet">
-      <div class="checklist-sheet-header">
-        <div class="checklist-sheet-title">🔗 Partager mon dossier</div>
+  <div class="checklist-overlay hidden" id="share-overlay" style="align-items:flex-end;">
+    <div style="background:white;border-radius:18px 18px 0 0;width:100%;max-height:85%;display:flex;flex-direction:column;overflow:hidden;">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;border-bottom:1px solid #eee7d8;flex-shrink:0;">
+        <div style="font-size:13px;font-weight:800;color:#2d3a1e;">📤 Partager mon dossier</div>
         <button class="quiz-close" onclick="closeShareLink()">✕</button>
       </div>
-      <div class="checklist-sheet-sub">Ce lien contient un instantané en lecture seule de votre dossier (profil, avancement, informations Ma Maison). Il ne nécessite aucun serveur : les données sont encodées directement dans le lien. Ne le partagez qu'avec une personne de confiance.</div>
-      <div id="share-link-content"></div>
+      <!-- Onglets -->
+      <div style="display:flex;border-bottom:1px solid #eee7d8;flex-shrink:0;">
+        <button id="share-tab-pdf" onclick="switchShareTab('pdf')" style="flex:1;padding:10px;border:none;background:none;font-size:11px;font-weight:700;color:#2d5a27;border-bottom:2.5px solid #2d5a27;cursor:pointer;font-family:inherit;">📄 Envoyer le PDF</button>
+        <button id="share-tab-qr" onclick="switchShareTab('qr')" style="flex:1;padding:10px;border:none;background:none;font-size:11px;font-weight:700;color:#9a8a72;border-bottom:2.5px solid transparent;cursor:pointer;font-family:inherit;">📷 QR Code</button>
+      </div>
+      <!-- Contenu onglet PDF -->
+      <div id="share-content-pdf" style="flex:1;overflow-y:auto;padding:16px;">
+        <div style="background:#f5f8f2;border-radius:12px;padding:12px 14px;margin-bottom:12px;display:flex;align-items:flex-start;gap:10px;">
+          <span style="font-size:20px;flex-shrink:0;">📄</span>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:#1a2a0e;margin-bottom:3px;">Envoyer votre dossier en PDF</div>
+            <div style="font-size:10.5px;color:#7a8a6a;line-height:1.55;">Générez votre PDF puis partagez-le directement via email, WhatsApp, ou toute autre application installée sur votre téléphone.</div>
+          </div>
+        </div>
+        <button onclick="generateAndSharePDF()" style="width:100%;padding:13px;background:linear-gradient(135deg,#2d5a27,#4a7c3f);color:white;border:none;border-radius:12px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;margin-bottom:10px;">
+          📄 Générer et partager le PDF
+        </button>
+        <button onclick="generatePDF()" style="width:100%;padding:11px;background:white;color:#2d5a27;border:1.5px solid #2d5a27;border-radius:12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:14px;">
+          ⬇️ Télécharger le PDF uniquement
+        </button>
+        <div style="font-size:10px;color:#9a8a72;text-align:center;line-height:1.5;">Le PDF est généré directement sur votre appareil — aucune donnée n'est transmise à ArgiQare.</div>
+      </div>
+      <!-- Contenu onglet QR Code -->
+      <div id="share-content-qr" style="display:none;flex:1;overflow-y:auto;padding:16px;">
+        <div style="text-align:center;margin-bottom:12px;">
+          <div style="font-size:12px;font-weight:700;color:#1a2a0e;margin-bottom:4px;">QR Code de votre dossier</div>
+          <div style="font-size:10px;color:#7a8a6a;line-height:1.5;margin-bottom:14px;">Faites scanner ce QR Code par votre expert ou assureur pour partager un récapitulatif de votre dossier.</div>
+          <div id="share-qr-canvas" style="display:flex;justify-content:center;margin-bottom:14px;"></div>
+          <div id="share-qr-ref" style="font-size:10px;color:#9a8a72;margin-bottom:14px;"></div>
+          <button onclick="downloadQRCode()" style="width:100%;padding:11px;background:#2d5a27;color:white;border:none;border-radius:12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:8px;">
+            ⬇️ Télécharger le QR Code
+          </button>
+          <button onclick="shareQRCode()" id="share-qr-native-btn" style="width:100%;padding:11px;background:white;color:#2d5a27;border:1.5px solid #2d5a27;border-radius:12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;display:none;">
+            📤 Partager le QR Code
+          </button>
+        </div>
+        <div style="background:#fdf6e8;border-radius:10px;padding:10px 12px;font-size:10px;color:#8a6a1a;line-height:1.5;display:flex;gap:8px;align-items:flex-start;">
+          <span style="flex-shrink:0;">⚠️</span>
+          <span>Le QR Code encode un récapitulatif de votre dossier (profil, avancement, référence). Il ne contient pas vos photos ni vos pièces jointes.</span>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -2296,10 +2335,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 
         <!-- Encarts secondaires -->
         <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px;">
-          <div style="padding:9px 11px;background:#f3f8f0;border-radius:9px;font-size:10.5px;color:#2d5a27;font-weight:600;display:flex;align-items:center;gap:7px;">
-            <span style="flex-shrink:0;">💡</span>
-            <span>Plus vous renseignez d'informations, plus votre dossier sera solide face à l'expert.</span>
-          </div>
           <div style="padding:9px 11px;background:#fdf6e8;border-radius:9px;font-size:10px;color:#8a6a1a;font-weight:600;display:flex;align-items:flex-start;gap:7px;line-height:1.55;">
             <span style="flex-shrink:0;">⚖️</span>
             <span>ArgiQare est un outil d'accompagnement indicatif, sans valeur juridique. Il ne remplace pas l'avis d'un professionnel — expert, assureur, avocat ou géotechnicien selon votre situation.</span>
@@ -3651,19 +3686,19 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         </div>
       </div>
 
-      <!-- SOUS-BULLES — accès direct Cat Nat / Ma Maison depuis l'Accueil -->
+      <!-- SOUS-BULLES — accès direct Cat Nat depuis l'Accueil -->
       <div style="display:flex;flex-direction:column;gap:8px;margin-top:10px;">
         <button class="dash-card" onclick="dashQuickAction('catnat')" style="display:flex;align-items:center;gap:10px;text-align:left;border:none;cursor:pointer;font-family:inherit;width:100%;">
           <div style="font-size:20px;flex-shrink:0;">⚖️</div>
           <div style="flex:1;font-size:11.5px;font-weight:700;color:#1a2a0e;">Je m'informe sur le régime des catastrophes naturelles (Cat Nat)</div>
           <div style="font-size:14px;color:#a8a092;flex-shrink:0;">›</div>
         </button>
-        <button class="dash-card" onclick="dashQuickAction('maison')" style="display:flex;align-items:center;gap:10px;text-align:left;border:none;cursor:pointer;font-family:inherit;width:100%;">
-          <div style="font-size:20px;flex-shrink:0;">🏠</div>
-          <div style="flex:1;font-size:11.5px;font-weight:700;color:#1a2a0e;">Je renseigne les informations sur ma maison</div>
-          <div style="font-size:14px;color:#a8a092;flex-shrink:0;">›</div>
-        </button>
       </div>
+
+      <!-- BOUTON ÉTAPE SUIVANTE — Ma Maison, style cohérent avec les autres onglets -->
+      <button class="btn-next-tab" onclick="switchTab('maison', document.querySelectorAll('.nav-item')[1])">
+        🏠 Étape suivante — Ma Maison
+      </button>
 
       <!-- ACCÈS RAPIDE AU DERNIER PDF GÉNÉRÉ -->
       <div class="dash-card" id="dash-last-pdf-card" style="display:none;margin-top:8px;">
@@ -7696,19 +7731,156 @@ function closeDossierPreview(){
 }
 
 // ── POINT 8 — Partage natif du dernier PDF généré ──
+// ── Ouvre la modale de partage (depuis Mon Dossier ou Accueil) ──
 function shareLastPdf(){
-  const ref = localStorage.getItem('argicare-last-pdf-ref') || '';
-  const date = localStorage.getItem('argicare-last-pdf-date') || '';
-  const shareText = `Mon dossier ArgiQare (réf. ${ref}) généré le ${date}. Synthèse RGA / Cat Nat à consulter.`;
-  if(navigator.share){
-    navigator.share({ title: 'Dossier ArgiQare', text: shareText }).catch(() => {});
+  // Ouvre la modale sur l'onglet PDF par défaut
+  document.getElementById('share-overlay').classList.remove('hidden');
+  switchShareTab('pdf');
+}
+
+// ── Navigation entre les onglets PDF / QR ──
+function switchShareTab(tab){
+  const tabPdf = document.getElementById('share-tab-pdf');
+  const tabQr  = document.getElementById('share-tab-qr');
+  const contentPdf = document.getElementById('share-content-pdf');
+  const contentQr  = document.getElementById('share-content-qr');
+  if(!tabPdf) return;
+  if(tab === 'pdf'){
+    tabPdf.style.color = '#2d5a27'; tabPdf.style.borderBottomColor = '#2d5a27';
+    tabQr.style.color  = '#9a8a72'; tabQr.style.borderBottomColor  = 'transparent';
+    contentPdf.style.display = 'flex'; contentPdf.style.flexDirection = 'column';
+    contentQr.style.display  = 'none';
   } else {
-    navigator.clipboard?.writeText(shareText).then(() => {
-      showToast('📋 Informations copiées — collez-les dans votre message');
-    }).catch(() => {
-      showToast('Partage non disponible sur ce navigateur');
-    });
+    tabQr.style.color  = '#2d5a27'; tabQr.style.borderBottomColor  = '#2d5a27';
+    tabPdf.style.color = '#9a8a72'; tabPdf.style.borderBottomColor = 'transparent';
+    contentQr.style.display  = 'flex'; contentQr.style.flexDirection = 'column';
+    contentPdf.style.display = 'none';
+    generateQRCode();
   }
+}
+
+// ── Génère le PDF puis ouvre le share sheet natif ──
+function generateAndSharePDF(){
+  closeShareLink();
+  // On génère d'abord le PDF normalement (déclenche le téléchargement)
+  // puis on ouvre le share sheet si disponible
+  generatePDF();
+  setTimeout(() => {
+    if(navigator.share){
+      const ref   = localStorage.getItem('argicare-last-pdf-ref')  || '';
+      const date  = localStorage.getItem('argicare-last-pdf-date') || '';
+      navigator.share({
+        title: 'Dossier ArgiQare — Synthèse RGA',
+        text: `Dossier de synthèse RGA / Cat Nat — Réf. ${ref}, généré le ${date}. Consultez le fichier PDF téléchargé sur votre appareil.`
+      }).catch(() => {});
+    } else {
+      showToast('📄 PDF téléchargé — partagez le fichier depuis votre explorateur de fichiers');
+    }
+  }, 1000);
+}
+
+// ── Génère le QR Code du dossier ──
+let _qrCanvas = null;
+function generateQRCode(){
+  const canvas = document.getElementById('share-qr-canvas');
+  const refEl  = document.getElementById('share-qr-ref');
+  const nativeBtn = document.getElementById('share-qr-native-btn');
+  if(!canvas) return;
+
+  const ref     = localStorage.getItem('argicare-last-pdf-ref')  || ('AQ-'+new Date().getFullYear()+'-XXXX');
+  const date    = localStorage.getItem('argicare-last-pdf-date') || new Date().toLocaleDateString('fr-FR');
+  const profil  = localStorage.getItem('argicare-profil') || '—';
+  const nom     = (document.getElementById('m_nom')?.value||'').trim() || '—';
+  const prenom  = (document.getElementById('m_prenom')?.value||'').trim() || '';
+  const nJoints = Object.keys(diagFiles).length;
+  const diagCbs = document.querySelectorAll('#screen-diag .diag-cb');
+  const diagPct = Math.round([...diagCbs].filter(c=>c.checked).length / Math.max(diagCbs.length,1) * 100);
+
+  // Données encodées dans le QR (texte compact)
+  const qrText = [
+    'ArgiQare — Dossier RGA',
+    'Réf: ' + ref,
+    'Assuré: ' + prenom + ' ' + nom,
+    'Profil: ' + profil,
+    'Avancement: ' + diagPct + '%',
+    'Documents joints: ' + nJoints + '/8',
+    'Généré le: ' + date,
+    'argiqare.fr'
+  ].join('\n');
+
+  if(refEl) refEl.textContent = 'Réf. ' + ref + ' — ' + date;
+  if(nativeBtn) nativeBtn.style.display = navigator.share ? 'block' : 'none';
+
+  // Génération du QR Code via canvas (algorithme QR natif sans bibliothèque)
+  // On utilise une approche simple via l'API de données d'image
+  const size = 160;
+  canvas.innerHTML = '';
+  const cvs = document.createElement('canvas');
+  cvs.width = size; cvs.height = size;
+  cvs.style.cssText = 'border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.12);';
+  _qrCanvas = cvs;
+  canvas.appendChild(cvs);
+
+  // Utilisation de la librairie QRious si disponible, sinon génération
+  // via l'API de transformation de données URI en QR pattern SVG simplifié
+  const ctx = cvs.getContext('2d');
+
+  // On charge QRious dynamiquement si pas encore chargé
+  if(typeof QRious === 'undefined'){
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js';
+    script.onload = () => _drawQR(cvs, qrText);
+    script.onerror = () => _drawQRFallback(ctx, size, qrText, ref);
+    document.head.appendChild(script);
+  } else {
+    _drawQR(cvs, qrText);
+  }
+}
+
+function _drawQR(canvas, text){
+  try {
+    new QRious({
+      element: canvas,
+      value: text,
+      size: 160,
+      foreground: '#2d5a27',
+      background: '#ffffff',
+      level: 'M'
+    });
+  } catch(e){ console.warn('QRious error', e); }
+}
+
+// Fallback visuel si la librairie est indisponible
+function _drawQRFallback(ctx, size, text, ref){
+  ctx.fillStyle = 'white'; ctx.fillRect(0,0,size,size);
+  ctx.fillStyle = '#2d5a27';
+  ctx.font = 'bold 11px sans-serif'; ctx.textAlign = 'center';
+  ctx.fillText('QR Code non disponible', size/2, size/2-8);
+  ctx.font = '9px sans-serif'; ctx.fillStyle = '#9a8a72';
+  ctx.fillText('Réf. ' + ref, size/2, size/2+8);
+  ctx.fillText('Rechargez en ligne', size/2, size/2+22);
+}
+
+// ── Télécharge le QR Code en PNG ──
+function downloadQRCode(){
+  if(!_qrCanvas){ showToast('Générez d\'abord le QR Code'); return; }
+  const link = document.createElement('a');
+  link.download = 'ArgiQare_QRCode.png';
+  link.href = _qrCanvas.toDataURL('image/png');
+  link.click();
+  showToast('📷 QR Code téléchargé');
+}
+
+// ── Partage natif du QR Code ──
+function shareQRCode(){
+  if(!_qrCanvas || !navigator.share) return;
+  _qrCanvas.toBlob(blob => {
+    const file = new File([blob], 'ArgiQare_QRCode.png', {type:'image/png'});
+    navigator.share({
+      title: 'QR Code — Dossier ArgiQare',
+      files: [file]
+    }).catch(() => downloadQRCode());
+  });
 }
 </script>
 <!-- ═══════════════════════════════════════
