@@ -55,14 +55,67 @@
 /* ── FIN ISOLATION LEAFLET ── */
 
 /* ── CARTES PROFIL DIAGNOSTIC ── */
-.profil-card { border-radius:14px; padding:13px 14px; margin-bottom:9px; cursor:pointer; position:relative; overflow:hidden; transition:transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s; border:2px solid transparent; transform-style:preserve-3d; isolation:isolate; }
-.profil-card:active { transform:scale(.97) rotateX(2deg); box-shadow:0 2px 6px rgba(0,0,0,.08); }
-.profil-card-bg { position:absolute; inset:0; z-index:-1; background-size:220% 220%; }
+/* ── Cartes profil — Modèle E filet doré ── */
+.profil-card { border-radius:16px; padding:16px; margin-bottom:9px; cursor:pointer; overflow:hidden; border:1.5px solid transparent; transition:transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s; position:relative; isolation:isolate; }
+.profil-card:active { transform:scale(.97); box-shadow:0 2px 6px rgba(0,0,0,.08); }
+.profil-card:hover { transform:translateY(-2px); }
+.profil-card-bg { display:none; } /* plus utilisé dans le modèle E */
+
+/* Couleurs par profil */
+.profil-card.p1 { background:linear-gradient(140deg,#f4f0e8,#ece6d8); border-color:#d8cfc0; }
+.profil-card.p2 { background:linear-gradient(140deg,#f4ece4,#ead8c4); border-color:#d8b8a0; }
+.profil-card.p3 { background:linear-gradient(140deg,#ece4d8,#dcd0b4); border-color:#c8b090; }
+
+/* État sélectionné */
+.profil-card.selected.p1 { border-color:#2d5a27; box-shadow:0 4px 18px rgba(45,90,39,.2); }
+.profil-card.selected.p2 { border-color:#c06030; box-shadow:0 4px 18px rgba(192,96,48,.2); }
+.profil-card.selected.p3 { border-color:#a07030; box-shadow:0 4px 18px rgba(160,112,48,.2); }
+
+/* Header : numéro + tag + badge étape */
+.profil-card-top { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.profil-card-ic  { font-size:34px; font-weight:900; font-family:Georgia,'Times New Roman',serif; line-height:1; flex-shrink:0; }
+.profil-card.p1 .profil-card-ic { color:#2d5a27; }
+.profil-card.p2 .profil-card-ic { color:#8a4a28; }
+.profil-card.p3 .profil-card-ic { color:#7a5024; }
+.profil-card-body { flex:1; min-width:0; }
+.profil-card-tag  { font-size:8px; font-weight:800; letter-spacing:2px; text-transform:uppercase; margin-bottom:4px; }
+.profil-card.p1 .profil-card-tag { color:#6E5836; }
+.profil-card.p2 .profil-card-tag { color:#8A4A28; }
+.profil-card.p3 .profil-card-tag { color:#7A5024; }
+.profil-card-pill { font-size:8px; font-weight:700; padding:2px 8px; border-radius:8px; display:inline-block; }
+.profil-card.p1 .profil-card-pill { background:#e0d4b8; color:#6E5836; }
+.profil-card.p2 .profil-card-pill { background:#e4c8ac; color:#8A4A28; }
+.profil-card.p3 .profil-card-pill { background:#d8bc90; color:#7A5024; }
+
+/* Filet doré horizontal */
+.profil-card-divider { height:1px; margin-bottom:10px; border-radius:1px; }
+.profil-card.p1 .profil-card-divider { background:linear-gradient(90deg,#C9A23A,rgba(201,162,58,.1)); }
+.profil-card.p2 .profil-card-divider { background:linear-gradient(90deg,#C08040,rgba(192,128,64,.1)); }
+.profil-card.p3 .profil-card-divider { background:linear-gradient(90deg,#A87840,rgba(168,120,64,.1)); }
+
+/* Titre */
+.profil-card-title { font-size:12px; font-weight:800; line-height:1.35; margin-bottom:4px; }
+.profil-card.p1 .profil-card-title { color:#3a2e1a; }
+.profil-card.p2 .profil-card-title { color:#4a2a14; }
+.profil-card.p3 .profil-card-title { color:#3a2010; }
+
+/* Sous-titre */
+.profil-card-sub { font-size:9.5px; line-height:1.5; margin-bottom:12px; }
+.profil-card.p1 .profil-card-sub { color:#7a6a4a; }
+.profil-card.p2 .profil-card-sub { color:#8E5A3A; }
+.profil-card.p3 .profil-card-sub { color:#6E4A24; }
+
+/* CTA en bas centré */
+.profil-card-footer { text-align:center; }
+.profil-card-cta { display:inline-flex; align-items:center; gap:5px; font-size:10px; font-weight:700; padding:6px 14px; border-radius:20px; color:white; font-family:inherit; border:none; cursor:pointer; transition:opacity .15s; }
+.profil-card-cta:hover { opacity:.88; }
+.profil-card.p1 .profil-card-cta { background:#2d5a27; }
+.profil-card.p2 .profil-card-cta { background:#c06030; }
+.profil-card.p3 .profil-card-cta { background:#a07030; }
 
 /* Profil 1 — Beige sable (constat) */
 @keyframes profilBgSlate { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
-.profil-card.p1 { border-color:#C8B088; }
-.profil-card.p1 .profil-card-bg { background:linear-gradient(125deg,#EDE3D3 0%,#E4D5BC 40%,#DCC9A8 70%,#E8DBC4 100%); animation:profilBgSlate 22s ease-in-out infinite; }
+/* animations profil conservées */
 
 /* Profil 2 — Terracotta doux (attente) */
 @keyframes profilBgStone { 0%{background-position:0% 0%;} 50%{background-position:40% 100%;} 100%{background-position:0% 0%;} }
@@ -3745,45 +3798,51 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           <div class="profil-card p1" onclick="dashSelectProfil(1)">
             <div class="profil-card-bg"></div>
             <div class="profil-card-top">
-              <div class="profil-card-ic">🔍</div>
+              <div class="profil-card-ic">1</div>
               <div class="profil-card-body">
-                <div class="profil-card-tag">PROFIL 1</div>
-                <div class="profil-card-title">Je viens de constater une fissure</div>
-                <div class="profil-card-sub">Je ne sais pas encore si c'est le RGA. Je démarre depuis le début et veux constituer mon dossier complet.</div>
+                <div class="profil-card-tag">PROFIL</div>
+                <div class="profil-card-pill">Étapes 1 à 12</div>
               </div>
             </div>
+            <div class="profil-card-divider"></div>
+            <div class="profil-card-title">Je viens de constater une fissure</div>
+            <div class="profil-card-sub">Je ne sais pas encore si c'est le RGA. Je démarre depuis le début et veux constituer mon dossier complet.</div>
             <div class="profil-card-footer">
-              <span class="profil-card-pill">📍 12 étapes — parcours complet</span>
+              <button class="profil-card-cta" onclick="dashSelectProfil(1);event.stopPropagation()">▶ Démarrer le parcours complet</button>
             </div>
           </div>
 
           <div class="profil-card p2" onclick="dashSelectProfil(2)">
             <div class="profil-card-bg"></div>
             <div class="profil-card-top">
-              <div class="profil-card-ic">📋</div>
+              <div class="profil-card-ic">2</div>
               <div class="profil-card-body">
-                <div class="profil-card-tag">PROFIL 2</div>
-                <div class="profil-card-title">Je viens de déclarer mon sinistre et/ou j'attends l'arrêté Cat Nat</div>
-                <div class="profil-card-sub">Mon sinistre est déclaré mais ma commune n'est pas encore reconnue. Je prépare mon dossier en attendant.</div>
+                <div class="profil-card-tag">PROFIL</div>
+                <div class="profil-card-pill">À partir de l'étape 4</div>
               </div>
             </div>
+            <div class="profil-card-divider"></div>
+            <div class="profil-card-title">Je viens de déclarer mon sinistre et/ou j'attends l'arrêté Cat Nat</div>
+            <div class="profil-card-sub">Mon sinistre est déclaré mais ma commune n'est pas encore reconnue. Je prépare mon dossier en attendant.</div>
             <div class="profil-card-footer">
-              <span class="profil-card-pill">📍 Étapes 1 à 4 actives — étapes 1 à 3 facultatives</span>
+              <button class="profil-card-cta" onclick="dashSelectProfil(2);event.stopPropagation()">▶ Rejoindre à l'étape 4</button>
             </div>
           </div>
 
           <div class="profil-card p3" onclick="dashSelectProfil(3)">
             <div class="profil-card-bg"></div>
             <div class="profil-card-top">
-              <div class="profil-card-ic">🏗️</div>
+              <div class="profil-card-ic">3</div>
               <div class="profil-card-body">
-                <div class="profil-card-tag">PROFIL 3</div>
-                <div class="profil-card-title">Un expert est missionné pour mon dossier</div>
-                <div class="profil-card-sub">L'expertise est terminée. Je suis en phase d'indemnisation et de réparation de mon bien.</div>
+                <div class="profil-card-tag">PROFIL</div>
+                <div class="profil-card-pill">À partir de l'étape 10</div>
               </div>
             </div>
+            <div class="profil-card-divider"></div>
+            <div class="profil-card-title">Un expert est missionné pour mon dossier</div>
+            <div class="profil-card-sub">L'expertise est en cours ou terminée. Je suis en phase d'indemnisation et de réparation de mon bien.</div>
             <div class="profil-card-footer">
-              <span class="profil-card-pill">📍 À partir de l'étape 10 — tout reste consultable</span>
+              <button class="profil-card-cta" onclick="dashSelectProfil(3);event.stopPropagation()">▶ Rejoindre à l'étape 10</button>
             </div>
           </div>
 
@@ -5214,7 +5273,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         <span class="glossaire-sheet-handle-label">💬 Glossaire</span>
       </div>
       <div class="glossaire-sheet-header">
-        <div style="font-size:10.5px;color:#5a7a52;line-height:1.6;padding:2px 0;">Appuyez sur un mot souligné dans l'application pour afficher sa définition. Utilisez la recherche pour explorer les termes du régime Cat Nat et du RGA.</div>
+        <div style="font-size:10.5px;color:rgba(255,255,255,.75);line-height:1.6;padding:2px 0;">Appuyez sur un mot souligné dans l'application pour afficher sa définition. Utilisez la recherche pour explorer les termes du régime Cat Nat et du RGA.</div>
         <div id="gl-surligna-toggle" onclick="toggleSurlignage()" style="display:flex;align-items:center;gap:6px;cursor:pointer;padding:5px 10px;border-radius:20px;background:#e8f5e4;border:1.5px solid #a8d5a2;transition:all .2s;">
           <span id="gl-surligna-icon" style="font-size:13px;">✨</span>
           <span id="gl-surligna-label" style="font-size:10px;font-weight:700;color:#2d5a27;">Surlignage actif</span>
