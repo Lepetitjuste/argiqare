@@ -46,32 +46,21 @@
 <!-- ══ /PWA ══ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <style>
-/* ── ISOLATION LEAFLET — empêche ses CSS globaux de casser le layout ── */
 .phone img { max-width:100% !important; }
 #rga-map img { max-width:none !important; max-height:none !important; width:auto !important; height:auto !important; }
 #rga-map { z-index:0 !important; position:relative !important; }
 #rga-map * { box-sizing:content-box; }
 .phone .leaflet-container { font-size:12px; }
-/* ── FIN ISOLATION LEAFLET ── */
-
-/* ── CARTES PROFIL DIAGNOSTIC ── */
-/* ── Cartes profil — Modèle E filet doré ── */
 .profil-card { border-radius:16px; padding:16px; margin-bottom:9px; cursor:pointer; overflow:hidden; border:1.5px solid transparent; transition:transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s; position:relative; isolation:isolate; }
 .profil-card:active { transform:scale(.97); box-shadow:0 2px 6px rgba(0,0,0,.08); }
 .profil-card:hover { transform:translateY(-2px); }
-.profil-card-bg { display:none; } /* plus utilisé dans le modèle E */
-
-/* Couleurs par profil */
+.profil-card-bg { display:none; } 
 .profil-card.p1 { background:linear-gradient(140deg,#f4f0e8,#ece6d8); border-color:#d8cfc0; }
 .profil-card.p2 { background:linear-gradient(140deg,#f4ece4,#ead8c4); border-color:#d8b8a0; }
 .profil-card.p3 { background:linear-gradient(140deg,#ece4d8,#dcd0b4); border-color:#c8b090; }
-
-/* État sélectionné */
 .profil-card.selected.p1 { border-color:#2d5a27; box-shadow:0 4px 18px rgba(45,90,39,.2); }
 .profil-card.selected.p2 { border-color:#c06030; box-shadow:0 4px 18px rgba(192,96,48,.2); }
 .profil-card.selected.p3 { border-color:#a07030; box-shadow:0 4px 18px rgba(160,112,48,.2); }
-
-/* Header : numéro + tag + badge étape */
 .profil-card-top { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
 .profil-card-ic  { font-size:34px; font-weight:900; font-family:Georgia,'Times New Roman',serif; line-height:1; flex-shrink:0; }
 .profil-card.p1 .profil-card-ic { color:#2d5a27; }
@@ -86,47 +75,31 @@
 .profil-card.p1 .profil-card-pill { background:#e0d4b8; color:#6E5836; }
 .profil-card.p2 .profil-card-pill { background:#e4c8ac; color:#8A4A28; }
 .profil-card.p3 .profil-card-pill { background:#d8bc90; color:#7A5024; }
-
-/* Filet doré horizontal */
 .profil-card-divider { height:1px; margin-bottom:10px; border-radius:1px; }
 .profil-card.p1 .profil-card-divider { background:linear-gradient(90deg,#C9A23A,rgba(201,162,58,.1)); }
 .profil-card.p2 .profil-card-divider { background:linear-gradient(90deg,#C08040,rgba(192,128,64,.1)); }
 .profil-card.p3 .profil-card-divider { background:linear-gradient(90deg,#A87840,rgba(168,120,64,.1)); }
-
-/* Titre */
 .profil-card-title { font-size:12px; font-weight:800; line-height:1.35; margin-bottom:4px; }
 .profil-card.p1 .profil-card-title { color:#3a2e1a; }
 .profil-card.p2 .profil-card-title { color:#4a2a14; }
 .profil-card.p3 .profil-card-title { color:#3a2010; }
-
-/* Sous-titre */
 .profil-card-sub { font-size:9.5px; line-height:1.5; margin-bottom:12px; }
 .profil-card.p1 .profil-card-sub { color:#7a6a4a; }
 .profil-card.p2 .profil-card-sub { color:#8E5A3A; }
 .profil-card.p3 .profil-card-sub { color:#6E4A24; }
-
-/* CTA en bas centré */
 .profil-card-footer { text-align:center; }
 .profil-card-cta { display:inline-flex; align-items:center; gap:5px; font-size:10px; font-weight:700; padding:6px 14px; border-radius:20px; color:white; font-family:inherit; border:none; cursor:pointer; transition:opacity .15s; }
 .profil-card-cta:hover { opacity:.88; }
 .profil-card.p1 .profil-card-cta { background:#2d5a27; }
 .profil-card.p2 .profil-card-cta { background:#c06030; }
 .profil-card.p3 .profil-card-cta { background:#a07030; }
-
-/* Profil 1 — Beige sable (constat) */
 @keyframes profilBgSlate { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
-/* animations profil conservées */
-
-/* Profil 2 — Terracotta doux (attente) */
 @keyframes profilBgStone { 0%{background-position:0% 0%;} 50%{background-position:40% 100%;} 100%{background-position:0% 0%;} }
 .profil-card.p2 { border-color:#C4906A; }
 .profil-card.p2 .profil-card-bg { background:linear-gradient(135deg,#EAD2C4 0%,#E0B8A0 35%,#D4A688 65%,#E2C0A8 100%); animation:profilBgStone 26s ease-in-out infinite; }
-
-/* Profil 3 — Brun cuivré (travaux) */
 @keyframes profilBgTaupe { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
 .profil-card.p3 { border-color:#A87840; }
 .profil-card.p3 .profil-card-bg { background:linear-gradient(120deg,#E8D4BC 0%,#D8B488 40%,#C29464 70%,#DCBA94 100%); animation:profilBgTaupe 20s ease-in-out infinite; }
-
 .profil-card.selected.p1 { border-color:#6E5836; box-shadow:0 4px 16px rgba(110,88,54,.25); }
 .profil-card.selected.p2 { border-color:#8A4A28; box-shadow:0 4px 16px rgba(138,74,40,.25); }
 .profil-card.selected.p3 { border-color:#7A5024; box-shadow:0 4px 16px rgba(122,80,36,.25); }
@@ -153,8 +126,6 @@
 .profil-card.selected .profil-card-check { background:#6E5836; border-color:#6E5836; color:white; }
 .profil-card.p2.selected .profil-card-check { background:#8A4A28; border-color:#8A4A28; }
 .profil-card.p3.selected .profil-card-check { background:#7A5024; border-color:#7A5024; }
-
-/* Étapes grisées */
 .diag-step.profil-grise { opacity:.38; pointer-events:none; }
 @keyframes stepUnlock { 0%{box-shadow:0 0 0 0 rgba(74,124,63,0);} 30%{box-shadow:0 0 0 6px rgba(74,124,63,.25);transform:scale(1.015);} 100%{box-shadow:0 0 0 0 rgba(74,124,63,0);transform:scale(1);} }
 .diag-step.step-unlock { animation: stepUnlock .55s cubic-bezier(.34,1.56,.64,1); }
@@ -166,8 +137,6 @@
 .profil-step-badge.fait { background:#e8f5e4; color:#2d5a27; }
 .profil-step-badge.bloque { background:#f0ece4; color:#9a8a72; }
 .profil-step-badge.info { background:#f0f7ec; color:#1a3a6e; }
-
-/* Bandeau profil actif */
 .profil-actif-bar { display:flex; align-items:center; gap:8px; padding:10px 12px; border-radius:10px; margin-bottom:10px; font-size:11px; font-weight:700; line-height:1.4; }
 .profil-actif-bar.none { background:#f0ece4; color:#7a6a52; }
 .profil-actif-bar.p1 { background:#e8f5e4; color:#2d5a27; }
@@ -175,11 +144,6 @@
 .profil-actif-bar.p3 { background:#fdf6e8; color:#9a5800; }
 .profil-actif-bar #profil-actif-icon { font-size:16px; flex-shrink:0; }
 .profil-actif-change { margin-left:auto; font-size:10px; font-weight:600; text-decoration:underline; cursor:pointer; opacity:.7; flex-shrink:0; }
-/* ── FIN CARTES PROFIL ── */
-
-/* ── NIVEAU 1 : Micro-interactions tactiles ── */
-
-/* Feedback universel sur tout ce qui est tappable */
 button, .nav-item, .diag-step-header, .section-header,
 .catnat-tab, .disclaimer-popup-btn, .btn-save, .btn-next-tab,
 .btn-pdf-mini, .profil-card, .va-card, .triage-btn,
@@ -188,16 +152,12 @@ button, .nav-item, .diag-step-header, .section-header,
 .upload-add-btn, .story-nav-btn, .tuto-next-btn {
   -webkit-tap-highlight-color: transparent;
 }
-
-/* Scale au tap sur les boutons principaux */
 .btn-save:active, .btn-next-tab:active, .btn-pdf-mini:active,
 .scan-doc-btn:active, .disclaimer-popup-btn:active {
   transform: scale(.97);
   opacity: .9;
   transition: transform .08s, opacity .08s;
 }
-
-/* Ripple léger sur les nav items */
 .nav-item { position: relative; overflow: hidden; }
 .nav-item::after {
   content: '';
@@ -207,43 +167,19 @@ button, .nav-item, .diag-step-header, .section-header,
   transition: background .15s;
 }
 .nav-item:active::after { background: rgba(255,255,255,.12); }
-
-/* Feedback tactile sur les étapes du diagnostic */
 .diag-step-header:active { background: rgba(45,90,39,.05); border-radius: 10px; }
-
-/* Feedback sur les items de check */
 .diag-check-item:active { background: #e8f5e4 !important; transform: scale(.99); }
 .diag-check-item { transition: background .15s, transform .1s; }
-
-/* Feedback sur les cartes profil */
 .profil-card:active { transform: scale(.98); }
-
-/* Feedback sur les accordéons loi */
 .acc-loi-header:active { background: rgba(26,58,110,.05); }
-
-/* Feedback sur les items du glossaire */
 .glossaire-item { transition: background .15s, padding-left .15s; }
-
-/* Feedback sur les FAQ */
 .cn-faq-q:active { background: rgba(26,58,110,.06) !important; }
-
-/* Feedback sur les param-rows */
 .param-row { transition: background .15s; }
 .param-row:active { background: rgba(45,90,39,.06) !important; }
-
-/* Bouton Géorisques */
 #rga-georisques-link:active { transform: scale(.98); opacity: .85; }
 #rga-georisques-link { transition: transform .1s, opacity .1s; }
-
-/* Triage buttons */
 .triage-btn { transition: transform .12s, opacity .12s; }
 .triage-btn:active { transform: scale(.97); opacity: .9; }
-
-/* ── FIN NIVEAU 1 ── */
-
-/* ── NIVEAU 2 : Entrée des contenus ── */
-
-/* Keyframes réutilisables */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -260,13 +196,9 @@ button, .nav-item, .diag-step-header, .section-header,
   from { opacity: 0; transform: translateX(-8px); }
   to   { opacity: 1; transform: translateX(0); }
 }
-
-/* Entrée des screens au changement d'onglet — fadeIn pur, sans déplacement */
 .screen.anim-in {
   animation: fadeIn .22s cubic-bezier(.4,0,.2,1) both;
 }
-
-/* Entrée des étapes diagnostic quand elles s'ouvrent — léger overshoot élastique */
 @keyframes stepOpenBounce {
   0%   { opacity:0; transform: translateY(-6px) scaleY(.96); }
   60%  { opacity:1; transform: translateY(1px) scaleY(1.01); }
@@ -276,28 +208,18 @@ button, .nav-item, .diag-step-header, .section-header,
   animation: stepOpenBounce .32s cubic-bezier(.34,1.56,.64,1) both;
   transform-origin: top;
 }
-
-/* Entrée des cards profil — fadeIn en cascade, sans déplacement */
 .profil-card:nth-child(1) { animation: fadeIn .2s .04s both; }
 .profil-card:nth-child(2) { animation: fadeIn .2s .10s both; }
 .profil-card:nth-child(3) { animation: fadeIn .2s .16s both; }
-
-/* Entrée du bandeau profil actif */
 #profil-actif-bar[style*="flex"] {
   animation: fadeIn .2s both;
 }
-
-/* Entrée des résultats Géorisques — fadeIn pur */
 #georisques-result.visible {
   animation: fadeIn .25s ease both;
 }
-
-/* Entrée du résultat scan */
 #scan-result-banner[style*="block"] {
   animation: scaleIn .2s cubic-bezier(.4,0,.2,1) both;
 }
-
-/* Entrée des cartes acteurs — fadeIn en cascade, sans déplacement */
 .acteur-card {
   animation: fadeIn .18s both;
 }
@@ -305,38 +227,20 @@ button, .nav-item, .diag-step-header, .section-header,
 .acteur-card:nth-child(2) { animation-delay: .08s; }
 .acteur-card:nth-child(3) { animation-delay: .13s; }
 .acteur-card:nth-child(4) { animation-delay: .18s; }
-
-/* Entrée des items glossaire à l'ouverture */
 .glossaire-overlay.open .glossaire-item {
   animation: fadeIn .18s both;
 }
-
-/* Entrée de la fiche RGA */
 #rga-map { animation: fadeIn .3s .1s both; }
-
-/* Entrée de la carte triage */
 .triage-sheet { animation: slideUp .32s cubic-bezier(.4,0,.2,1) both; }
-
-/* Entrée des popups */
 .disclaimer-popup { animation: slideUpPopup .28s cubic-bezier(.4,0,.2,1) both; }
-
-/* Transition fluide sur l'ouverture des accordéons Cat Nat */
 .cn-faq-a {
   overflow: hidden;
   transition: max-height .3s cubic-bezier(.4,0,.2,1), opacity .25s;
 }
-
-/* Entrée de la bannière PDF */
 #pdf-banner { animation: fadeIn .25s .05s both; }
-
-/* Entrée des section-blocks */
 .section-block {
   animation: fadeIn .2s both;
 }
-
-/* ── FIN NIVEAU 2 ── */
-
-/* Bounce sur l'icône nav active */
 @keyframes navBounce {
   0%   { transform: scale(1); }
   40%  { transform: scale(1.28); }
@@ -344,28 +248,20 @@ button, .nav-item, .diag-step-header, .section-header,
   100% { transform: scale(1); }
 }
 .nav-item.active .nav-icon { animation: navBounce .35s cubic-bezier(.4,0,.2,1) both; }
-
-/* ── ACCUEIL (ex tableau de bord en bottom-sheet, désormais un onglet
-   à part entière — voir #screen-accueil) ── */
-
 .dash-greeting { font-size:13px; font-weight:800; color:#1a2a0e; margin:4px 0 1px; }
 .dash-greeting-sub { font-size:10px; color:#7a8a6a; margin-bottom:9px; line-height:1.4; }
-
 .dash-card { background:white; border-radius:12px; padding:9px 11px; margin-bottom:6px; box-shadow:0 2px 10px rgba(0,0,0,.05); }
 .dash-card-title { font-size:9px; font-weight:800; color:#7a8a6a; text-transform:uppercase; letter-spacing:.5px; margin-bottom:4px; }
-
 .dash-progress-row { display:flex; align-items:center; gap:10px; }
 .dash-progress-ring { width:42px; height:42px; flex-shrink:0; }
 .dash-progress-info { flex:1; }
 .dash-progress-pct { font-size:16px; font-weight:900; color:#1a3a6e; }
 .dash-progress-label { font-size:9.5px; color:#5a6a52; margin-top:0; }
-
 .dash-next-step { display:flex; align-items:center; gap:7px; margin-top:4px; padding-top:4px; border-top:1px solid #eee; }
 .dash-next-ic { font-size:15px; }
 .dash-next-text { font-size:10px; color:#3a5a32; flex:1; line-height:1.3; }
 .dash-next-text strong { color:#1a2a0e; }
 .dash-next-btn { font-size:9.5px; font-weight:800; color:#1a3a6e; background:#e8f0fe; padding:4px 9px; border-radius:20px; cursor:pointer; white-space:nowrap; }
-
 .dash-profil-pill { display:inline-flex; align-items:center; gap:6px; font-size:9.5px; font-weight:700; padding:4px 10px; border-radius:20px; }
 @keyframes pillPop { 0%{transform:scale(.5);opacity:0;} 60%{transform:scale(1.08);opacity:1;} 100%{transform:scale(1);} }
 .dash-profil-pill { animation: pillPop .4s cubic-bezier(.34,1.56,.64,1) both; }
@@ -373,7 +269,6 @@ button, .nav-item, .diag-step-header, .section-header,
 .dash-profil-pill.p2 { background:#eaf0ff; color:#1a3a6e; }
 .dash-profil-pill.p3 { background:#fdf6e8; color:#9a5800; }
 .dash-profil-pill.none { background:#f0ece4; color:#9a8a72; }
-
 .dash-quick-actions { display:flex; gap:6px; }
 .dash-qa-btn {
   flex:1; position:relative; background:white; border-radius:10px;
@@ -381,8 +276,6 @@ button, .nav-item, .diag-step-header, .section-header,
   transition:transform .1s;
 }
 .dash-qa-btn:active { transform:scale(.96); }
-/* Calque de remplissage progressif, monte depuis le bas selon le % de
-   complétion — couleur transparente pour rester discret sous le contenu. */
 .dash-qa-fill {
   position:absolute; left:0; right:0; bottom:0; height:0%;
   background:rgba(74,124,63,.18);
@@ -410,7 +303,6 @@ button, .nav-item, .diag-step-header, .section-header,
 }
 @keyframes qaPulse { 0%{transform:scale(1);} 35%{transform:scale(1.08);box-shadow:0 0 0 4px rgba(74,124,63,.25);} 100%{transform:scale(1);box-shadow:0 0 0 0 rgba(74,124,63,0);} }
 .dash-qa-btn.qa-pulse { animation: qaPulse .65s cubic-bezier(.34,1.56,.64,1); }
-/* ── REPRISE DE SESSION ── */
 .dash-resume-banner {
   background:linear-gradient(135deg,#e8f0fe,#dce8fc);
   border-radius:12px; padding:10px 12px; margin-bottom:8px;
@@ -418,8 +310,6 @@ button, .nav-item, .diag-step-header, .section-header,
   display:flex; align-items:center; gap:8px;
 }
 .dash-resume-banner-ic { font-size:18px; flex-shrink:0; }
-
-/* ── DERNIÈRE ACTION EFFECTUÉE ── */
 .dash-last-action {
   background:linear-gradient(135deg,#e8f5e4,#dcf0d4);
   border-radius:12px; padding:10px 12px; margin-bottom:8px;
@@ -427,8 +317,6 @@ button, .nav-item, .diag-step-header, .section-header,
   display:flex; align-items:center; gap:8px;
 }
 .dash-last-action-ic { font-size:18px; flex-shrink:0; }
-
-/* ── TIMELINE VISUELLE DU PARCOURS ── */
 .dash-timeline { display:flex; align-items:flex-start; justify-content:space-between; padding:4px 0; }
 .dash-timeline-step { display:flex; flex-direction:column; align-items:center; gap:4px; flex:1; min-width:0; }
 .dash-timeline-dot {
@@ -449,8 +337,6 @@ button, .nav-item, .diag-step-header, .section-header,
   animation: lineWaveMove .65s ease-out;
 }
 @keyframes lineWaveMove { 0%{left:-30%;} 100%{left:100%;} }
-
-/* ── MON DOSSIER — FRISE DE CYCLE DE VIE (point 1) ── */
 .lifecycle-step { display:flex; flex-direction:column; align-items:center; gap:5px; flex:1; min-width:0; }
 .lifecycle-dot {
   width:30px; height:30px; border-radius:50%; background:#f0ece4;
@@ -463,8 +349,6 @@ button, .nav-item, .diag-step-header, .section-header,
 .lifecycle-step.done .lifecycle-label, .lifecycle-step.current .lifecycle-label { color:#3a4a3a; }
 .lifecycle-line { height:2px; background:#e8e0d4; flex:0.5; margin-top:15px; }
 .lifecycle-line.done { background:#4a7c3f; }
-
-/* ── MON DOSSIER — TAGS DE STATUT PAR SECTION (point 7) ── */
 .section-tag-row { display:flex; align-items:center; gap:10px; padding:9px 0; border-bottom:1px solid #f0ece4; }
 .section-tag-row:last-child { border-bottom:none; }
 .section-tag-ic { font-size:14px; flex-shrink:0; }
@@ -473,16 +357,12 @@ button, .nav-item, .diag-step-header, .section-header,
 .section-tag-badge.complete { background:#e8f5e4; color:#2d5a27; }
 .section-tag-badge.partial { background:#fff3d6; color:#8a6000; }
 .section-tag-badge.empty { background:#f0ece4; color:#9a8a72; }
-
-/* ── MON DOSSIER — HISTORIQUE DES VERSIONS (point 3) ── */
 .history-item { display:flex; align-items:center; gap:10px; padding:8px 0; border-bottom:1px solid #f0ece4; }
 .history-item:last-child { border-bottom:none; }
 .history-ic { font-size:14px; flex-shrink:0; color:#7a9a72; }
 .history-info { flex:1; }
 .history-date { font-size:10.5px; font-weight:700; color:#2d3a1e; }
 .history-pct { font-size:9.5px; color:#9a8a72; margin-top:1px; }
-
-/* ── CE QU'IL VOUS RESTE À FAIRE ── */
 .dash-todo-item {
   display:flex; align-items:center; gap:8px; padding:7px 0;
   border-bottom:1px solid #f0ece4; cursor:pointer;
@@ -491,9 +371,6 @@ button, .nav-item, .diag-step-header, .section-header,
 .dash-todo-ic { font-size:14px; flex-shrink:0; }
 .dash-todo-text { flex:1; font-size:10.5px; color:#3a4a3a; font-weight:600; }
 .dash-todo-arrow { font-size:13px; color:#a8a092; flex-shrink:0; }
-/* ── FIN TABLEAU DE BORD ── */
-
-/* ── SÉLECTEUR MODE EXPRESS / COMPLET ── */
 .mode-selector { display:flex; gap:8px; margin-bottom:14px; }
 .mode-btn { flex:1; padding:13px 10px; border-radius:14px; cursor:pointer; text-align:center; border:2px solid transparent; transition:transform .12s, box-shadow .15s; background:#f0ece4; }
 .mode-btn:active { transform:scale(.97); }
@@ -502,8 +379,6 @@ button, .nav-item, .diag-step-header, .section-header,
 .mode-btn-sub { font-size:9px; color:#9a8a72; margin-top:2px; line-height:1.4; }
 .mode-btn.selected { background:linear-gradient(135deg,#eef8ea,#e0f0d8); border-color:#4a7c3f; box-shadow:0 3px 12px rgba(45,90,39,.18); }
 .mode-btn.selected .mode-btn-label { color:#2d5a27; }
-
-/* Sections grisées en mode express */
 .section-block.mode-grise {
   background:#ece9e4 !important;
   box-shadow:none;
@@ -520,7 +395,6 @@ button, .nav-item, .diag-step-header, .section-header,
 }
 .section-block.mode-grise .section-body { display:none !important; }
 .section-block.mode-grise .accordion-arrow { display:none; }
-/* Bouton Modifier sous chaque accordéon */
 .section-modifier-btn {
   display:none; width:100%; margin-top:8px; padding:10px;
   background:#f0f7ec; color:#1a3a6e; border:1.5px solid #b8c8e8;
@@ -528,7 +402,6 @@ button, .nav-item, .diag-step-header, .section-header,
   font-family:inherit; align-items:center; justify-content:center; gap:6px;
 }
 .section-modifier-btn.visible { display:flex; }
-
 .section-block.mode-grise .section-modifier-btn {
   display:flex;
   pointer-events:auto;
@@ -539,9 +412,6 @@ button, .nav-item, .diag-step-header, .section-header,
   background:#e0dcd4;
   color:#7a8a6a;
 }
-/* ── FIN SÉLECTEUR MODE ── */
-
-/* ── FEEDBACK SUCCÈS ÉTAPE COMPLÉTÉE ── */
 .diag-step.completed {
   border-color:#4a7c3f; background:#e8f5e4;
   transition: border-color .3s, background .3s;
@@ -554,8 +424,6 @@ button, .nav-item, .diag-step-header, .section-header,
   50%  { box-shadow: 0 0 0 10px rgba(74,124,63,.15); transform: scale(1.012); }
   100% { box-shadow: 0 0 0 0 rgba(74,124,63,0); transform: scale(1); }
 }
-
-/* Badge "Complétée" qui apparaît dans le header de l'étape */
 .diag-step-success-badge {
   display:none; align-items:center; gap:4px;
   font-size:9.5px; font-weight:800; color:#2d5a27;
@@ -567,8 +435,6 @@ button, .nav-item, .diag-step-header, .section-header,
   from { opacity:0; transform: scale(.5); }
   to   { opacity:1; transform: scale(1); }
 }
-
-/* Toast d'encouragement spécifique */
 .success-toast {
   position:absolute; top:50%; left:50%;
   transform:translate(-50%,-50%) scale(.85);
@@ -585,8 +451,6 @@ button, .nav-item, .diag-step-header, .section-header,
 }
 .success-toast-icon { font-size:26px; margin-bottom:4px; }
 .success-toast-sub { font-size:10.5px; font-weight:500; opacity:.85; margin-top:3px; }
-
-/* Confettis légers */
 .confetti-piece {
   position:absolute; width:6px; height:6px; top:50%; left:50%;
   border-radius:1px; pointer-events:none; z-index:899;
@@ -596,9 +460,6 @@ button, .nav-item, .diag-step-header, .section-header,
   0%   { transform: translate(0,0) rotate(0deg); opacity:1; }
   100% { transform: translate(var(--cx), var(--cy)) rotate(var(--cr)); opacity:0; }
 }
-/* ── FIN FEEDBACK SUCCÈS ── */
-
-/* ── VOILE DE CONFIDENTIALITÉ — masque l'app quand elle passe en arrière-plan ── */
 .privacy-shield {
   position:absolute; inset:0; z-index:9999;
   background:linear-gradient(160deg,#1a3a6e 0%,#2d5a27 100%);
@@ -611,14 +472,6 @@ button, .nav-item, .diag-step-header, .section-header,
 .privacy-shield__logo { font-size:26px; font-weight:300; color:rgba(255,255,255,.85); letter-spacing:-0.5px; font-family:Georgia,serif; }
 .privacy-shield__logo span { color:#D9B654; font-weight:700; }
 .privacy-shield__sub { font-size:11px; color:rgba(255,255,255,.65); text-align:center; padding:0 30px; line-height:1.5; }
-/* ── FIN VOILE DE CONFIDENTIALITÉ ── */
-
-/* ── RETOUR GUIDÉ DEPUIS LE TABLEAU DE BORD ──
-   Quand l'assuré clique sur une bulle du dashboard (Mon parcours, Ma
-   Maison, Mon dossier), il est renvoyé vers la dernière section/étape
-   où il a laissé une trace, avec un sursaut léger en surbrillance bleue
-   (distincte du vert "succès") et une aide visuelle contextuelle qui
-   l'invite à reprendre exactement là où il s'était arrêté. ── */
 .return-guide-pulse {
   animation: returnGuidePulse 1.1s cubic-bezier(.4,0,.2,1);
 }
@@ -627,9 +480,6 @@ button, .nav-item, .diag-step-header, .section-header,
   40%  { box-shadow: 0 0 0 12px rgba(26,58,110,.18); transform: scale(1.015); }
   100% { box-shadow: 0 0 0 0 rgba(26,58,110,0); transform: scale(1); }
 }
-
-/* Aide visuelle contextuelle — petit badge flottant qui pointe vers la
-   section reprise, disparaît automatiquement après quelques secondes. */
 .return-guide-tip {
   position:absolute; z-index:850;
   background:linear-gradient(135deg,#1a3a6e,#2a5ca8);
@@ -647,10 +497,8 @@ button, .nav-item, .diag-step-header, .section-header,
   width:10px; height:10px;
   background:#1a3a6e; transform:rotate(45deg);
 }
-/* ── FIN RETOUR GUIDÉ ── */
 </style>
 <script>
-// Défini tôt pour être disponible dès le parsing HTML
 const TOTAL_CHECKS = 106;
 const ETAPE_LABELS = [
   "Observation d'une fissure",
@@ -667,7 +515,6 @@ const ETAPE_LABELS = [
   "Les travaux de réparation",
 ];
 
-// ══ FEEDBACK SUCCÈS — ÉTAPE COMPLÉTÉE ══
 function injectSuccessBadges(){
   document.querySelectorAll('.diag-step-header').forEach(header => {
     if(header.querySelector('.diag-step-success-badge')) return;
@@ -682,16 +529,13 @@ function injectSuccessBadges(){
 
 function triggerStepSuccess(stepEl, label){
   if(!stepEl) return;
-  // Pulse visuel sur l'étape
   stepEl.classList.remove('just-completed');
   void stepEl.offsetWidth;
   stepEl.classList.add('just-completed');
   setTimeout(()=> stepEl.classList.remove('just-completed'), 650);
 
-  // Confettis légers depuis le centre de l'étape
   spawnConfetti(stepEl);
 
-  // Toast de félicitations
   showSuccessToast(label);
 }
 
@@ -746,17 +590,12 @@ function showSuccessToast(label){
   clearTimeout(toast._hideTimer);
   toast._hideTimer = setTimeout(()=> toast.classList.remove('visible'), 1500);
 }
-// ══ FIN FEEDBACK SUCCÈS ══
 
 function updateProgress(){
   const all = document.querySelectorAll('#screen-diag .diag-cb');
   const checked = [...all].filter(c=>c.checked).length;
   const pct = Math.round((checked/TOTAL_CHECKS)*100);
 
-  // Badge de progression flottant sur l'icône Accueil — signale une
-  // avancée même quand l'assuré n'est pas sur cet écran. Ne se déclenche
-  // que si le nombre de cases cochées augmente, et pas si l'on est déjà
-  // sur l'onglet Accueil (où la jauge réelle est visible directement).
   if(window._lastCheckedCount === undefined) window._lastCheckedCount = checked;
   if(checked > window._lastCheckedCount){
     let onAccueil = false;
@@ -774,7 +613,6 @@ function updateProgress(){
   }
   window._lastCheckedCount = checked;
 
-  // Indicateur verbal
   const verbal = document.getElementById('diag-verbal');
   if(verbal){
     const steps = document.querySelectorAll('.diag-step');
@@ -782,11 +620,6 @@ function updateProgress(){
     let nextLabel = null;
     steps.forEach((s, i) => {
       const cbs = s.querySelectorAll('.diag-cb');
-      // Une étape sans aucune case à cocher (ex: "Travaux de réparation",
-      // désormais purement informative) ne peut être marquée "complétée"
-      // que si le profil sélectionné correspond à cette phase du parcours
-      // (Profil 3 = phase travaux). Pour les profils 1 et 2, elle reste
-      // "à faire" comme n'importe quelle autre étape, même sans case.
       let allChecked;
       if(cbs.length === 0){
         const savedProfilForStep = localStorage.getItem('argicare-profil');
@@ -796,23 +629,16 @@ function updateProgress(){
       }
       const wasCompleted = s.classList.contains('completed');
       s.classList.toggle('completed', allChecked);
-      // Détection de la transition non-complété → complété
       if(allChecked && !wasCompleted && cbs.length > 0){
         const titleEl = s.querySelector('.diag-step-title');
         const stepLabel = titleEl ? titleEl.textContent : null;
         triggerStepSuccess(s, stepLabel);
-        // Mémoriser la dernière action effectuée pour l'Accueil (point 6)
         if(stepLabel){
           localStorage.setItem('argicare-last-action', JSON.stringify({
             label: stepLabel,
             date: new Date().toISOString()
           }));
         }
-        // Dernière étape comportant des cases à cocher (l'étape suivante,
-        // "Travaux de réparation", est volontairement purement informative
-        // et ne peut donc plus jamais être "complétée" au sens des cases).
-        // On propose donc le module de satisfaction de fin de parcours
-        // dès que cette étape-ci est validée.
         if(s.id === 'step-13b' && typeof maybeTriggerSatisfactionOnCompletion === 'function'){
           maybeTriggerSatisfactionOnCompletion();
         }
@@ -821,8 +647,6 @@ function updateProgress(){
       else if(!nextLabel) nextLabel = ETAPE_LABELS[i] || null;
     });
     if(completedCount === 0){
-      // Adapter le message selon le profil sélectionné — l'étape de
-      // départ n'est pas toujours la 1ère pour les profils 2 et 3.
       const savedProfil = localStorage.getItem('argicare-profil');
       const cfg = savedProfil ? PROFIL_CONFIG[savedProfil] : null;
       const startNum = cfg ? cfg.startStep : 1;
@@ -844,17 +668,64 @@ function updateProgress(){
 }
 function saveDiag(){
   if(typeof triState === 'undefined') return;
+
+  // ── Tristate ──
   localStorage.setItem('argicare-tristate', JSON.stringify(triState));
+
+  // ── Checkboxes Mon Parcours ──
   const cbs = document.querySelectorAll('#screen-diag .diag-cb');
   localStorage.setItem('argicare-diagcb', JSON.stringify([...cbs].map(cb=>cb.checked)));
+
+  // ── Date fissure ──
   const dateEl = document.getElementById('fissure-date');
   if(dateEl) localStorage.setItem('argicare-fissure-date', dateEl.value);
+
+  // ── Tous les champs texte, select, textarea (Ma Maison + Mon Parcours) ──
+  const fields = {};
+  document.querySelectorAll(
+    '#screen-maison input[id], #screen-maison select[id], #screen-maison textarea[id],' +
+    '#screen-diag   input[id]:not(.diag-cb):not([type="file"]), #screen-diag select[id], #screen-diag textarea[id]'
+  ).forEach(el => {
+    if(el.type === 'checkbox') { fields[el.id] = el.checked; }
+    else if(el.type === 'file') { return; }
+    else { fields[el.id] = el.value; }
+  });
+  localStorage.setItem('argicare-fields', JSON.stringify(fields));
 }
 </script>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
-body { background:#f0ece4; display:flex; justify-content:center; align-items:center; min-height:100vh; font-family:'Segoe UI',sans-serif; }
-/* ── MODE SOMBRE ── */
+html, body { height:100%; margin:0; padding:0; overflow:hidden; }
+body { background:#e8e2d8; display:flex; justify-content:center; align-items:center; min-height:100vh; font-family:'Segoe UI',sans-serif; }
+.phone {
+  width:390px; height:844px;
+  background:#faf8f4;
+  border-radius:54px;
+  box-shadow:0 0 0 10px #1a1a1a, 0 0 0 22px #2c2c2c, 0 40px 80px rgba(0,0,0,.5);
+  overflow:hidden;
+  display:flex; flex-direction:column;
+  border:none;
+  position:absolute;
+  top:50%; left:50%;
+  transform:translate(-50%, -50%) scale(0.72);
+}
+/* ── Mobile tactile : plein écran ──
+   Seuls les vrais appareils tactiles (smartphones) basculent en plein écran.
+   Sur ordinateur, même en fenêtre étroite, la maquette reste visible. */
+/* ── Petit écran court (iPhone SE, fenêtre étroite) ── */
+@media (max-height: 700px) {
+  .nav-item  { padding:4px 0 2px; }
+  .nav-icon  { font-size:15px; }
+  .nav-label { font-size:8px; }
+  .glossaire-overlay { height:26px; }
+}
+/* ── Paysage ── */
+@media (orientation: landscape) and (max-height: 500px) {
+  .nav-item  { padding:3px 0 2px; }
+  .nav-icon  { font-size:14px; }
+  .nav-label { font-size:7.5px; }
+  .glossaire-overlay { height:24px; }
+}
 .phone.dark { background:#1a1f1a !important; }
 .phone.dark .screen { background:#1a1f1a !important; color:#d4e8d0 !important; }
 .phone.dark .page-title { color:#a8d5a2 !important; }
@@ -882,9 +753,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .phone.dark .app-version { color:#5a7a5a !important; }
 .phone.dark .screen::-webkit-scrollbar-track { background:#1a1f1a !important; }
 .phone.dark .screen::-webkit-scrollbar-thumb { background:#3a4e3a !important; }
-/* ── FIN MODE SOMBRE ── */
-.phone { width:375px; height:780px; background:#faf8f4; border-radius:40px; box-shadow:0 30px 80px rgba(0,0,0,0.25); overflow:hidden; display:flex; flex-direction:column; border:6px solid #2c2c2c; position:relative; }
-
 /* ══════════════════════════════════════
    SPLASH SCREEN — Animation d'ouverture
    Fond crème · Logo header · Vague de damier droite→gauche
@@ -893,7 +761,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
   position:absolute; inset:0; z-index:950;
   display:flex; align-items:center; justify-content:center;
   overflow:hidden;
-  border-radius:34px;
+  border-radius:var(--screen-radius,34px);
   background:linear-gradient(155deg,#f7f1e5 0%,#efe5d4 55%,#e9dcc8 100%);
   pointer-events:none;
   visibility:hidden; opacity:0;
@@ -902,23 +770,20 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
   visibility:visible; opacity:1;
   pointer-events:auto;
 }
-/* Pendant la dissolution : fondu de l'ensemble */
 #app-splash.waving {
   background:transparent;
 }
 #app-splash.done {
   visibility:hidden; opacity:0; pointer-events:none;
 }
-
-/* ── Voile de dissolution — couvre l'app, se retire par vague plumeuse ── */
 #sp-tiles {
   position:absolute; inset:0; z-index:3;
   pointer-events:none;
-  border-radius:34px;
+  border-radius:var(--screen-radius,34px);
   display:none;
   background:linear-gradient(155deg,#f7f1e5 0%,#efe5d4 55%,#e9dcc8 100%);
   will-change:mask-position,-webkit-mask-position,opacity;
-  /* Masque : très long dégradé multi-paliers → bord totalement fondu, aucun bord net */
+  
   -webkit-mask-image:linear-gradient(100deg,
       rgba(0,0,0,1) 0%,    rgba(0,0,0,1) 30%,
       rgba(0,0,0,.97) 37%, rgba(0,0,0,.92) 42%,
@@ -942,8 +807,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
   -webkit-mask-position:0% 0;
   mask-position:0% 0;
 }
-
-/* Logo — identique au header : Georgia, poids fins/gras, vert+doré */
 #sp-logo {
   position:relative; z-index:2;
   display:flex; align-items:baseline; gap:0;
@@ -975,8 +838,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
   letter-spacing:3px; line-height:1;
   font-family:Georgia,'Times New Roman',serif;
 }
-
-/* Ligne dorée sous le logo */
 #sp-line {
   position:absolute;
   bottom:-10px; left:50%;
@@ -987,17 +848,12 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
   transition:transform .7s cubic-bezier(.16,1,.3,1) .25s;
 }
 #sp-line.visible { transform:translateX(-50%) scaleX(1); }
-
-/* ── Dissolution fluide : le masque dégradé glisse de gauche à droite,
-   effaçant le voile depuis la droite avec un bord doux et progressif ── */
 @keyframes sp-dissolve {
   0%   { -webkit-mask-position:0% 0;   mask-position:0% 0;   opacity:1; }
   70%  { -webkit-mask-position:78% 0;  mask-position:78% 0;  opacity:1; }
   92%  { -webkit-mask-position:100% 0; mask-position:100% 0; opacity:.55; }
   100% { -webkit-mask-position:100% 0; mask-position:100% 0; opacity:0; }
 }
-
-/* Particules légères sur fond crème */
 .sp-mote {
   position:absolute; border-radius:50%;
   pointer-events:none;
@@ -1007,9 +863,9 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
   0%   { transform:translateY(0) scale(1); opacity:.4; }
   100% { transform:translateY(-180px) scale(.2); opacity:0; }
 }
-.phone-inner { position:absolute; inset:0; pointer-events:none; z-index:280; overflow:hidden; border-radius:34px; }
+.phone-inner { position:absolute; inset:0; pointer-events:none; z-index:280; overflow:hidden; border-radius:var(--screen-radius,34px); }
 .status-bar { background:#2d5a27; color:white; font-size:11px; padding:8px 20px 6px; display:flex; justify-content:space-between; flex-shrink:0; }
-.header { background:linear-gradient(160deg,#1a3a6e 0%,#2d5a27 100%); padding:16px 14px 22px; color:white; flex-shrink:0; position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; clip-path:ellipse(110% 92% at 50% 0%); margin-bottom:-4px; }
+.header { background:linear-gradient(160deg,#1a3a6e 0%,#2d5a27 100%); padding:16px 14px 22px; color:white; flex-shrink:0; position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; margin-bottom:-4px; }
 .app-name { font-size:26px; font-weight:800; letter-spacing:1px; }
 .app-name .orange { color:#f5a623; }
 .app-name .green { color:#a8d5a2; }
@@ -1017,9 +873,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .header-arch-logo .g { font-size:24px; font-weight:300; color:rgba(255,255,255,.75); letter-spacing:2px; font-family:Georgia,'Times New Roman',serif; }
 .header-arch-logo .q { font-size:32px; font-weight:700; color:#D9B654; line-height:.9; font-family:Georgia,'Times New Roman',serif; }
 .header-arch-logo .a { font-size:24px; font-weight:300; color:rgba(255,255,255,.75); letter-spacing:2px; font-family:Georgia,'Times New Roman',serif; }
-/* .header-arch-pill — bouton retiré du header, CSS nettoyé */
 .content { flex:1; overflow:hidden; min-height:0; position:relative; }
-/* Garantit que l'aperçu PDF ne peut jamais déborder du .phone */
 #dossier-preview-overlay,
 #preview-reader-zone,
 #preview-page-large { overflow:hidden !important; max-width:100% !important; }
@@ -1031,8 +885,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .screen::-webkit-scrollbar-track { background:#f0ece4; border-radius:4px; }
 .screen::-webkit-scrollbar-thumb { background:#4a7c3f; border-radius:4px; }
 .page-title { font-size:15px; font-weight:700; color:#2d3a1e; margin-bottom:14px; display:flex; align-items:center; gap:6px; }
-
-/* FORM */
 .section-block { background:white; border-radius:14px; margin-bottom:12px; box-shadow:0 2px 8px rgba(0,0,0,0.06); overflow:hidden; }
 .section-header { font-size:13px; font-weight:700; color:#2d5a27; text-transform:uppercase; letter-spacing:0.5px; padding:14px; display:flex; align-items:center; gap:6px; cursor:pointer; user-select:none; }
 .section-header:hover { background:#e8f5e4; }
@@ -1062,8 +914,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .btn-save { width:100%; padding:13px; background:linear-gradient(135deg,#2d5a27,#4a7c3f); color:white; border:none; border-radius:12px; font-size:14px; font-weight:600; cursor:pointer; margin-top:4px; margin-bottom:16px; font-family:inherit; }
 .toast { position:absolute; bottom:80px; left:50%; transform:translateX(-50%); background:#2d5a27; color:white; padding:10px 20px; border-radius:20px; font-size:12px; font-weight:600; opacity:0; transition:opacity 0.3s; white-space:nowrap; pointer-events:none; z-index:200; }
 .toast.show { opacity:1; }
-
-/* PHOTO */
 .photo-maison-block { background:white; border-radius:14px; margin-bottom:12px; box-shadow:0 2px 8px rgba(0,0,0,0.06); overflow:hidden; }
 .photo-maison-preview { width:100%; height:140px; background:linear-gradient(135deg,#e8f5e4,#d4ecd0); display:flex; flex-direction:column; align-items:center; justify-content:center; cursor:pointer; position:relative; }
 .photo-maison-preview img { width:100%; height:100%; object-fit:cover; position:absolute; top:0; left:0; display:none; }
@@ -1075,14 +925,10 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .btn-photo-sm { padding:5px 10px; border-radius:8px; font-size:11px; font-weight:600; cursor:pointer; font-family:inherit; border:none; }
 .btn-photo-add { background:#e8f5e4; color:#2d5a27; }
 .btn-photo-del { background:#fef0ec; color:#c04030; display:none; }
-
-/* GEORISQUES */
 .georisques-btn { width:100%; padding:11px 14px; background:linear-gradient(135deg,#e8f5e4,#d4ecd0); border:1.5px solid #4a7c3f; border-radius:10px; display:flex; align-items:center; gap:10px; cursor:pointer; margin-top:4px; font-family:inherit; }
 .georisques-btn-text { flex:1; text-align:left; }
 .georisques-btn-title { font-size:12px; font-weight:700; color:#2d5a27; }
 .georisques-btn-sub { font-size:10px; color:#7a9a72; margin-top:1px; }
-
-/* FICHE RGA */
 .rga-fiche { margin-top:10px; display:none; border-radius:14px; overflow:hidden; box-shadow:0 4px 16px rgba(45,90,39,0.13); }
 .rga-fiche.visible { display:block; }
 .rga-fiche-header { background:linear-gradient(135deg,#2d5a27,#4a7c3f); padding:12px 14px 10px; }
@@ -1119,18 +965,13 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .rga-alea-bar-track { background:rgba(255,255,255,0.25); border-radius:10px; height:6px; overflow:hidden; margin-top:4px; }
 .rga-alea-bar-fill { height:100%; border-radius:10px; background:white; transition:width 0.6s ease; }
 .rga-alea-bar-label { display:flex; justify-content:space-between; font-size:9px; color:rgba(255,255,255,0.65); margin-top:3px; }
-
-/* DIAGNOSTIC */
 .diag-preambule { background:linear-gradient(135deg,#e8f5e4,#d4ecd0); border:1.5px solid #4a7c3f; border-radius:14px; padding:13px 14px; margin-bottom:14px; }
 .diag-preambule-icon { font-size:20px; margin-bottom:6px; }
 .diag-preambule-title { font-size:13px; font-weight:700; color:#2d5a27; margin-bottom:5px; }
 .diag-preambule-text { font-size:11px; color:#3a5a32; line-height:1.6; }
-
 .disclaimer-banner { background:#fdf6e8; border:1.5px solid #e8c94a; border-radius:12px; padding:12px 14px; margin-bottom:14px; }
 .disclaimer-title { font-size:12px; font-weight:700; color:#8a6a00; margin-bottom:4px; }
 .disclaimer-text { font-size:11px; color:#7a6a00; line-height:1.5; }
-
-/* DISCLAIMER POP-UP */
 .disclaimer-overlay { position:absolute; inset:0; background:rgba(30,30,20,0.55); z-index:700; display:flex; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(2px); animation:fadeInOverlay 0.25s ease; }
 .disclaimer-overlay.hidden { display:none; animation:none; }
 @keyframes fadeInOverlay { from{opacity:0} to{opacity:1} }
@@ -1149,13 +990,10 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .disclaimer-popup-detail li::before { content:"•"; position:absolute; left:0; color:#e8c94a; font-weight:700; }
 .disclaimer-popup-btn { width:100%; margin-top:14px; padding:11px; background:linear-gradient(135deg,#e8a800,#f5c400); border:none; border-radius:10px; font-size:12px; font-weight:700; color:#3a2a00; cursor:pointer; font-family:inherit; transition:opacity .15s; }
 .disclaimer-popup-btn:hover { opacity:0.9; }
-
-/* RÔLE ACTEURS */
 .acteur-card { background:white; border-radius:14px; padding:13px; margin-bottom:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); }
 .acteur-icon { font-size:20px; margin-bottom:5px; }
 .acteur-title { font-size:13px; font-weight:700; color:#2d5a27; margin-bottom:5px; }
 .acteur-text { font-size:12px; color:#4a5a3a; line-height:1.5; }
-
 .section-divider { font-size:12px; font-weight:700; color:#7a6a52; text-transform:uppercase; letter-spacing:1px; margin:14px 0 8px; display:flex; align-items:center; gap:8px; }
 .section-divider::after { content:""; flex:1; height:1px; background:#d4c9b5; }
 .diag-step { background:white; border-radius:14px; padding:14px; margin-bottom:10px; box-shadow:0 2px 8px rgba(0,0,0,0.06); border:2px solid transparent; transition:border 0.2s; }
@@ -1165,14 +1003,9 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .diag-step-title { font-size:13px; font-weight:700; color:#2d3a1e; line-height:1.4; flex:1; }
 .diag-step-emoji { font-size:20px; flex-shrink:0; }
 .diag-step-intro { font-size:11px; color:#7a6a52; margin-bottom:8px; line-height:1.5; }
-
-/* ── THÈME LÉGER DE MON PARCOURS, selon le profil sélectionné ──
-   N'affecte que : numéro d'étape, bordure des étapes complétées,
-   bouton "Oui" activé (voir plus bas, classe .tri-btn.yes.active). */
 #screen-diag.theme-p1 { --theme-accent:#6E5836; --theme-grad:linear-gradient(135deg,#8A7048,#6E5836); --theme-yes-bg:#EDE3D3; --theme-yes-text:#5A4A2E; }
 #screen-diag.theme-p2 { --theme-accent:#8A4A28; --theme-grad:linear-gradient(135deg,#A8643E,#8A4A28); --theme-yes-bg:#EAD2C4; --theme-yes-text:#6E3E22; }
 #screen-diag.theme-p3 { --theme-accent:#7A5024; --theme-grad:linear-gradient(135deg,#98683A,#7A5024); --theme-yes-bg:#E8D4BC; --theme-yes-text:#4A3014; }
-
 .diag-check-item { display:flex; align-items:flex-start; gap:10px; padding:8px 10px; border-radius:9px; margin-bottom:6px; background:#faf8f4; cursor:pointer; transition:background 0.2s; }
 .diag-check-item:hover { background:#e8f5e4; }
 .diag-check-item.checked { background:#e8f5e4; }
@@ -1187,8 +1020,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .conclusion-box { background:linear-gradient(135deg,#e8f5e4,#d4ecd0); border:1px solid #b5d9af; border-radius:14px; padding:14px; margin-bottom:16px; }
 .conclusion-title { font-size:13px; font-weight:700; color:#2d5a27; margin-bottom:6px; }
 .conclusion-text { font-size:12px; color:#3a5a32; line-height:1.6; }
-
-/* DIAG STEP body */
 .diag-step-body { display:none; }
 .diag-step.open .diag-step-body { display:block; }
 .diag-step.open .diag-step-header .accordion-arrow { transform:rotate(90deg); }
@@ -1201,8 +1032,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .face-placeholder { display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:6px; }
 .face-label { font-size:10px; font-weight:700; color:#4a7c3f; text-align:center; padding:5px 0 6px; background:#F5F8F4; }
 .face-photo-box.has-photo .face-label { background:#e8f5e4; }
-
-/* DOSSIER */
 .dossier-preambule { background:#fdf6e8; border:1.5px solid #e8c94a; border-radius:12px; padding:12px 14px; margin-bottom:12px; }
 .dossier-preambule-title { font-size:12px; font-weight:700; color:#8a6a00; margin-bottom:5px; }
 .dossier-preambule-text { font-size:11px; color:#6a5000; line-height:1.6; }
@@ -1228,8 +1057,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .dossier-synth-title { font-size:13px; font-weight:700; color:white; margin-bottom:4px; }
 .dossier-synth-text { font-size:11px; color:rgba(255,255,255,0.8); margin-bottom:12px; line-height:1.5; }
 .btn-pdf { width:100%; padding:11px; background:white; color:#2d5a27; border:none; border-radius:10px; font-size:13px; font-weight:700; cursor:pointer; font-family:inherit; display:flex; align-items:center; justify-content:center; gap:8px; }
-
-/* CAT NAT */
 .catnat-hero { background:linear-gradient(135deg,#1a3a6e 0%,#2a5ca8 100%); border-radius:16px; padding:18px 16px; margin-bottom:14px; color:white; position:relative; overflow:hidden; }
 .catnat-hero::before { content:"🌊"; position:absolute; right:-10px; bottom:-10px; font-size:70px; opacity:0.15; }
 .catnat-hero-title { font-size:17px; font-weight:800; margin-bottom:6px; }
@@ -1276,8 +1103,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .cn-delai-row { display:flex; align-items:center; gap:10px; background:white; border-radius:10px; padding:10px 12px; margin-bottom:6px; box-shadow:0 1px 4px rgba(0,0,0,0.05); }
 .cn-delai-num { background:#eaf0ff; color:#1a3a6e; font-size:13px; font-weight:800; padding:4px 8px; border-radius:8px; flex-shrink:0; min-width:36px; text-align:center; }
 .cn-delai-text { font-size:11px; color:#3a4a5a; line-height:1.4; flex:1; }
-
-/* PARAMÈTRES */
 .param-section { margin-bottom:18px; }
 .param-section + .param-section { margin-top:4px; }
 .param-section-title {
@@ -1288,7 +1113,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
   background:#ece9e4;
   border-left:3px solid #b0a898;
 }
-
 .param-row { background:white; border-radius:12px; padding:13px 14px; display:flex; align-items:center; gap:12px; margin-bottom:6px; box-shadow:0 1px 4px rgba(0,0,0,0.05); cursor:pointer; }
 .param-icon { font-size:20px; width:36px; height:36px; background:#e8f5e4; border-radius:10px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
 .param-info { flex:1; }
@@ -1306,8 +1130,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .param-danger .param-label { color:#c04030; }
 .param-danger .param-icon { background:#fde8e4; }
 .app-version { text-align:center; font-size:11px; color:#b0a090; margin-top:8px; margin-bottom:16px; }
-
-/* NOTIFICATION BANNER */
 .notif-banner { background:linear-gradient(135deg,#1a3a6e,#2a5ca8); border-radius:14px; padding:14px; margin-bottom:12px; color:white; position:relative; overflow:hidden; }
 .notif-banner::before { content:"📰"; position:absolute; right:10px; top:50%; transform:translateY(-50%); font-size:40px; opacity:0.15; }
 .notif-banner-title { font-size:13px; font-weight:700; margin-bottom:4px; }
@@ -1317,8 +1139,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .notif-commune-input { width:100%; padding:9px 12px; border:1.5px solid rgba(255,255,255,0.4); border-radius:9px; font-size:12px; color:white; background:rgba(255,255,255,0.15); outline:none; font-family:inherit; margin-top:8px; }
 .notif-commune-input::placeholder { color:rgba(255,255,255,0.6); }
 .notif-save-btn { width:100%; padding:10px; background:white; color:#1a3a6e; border:none; border-radius:9px; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; margin-top:8px; }
-
-/* PUSH NOTIFICATION MOCK */
 .push-notif { position:absolute; top:52px; left:10px; right:10px; background:white; border-radius:14px; padding:12px 14px; box-shadow:0 8px 24px rgba(0,0,0,0.2); z-index:300; display:none; border-left:4px solid #1a3a6e; animation:slideDown 0.3s ease; }
 @keyframes slideDown { from { opacity:0; transform:translateY(-10px); } to { opacity:1; transform:translateY(0); } }
 .push-notif.show { display:flex; gap:10px; align-items:flex-start; }
@@ -1328,8 +1148,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .push-notif-text { font-size:11px; color:#4a5a6a; line-height:1.4; }
 .push-notif-time { font-size:10px; color:#9a8a72; margin-top:3px; }
 .push-notif-close { font-size:14px; color:#ccc; cursor:pointer; flex-shrink:0; background:none; border:none; }
-
-/* NAV — Modèle 1 : plat + indicateur ligne orange */
 .bottom-nav { background:linear-gradient(160deg,#2d5a27 0%,#1a3a6e 100%); display:flex; border-top:none; padding:0; flex-shrink:0; height:58px; position:relative; z-index:10; overflow:hidden; }
 .nav-item { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; cursor:pointer; padding:0 2px; border:none; background:transparent; border-top:2.5px solid transparent; transition:border-color 0.2s; }
 .nav-badge-dot {
@@ -1360,13 +1178,10 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .res-link-title{font-size:11px;font-weight:700;color:#2d3a1e;margin-bottom:2px;}
 .res-link-url{font-size:9.5px;color:#9a8a72;font-style:italic;}
 .res-link-arrow{font-size:13px;color:#b5d9af;flex-shrink:0;}
-/* ── Second slot upload ── */
 .upload-add-btn{display:none;width:100%;margin-top:5px;padding:7px;background:transparent;border:1.5px dashed #b5d9af;border-radius:8px;color:#3a6ea8;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;text-align:center;transition:background .15s;}
 .upload-add-btn:active{background:#e8f5e4;}
 .upload-slot2{display:none;margin-top:5px;}
 .upload-slot2 .upload-zone{margin-top:0;}
-
-/* ── JUSTIFICATION GLOBALE ── */
 .diag-step-intro, .cn-card-text, .cn-faq-a, .conclusion-text,
 .cgu-article p, .param-panel-body p, .param-panel-body div:not([onclick]):not([class*="btn"]):not([class*="title"]):not([class*="icon"]):not([class*="arrow"]):not([class*="label"]):not([class*="sub"]):not([class*="toggle"]):not([class*="field"]):not([class*="row"]),
 .story-body, .tuto-popup-body, .avert,
@@ -1374,7 +1189,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .glossaire-sheet-header > div,
 .cn-highlight-text, .rga-intro, .fiche-rga-text,
 .res-link-title, .res-link-url { text-align:justify; hyphens:auto; -webkit-hyphens:auto; }
-/* ── FIN JUSTIFICATION ── */
 .gl{border-bottom:1.5px dashed #2a5ca8;cursor:pointer;display:inline;border-radius:2px;padding:0 1px;}
 .gl:hover{background:rgba(42,92,168,.1);}
 .gl-bubble{position:absolute;z-index:800;background:white;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.22);width:260px;padding:14px;display:none;}
@@ -1389,7 +1203,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 </style>
 
 <style>
-
           .acc-loi { border-bottom:1px solid #e8eef8; background:white; }
           .acc-loi:last-child { border-bottom:none; }
           .acc-loi-header { display:flex; align-items:center; gap:10px; padding:12px 14px; cursor:pointer; user-select:none; transition:background .15s; }
@@ -1416,7 +1229,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           .acc-section-label { font-size:9px; font-weight:800; text-transform:uppercase; letter-spacing:0.6px; color:#9a8a72; margin:8px 0 4px; }
           .acc-exclusion { background:#fdf6e8; border-left:2px solid #e8c94a; border-radius:0 6px 6px 0; padding:5px 8px; margin-top:5px; font-size:10px; color:#7a6a00; line-height:1.5; }
         
-
           .blob-tl{position:relative;padding-left:50px;}
           .blob-line{position:absolute;left:23px;top:8px;bottom:8px;width:3px;background:linear-gradient(180deg,#1a3a6e 0%,#2a5ca8 25%,#3a8a6e 40%,#e07a20 55%,#c04030 65%,#7a3a8e 80%,#2d5a27 100%);border-radius:2px;}
           .blob-step{position:relative;margin-bottom:14px;}
@@ -1430,7 +1242,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
         
 </style>
 <style>
-/* ── AUTO-SAUVEGARDE VISIBLE ── */
 .autosave-badge {
   position: absolute; top: 14px; right: 14px; z-index: 500;
   background: rgba(45,90,39,.92); color: white;
@@ -1442,9 +1253,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 }
 .autosave-badge.visible { opacity: 1; transform: translateY(0); }
 .autosave-badge-icon { font-size: 11px; }
-/* ── FIN AUTO-SAUVEGARDE ── */
-
-/* ── QUIZ ORIENTATION PROFIL ── */
 .quiz-orientation-trigger {
   display:flex; align-items:center; justify-content:center; gap:8px;
   width:100%; padding:10px 12px; margin-top:10px;
@@ -1453,7 +1261,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
   font-family:inherit; transition:background .15s;
 }
 .quiz-orientation-trigger:active { background:#ece8e0; }
-
 .quiz-overlay {
   position:absolute; inset:0; z-index:710; background:rgba(20,20,15,.6);
   display:flex; align-items:center; justify-content:center; padding:18px;
@@ -1487,9 +1294,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .quiz-result-sub { font-size:11px; color:#5a6a52; line-height:1.6; margin-bottom:16px; }
 .quiz-result-btn { width:100%; padding:11px; background:linear-gradient(135deg,#2d5a27,#4a7c3f); color:white; border:none; border-radius:11px; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; }
 .quiz-back-btn { font-size:10px; font-weight:700; color:#9a8a72; background:none; border:none; cursor:pointer; font-family:inherit; padding:4px 0; margin-top:10px; }
-/* ── FIN QUIZ ORIENTATION ── */
-
-/* ── MESSAGE RASSURANT / ADAPTATIF ── */
 .dash-reassurance-banner {
   border-radius:13px; padding:12px 13px; margin-bottom:10px;
   font-size:11px; line-height:1.65; display:none;
@@ -1499,9 +1303,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .dash-reassurance-banner.tone-gentle { background:linear-gradient(135deg,#f0f7ec,#e8f4e0); color:#2d5a27; border-left:3px solid #c9a23a; }
 .dash-reassurance-banner.tone-encourage { background:linear-gradient(135deg,#fff3e0,#ffe8c8); color:#9a5800; border-left:3px solid #e8a800; }
 .dash-reassurance-icon { font-size:15px; margin-right:5px; }
-/* ── FIN MESSAGE RASSURANT ── */
-
-/* ── CHECKLIST JOUR J (visite expert) ── */
 .checklist-jourj-trigger {
   display:flex; align-items:center; gap:10px; width:100%; padding:11px 13px;
   margin-top:8px; background:linear-gradient(135deg,#fdf6e8,#f7edd8);
@@ -1524,9 +1325,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .checklist-item-cb.checked { background:#4a7c3f; }
 .checklist-item-label { font-size:11.5px; color:#2d3a1e; font-weight:600; line-height:1.5; }
 .checklist-item-sub { font-size:9.5px; color:#9a8a72; margin-top:2px; line-height:1.4; }
-/* ── FIN CHECKLIST JOUR J ── */
-
-/* ── GLOSSAIRE PROACTIF (tooltip auto) ── */
 .gloss-proactive-tip {
   position:absolute; z-index:560; background:linear-gradient(135deg,#1a3a6e,#2a5ca8);
   color:white; font-size:10px; font-weight:700; padding:7px 11px; border-radius:11px;
@@ -1535,9 +1333,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
   pointer-events:none; max-width:220px;
 }
 .gloss-proactive-tip.visible { opacity:1; transform:translateY(0); pointer-events:auto; cursor:pointer; }
-/* ── FIN GLOSSAIRE PROACTIF ── */
-
-/* ── RECHERCHE UNIFIÉE (Accueil) ── */
 .dash-search-wrap { position:relative; margin-bottom:10px; }
 .dash-search-input {
   width:100%; padding:10px 14px 10px 36px; border:1.5px solid #e0d8cc; border-radius:12px;
@@ -1555,9 +1350,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .dash-search-result-title { font-size:11px; font-weight:700; color:#2d3a1e; line-height:1.4; }
 .dash-search-result-tag { font-size:8.5px; font-weight:700; color:#7a9a72; text-transform:uppercase; letter-spacing:.4px; margin-top:1px; }
 .dash-search-result-empty { padding:14px 12px; font-size:10.5px; color:#9a8a72; text-align:center; }
-/* ── FIN RECHERCHE UNIFIÉE ── */
-
-/* ── PARTAGE LECTURE SEULE ── */
 .share-link-trigger {
   display:flex; align-items:center; gap:10px; width:100%; padding:11px 13px;
   margin-top:8px; background:linear-gradient(135deg,#f0f7ec,#e8f4e0);
@@ -1569,9 +1361,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .share-link-sub { font-size:9.5px; color:#5a7ab0; margin-top:1px; }
 .share-link-box { background:#f5f8fe; border:1.5px solid #b8c8e8; border-radius:10px; padding:10px 12px; margin-top:10px; word-break:break-all; font-size:9px; color:#1a3a6e; line-height:1.5; }
 .share-link-copy-btn { width:100%; margin-top:8px; padding:9px; background:#1a3a6e; color:white; border:none; border-radius:9px; font-size:11px; font-weight:700; cursor:pointer; font-family:inherit; }
-/* ── FIN PARTAGE LECTURE SEULE ── */
-
-/* ── MODULE SATISFACTION ── */
 .satisfaction-overlay { position:absolute; inset:0; z-index:720; background:rgba(20,20,15,.65); display:flex; align-items:center; justify-content:center; padding:20px; backdrop-filter:blur(2px); }
 .satisfaction-overlay.hidden { display:none; }
 .satisfaction-box { background:white; border-radius:18px; padding:22px 18px; width:100%; max-width:300px; text-align:center; box-shadow:0 16px 40px rgba(0,0,0,.3); animation:scaleIn .22s cubic-bezier(.34,1.56,.64,1); }
@@ -1585,7 +1374,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 .satisfaction-submit-btn { width:100%; padding:11px; background:linear-gradient(135deg,#2d5a27,#4a7c3f); color:white; border:none; border-radius:10px; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; }
 .satisfaction-skip-btn { font-size:10px; font-weight:700; color:#9a8a72; background:none; border:none; cursor:pointer; font-family:inherit; padding:8px 0 0; width:100%; }
 .satisfaction-thanks { padding:8px 0; }
-/* ── FIN MODULE SATISFACTION ── */
 </style>
 </head>
 <body>
@@ -1742,7 +1530,7 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
   <!-- APERÇU EN LECTURE DU DOSSIER (point 6) -->
   <!-- APERÇU EN LECTURE — position:absolute dans .phone, bloque tous les événements -->
   <div id="dossier-preview-overlay" class="hidden"
-       style="position:absolute;inset:0;z-index:820;background:#f5f0e8;display:none;flex-direction:column;overflow:hidden;border-radius:34px;"
+       style="position:absolute;inset:0;z-index:820;background:#f5f0e8;display:none;flex-direction:column;overflow:hidden;border-radius:var(--screen-radius,34px);"
        onclick="event.stopPropagation()"
        ontouchstart="event.stopPropagation()"
        ontouchmove="event.stopPropagation()"
@@ -3762,7 +3550,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
     <!-- ===== ACCUEIL (ex tableau de bord) ===== -->
     <div class="screen" id="screen-accueil">
 
-
       <div class="page-title" style="justify-content:space-between;">
         <span id="dash-greeting-title">🏠 Bonjour 👋</span>
         <span id="dash-search-toggle" onclick="toggleDashSearch()" style="cursor:pointer;font-size:16px;flex-shrink:0;">🔍</span>
@@ -4284,7 +4071,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
           <div class="cn-card-text">La procédure de reconnaissance d'un état de catastrophe naturelle, et le chemin vers l'indemnisation, se déroulent en plusieurs étapes successives. <strong>Point important :</strong> la reconnaissance n'est jamais automatique — elle résulte d'une instruction par la Commission interministérielle, qui peut conclure à un accord ou à un refus selon les données météorologiques et techniques disponibles.</div>
         </div>
 
-
         <!-- VISUEL 5 BLOBS — Parcours procédure CatNat -->
         
 
@@ -4758,8 +4544,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 
     <!-- ===== PARAMÈTRES ===== -->
 
-
-
   </div><!-- /screens-wrapper -->
   </div><!-- /content -->
   <div class="toast" id="toast"></div>
@@ -4882,7 +4666,6 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 
       </div>
     </div>
-
 
     <!-- PANEL MES INFORMATIONS -->
     <div class="param-panel hidden" id="panel-profil">
@@ -5432,18 +5215,12 @@ body { background:#f0ece4; display:flex; justify-content:center; align-items:cen
 </div>
 
 <script>
-// ── Ordre des onglets (déclaré en premier) ──
 const TAB_ORDER = ['accueil','maison','diag','dossier','catnat','partager'];
 let currentTabIndex = 0;
 
-// ── Initialisation au chargement ──
 window.addEventListener('load', () => {
-  // Si l'app est ouverte via un lien de partage (?partage=...), afficher
-  // la vue de lecture seule par-dessus tout le reste, avant toute autre
-  // initialisation visible.
   if(typeof checkSharedViewOnLoad === 'function') checkSharedViewOnLoad();
 
-  // Réordonner les screens selon TAB_ORDER
   const wrapper = document.getElementById('screens-wrapper');
   TAB_ORDER.forEach(id => {
     const el = document.getElementById('screen-' + id);
@@ -5452,22 +5229,18 @@ window.addEventListener('load', () => {
   wrapper.style.transition = 'none';
   wrapper.style.transform = 'translateX(0%)';
   setTimeout(() => { wrapper.style.transition = 'transform 0.35s cubic-bezier(0.4,0,0.2,1)'; }, 50);
-  // Barre de scroll catnat
   const tabs = document.getElementById('catnat-tabs');
   if(tabs){
     updateCatnatThumb();
     tabs.addEventListener('scroll', updateCatnatThumb, { passive: true });
   }
 
-  // ── CONSENTEMENT RGPD — vérification au premier lancement ──
   const consentData = localStorage.getItem('argicare-rgpd-consent');
   if(!consentData){
-    // Pas encore de consentement → afficher le bandeau RGPD
     setTimeout(() => {
       document.getElementById('rgpd-consent-overlay').classList.remove('hidden');
     }, 700);
   } else {
-    // Consentement déjà donné → lancer le storytelling si première visite
     const alreadySeen = localStorage.getItem('argicare-story-seen');
     if(!alreadySeen){
       setTimeout(() => {
@@ -5475,13 +5248,11 @@ window.addEventListener('load', () => {
         localStorage.setItem('argicare-story-seen', '1');
       }, 600);
     } else {
-      // Visite suivante → animation splash d'ouverture
       launchSplash();
     }
   }
 });
 
-// ── SPLASH SCREEN — Animation d'ouverture ──
 function launchSplash(){
   const splash = document.getElementById('app-splash');
   const logo   = document.getElementById('sp-logo');
@@ -5489,7 +5260,6 @@ function launchSplash(){
   const veil   = document.getElementById('sp-tiles'); // réutilisé comme voile unique
   if(!splash) return;
 
-  // Reset
   splash.classList.remove('done','active','waving');
   if(logo){ logo.classList.remove('visible','exit'); }
   if(line){ line.classList.remove('visible'); line.style.opacity=''; }
@@ -5498,7 +5268,6 @@ function launchSplash(){
 
   splash.classList.add('active');
 
-  // ── Particules sable/dorées légères ──
   const moteColors = ['rgba(180,140,60,.22)','rgba(160,120,40,.18)','rgba(45,90,39,.12)'];
   for(let i = 0; i < 10; i++){
     const m = document.createElement('div');
@@ -5508,30 +5277,23 @@ function launchSplash(){
     splash.appendChild(m);
   }
 
-  // ① Logo + ligne à t=300ms
   setTimeout(() => {
     if(logo) logo.classList.add('visible');
     if(line) line.classList.add('visible');
   }, 300);
 
-  // ② Dissolution à t=2100ms
   setTimeout(() => {
-    // Logo s'efface
     if(logo) logo.classList.add('exit');
     if(line) line.style.opacity = '0';
 
-    // Le voile sable se retire par glissement du masque dégradé
     if(veil){
       veil.style.display = 'block';
-      // Force un reflow pour que l'animation reparte du début
       void veil.offsetWidth;
       veil.style.animation = 'sp-dissolve 1.5s cubic-bezier(.45,.05,.3,1) forwards';
     }
 
-    // ③ Le splash derrière devient transparent pendant la dissolution
     setTimeout(() => splash.classList.add('waving'), 50);
 
-    // ④ Masquer le tout après la fin
     setTimeout(() => {
       splash.classList.add('done');
       splash.classList.remove('active','waving');
@@ -5540,27 +5302,18 @@ function launchSplash(){
   }, 2100);
 }
 
-// ── Navigation depuis Mon Dossier vers une étape de Mon Parcours ──
 function goToStep(stepId){
   const navItems = document.querySelectorAll('.nav-item');
   switchTab('diag', navItems[2]);
   setTimeout(() => {
     const el = document.getElementById(stepId);
     if(el){
-      // Ouvrir l'étape si elle est fermée
       if(!el.classList.contains('open')) toggleDiagStep(stepId);
       setTimeout(() => el.scrollIntoView({behavior:'smooth', block:'center'}), 200);
     }
   }, 350);
 }
 
-// ── FIN SPLASH SCREEN ──
-
-// ══ GESTION DES PROFILS DIAGNOSTIC ══
-// Ventilation des étapes par profil
-// profil 1 : toutes actives (1-14)
-// profil 2 : 1-4 grisées "déjà faites", 5-14 actives
-// profil 3 : 1-10 grisées "déjà faites", 11-14 actives
 const PROFIL_CONFIG = {
   1: { grises:[], infoSteps:[], actives:[1,2,3,5,6,7,8,9,10,11,13,14], startStep:1,
        icon:'🔍', label:'Profil 1 — Parcours complet', barClass:'p1',
@@ -5580,7 +5333,6 @@ const PROFIL_CONFIG = {
 };
 let _currentProfil = null;
 
-// ══ QUIZ ORIENTATION PROFIL — 3 questions, en cas d'hésitation ══
 const QUIZ_QUESTIONS = [
   {
     q: "Avez-vous déjà déclaré un sinistre à votre assureur ?",
@@ -5664,10 +5416,6 @@ function quizBack(){
   if(quizStep > 0){ quizStep--; renderQuizStep(); }
 }
 function renderQuizResult(){
-  // Logique de détermination du profil :
-  // - Si le rapport d'expertise a déjà été remis → Profil 3 (phase travaux)
-  // - Sinon, si sinistre déclaré ou commune déjà reconnue → Profil 2 (attente)
-  // - Sinon → Profil 1 (départ complet)
   const [declare, expertise, commune, secheresse, travaux] = quizAnswers;
   let profil;
   if(expertise === 'b'){
@@ -5678,7 +5426,6 @@ function renderQuizResult(){
     profil = 1;
   }
 
-  // Message contextuel complémentaire selon les réponses Q4 et Q5
   let contextMsg = '';
   if(secheresse === 'a'){
     contextMsg = '💡 Même sans lien évident avec la sécheresse, les désordres constatés méritent d\'être documentés : l\'expert déterminera la cause déterminante.';
@@ -5712,16 +5459,7 @@ function quizApplyProfil(n){
   dashSelectProfil(n);
   showToast('✅ Profil ' + n + ' sélectionné selon vos réponses');
 }
-// ══ FIN QUIZ ORIENTATION ══
 
-// ══ RECHERCHE UNIFIÉE (Accueil) ══
-// Interroge en une seule fois : glossaire, FAQ Cat Nat, intitulés des
-// 12 étapes du parcours. Construit les résultats par lecture directe du
-// DOM pour la FAQ (toujours présente, même hors de l'onglet Cat Nat),
-// et du tableau GLOSSAIRE / ETAPE_LABELS pour le reste.
-
-// Affiche/replie la barre de recherche au clic sur la loupe placée en
-// haut de l'écran Accueil, à côté du message de bienvenue.
 function toggleDashSearch(){
   const wrap = document.getElementById('dash-search-wrap');
   const input = document.getElementById('dash-search-input');
@@ -5731,7 +5469,6 @@ function toggleDashSearch(){
   if(isHidden){
     setTimeout(() => input?.focus(), 100);
   } else {
-    // Repli : on vide aussi la recherche en cours et ses résultats
     if(input) input.value = '';
     const results = document.getElementById('dash-search-results');
     if(results){ results.classList.remove('visible'); results.innerHTML = ''; }
@@ -5756,13 +5493,11 @@ function _runDashSearch(query){
   const nq = normalize(q);
   const results = [];
 
-  // 1. Glossaire
   if(typeof GLOSSAIRE !== 'undefined'){
     GLOSSAIRE.forEach(g => {
       if(normalize(g.term).includes(nq) || normalize(g.def).includes(nq)){
         results.push({ic:'📚', tag:'Glossaire', title:g.term, action:() => {
           closeAllDashSearchAndGo();
-          // Ouvre le glossaire directement sur ce terme
           openGlossaire();
           setTimeout(() => {
             const idx = GLOSSAIRE.findIndex(x => x.term === g.term);
@@ -5774,7 +5509,6 @@ function _runDashSearch(query){
     });
   }
 
-  // 2. FAQ Cat Nat — lecture directe du DOM
   document.querySelectorAll('#cn-faq .cn-faq-item').forEach(item => {
     const qEl = item.querySelector('.cn-faq-q');
     const aEl = item.querySelector('.cn-faq-a');
@@ -5786,7 +5520,6 @@ function _runDashSearch(query){
         closeAllDashSearchAndGo();
         switchTab('catnat', document.querySelectorAll('.nav-item')[4]);
         setTimeout(() => {
-          // S'assurer que l'onglet FAQ est actif
           const faqTab = [...document.querySelectorAll('.catnat-tab')].find(t => t.textContent.includes('FAQ'));
           if(faqTab) switchCatnatTab('faq', faqTab);
           setTimeout(() => {
@@ -5798,7 +5531,6 @@ function _runDashSearch(query){
     }
   });
 
-  // 3. Étapes du parcours
   if(typeof ETAPE_LABELS !== 'undefined'){
     ETAPE_LABELS.forEach((label, i) => {
       if(normalize(label).includes(nq)){
@@ -5827,7 +5559,6 @@ function _runDashSearch(query){
       '<div><div class="dash-search-result-title">' + r.title + '</div><div class="dash-search-result-tag">' + r.tag + '</div></div>' +
       '</div>'
     ).join('');
-    // Brancher les actions (closures) sur les éléments générés
     [...resultsBox.querySelectorAll('.dash-search-result-item')].forEach((el, i) => {
       el.addEventListener('click', results[i].action);
     });
@@ -5842,9 +5573,7 @@ function closeAllDashSearchAndGo(){
   if(resultsBox){ resultsBox.classList.remove('visible'); resultsBox.innerHTML = ''; }
   if(wrap) wrap.style.display = 'none';
 }
-// ══ FIN RECHERCHE UNIFIÉE ══
 
-// ══ CHECKLIST JOUR J ══
 const CHECKLIST_JOURJ_ITEMS = [
   {ic:'📋', label:"Votre attestation d'assurance habitation", sub:"Document prouvant que votre contrat était bien en vigueur"},
   {ic:'📰', label:"Une copie de l'arrêté Cat Nat de votre commune", sub:"Disponible sur Géorisques ou auprès de votre mairie"},
@@ -5884,12 +5613,7 @@ function toggleChecklistJourJ(i){
     cb.textContent = saved[i] ? '✓' : '';
   }
 }
-// ══ FIN CHECKLIST JOUR J ══
 
-// ══ PARTAGE LECTURE SEULE PAR LIEN ══
-// Encode un instantané des données clés directement dans l'URL (pas de
-// backend nécessaire). Le destinataire ouvre le lien sur n'importe quel
-// navigateur et voit une page de lecture statique générée à la volée.
 function buildShareSnapshot(){
   const savedProfil = localStorage.getItem('argicare-profil');
   const cfg = savedProfil ? PROFIL_CONFIG[savedProfil] : null;
@@ -5931,7 +5655,6 @@ function copyShareLink(url){
     showToast('Sélectionnez et copiez le lien manuellement');
   });
 }
-// Affichage de la page de lecture si l'app est ouverte avec ?partage=...
 function checkSharedViewOnLoad(){
   const params = new URLSearchParams(location.search);
   const encoded = params.get('partage');
@@ -5959,17 +5682,11 @@ function checkSharedViewOnLoad(){
     document.body.appendChild(overlay);
   } catch(e){ /* lien invalide, on ignore silencieusement */ }
 }
-// ══ FIN PARTAGE LECTURE SEULE ══
 
-// ══ MODULE SATISFACTION ══
 function shouldOfferSatisfaction(){
   return localStorage.getItem('argicare-satisfaction-given') !== '1';
 }
 function maybeTriggerSatisfactionOnCompletion(){
-  // Déclenché automatiquement quand l'étape "Proposition d'indemnisation"
-  // vient d'être complétée — c'est la dernière étape du parcours qui
-  // comporte des cases à cocher, l'étape suivante (Travaux de réparation)
-  // étant volontairement purement informative.
   if(!shouldOfferSatisfaction()) return;
   const step13 = document.getElementById('step-13b');
   if(!step13) return;
@@ -6012,8 +5729,6 @@ function setSatisfactionRating(n){
 function submitSatisfaction(){
   const comment = document.getElementById('satisfaction-comment')?.value?.trim() || '';
   const payload = { rating: _satisfactionRating, comment, date: new Date().toISOString() };
-  // Stockage local — pas de backend ; conservé pour export/consultation
-  // manuelle par l'éditeur de l'app (toi) si besoin via les outils navigateur.
   localStorage.setItem('argicare-satisfaction-given', '1');
   localStorage.setItem('argicare-satisfaction-data', JSON.stringify(payload));
   const box = document.getElementById('satisfaction-box');
@@ -6027,11 +5742,9 @@ function submitSatisfaction(){
       </div>`;
   }
 }
-// Bouton manuel depuis Paramètres
 function openSatisfactionManual(){
   openSatisfaction();
 }
-// ══ FIN MODULE SATISFACTION ══
 
 function selectProfil(n, opts){
   const silent = opts && opts.silent;
@@ -6039,7 +5752,6 @@ function selectProfil(n, opts){
   localStorage.setItem('argicare-profil', n);
   const cfg = PROFIL_CONFIG[n];
 
-  // Mettre à jour les cartes (selected)
   [1,2,3].forEach(i => {
     const card = document.getElementById('profil-card-' + i);
     const check = document.getElementById('profil-check-' + i);
@@ -6048,26 +5760,18 @@ function selectProfil(n, opts){
     if(check) check.innerHTML = i === n ? '✓' : '';
   });
 
-  // Thème léger de l'onglet Mon Parcours — reprend la teinte de la carte
-  // du profil sélectionné (numéros d'étape, bordure des étapes
-  // complétées, bouton "Oui" activé), pour une cohérence visuelle
-  // immédiate entre l'Accueil et le parcours.
   const diagScreen = document.getElementById('screen-diag');
   if(diagScreen){
     diagScreen.classList.remove('theme-p1', 'theme-p2', 'theme-p3');
     diagScreen.classList.add('theme-p' + n);
   }
 
-  // Réinitialisation systématique de l'état "profil" sur toutes les
-  // étapes avant d'appliquer la nouvelle config — évite que des badges
-  // ou un grisage résiduel d'un profil précédent ne persistent.
   document.querySelectorAll('.diag-step').forEach(s => {
     s.classList.remove('profil-grise', 'profil-done', 'profil-info');
     const badge = s.querySelector('.profil-step-badge');
     if(badge) badge.remove();
   });
 
-  // Grisage strict des étapes (non accessibles)
   cfg.grises.forEach(num => {
     const s = document.getElementById('step-' + num + 'b');
     if(!s) return;
@@ -6078,9 +5782,6 @@ function selectProfil(n, opts){
     }
   });
 
-  // Étapes informatives — restent pleinement accessibles et modifiables,
-  // simplement signalées par un badge invitant à les compléter aussi
-  // pour un dossier plus complet (sans aucun blocage).
   (cfg.infoSteps || []).forEach(num => {
     const s = document.getElementById('step-' + num + 'b');
     if(!s) return;
@@ -6098,8 +5799,6 @@ function selectProfil(n, opts){
     s.classList.remove('profil-grise', 'profil-info');
     const badge = s.querySelector('.profil-step-badge');
     if(badge) badge.remove();
-    // Effet de déverrouillage — uniquement si l'étape vient réellement
-    // de passer de grisée à active, pour signaler ce changement d'état.
     if(wasGrised){
       s.classList.remove('step-unlock');
       void s.offsetWidth;
@@ -6108,18 +5807,11 @@ function selectProfil(n, opts){
     }
   });
 
-  // Le bandeau profil-actif-bar autonome a été retiré du HTML (Mon
-  // Parcours) — son contenu est désormais affiché directement dans le
-  // bloc d'introduction via #intro-profil-label, mis à jour ci-dessous.
-
-  // Libellé du profil actif affiché dans la bulle "Votre parcours"
   const introProfilLabel = document.getElementById('intro-profil-label');
   if(introProfilLabel){
     introProfilLabel.innerHTML = cfg.label + ' <span class="profil-actif-change" onclick="goToAccueilProfil(event)">Changer de profil</span>';
   }
 
-  // Bandeau informatif — visible uniquement si le profil comporte des
-  // étapes "recommandées" (infoSteps), restées librement accessibles.
   const infoBanner = document.getElementById('profil-info-banner');
   if(infoBanner){
     if(cfg.infoSteps && cfg.infoSteps.length > 0){
@@ -6136,22 +5828,13 @@ function selectProfil(n, opts){
     }
   }
 
-  // Le profil conditionne et restructure les étapes du diagnostic en
-  // arrière-plan (grisage ci-dessus), mais ne déclenche plus aucun
-  // scroll ni changement d'écran — l'assuré reste sur l'onglet où il
-  // se trouve déjà (typiquement Accueil) après avoir choisi son profil.
   if(!silent){
     showToast('✅ Profil ' + n + ' sélectionné');
   }
   if(typeof refreshDashboard === 'function') refreshDashboard();
-  // Rafraîchir le message d'indication d'étape (diag-verbal), qui
-  // dépend désormais du profil sélectionné.
   if(typeof updateProgress === 'function') updateProgress();
 }
 
-// Renvoie vers l'onglet Accueil pour choisir ou changer de profil — les
-// 3 cartes profil ont été déplacées vers cet onglet, le diagnostic ne
-// fait plus que refléter le choix fait depuis l'Accueil.
 function goToAccueilProfil(event){
   if(event) event.stopPropagation();
   switchTab('accueil', document.querySelectorAll('.nav-item')[0], 'nav');
@@ -6161,38 +5844,28 @@ function initProfil(){
   const saved = localStorage.getItem('argicare-profil');
   if(saved) selectProfil(parseInt(saved), {silent:true});
 }
-// ══ FIN GESTION PROFILS ══
 function toggleDiagStep(id){
   const clicked = document.getElementById(id);
   if(!clicked) return;
-  // Chercher uniquement dans l'écran parent
   const screen = clicked.closest('#screen-diag') || document.getElementById('screen-diag');
   const allSteps = screen ? screen.querySelectorAll('.diag-step') : document.querySelectorAll('.diag-step');
   const wasOpen = clicked.classList.contains('open');
-  // Fermer toutes les étapes
   allSteps.forEach(s => {
     s.classList.remove('open');
     s.style.borderColor = '';
     s.style.boxShadow = '';
   });
-  // Ouvrir celle cliquée si elle était fermée
   if(!wasOpen){
     clicked.classList.add('open');
     clicked.style.borderColor = '#4a7c3f';
     clicked.style.boxShadow = '0 2px 12px rgba(45,90,39,.15)';
     setTimeout(()=>clicked.scrollIntoView({behavior:'smooth',block:'nearest'}),80);
-    // Glossaire proactif — signale le premier terme technique de l'étape
     if(typeof showProactiveGlossTip === 'function'){
       setTimeout(() => showProactiveGlossTip(clicked), 350);
     }
   }
 }
 
-// ══ GLOSSAIRE PROACTIF ══
-// À l'ouverture d'une étape, repère le premier élément .gl (terme déjà
-// surligné par le système existant) à l'intérieur de cette étape, et
-// affiche un petit tooltip qui invite à le découvrir — une seule fois
-// par terme, pour ne pas être intrusif au fil des réouvertures.
 const _glossProactiveShown = new Set(JSON.parse(localStorage.getItem('argicare-gloss-proactive-shown') || '[]'));
 function showProactiveGlossTip(stepEl){
   const firstTerm = stepEl.querySelector('.diag-step-body .gl');
@@ -6222,9 +5895,7 @@ function showProactiveGlossTip(stepEl){
   _glossProactiveShown.add(termKey);
   localStorage.setItem('argicare-gloss-proactive-shown', JSON.stringify([..._glossProactiveShown]));
 }
-// ══ FIN GLOSSAIRE PROACTIF ══
 
-// ══ SOUS-BULLES (ex: étape 3 "À qui m'adresser ?") ══
 function toggleSubstep(id){
   const body = document.getElementById(id);
   const toggle = document.getElementById(id + '-toggle');
@@ -6237,7 +5908,6 @@ function toggleSubstep(id){
     setTimeout(() => toggle.scrollIntoView({behavior:'smooth', block:'nearest'}), 80);
   }
 }
-// ══ FIN SOUS-BULLES ══
 
 function toggleAccordion(id){
   const b=document.getElementById(id);
@@ -6251,10 +5921,6 @@ function switchTab(n, el, source='') {
   const newIndex = TAB_ORDER.indexOf(n);
   if (newIndex === -1) return;
   if (newIndex === currentTabIndex){
-    // Déjà sur cet onglet — on ne rejoue pas l'animation de transition,
-    // mais on rafraîchit ses données (utile pour Accueil, écran par
-    // défaut au chargement, qui ne reçoit sinon jamais de refresh si
-    // l'assuré clique dessus sans avoir changé d'onglet auparavant).
     if(n==='accueil') refreshDashboard();
     return;
   }
@@ -6263,16 +5929,12 @@ function switchTab(n, el, source='') {
   const direction = newIndex > currentTabIndex ? 1 : -1;
   const totalScreens = TAB_ORDER.length;
 
-  // Effet de profondeur — l'écran quitté se rétracte légèrement pendant
-  // le slide, pour donner une sensation de parallax plutôt qu'un simple
-  // glissement plat. L'effet est retiré juste après la transition.
   const leavingScreen = document.getElementById('screen-' + TAB_ORDER[currentTabIndex]);
   if(leavingScreen){
     leavingScreen.classList.add('screen-depth-out');
     setTimeout(() => leavingScreen.classList.remove('screen-depth-out'), 400);
   }
 
-  // Déplacer le wrapper vers le bon écran
   wrapper.style.transform = `translateX(-${newIndex * 100}%)`;
 
   if(n==='dossier'){setTimeout(refreshCompletion,350);}
@@ -6300,7 +5962,6 @@ function switchTab(n, el, source='') {
       if(el) el.classList.remove('hidden');
     },400);
   }
-  // Remettre le scroll en haut de l'écran cible + animation d'entrée
   setTimeout(() => {
     const targetScreen = document.getElementById('screen-' + n);
     if(targetScreen){
@@ -6312,16 +5973,14 @@ function switchTab(n, el, source='') {
     }
   }, 200);
 
-  // Mettre à jour la nav
   document.querySelectorAll('.nav-item').forEach(x => x.classList.remove('active'));
   if (el) el.classList.add('active');
 
   currentTabIndex = newIndex;
 }
 function showToast(msg, dur=2200){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),dur);}
-function saveForm(){showToast('✅ Informations sauvegardées !');}
+function saveForm(){ saveDiag(); showToast('✅ Informations sauvegardées !'); }
 
-// ══ AUTO-SAUVEGARDE VISIBLE ══
 let _autosaveTimer = null;
 function showAutosaveBadge(){
   const badge = document.getElementById('autosave-badge');
@@ -6330,8 +5989,6 @@ function showAutosaveBadge(){
   clearTimeout(_autosaveTimer);
   _autosaveTimer = setTimeout(() => badge.classList.remove('visible'), 1400);
 
-  // Pulse discret sur l'icône de l'onglet actif — renforce le signal
-  // "c'est enregistré" directement là où l'attention est déjà posée.
   const activeNav = document.querySelector('.nav-item.active .nav-icon');
   if(activeNav){
     activeNav.classList.remove('nav-icon-pulse');
@@ -6340,10 +5997,6 @@ function showAutosaveBadge(){
     setTimeout(() => activeNav.classList.remove('nav-icon-pulse'), 500);
   }
 }
-// Écoute globale sur les interactions qui modifient déjà des données
-// stockées en localStorage (formulaires, checkboxes, triState...).
-// Posé une fois, ne nécessite aucune modification des onchange/onclick
-// existants ailleurs dans l'app.
 document.addEventListener('change', (e) => {
   const t = e.target;
   if(t.matches('.form-input, .diag-cb, .tri-sub-cb, input[type="checkbox"], input[type="radio"], input[type="date"], input[type="email"], input[type="tel"], textarea, select')){
@@ -6352,12 +6005,22 @@ document.addEventListener('change', (e) => {
     if(t.matches('.diag-cb, .tri-sub-cb') && t.checked) playValidationTick();
   }
 });
+// Sauvegarde à la frappe (inputs texte) avec debounce 600ms
+let _saveTimer = null;
+document.addEventListener('input', (e) => {
+  const t = e.target;
+  if(t.matches('.form-input, input[type="text"], input[type="number"], input[type="email"], input[type="tel"], textarea')){
+    clearTimeout(_saveTimer);
+    _saveTimer = setTimeout(() => {
+      if(typeof saveDiag === 'function') saveDiag();
+      showAutosaveBadge();
+    }, 600);
+  }
+});
 document.addEventListener('click', (e) => {
   if(e.target.closest('.tri-btn')) { showAutosaveBadge(); playValidationTick(); }
 });
-// ══ FIN AUTO-SAUVEGARDE ══
 
-// ── Second slot générique ──
 function showSlot2(prefix, suffix){
   const slotId = prefix+'-slot2-'+suffix;
   const btnId  = prefix+'-add-btn'+(suffix!=='main'&&suffix!=='env' ? '' : '');
@@ -6367,7 +6030,6 @@ function showSlot2(prefix, suffix){
   if(btn) { btn.style.display='none'; }
 }
 
-// ── Diag second fichier ──
 const diagFiles2 = {};
 function diagFileSelected2(n, input){
   if(!input.files.length) return;
@@ -6389,7 +6051,6 @@ function removeDiagFile2(n,e){
   delete diagFiles2[n];
 }
 
-// ── Plan second fichier ──
 let planFile2 = null;
 function planFileSelected2(input){
   if(!input.files.length) return;
@@ -6423,7 +6084,6 @@ function environPhotoSelected(key, input){
   reader.onload = e => { environPhotos[key] = {name: fname, data: e.target.result, type: input.files[0].type}; };
   reader.readAsDataURL(input.files[0]);
   showToast('📷 Photo enregistrée : '+fname);
-  // Afficher le bouton + (seulement pour le premier slot, pas pour key='pente2'/'arbres2')
   if(!key.endsWith('2')){
     const addBtn=document.getElementById(key+'-add-btn');
     if(addBtn) addBtn.style.display='block';
@@ -6465,11 +6125,9 @@ function loadPhoto(input){
   const r = new FileReader();
   r.onload = e => {
     const dataUrl = e.target.result;
-    // Afficher dans l'app
     document.getElementById('photo-img').src = dataUrl;
     document.getElementById('photo-preview').classList.add('has-photo');
     document.getElementById('btn-del-photo').style.display = 'block';
-    // Sauvegarder en localStorage pour le PDF de couverture et Mon Dossier
     try {
       localStorage.setItem('argicare-photo-maison', dataUrl);
       localStorage.setItem('argicare-photo-maison-name', input.files[0].name || 'Photo du bien');
@@ -6488,7 +6146,6 @@ function deletePhoto(){
   localStorage.removeItem('argicare-photo-maison-date');
 }
 
-// ── CHARGEMENT DYNAMIQUE LEAFLET ──
 let _leafletLoaded = false;
 function loadLeaflet(){
   return new Promise((resolve, reject) => {
@@ -6511,21 +6168,17 @@ function loadLeaflet(){
     };
     script.onload = () => finish(true);
     script.onerror = () => finish(false);
-    // Timeout de sécurité : 8s
     setTimeout(() => finish(!!window.L), 8000);
     document.head.appendChild(script);
   });
 }
-// ── FIN CHARGEMENT LEAFLET ──
 
 let _rgaMap = null;
 let _lastGeoCoords = null;
 
-// Ouvre la carte officielle Géorisques centrée sur le bien (calque Argiles)
 function openGeorisquesMap(){
   if(_lastGeoCoords){
     const { lat, lng } = _lastGeoCoords;
-    // Visualiseur Géorisques centré sur les coordonnées, couche argiles
     const url = `https://www.georisques.gouv.fr/cartes-interactives#/?zoom=16&lat=${lat}&lng=${lng}&couches=ALEARG`;
     window.open(url, '_blank', 'noopener');
   } else {
@@ -6545,7 +6198,6 @@ async function loadGeorisques(){
   showToast('🔍 Géocodage en cours…');
 
   try {
-    // ── ÉTAPE 1 : Géocodage BAN (avec fallback si indisponible) ──
     let lat, lng, commune, codePost, codeINSEE, addrLabel;
     let geocodeOk = false;
 
@@ -6568,13 +6220,11 @@ async function loadGeorisques(){
       /* mode local silencieux */
     }
 
-    // Fallback : si BAN inaccessible, on utilise les infos saisies + centroïde département
     if(!geocodeOk){
       commune = ville || '—';
       codePost = cp || '—';
       codeINSEE = '';
       addrLabel = addrRaw;
-      // Centroïde approximatif par département (pour centrer la carte)
       const dept = (cp || '75').substring(0,2);
       const centroides = {
         '33':[44.84,-0.58],'17':[45.75,-0.63],'31':[43.60,1.44],'16':[45.65,0.16],
@@ -6589,7 +6239,6 @@ async function loadGeorisques(){
       showToast('ℹ️ Géolocalisation approximative (service adresse indisponible)');
     }
 
-    // ── ÉTAPE 2 : API Géorisques → aléa RGA ──
     let aleaCode = null;
     if(codeINSEE){
       try {
@@ -6603,7 +6252,6 @@ async function loadGeorisques(){
       } catch(e){ aleaCode = null; }
     }
 
-    // Fallback par département si API Géorisques échoue
     if(!aleaCode){
       const dept = codePost.substring(0,2);
       const fortsRGA=['17','16','47','24','87','23','37','41','45','28','36','79','86','85','44','49','72','53','11','81','82','31','32','12','46','33','34','30'];
@@ -6611,7 +6259,6 @@ async function loadGeorisques(){
       aleaCode = fortsRGA.includes(dept) ? 'Fort' : moyensRGA.includes(dept) ? 'Moyen à fort' : 'Faible à moyen';
     }
 
-    // ── ÉTAPE 3 : Simplifier le niveau d'aléa ──
     const aleaNorm = aleaCode.toLowerCase();
     let alea, aleaClass, aleaIcon, barWidth, aleaDesc, aleaColor;
     if(aleaNorm.includes('fort') && !aleaNorm.includes('moyen')){
@@ -6628,7 +6275,6 @@ async function loadGeorisques(){
       aleaDesc='Votre bien est en zone d\'aléa <strong>faible à moyen</strong>. Le risque existe mais est moins prononcé. Restez attentif à l\'apparition de fissures après une période de sécheresse.';
     }
 
-    // ── ÉTAPE 4 : Mettre à jour la fiche ──
     document.getElementById('georisques-addr').textContent = addrLabel;
     document.getElementById('rga-commune').textContent = commune;
     document.getElementById('rga-cp').textContent = codePost;
@@ -6642,7 +6288,6 @@ async function loadGeorisques(){
     document.getElementById('rga-alea-cell').style.color = aleaColor;
     document.getElementById('rga-alea-cell').style.fontWeight = '800';
 
-    // Description simplifiée
     const descEl = document.getElementById('rga-alea-desc');
     if(descEl) descEl.innerHTML = aleaDesc;
 
@@ -6652,8 +6297,6 @@ async function loadGeorisques(){
 
     document.getElementById('georisques-result').classList.add('visible');
 
-    // ── ÉTAPE 5 : Carte Leaflet (optionnelle, n'interrompt pas le reste) ──
-    // Stocker les coords pour le lien Géorisques
     _lastGeoCoords = { lat, lng, label: addrLabel };
     const geoLinkBtn = document.getElementById('rga-georisques-link');
     if(geoLinkBtn) geoLinkBtn.style.display = 'flex';
@@ -6675,14 +6318,12 @@ async function loadGeorisques(){
               maxZoom:19, opacity:0.9,
               crossOrigin: true
             }).addTo(_rgaMap);
-            // Couche WMS BRGM aléa RGA — version 2026 (référence réglementaire au 1er juillet 2026)
             try {
               const wmsLayer = L.tileLayer.wms('https://geoservices.brgm.fr/risques', {
                 layers: 'RGA_2026', format: 'image/png', transparent: true,
                 opacity: 0.55, version: '1.3.0'
               });
               wmsLayer.on('tileerror', () => {
-                // Repli sur la couche historique si la 2026 n'est pas servie sous ce nom
                 L.tileLayer.wms('https://geoservices.brgm.fr/risques', {
                   layers: 'ALEA_ARGILES', format: 'image/png', transparent: true,
                   opacity: 0.55, version: '1.3.0'
@@ -6720,13 +6361,11 @@ async function loadGeorisques(){
   }
 }
 
-// Carte de secours quand Leaflet est inaccessible (mode hors-ligne / local)
 function showMapFallback(lat, lng, alea, aleaColor){
   const m = document.getElementById('rga-map');
   if(!m) return;
   m.style.display = 'block';
   const z = 12;
-  // Image statique OSM via le service de tuiles statiques (sans JS)
   const staticUrl = `https://staticmap.openstreetmap.de/staticmap.php?center=${lat},${lng}&zoom=${z}&size=320x200&markers=${lat},${lng},red-pushpin`;
   m.innerHTML = `
     <div style="position:relative;width:100%;height:200px;border-radius:10px;overflow:hidden;">
@@ -6736,7 +6375,6 @@ function showMapFallback(lat, lng, alea, aleaColor){
     </div>`;
 }
 function toggleCheck(item, event){if(event) event.stopPropagation();const cb=item.querySelector('input[type="checkbox"]');cb.checked=!cb.checked;item.classList.toggle('checked',cb.checked);updateProgress();
-  // Micro-animation sur la case cochée
   if(cb.checked){
     item.style.animation='none'; void item.offsetWidth;
     item.style.animation='scaleIn .18s cubic-bezier(.4,0,.2,1) both';
@@ -6756,7 +6394,6 @@ function switchCatnatTab(name,el){
   document.querySelectorAll('.catnat-tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('cn-'+name).classList.add('active');
   el.classList.add('active');
-  // Centrer l'onglet cliqué dans son propre conteneur horizontal uniquement
   const tabs = document.getElementById('catnat-tabs');
   if(tabs){
     const tabLeft = el.offsetLeft;
@@ -6786,7 +6423,6 @@ function updateCatnatThumb(){
   thumb.style.marginLeft = thumbLeft + 'px';
 }
 
-// ── GLOSSAIRE ──
 const GL={
   'RGA':{badge:'Phénomène naturel',def:'Le Retrait-Gonflement des Argiles désigne les mouvements de terrain causés par la variation de la teneur en eau des sols argileux : sécheresse → rétraction, pluie → gonflement. Ces cycles répétés fissurent les fondations et les murs.',src:'Source : BRGM / Art. L125-1 Code des assurances'},
   'Cat Nat':{badge:'Régime légal',def:'Régime légal des Catastrophes Naturelles institué par la loi du 13 juillet 1982. Tout contrat d\'assurance comportant une garantie incendie ou dommages aux biens doit obligatoirement couvrir les effets des catastrophes naturelles.',src:'Source : Loi n° 82-600 du 13 juillet 1982'},
@@ -6920,11 +6556,9 @@ function generatePDF(){
   const {jsPDF} = window.jspdf;
   const doc = new jsPDF({unit:'mm', format:'a4'});
 
-  // ── Données de base ──
   const photoDataUrl = localStorage.getItem('argicare-photo-maison') || null;
   const W=210, H=297;
 
-  // ── Palette logo : vert sapin + doré ──
   const VD=[45,90,39];       // vert sapin (sidebar, header)
   const VL=[235,245,232];    // vert très clair (fond section)
   const OR=[201,162,58];     // doré du logo (accents, titres)
@@ -6935,13 +6569,11 @@ function generatePDF(){
   const LN=[220,216,210];    // ligne de séparation neutre
   const BG=[250,248,244];    // fond page crème
 
-  // ── Layout bande latérale ──
   const SB=12;       // largeur sidebar en mm
   const ML=SB+6;     // marge gauche du contenu
   const MR=12;       // marge droite
   const CW=W-ML-MR;  // largeur utile du contenu
 
-  // ── Helpers de récupération des données ──
   const v = id => (document.getElementById(id)||{}).value?.trim()||'—';
   const ck = id => document.getElementById(id)?.checked||false;
 
@@ -6961,7 +6593,6 @@ function generatePDF(){
   const savedProfilPdf = localStorage.getItem('argicare-profil');
   const cfgPdf = savedProfilPdf ? PROFIL_CONFIG[savedProfilPdf] : null;
 
-  // ── Statistiques d'avancement ──
   const maisonFields=['m_nom','m_prenom','m_voie','m_cp','m_ville','m_email','m_tel','m_typecontrat','m_numcontrat','m_assureur'];
   let mFilled=0; maisonFields.forEach(id=>{if((document.getElementById(id)||{}).value?.trim())mFilled++;});
   const mPct=Math.round((mFilled/maisonFields.length)*100);
@@ -6971,33 +6602,24 @@ function generatePDF(){
   const triKeys=Object.keys(triState).length;
   const nJoints=Object.keys(diagFiles).length;
 
-  // ════════════════════════════════════════
-  // HELPERS COMMUNS
-  // ════════════════════════════════════════
-
-  // Sidebar verte sur toute la hauteur + filet doré
   const drawSidebar = () => {
     doc.setFillColor(...VD); doc.rect(0,0,SB,H,'F');
     doc.setFillColor(...OR); doc.rect(SB,0,0.8,H,'F');
   };
 
-  // Texte vertical dans la sidebar (logo + ref)
   const drawSidebarText = (refText) => {
     doc.setFontSize(7.5); doc.setFont(undefined,'bold');
     doc.setTextColor(...OR);
-    // Logo argiQare en vertical centré
     doc.text('argi', SB/2, H/2+8, {align:'center', angle:90});
     doc.setTextColor(...WT);
     doc.text('Q', SB/2, H/2-2, {align:'center', angle:90});
     doc.setFontSize(7.5); doc.setFont(undefined,'normal');
     doc.text('are', SB/2, H/2-12, {align:'center', angle:90});
-    // Référence en bas de sidebar
     doc.setFontSize(5.5); doc.setTextColor(180,220,170);
     doc.text(refText, SB/2, H-8, {align:'center', angle:90});
   };
 
   let pageNum = 0;
-  // Pied de page sobre
   const drawFooter = () => {
     doc.setDrawColor(...LN); doc.setLineWidth(0.2);
     doc.line(ML, H-10, W-MR, H-10);
@@ -7007,7 +6629,6 @@ function generatePDF(){
     doc.text('p. '+pageNum+' / —', W-MR, H-6, {align:'right'});
   };
 
-  // Nouvelle page avec sidebar + pied
   const newPage = (withSidebar=true) => {
     pageNum++;
     if(withSidebar){
@@ -7015,11 +6636,9 @@ function generatePDF(){
       drawSidebarText(dossierRef);
     }
     drawFooter();
-    // Fond crème pour le contenu
     doc.setFillColor(...BG); doc.rect(SB+0.8,0,W-SB-0.8,H,'F');
   };
 
-  // En-tête de page interne (bande titre de section)
   const pageHeader = (sectionLabel, pageLabel) => {
     doc.setFillColor(...VL);
     doc.rect(ML, 0, W-ML, 14, 'F');
@@ -7034,7 +6653,6 @@ function generatePDF(){
     return 22;
   };
 
-  // Titre de section (H2 dans le contenu)
   const sectionTitle = (text, y) => {
     if(y > H-20){ doc.addPage(); newPage(); y = pageHeader('(suite)',''); }
     doc.setFillColor(...OR);
@@ -7047,7 +6665,6 @@ function generatePDF(){
     return y + 13;
   };
 
-  // Ligne champ/valeur sobre
   const fieldRow = (label, value, y) => {
     if(y > H-18){ doc.addPage(); newPage(); y = pageHeader('(suite)',''); }
     doc.setFontSize(7); doc.setFont(undefined,'bold');
@@ -7061,7 +6678,6 @@ function generatePDF(){
     return y + Math.max(6, lines.length*4.5);
   };
 
-  // Item tristate (étape du parcours)
   const triRow = (label, stepId, itemN, y) => {
     if(y > H-20){ doc.addPage(); newPage(); y = pageHeader('2 — Mon Parcours',''); }
     const key = stepId+'-'+itemN;
@@ -7078,7 +6694,6 @@ function generatePDF(){
     const lblLines = doc.splitTextToSize(label.replace(/^[^\s]+\s/,''), CW-12);
     doc.text(lblLines, ML+9, y+2);
     y += Math.max(6, lblLines.length*4);
-    // Sous-réponses si oui
     if(choice==='yes'){
       const detail = document.getElementById('tri-'+stepId+'-'+itemN+'-detail');
       if(detail){
@@ -7101,25 +6716,18 @@ function generatePDF(){
     return y + 3;
   };
 
-  // ════════════════════════════════════════
-  // PAGE 1 — COUVERTURE
-  // ════════════════════════════════════════
   pageNum++;
 
-  // Fond crème
   doc.setFillColor(...BG); doc.rect(0,0,W,H,'F');
 
-  // Sidebar verte complète
   drawSidebar();
   drawSidebarText(dossierRef);
 
-  // Photo du bien (si disponible) — en haut, pleine largeur hors sidebar
   let coverY = 0;
   if(photoDataUrl){
     try{
       const fmt = photoDataUrl.includes('image/png') ? 'PNG' : 'JPEG';
       doc.addImage(photoDataUrl, fmt, SB+0.8, 0, W-SB-0.8, 72);
-      // Dégradé bas
       for(let i=0;i<18;i++){
         const f=i/18;
         doc.setFillColor(...BG);
@@ -7131,7 +6739,6 @@ function generatePDF(){
     } catch(e){ coverY = 20; }
   } else {
     coverY = 30;
-    // Zone photo placeholder
     doc.setFillColor(240,244,238);
     doc.roundedRect(ML, coverY, CW, 50, 3, 3, 'F');
     doc.setFontSize(9); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
@@ -7139,7 +6746,6 @@ function generatePDF(){
     coverY += 60;
   }
 
-  // Logo
   doc.setFontSize(20); doc.setFont(undefined,'normal');
   doc.setTextColor(VD[0],VD[1],VD[2]); doc.text('argi', ML+2, coverY+10);
   doc.setFontSize(24); doc.setFont(undefined,'bold');
@@ -7147,24 +6753,20 @@ function generatePDF(){
   doc.setFontSize(20); doc.setFont(undefined,'normal');
   doc.setTextColor(VD[0],VD[1],VD[2]); doc.text('are', ML+36, coverY+10);
 
-  // Ligne dorée sous le logo
   doc.setDrawColor(...OR); doc.setLineWidth(1);
   doc.line(ML+2, coverY+13, ML+62, coverY+13);
   coverY += 20;
 
-  // Titre du document
   doc.setFontSize(8); doc.setFont(undefined,'bold');
   doc.setTextColor(...GY);
   doc.text('DOSSIER DE SYNTHÈSE', ML+2, coverY);
   doc.text('Retrait-Gonflement des Argiles — Cat Nat', ML+2, coverY+5);
   coverY += 16;
 
-  // Carte assuré sobre
   doc.setFillColor(...WT);
   doc.roundedRect(ML, coverY, CW, 62, 3, 3, 'F');
   doc.setDrawColor(...OR); doc.setLineWidth(0.4);
   doc.roundedRect(ML, coverY, CW, 62, 3, 3, 'D');
-  // Tag "ASSURÉ"
   doc.setFillColor(...VD); doc.roundedRect(ML, coverY, 28, 6, 1.5, 0, 'F');
   doc.setFontSize(6); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
   doc.text('ASSURÉ', ML+14, coverY+4, {align:'center'});
@@ -7177,17 +6779,14 @@ function generatePDF(){
   const adresse = [v('m_voie'), v('m_cp')+' '+v('m_ville')].filter(x=>x!=='—').join(' — ');
   doc.text(adresse || '—', ML+4, cY); cY += 6;
   doc.setDrawColor(...LN); doc.setLineWidth(0.2); doc.line(ML+4, cY, ML+CW-4, cY); cY += 5;
-  // Profil
   doc.setFontSize(6.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GY);
   doc.text('Profil de situation', ML+4, cY);
   doc.setFont(undefined,'normal'); doc.setTextColor(...VD);
   doc.text(cfgPdf ? cfgPdf.title : 'Non défini', ML+4, cY+4); cY += 10;
-  // Contrat
   doc.setFontSize(6.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GY);
   doc.text('Contrat', ML+4, cY);
   doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
   doc.text(v('m_typecontrat')+' — N° '+v('m_numcontrat'), ML+4, cY+4); cY += 10;
-  // Indicateurs 4 cases
   const indics=[
     [mPct+'%', 'Ma Maison', VD],
     [diagPct+'%', 'Parcours', VD],
@@ -7206,14 +6805,12 @@ function generatePDF(){
   cY += 14;
   coverY = cY + 6;
 
-  // Référence + date
   doc.setFontSize(7); doc.setFont(undefined,'bold');
   doc.setTextColor(...VD); doc.text('Réf. '+dossierRef, ML+2, coverY);
   doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
   doc.text('Généré le '+dateGen, W-MR, coverY, {align:'right'});
   coverY += 10;
 
-  // Bandeau légitimité
   doc.setFillColor(...VL);
   doc.roundedRect(ML, coverY, CW, 14, 2, 2, 'F');
   doc.setFontSize(7); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
@@ -7223,12 +6820,8 @@ function generatePDF(){
   );
   doc.text(legitText, ML+3, coverY+5);
 
-  // Pied de couverture
   drawFooter();
 
-  // ════════════════════════════════════════
-  // PAGE 2 — SOMMAIRE
-  // ════════════════════════════════════════
   doc.addPage(); newPage();
   let y = pageHeader('Sommaire', 'p. 2');
 
@@ -7249,7 +6842,6 @@ function generatePDF(){
   tocItems.forEach(item => {
     if(y > H-20){ doc.addPage(); newPage(); y = pageHeader('Sommaire (suite)',''); }
     const isMain = item.main;
-    // Fond léger pour les items principaux
     if(isMain){
       doc.setFillColor(...VL);
       doc.rect(ML, y-3, CW, 7, 'F');
@@ -7259,7 +6851,6 @@ function generatePDF(){
     }
     doc.text(item.num, ML+2, y+1);
     doc.text(item.title, ML+22, y+1);
-    // Points de conduite
     if(!isMain){
       doc.setTextColor(...LN);
       doc.setFontSize(7);
@@ -7272,9 +6863,6 @@ function generatePDF(){
     y += isMain ? 8 : 6;
   });
 
-  // ════════════════════════════════════════
-  // PAGE 3 — MA MAISON
-  // ════════════════════════════════════════
   doc.addPage(); newPage();
   y = pageHeader('1 — Ma Maison', 'p. 3');
 
@@ -7306,17 +6894,12 @@ function generatePDF(){
   y = fieldRow('Zone climatique', v('m_zone')!=='—'?v('m_zone'):'—', y);
   y = fieldRow('Commune', v('m_ville'), y);
 
-  // ════════════════════════════════════════
-  // PAGE 4+ — MON PARCOURS
-  // ════════════════════════════════════════
   doc.addPage(); newPage();
   y = pageHeader('2 — Mon Parcours', 'p. 5');
 
-  // Barre de progression globale
   doc.setFillColor(...VL); doc.roundedRect(ML, y, CW, 12, 2, 2, 'F');
   doc.setFontSize(8); doc.setFont(undefined,'bold'); doc.setTextColor(...VD);
   doc.text('Avancement global : '+diagPct+' % — '+diagChecked+' cases sur '+diagCbs.length, ML+4, y+7.5);
-  // Barre de progression
   const barW = CW - 8;
   doc.setFillColor(210, 220, 205); doc.roundedRect(ML+4, y+9, barW, 2, 1, 1,'F');
   doc.setFillColor(...OR2); doc.roundedRect(ML+4, y+9, barW*(diagPct/100), 2, 1, 1,'F');
@@ -7377,7 +6960,6 @@ function generatePDF(){
     if(y > H-28){ doc.addPage(); newPage(); y = pageHeader('2 — Mon Parcours (suite)',''); }
     const stepEl = document.getElementById(etape.id);
     const isCompleted = stepEl && stepEl.classList.contains('completed');
-    // Titre d'étape
     doc.setFillColor(isCompleted ? VL[0] : 248, isCompleted ? VL[1] : 246, isCompleted ? VL[2] : 242);
     doc.roundedRect(ML, y, CW, 7, 1.5, 1.5, 'F');
     doc.setFillColor(isCompleted ? OR2[0] : 200, isCompleted ? OR2[1] : 195, isCompleted ? OR2[2] : 185);
@@ -7396,13 +6978,9 @@ function generatePDF(){
     y += 3;
   });
 
-  // ════════════════════════════════════════
-  // PAGE — ANNEXES
-  // ════════════════════════════════════════
   doc.addPage(); newPage();
   y = pageHeader('3 — Annexes — Documents joints', 'p. 9');
 
-  // Récapitulatif des 8 types de pièces
   y = sectionTitle('Récapitulatif des pièces', y);
   const piecesLabels=['Description du sinistre','Dégâts causés à des tiers','Études géotechniques','Acte d\'achat','Permis de construire','États des lieux','Devis, factures et PV','Déclaration sur l\'honneur'];
   piecesLabels.forEach((lbl, i) => {
@@ -7410,7 +6988,6 @@ function generatePDF(){
     const joint=!!diagFiles[i+1];
     const cb=document.querySelector('#diag-piece-'+(i+1)+' .doc-piece-cb');
     const checked=cb&&cb.checked;
-    // Statut badge
     if(joint){ doc.setFillColor(...VD); }
     else if(checked){ doc.setFillColor(...OR); }
     else { doc.setFillColor(210,205,200); }
@@ -7429,7 +7006,6 @@ function generatePDF(){
     y += 8;
   });
 
-  // Bilan
   y += 4;
   doc.setFillColor(...VL); doc.roundedRect(ML, y, CW, 11, 2, 2,'F');
   doc.setFillColor(...VD); doc.roundedRect(ML, y, 2, 11, 0, 0,'F');
@@ -7437,7 +7013,6 @@ function generatePDF(){
   doc.text(nJoints+' fichier'+(nJoints>1?'s':'')+' joint'+(nJoints>1?'s':'')+' sur '+piecesLabels.length+' — '+(piecesLabels.length-nJoints)+' pièce'+(piecesLabels.length-nJoints>1?'s':'')+' restante'+(piecesLabels.length-nJoints>1?'s':''), ML+5, y+7);
   y += 18;
 
-  // Images en pleine page
   const allAnnexes=[];
   if(planFile) allAnnexes.push(['Plan de ma maison', planFile]);
   piecesLabels.forEach((lbl,i)=>{ if(diagFiles[i+1]) allAnnexes.push([lbl, diagFiles[i+1]]); });
@@ -7463,7 +7038,6 @@ function generatePDF(){
     doc.text('Ajoutez vos pièces depuis l\'onglet Mon Parcours → étape Documents.', ML+2, y+15);
   }
 
-  // ── Finalisation pagination "Page N / Total" ──
   const totalPages = doc.internal.getNumberOfPages();
   for(let p = 1; p <= totalPages; p++){
     doc.setPage(p);
@@ -7472,15 +7046,12 @@ function generatePDF(){
     doc.text('p. '+p+' / '+totalPages, W-MR, H-6, {align:'right'});
   }
 
-  // Sauvegarde
   doc.save('ArgiQare_Synthese.pdf');
   const lbl = document.getElementById('last-gen-label');
   if(lbl) lbl.textContent = '🕐 Dernière génération : ' + dateGen;
-  // Mémoriser la date et la référence pour l'accès rapide depuis l'Accueil
   localStorage.setItem('argicare-last-pdf-date', dateGen);
   localStorage.setItem('argicare-last-pdf-ref', dossierRef);
 
-  // ── POINT 3 — Historique des versions générées ──
   try {
     let versions = JSON.parse(localStorage.getItem('argicare-pdf-versions') || '[]');
     versions.push({ date: dateGen, ref: dossierRef, pct: diagPct });
@@ -7489,7 +7060,6 @@ function generatePDF(){
   } catch(e){ /* historique non critique, silencieux */ }
 } // fin generatePDF
 
-// ── Uploads diagnostic (point 4) — fonctions globales ──
 const diagLabels=['📝 Description du sinistre','⚠️ Dégâts causés à des tiers','🔬 Études géotechniques','🏠 Acte d\'achat','🏗️ Permis de construire','🔑 États des lieux','🧾 Devis, factures et PV','✍️ Déclaration sur l\'honneur'];
 const diagFiles={};
 function toggleUploadDiag(n,cb){document.getElementById('diag-upload-'+n).classList.toggle('visible',cb.checked);}
@@ -7506,7 +7076,6 @@ function diagFileSelected(n,input){
   const reader=new FileReader();
   reader.onload=e=>{diagFiles[n]={name:fname,data:e.target.result,type:input.files[0].type};};
   reader.readAsDataURL(input.files[0]);
-  // Afficher le bouton +
   const addBtn=document.getElementById('diag-add-btn-'+n);
   if(addBtn) addBtn.style.display='block';
 }
@@ -7520,21 +7089,17 @@ function removeDiagFile(n,e){
 }
 function refreshApercu(){refreshCompletion();}
 
-// ── Attestation d'assurance ──
 let attestationFile = null;
 function attestationSelected(input){
   if(!input.files.length) return;
   const file = input.files[0];
   const fname = file.name;
-  // Zone upload
   document.getElementById('upload-attestation').classList.add('filled');
   const fn = document.getElementById('attestation-fname');
   fn.style.display = 'flex';
   fn.innerHTML = '✅ ' + fname + ' <button class="btn-remove" onclick="removeAttestation(event)">✕</button>';
-  // Bouton téléchargement
   const actions = document.getElementById('attestation-actions');
   actions.style.display = 'block';
-  // Stocker le fichier
   const reader = new FileReader();
   reader.onload = e => {
     attestationFile = { name: fname, data: e.target.result, type: file.type };
@@ -7560,7 +7125,6 @@ function downloadAttestation(){
   showToast('⬇️ Téléchargement en cours…');
 }
 function refreshCompletion(){
-  // Bannière PDF
   const allDiagCb = document.querySelectorAll('#screen-diag .diag-cb');
   const checkedDiag = [...allDiagCb].filter(c=>c.checked).length;
   const diagPct = Math.round((checkedDiag/TOTAL_CHECKS)*100);
@@ -7584,7 +7148,6 @@ function refreshCompletion(){
     }
   }
 
-  // ── POINT 4 — Indicateur de fraîcheur des données ──
   (function updateFreshness(){
     const el = document.getElementById('dossier-freshness');
     const txt = document.getElementById('dossier-freshness-text');
@@ -7603,7 +7166,6 @@ function refreshCompletion(){
     } catch(e){ el.style.display = 'none'; }
   })();
 
-  // ── POINT 1 — Frise de cycle de vie du dossier ──
   (function updateLifecycle(){
     const steps = document.querySelectorAll('#dossier-lifecycle .lifecycle-step');
     if(!steps.length) return;
@@ -7621,7 +7183,6 @@ function refreshCompletion(){
     };
     const order = ['constitution','verification','pret','telecharge'];
 
-    // Appliquer les styles sur chaque étape
     let currentIdx = -1;
     order.forEach((stage, i) => {
       const el = [...steps].find(s => s.dataset.stage === stage);
@@ -7661,13 +7222,11 @@ function refreshCompletion(){
       }
     });
 
-    // Progression du rail entre jalons
     const doneCount = order.filter(s => stageDone[s]).length;
     const pctBar = doneCount === 0 ? 0 : doneCount >= 4 ? 75 : ((doneCount / 4) * 75);
     const bar = document.getElementById('lifecycle-progress-bar');
     if(bar) bar.style.width = pctBar + '%';
 
-    // Anneau de progression SVG (circonférence = 2πr = 2×π×22 ≈ 138.2)
     const ring = document.getElementById('lifecycle-ring');
     const pctLbl = document.getElementById('lifecycle-pct-label');
     if(ring){
@@ -7676,7 +7235,6 @@ function refreshCompletion(){
     }
     if(pctLbl) pctLbl.textContent = diagPct + '%';
 
-    // Message contextuel
     const msg = document.getElementById('lifecycle-message');
     if(msg){
       if(hasDownloaded)      msg.textContent = 'PDF téléchargé — votre dossier est constitué 🎉';
@@ -7686,7 +7244,6 @@ function refreshCompletion(){
       else                   msg.textContent = 'Commencez votre parcours pour constituer votre dossier';
     }
 
-    // Pied : prochaine action concrète
     const nIc  = document.getElementById('lifecycle-next-ic');
     const nTxt = document.getElementById('lifecycle-next-txt');
     if(nIc && nTxt){
@@ -7709,7 +7266,6 @@ function refreshCompletion(){
     }
   })();
 
-  // ── POINT 10 — Mini-frise d'évolution de la progression ──
   (function updateSparkline(){
     const wrap = document.getElementById('dossier-sparkline-wrap');
     const svg = document.getElementById('dossier-sparkline');
@@ -7744,7 +7300,6 @@ function refreshCompletion(){
     `;
   })();
 
-  // ── POINT 2 — Vignette de preview : estimation du nombre de pages ──
   (function updatePreviewThumb(){
     const pagesEl = document.getElementById('pdf-preview-pages');
     if(!pagesEl) return;
@@ -7754,7 +7309,6 @@ function refreshCompletion(){
     pagesEl.textContent = '~' + Math.max(total, 5) + ' pages';
   })();
 
-  // ── POINT 8 — Bouton de partage natif, visible si un PDF existe déjà ──
   (function updateShareButton(){
     const btn = document.getElementById('dossier-share-btn');
     if(!btn) return;
@@ -7762,7 +7316,6 @@ function refreshCompletion(){
     btn.style.display = hasPdf ? 'flex' : 'none';
   })();
 
-  // ── POINT 7 — Tags de statut par section (remplace le sommaire) ──
   (function updateSectionTags(){
     const wrap = document.getElementById('dossier-section-tags');
     if(!wrap) return;
@@ -7792,7 +7345,6 @@ function refreshCompletion(){
     }).join('');
   })();
 
-  // ── POINT 3 — Historique des versions générées ──
   (function updateHistory(){
     const card = document.getElementById('dossier-history-card');
     const list = document.getElementById('dossier-history-list');
@@ -7812,10 +7364,6 @@ function refreshCompletion(){
     `).join('');
   })();
 
-  // ── DOCUMENTS JOINTS AU PDF + SUGGESTIONS ──
-  // Table de correspondance des pièces du parcours (système diagUploads,
-  // avec horodatage) vers leur étape d'origine, pour permettre un renvoi
-  // direct ("Aller à l'étape X") quand un document n'est pas encore joint.
   const DOSSIER_PIECES_MAP = [
     { uid:'fissure-initiale',          label:'📷 Photo de la première fissure observée',        stepId:'step-1b',  stepNum:1,  stepLabel:"Observation d'une fissure" },
     { uid:'arrete-catnat',             label:'📋 Copie de l\'arrêté Cat Nat',                    stepId:'step-2b',  stepNum:2,  stepLabel:"Vérification de l'arrêté Cat Nat" },
@@ -7835,7 +7383,6 @@ function refreshCompletion(){
     const sugWrap = document.getElementById('dossier-suggestions-wrap');
     const sugList = document.getElementById('dossier-suggestions-list');
 
-    // ── Pièces de Ma Maison (photo du bien + plan cadastral) ──
     const maisonPieces = [];
     const photoDataUrl = localStorage.getItem('argicare-photo-maison');
     const photoName = localStorage.getItem('argicare-photo-maison-name') || 'Photo du bien';
@@ -7849,7 +7396,6 @@ function refreshCompletion(){
         icon:'🏠'
       });
     }
-    // Plan(s) Ma Maison
     if(typeof planFile !== 'undefined' && planFile){
       maisonPieces.push({
         label:'🗺️ Plan de ma maison',
@@ -7860,11 +7406,9 @@ function refreshCompletion(){
       });
     }
 
-    // ── Pièces du Parcours ──
     const joined = DOSSIER_PIECES_MAP.filter(p => diagUploads[p.uid]);
     const missing = DOSSIER_PIECES_MAP.filter(p => !diagUploads[p.uid]);
 
-    // ── Fusion : Ma Maison d'abord, puis Parcours ──
     const allJoined = [
       ...maisonPieces.map(p => ({ ...p, dataUrl: p.source === 'maison' && p.label.includes('Photo') ? photoDataUrl : null, stepId: null, stepNum: null })),
       ...joined.map(p => ({
@@ -7891,7 +7435,6 @@ function refreshCompletion(){
         ? `<span style="font-size:8px;background:#eaf0ff;color:#1a3a6e;border-radius:4px;padding:1px 5px;font-weight:700;margin-left:4px;">🏠 Ma Maison</span>`
         : `<span style="font-size:8px;background:#e8f5e4;color:#2d5a27;border-radius:4px;padding:1px 5px;font-weight:700;margin-left:4px;">📋 Parcours</span>`;
 
-      // Miniature si image disponible
       let thumbHtml = '';
       if(item.dataUrl && item.dataUrl.startsWith('data:image')){
         thumbHtml = `<img src="${item.dataUrl}" style="width:40px;height:40px;border-radius:6px;object-fit:cover;flex-shrink:0;border:1px solid #e0d8cc;" alt="">`;
@@ -7901,7 +7444,6 @@ function refreshCompletion(){
         thumbHtml = `<div style="width:40px;height:40px;border-radius:6px;background:#f5f8f4;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;border:1px solid #e0d8cc;">${iconMap[iconKey]}</div>`;
       }
 
-      // Lien vers l'étape source (uniquement pour les pièces du parcours)
       const goToStepBtn = item.stepId
         ? `<button onclick="goToStep('${item.stepId}')" style="font-size:9px;color:#2d5a27;background:none;border:none;cursor:pointer;font-family:inherit;padding:0;text-decoration:underline;white-space:nowrap;">&#8594; &#201;tape ${item.stepNum}</button>`
         : '';
@@ -7922,7 +7464,6 @@ function refreshCompletion(){
       joinedWrap.innerHTML = allJoined.map(renderJoinedItem).join('');
     }
 
-    // Suggestions — documents pas encore joints
     if(missing.length === 0){
       sep.style.display = 'none';
       sugWrap.style.display = 'none';
@@ -7949,8 +7490,6 @@ function refreshCompletion(){
   showToast('📊 Dossier actualisé');
 }
 
-// Renvoie vers l'onglet Mon Parcours et ouvre directement l'étape
-// concernée par une pièce jointe suggérée, pour la localiser facilement.
 function goToDossierPieceStep(stepId){
   switchTab('diag', document.querySelectorAll('.nav-item')[2]);
   setTimeout(() => {
@@ -7962,9 +7501,7 @@ function goToDossierPieceStep(stepId){
   }, 400);
 }
 
-// ── POINT 6 — Aperçu en lecture du contenu, sans télécharger ──
 function previewDossierContent(){
-  // ── Données réelles ──
   const v = id => (document.getElementById(id)||{}).value?.trim()||'—';
   const nomComplet = [v('m_prenom'), v('m_nom')].filter(x=>x!=='—').join(' ') || '—';
   const adresse = [v('m_voie'), v('m_cp')+' '+v('m_ville')].filter(x=>x&&x.trim()!=='— —'&&x.trim()!=='—').join(' – ');
@@ -7983,14 +7520,11 @@ function previewDossierContent(){
 
   const VD='#2d5a27', OR='#c9a23a', BG='#faf8f4', GY='#9a8a72', LN='#e8e0d4';
 
-  // ── Calcul de la taille de page optimale ──
-  // On vise la hauteur max disponible (zone reader = phone - topbar - thumbs)
   const phoneEl = document.querySelector('.phone');
   const phoneH = phoneEl ? phoneEl.clientHeight : 700;
   const phoneW = phoneEl ? phoneEl.clientWidth : 300;
   const readerH = phoneH - 48 - 64; // topbar + thumbbar
   const readerW = phoneW - 100;     // flèches de navigation
-  // Format A4 : ratio 1:√2 (210:297)
   const scaleH = readerH / 297;
   const scaleW = readerW / 210;
   const S = Math.min(scaleH, scaleW, 1.2); // jamais plus grand que 1.2x
@@ -7999,7 +7533,6 @@ function previewDossierContent(){
   const sb = Math.round(12 * S);
   const fs = (mm) => Math.round(mm * S * 0.9) + 'px';
 
-  // ── Générateur de page A4 avec sidebar ──
   const page = (contentHtml) => `
     <div style="width:${PW}px;height:${PH}px;background:${BG};position:relative;overflow:hidden;
       box-shadow:0 8px 32px rgba(0,0,0,.5),0 2px 8px rgba(0,0,0,.3);border-radius:${Math.round(2*S)}px;flex-shrink:0;">
@@ -8042,7 +7575,6 @@ function previewDossierContent(){
   const piecesLabels = ['Description du sinistre','Dégâts causés à des tiers','Études géotechniques',
     'Acte d\'achat','Permis de construire','États des lieux','Devis, factures et PV','Déclaration sur l\'honneur'];
 
-  // ══ Construction des 5 pages ══
   const coverContent = `
     <div style="display:flex;flex-direction:column;height:100%;">
       ${photoDataUrl
@@ -8154,16 +7686,12 @@ function previewDossierContent(){
       </div>
     </div>`;
 
-  // ══ Assemblage des pages ══
-  // Les pages seront construites avec le bon scale après le rendu (dans requestAnimationFrame ci-dessous)
-  // On stocke les contenus pour les réutiliser
   window._previewContents = {
     cover: coverContent, toc: tocContent, maison: maisonContent,
     diag: diagContent, annex: annexContent,
   };
   window._previewPageFn = page; // la fonction de mise en page sera recréée avec le bon scale
 
-  // ── Swipe tactile ──
   const zone = document.getElementById('preview-reader-zone');
   let _swipeX = null;
   zone.addEventListener('touchstart', e => {
@@ -8181,40 +7709,30 @@ function previewDossierContent(){
     _swipeX = null;
   }, {passive:true});
 
-  // ── Afficher le reader — les dimensions sont calculées APRÈS rendu ──
   const overlay = document.getElementById('dossier-preview-overlay');
   overlay.classList.remove('hidden');
   overlay.style.display = 'flex';
 
-  // On attend que le DOM soit rendu pour calculer les vraies dimensions
   requestAnimationFrame(() => {
-    // Calcul depuis les dimensions fixes du .phone (375×780)
-    // plutôt que getBoundingClientRect qui peut être instable au premier frame
     const phoneEl2 = document.querySelector('.phone');
     const phoneW2  = phoneEl2 ? phoneEl2.clientWidth  : 375;
     const phoneH2  = phoneEl2 ? phoneEl2.clientHeight : 780;
-    // Zones déduites : topbar 52px + thumbbar 68px = 120px de hauteur fixe
-    // Flèches : 48px de chaque côté = 96px de largeur occupée
     const availW = phoneW2 - 96;
     const availH = phoneH2 - 120 - 20; // marge supplémentaire de sécurité
 
-    // Scale avec cap strict : la page ne peut jamais dépasser availW × availH
     const scaleW2 = availW / 210;
     const scaleH2 = availH / 297;
     const S2 = Math.min(scaleW2, scaleH2); // pas de cap à la hausse, uniquement la contrainte
 
-    // Vérification : PW et PH ne doivent jamais dépasser les dimensions disponibles
     const PW2 = Math.round(210 * S2);
     const PH2 = Math.round(297 * S2);
     if(PW2 > availW || PH2 > availH){
       console.warn('Preview scale trop grand, recalcul de sécurité');
     }
 
-    // Recalculer les pages avec ce scale précis
     window._previewPages = _buildPreviewPages(S2);
     window._previewCurrent = 0;
 
-    // Rebuilder les miniatures — palette claire cohérente avec l'app
     const TNAIL = 0.17;
     const TW = Math.round(210*TNAIL), TH = Math.round(297*TNAIL), TSB = Math.round(12*TNAIL);
     const VD2='#2d5a27', OR2='#c9a23a', BG2='#faf8f4', LN2='#e0d8cc', GY2='#9a8a72';
@@ -8236,7 +7754,6 @@ function previewDossierContent(){
   });
 }
 
-// ── Construit les 5 pages avec un scale précis ──
 function _buildPreviewPages(S){
   const c = window._previewContents;
   if(!c) return [];
@@ -8261,36 +7778,30 @@ function _buildPreviewPages(S){
   ];
 }
 
-// ── Navigation dans le mode lecture ──
 window.previewSelectPage = function(idx){
   const pages = window._previewPages || [];
   if(idx < 0 || idx >= pages.length) return;
   window._previewCurrent = idx;
 
-  // Grande page
   const largeEl = document.getElementById('preview-page-large');
   if(largeEl) largeEl.innerHTML = pages[idx].html;
 
-  // Titre + indicateur
   const titleEl = document.getElementById('preview-page-title');
   const indEl   = document.getElementById('preview-page-indicator');
   if(titleEl) titleEl.textContent = pages[idx].label;
   if(indEl)   indEl.textContent   = (idx+1) + ' / ' + pages.length;
 
-  // Flèches
   const prev = document.getElementById('preview-btn-prev');
   const next = document.getElementById('preview-btn-next');
   if(prev) prev.style.opacity = idx === 0 ? '0.2' : '1';
   if(next) next.style.opacity = idx === pages.length-1 ? '0.2' : '1';
 
-  // Miniatures
   pages.forEach((_,i) => {
     const th  = document.getElementById('pthumb-'+i);
     const lbl = document.getElementById('pthumb-label-'+i);
     if(th)  th.querySelector('div').style.borderColor  = i===idx ? '#c9a23a' : '#e0d8cc';
     if(th)  th.querySelector('div').style.boxShadow    = i===idx ? '0 2px 8px rgba(201,162,58,.3)' : '0 1px 4px rgba(0,0,0,.08)';
     if(lbl){ lbl.style.color = i===idx ? '#2d5a27' : '#9a8a72'; lbl.style.fontWeight = i===idx ? '700' : '400'; }
-    // Scroll auto vers la miniature active
     if(i===idx && th) th.scrollIntoView({inline:'center', behavior:'smooth'});
   });
 };
@@ -8308,15 +7819,11 @@ function closeDossierPreview(){
   overlay.style.display = 'none';
 }
 
-// ── POINT 8 — Partage natif du dernier PDF généré ──
-// ── Ouvre la modale de partage (depuis Mon Dossier ou Accueil) ──
 function shareLastPdf(){
-  // Ouvre la modale sur l'onglet PDF par défaut
   document.getElementById('share-overlay').classList.remove('hidden');
   switchShareTab('pdf');
 }
 
-// ── Navigation entre les onglets PDF / QR ──
 function switchShareTab(tab){
   const tabPdf = document.getElementById('share-tab-pdf');
   const tabQr  = document.getElementById('share-tab-qr');
@@ -8337,11 +7844,8 @@ function switchShareTab(tab){
   }
 }
 
-// ── Génère le PDF puis ouvre le share sheet natif ──
 function generateAndSharePDF(){
   closeShareLink();
-  // On génère d'abord le PDF normalement (déclenche le téléchargement)
-  // puis on ouvre le share sheet si disponible
   generatePDF();
   setTimeout(() => {
     if(navigator.share){
@@ -8357,7 +7861,6 @@ function generateAndSharePDF(){
   }, 1000);
 }
 
-// ── Génère le QR Code du dossier ──
 let _qrCanvas = null;
 function generateQRCode(){
   const canvas = document.getElementById('share-qr-canvas');
@@ -8374,7 +7877,6 @@ function generateQRCode(){
   const diagCbs = document.querySelectorAll('#screen-diag .diag-cb');
   const diagPct = Math.round([...diagCbs].filter(c=>c.checked).length / Math.max(diagCbs.length,1) * 100);
 
-  // Données encodées dans le QR (texte compact)
   const qrText = [
     'ArgiQare — Dossier RGA',
     'Réf: ' + ref,
@@ -8389,8 +7891,6 @@ function generateQRCode(){
   if(refEl) refEl.textContent = 'Réf. ' + ref + ' — ' + date;
   if(nativeBtn) nativeBtn.style.display = navigator.share ? 'block' : 'none';
 
-  // Génération du QR Code via canvas (algorithme QR natif sans bibliothèque)
-  // On utilise une approche simple via l'API de données d'image
   const size = 160;
   canvas.innerHTML = '';
   const cvs = document.createElement('canvas');
@@ -8399,11 +7899,8 @@ function generateQRCode(){
   _qrCanvas = cvs;
   canvas.appendChild(cvs);
 
-  // Utilisation de la librairie QRious si disponible, sinon génération
-  // via l'API de transformation de données URI en QR pattern SVG simplifié
   const ctx = cvs.getContext('2d');
 
-  // On charge QRious dynamiquement si pas encore chargé
   if(typeof QRious === 'undefined'){
     const script = document.createElement('script');
     script.src = 'https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js';
@@ -8428,7 +7925,6 @@ function _drawQR(canvas, text){
   } catch(e){ console.warn('QRious error', e); }
 }
 
-// Fallback visuel si la librairie est indisponible
 function _drawQRFallback(ctx, size, text, ref){
   ctx.fillStyle = 'white'; ctx.fillRect(0,0,size,size);
   ctx.fillStyle = '#2d5a27';
@@ -8439,7 +7935,6 @@ function _drawQRFallback(ctx, size, text, ref){
   ctx.fillText('Rechargez en ligne', size/2, size/2+22);
 }
 
-// ── Télécharge le QR Code en PNG ──
 function downloadQRCode(){
   if(!_qrCanvas){ showToast('Générez d\'abord le QR Code'); return; }
   const link = document.createElement('a');
@@ -8449,7 +7944,6 @@ function downloadQRCode(){
   showToast('📷 QR Code téléchargé');
 }
 
-// ── Partage natif du QR Code ──
 function shareQRCode(){
   if(!_qrCanvas || !navigator.share) return;
   _qrCanvas.toBlob(blob => {
@@ -8465,7 +7959,6 @@ function shareQRCode(){
      GLOSSAIRE FLOTTANT — Modèle A (verre vert)
 ════════════════════════════════════════ -->
 <style>
-/* ── BULLE ── */
 /* ══ BANDEAU CONSENTEMENT RGPD ══ */
 .rgpd-consent-overlay { position:absolute; inset:0; background:rgba(10,20,10,.7); z-index:700; display:flex; align-items:flex-end; backdrop-filter:blur(3px); }
 .rgpd-consent-overlay.hidden { display:none; }
@@ -8502,11 +7995,7 @@ function shareQRCode(){
 .taille-opt { width:100%; padding:12px 14px; background:white; border:1.5px solid #e0d8cc; border-radius:10px; font-size:12px; font-weight:600; color:#4a5a3a; cursor:pointer; font-family:inherit; text-align:left; transition:all .15s; box-sizing:border-box; }
 .taille-opt.active { background:#e8f5e4; border-color:#2d5a27; color:#2d5a27; font-weight:800; }
 .taille-opt:hover { background:#f5f8f0; }
-/* ── FIN PANNEAUX ── */
-/* ── FIL CONDUCTEUR ── */
 .btn-next-tab { width:100%; padding:14px; margin:18px 0 8px; background:linear-gradient(135deg,#2d5a27,#4a7c3f); color:white; border:none; border-radius:14px; font-size:13px; font-weight:700; cursor:pointer; font-family:inherit; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 4px 14px rgba(45,90,39,.25); transition:opacity .15s; }
-
-/* ── MODALE TRIAGE ── */
 .triage-overlay { position:absolute; inset:0; z-index:690; background:rgba(0,0,0,.65); display:flex; align-items:flex-end; backdrop-filter:blur(3px); }
 .triage-overlay.hidden { display:none !important; }
 .triage-sheet { background:white; border-radius:20px 20px 0 0; width:100%; padding:20px 18px 32px; animation:slideUp .35s cubic-bezier(.4,0,.2,1); }
@@ -8522,16 +8011,10 @@ function shareQRCode(){
 .triage-btn-1 { background:linear-gradient(135deg,#2d5a27,#4a7c3f); color:white; }
 .triage-btn-2 { background:linear-gradient(135deg,#1a3a6e,#2a5ca8); color:white; }
 .triage-btn-3 { background:#f5f3ef; color:#2d3a1e; border:1.5px solid #d4c9b5; }
-/* ── FIN MODALE TRIAGE ── */
-
-/* ── CHAMPS À COMPLÉTER PLUS TARD ── */
 .form-group { position:relative; }
 .form-later-btn { position:absolute; right:0; top:0; font-size:9.5px; font-weight:700; color:#c89000; background:none; border:none; cursor:pointer; padding:2px 0; font-family:inherit; white-space:nowrap; }
 .form-input.later { border-color:#f5a623 !important; background:#fffbf0 !important; }
 .later-counter { background:#f5a623; color:white; font-size:10px; font-weight:800; padding:3px 10px; border-radius:20px; margin:8px 0 4px; display:none; cursor:pointer; }
-/* ── FIN CHAMPS À COMPLÉTER ── */
-
-/* ── SCAN DOCUMENT IA ── */
 .scan-doc-btn { width:100%; padding:12px 16px; background:linear-gradient(135deg,#1a3a6e,#2a5ca8); color:white; border:none; border-radius:12px; font-size:12px; font-weight:700; cursor:pointer; font-family:inherit; display:flex; align-items:center; justify-content:center; gap:10px; margin-bottom:14px; }
 .scan-result-banner { background:#e8f5e4; border:1.5px solid #a8d5a2; border-radius:12px; padding:12px 14px; margin-bottom:12px; display:none; }
 .scan-result-title { font-size:11px; font-weight:800; color:#2d5a27; margin-bottom:6px; }
@@ -8540,11 +8023,7 @@ function shareQRCode(){
 .scan-result-key { color:#5a7a52; }
 .scan-result-val { font-weight:700; color:#1a2a0e; }
 .scan-loading { text-align:center; padding:12px; font-size:11px; color:#5a7a52; display:none; }
-/* ── FIN SCAN DOCUMENT ── */
 .btn-next-tab:hover { opacity:.9; }
-/* ── FIN FIL CONDUCTEUR ── */
-
-/* ── TUTORIEL GUIDÉ ── */
 .tuto-overlay { position:absolute; inset:0; z-index:549; pointer-events:none; }
 .tuto-overlay.hidden { display:none !important; pointer-events:none; }
 .tuto-dimmer { position:absolute; inset:0; background:rgba(0,0,0,.65); pointer-events:auto; }
@@ -8562,13 +8041,10 @@ function shareQRCode(){
 .tuto-btn-skip { padding:8px 12px; background:#f0ece4; border:none; border-radius:8px; font-size:11px; font-weight:600; color:#7a6a52; cursor:pointer; font-family:inherit; }
 .tuto-btn-next { padding:8px 16px; background:linear-gradient(135deg,#2d5a27,#4a7c3f); border:none; border-radius:8px; font-size:11px; font-weight:700; color:white; cursor:pointer; font-family:inherit; }
 .tuto-btn-home { width:100%; padding:9px 12px; margin-top:8px; background:linear-gradient(135deg,#1a4a3a,#2d7a5a); border:none; border-radius:9px; font-size:11px; font-weight:700; color:white; cursor:pointer; font-family:inherit; display:flex; align-items:center; justify-content:center; gap:6px; }
-/* Fenêtre "spotlight" — découpe rectangulaire dans le dimmer */
 .tuto-spotlight { position:absolute; border-radius:12px; box-shadow:0 0 0 9999px rgba(0,0,0,.65); pointer-events:none; transition:all .4s cubic-bezier(.4,0,.2,1); border:2px solid rgba(255,255,255,.3); }
-/* ── FIN TUTORIEL ── */
 .cgu-article { border-bottom:1px solid #e8e0d0; padding-bottom:14px; margin-bottom:14px; }
 .cgu-article-title { font-size:11px; font-weight:800; color:#2d5a27; margin-bottom:8px; padding:6px 10px; background:#e8f5e4; border-radius:8px; border-left:3px solid #2d5a27; }
 .cgu-article-body { font-size:10.5px; color:#3a4a2e; line-height:1.75; }
-/* ── FIN CGU ── */
 .tri-item { margin-bottom:10px; border-radius:12px; overflow:hidden; border:1.5px solid #e8e0d0; background:white; transition:border-color .2s, box-shadow .2s; }
 .tri-item-header { display:flex; align-items:stretch; }
 .tri-label { flex:1; padding:11px 12px; font-size:11.5px; font-weight:600; color:#2d3a1e; line-height:1.45; text-align:justify; hyphens:auto; -webkit-hyphens:auto; }
@@ -8585,13 +8061,9 @@ function shareQRCode(){
 .tri-btn.no.active  { background:linear-gradient(160deg,#f2ece0,#e8e0d0) !important; color:#7a5a30 !important; }
 .tri-item:has(.tri-btn.yes.active) { border-color:var(--theme-accent,#4a7c3f); box-shadow:0 1px 6px rgba(45,90,39,.09); }
 .tri-item:has(.tri-btn.no.active)  { border-color:#d0b888; }
-
-/* Thème léger Mon Parcours — bouton "Oui" activé selon le profil */
 #screen-diag.theme-p1 .tri-btn.yes.active { background: var(--theme-yes-bg) !important; color: var(--theme-yes-text) !important; }
 #screen-diag.theme-p2 .tri-btn.yes.active { background: var(--theme-yes-bg) !important; color: var(--theme-yes-text) !important; }
 #screen-diag.theme-p3 .tri-btn.yes.active { background: var(--theme-yes-bg) !important; color: var(--theme-yes-text) !important; }
-
-/* ── SOUS-BULLES (ex: étape 3 "À qui m'adresser ?") ── */
 .substep-toggle {
   display:flex; align-items:center; gap:10px; padding:11px 12px;
   background:#eaf0ff; border:1.5px solid #c8d8f0; border-radius:12px;
@@ -8607,14 +8079,12 @@ function shareQRCode(){
 .substep-toggle.open .substep-arrow { transform:rotate(90deg); }
 .substep-body { display:none; padding:2px 2px 4px; margin-bottom:6px; }
 .substep-body.open { display:block; animation:fadeIn .18s ease both; }
-/* ── FIN SOUS-BULLES ── */
 .tri-detail { display:none; padding:8px 12px 10px; background:#f8faf6; border-top:1px solid #e8f0e4; }
 .tri-detail.open { display:block; }
 .tri-sub-item { display:flex; align-items:flex-start; gap:8px; padding:6px 0; border-bottom:1px solid rgba(45,90,39,.08); }
 .tri-sub-item:last-child { border-bottom:none; }
 .tri-sub-cb { width:15px; height:15px; accent-color:#2d5a27; flex-shrink:0; margin-top:2px; cursor:pointer; }
 .tri-sub-label { font-size:10.5px; color:#3a5a32; line-height:1.5; }
-/* ── MESSAGES FEEDBACK ÉTAPE ── */
 .step-feedback { display:none; margin:6px 0 4px; padding:9px 12px; border-radius:10px; font-size:11px; font-weight:700; align-items:center; gap:8px; }
 .step-feedback.visible { display:flex; }
 .step-feedback.done { background:#e8f5e4; color:#2d5a27; border:1.5px solid #b8d9b4; }
@@ -8627,8 +8097,6 @@ function shareQRCode(){
 .glossaire-bubble:hover { transform:scale(1.05); }
 .glossaire-bubble-close { margin-top:16px; width:20px; height:20px; border-radius:50%; background:white; border:1.5px solid #d4c9b5; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:#4a3a2a; box-shadow:0 2px 6px rgba(0,0,0,.12); font-family:inherit; transition:background .15s; }
 .glossaire-bubble-close:hover { background:#fde8e4; color:#c04030; }
-
-/* ── PANEL BAS verre vert (modèle A) ── */
 .glossaire-overlay {
   position:relative;
   left:auto; right:auto; bottom:auto;
@@ -8659,6 +8127,9 @@ function shareQRCode(){
   left:0;
   right:0;
   width:auto;
+  background:rgba(72,130,65,.82);
+  backdrop-filter:blur(24px) saturate(160%);
+  -webkit-backdrop-filter:blur(24px) saturate(160%);
 }
 .glossaire-sheet { display:contents; }
 .glossaire-sheet-collapsed {
@@ -8700,7 +8171,6 @@ function shareQRCode(){
 </style>
 
 <script>
-// ── DONNÉES GLOSSAIRE ──
 const GLOSSAIRE = [
   {
     term: "RGA — Retrait-Gonflement des Argiles",
@@ -9111,14 +8581,11 @@ const GLOSSAIRE = [
   }
 ];
 
-
-
 function hideBubble(){
   const el = document.getElementById('glossaire-bubble-wrap');
   if(el) el.classList.add('hidden-fab');
 }
 
-// Déplace la bulle dans le bon parent au chargement
 window.addEventListener('load', function moveBubble(){
   const inner = document.getElementById('phone-inner-bubble');
   const wrap = document.getElementById('glossaire-bubble-wrap');
@@ -9127,7 +8594,6 @@ window.addEventListener('load', function moveBubble(){
   }
 }, {once:true});
 
-// Suivi scroll : repositionne la bulle au fil du défilement
 (function(){
   const NAV_H = 68;
   const MARGIN = 12;
@@ -9145,7 +8611,6 @@ window.addEventListener('load', function moveBubble(){
   });
 })();
 
-// ══ GESTION CONSENTEMENT RGPD (CNIL 2024) ══
 function rgpdAccept(){
   localStorage.setItem('argicare-rgpd-consent', JSON.stringify({
     accepted: true,
@@ -9155,14 +8620,12 @@ function rgpdAccept(){
     finalites: ['profil','commune','parcours','documents']
   }));
   document.getElementById('rgpd-consent-overlay').classList.add('hidden');
-  // Après acceptation : lancer le storytelling si première visite
   const seen = localStorage.getItem('argicare-story-seen');
   if(!seen){
     setTimeout(() => { openStory(); localStorage.setItem('argicare-story-seen','1'); }, 400);
   }
 }
 function rgpdRefuse(){
-  // Effacer toutes les données et afficher message
   localStorage.clear();
   const box = document.querySelector('.rgpd-consent-box');
   if(box){
@@ -9181,22 +8644,18 @@ function rgpdRetry(){
   location.reload();
 }
 function rgpdWithdraw(){
-  // Retrait du consentement depuis les paramètres
   if(confirm('Êtes-vous sûr de vouloir retirer votre consentement ? Toutes vos données seront effacées.')){
     localStorage.clear();
     location.reload();
   }
 }
-// ══ FIN RGPD ══
 
-// ── PANNEAUX PARAMÈTRES ──
 function openPanel(id){
   document.querySelectorAll('.param-panel').forEach(p => { p.classList.add('hidden'); p.classList.remove('open'); });
   const panel = document.getElementById(id);
   if(!panel) return;
   panel.classList.remove('hidden');
   setTimeout(() => panel.classList.add('open'), 10);
-  // Charger les données sauvegardées si profil
   if(id === 'panel-profil') loadProfil();
   if(id === 'panel-commune') loadCommune();
   if(id === 'panel-rgpd') loadRgpdStatus();
@@ -9208,7 +8667,6 @@ function closePanel(id){
   setTimeout(() => panel.classList.add('hidden'), 310);
 }
 
-// ── PROFIL ──
 function saveProfilField(key, val){
   const profil = JSON.parse(localStorage.getItem('argicare-profil') || '{}');
   profil[key] = val;
@@ -9233,7 +8691,6 @@ function loadProfil(){
   });
 }
 
-// ── COMMUNE ──
 function loadCommune(){
   const c = localStorage.getItem('argicare-commune');
   const d = localStorage.getItem('argicare-dept');
@@ -9252,7 +8709,6 @@ function saveCommuneParam(){
   if(msg){ msg.textContent = '✅ Commune "' + c + '" enregistrée !'; msg.style.display = 'block'; setTimeout(() => msg.style.display = 'none', 3000); }
 }
 
-// ── TAILLE DU TEXTE ──
 function toggleDarkMode(cb){
   const phone = document.querySelector('.phone');
   if(cb.checked){
@@ -9264,10 +8720,6 @@ function toggleDarkMode(cb){
   }
 }
 
-// ══ SON DE VALIDATION (optionnel, désactivé par défaut) ══
-// Génère un "tick" synthétique très court via Web Audio API — aucun
-// fichier audio externe nécessaire. Désactivé par défaut pour respecter
-// le silence attendu d'une app utilisée en contexte parfois sensible.
 let _audioCtx = null;
 function playValidationTick(){
   if(localStorage.getItem('argicare-sound-enabled') !== '1') return;
@@ -9294,7 +8746,6 @@ function toggleSoundParam(cb){
     localStorage.removeItem('argicare-sound-enabled');
   }
 }
-// ══ FIN SON DE VALIDATION ══
 
 function setTaille(btn, label, scale){
   document.querySelectorAll('.taille-opt').forEach(b => b.classList.remove('active'));
@@ -9305,7 +8756,6 @@ function setTaille(btn, label, scale){
   if(display) display.textContent = label;
 }
 
-// ── EXPORT DONNÉES ──
 function exporterDonnees(){
   const data = {
     profil: JSON.parse(localStorage.getItem('argicare-profil') || '{}'),
@@ -9322,7 +8772,6 @@ function exporterDonnees(){
   showToast('✅ Export téléchargé');
 }
 
-// ── RÉINITIALISATION ──
 function confirmerReinit(){
   const overlay = document.createElement('div');
   overlay.style.cssText = 'position:absolute;inset:0;background:rgba(0,0,0,.5);z-index:700;display:flex;align-items:center;justify-content:center;padding:24px;';
@@ -9343,20 +8792,17 @@ function reinitialiserDonnees(){
   location.reload();
 }
 
-// ── CONTACT ──
 function envoyerContact(){
   const sujet = document.getElementById('contact-sujet')?.value;
   const msg = document.getElementById('contact-msg')?.value?.trim();
   const email = document.getElementById('contact-email')?.value?.trim();
   if(!sujet || !msg){ showToast('Veuillez remplir le sujet et le message'); return; }
-  // Simulation envoi (pas de backend — ouvre le client mail)
   const mailto = `mailto:contact@argiqare.fr?subject=${encodeURIComponent('[ArgiQare] ' + sujet)}&body=${encodeURIComponent(msg + '\n\nEmail de réponse : ' + (email || 'non renseigné'))}`;
   window.open(mailto);
   const sent = document.getElementById('contact-sent-msg');
   if(sent) sent.style.display = 'block';
 }
 
-// Charger commune au démarrage
 window.addEventListener('load', () => {
   const c = localStorage.getItem('argicare-commune');
   const d = localStorage.getItem('argicare-dept');
@@ -9369,30 +8815,23 @@ window.addEventListener('load', () => {
     const phone = document.querySelector('.phone');
     if(phone) phone.style.fontSize = (scale * 100) + '%';
   }
-  // Mode sombre
   if(localStorage.getItem('argicare-dark') === '1'){
     document.querySelector('.phone')?.classList.add('dark');
     const cb = document.getElementById('dark-mode');
     if(cb) cb.checked = true;
   }
-  // Son de validation
   if(localStorage.getItem('argicare-sound-enabled') === '1'){
     const soundCb = document.getElementById('toggle-sound');
     if(soundCb) soundCb.checked = true;
   }
-  // Restaurer le surlignage
   applySurlignage();
-  // Surlignage automatique GL
   setTimeout(autoHighlightGL, 500);
-  // Restaurer champs "plus tard"
   setTimeout(loadLaterFields, 200);
   setTimeout(injectSuccessBadges, 250);
   setTimeout(refreshDashboard, 200);
 
-  // Restaurer le diagnostic
   setTimeout(loadDiag, 300);
 
-  // Restaurer la photo de la maison
   const savedPhoto = localStorage.getItem('argicare-photo-maison');
   if(savedPhoto){
     const img = document.getElementById('photo-img');
@@ -9404,7 +8843,6 @@ window.addEventListener('load', () => {
   }
 });
 
-// ══ TUTORIEL GUIDÉ ══
 const TUTO_STEPS = [
   {
     tab: 'accueil',
@@ -9477,8 +8915,6 @@ function demarrerTutoriel(){
   document.querySelector('.phone').dataset.tuto = '1';
   localStorage.setItem('argicare-tuto-seen', '1');
 
-  // Fermer screen-params s'il est ouvert, puis lancer le tutoriel
-  // après un délai pour laisser la transition se terminer
   const params = document.getElementById('screen-params');
   if(params && params.style.display !== 'none'){
     closeParamsScreen();
@@ -9492,7 +8928,6 @@ function afficherTutoStep(){
   const step = TUTO_STEPS[tutoStep];
   document.getElementById('tuto-overlay').classList.remove('hidden');
   const navItems = document.querySelectorAll('.nav-item');
-  // Pour l'étape Paramètres (navIdx null), on ouvre directement sans passer par un nav-item
   if(step.navIdx !== null && step.navIdx !== undefined){
     switchTab(step.tab, navItems[step.navIdx]);
   } else if(step.tab === 'params'){
@@ -9503,9 +8938,6 @@ function afficherTutoStep(){
   document.getElementById('tuto-title').textContent = step.title;
   document.getElementById('tuto-sub').textContent = step.sub;
   document.getElementById('tuto-body').textContent = step.body;
-  // Bouton "Revenir à l'accueil" — visible uniquement sur l'étape
-  // Mon Dossier, pour proposer de retourner directement à l'onglet
-  // Accueil plutôt que de continuer le tutoriel vers Paramètres.
   const btnHome = document.getElementById('tuto-btn-home');
   if(btnHome) btnHome.style.display = (step.tab === 'dossier') ? 'flex' : 'none';
   const btnNext = document.getElementById('tuto-btn-next');
@@ -9517,8 +8949,6 @@ function afficherTutoStep(){
     d.className = 'tuto-popup-dot' + (i === tutoStep ? ' active' : '');
     dotsEl.appendChild(d);
   });
-  // Différer le positionnement pour laisser le DOM se repeindre
-  // (notamment après fermeture de screen-params)
   requestAnimationFrame(() => requestAnimationFrame(positionnerTutoPopup));
 }
 
@@ -9529,7 +8959,6 @@ function positionnerTutoPopup(){
   const step = TUTO_STEPS[tutoStep];
   const navItems = document.querySelectorAll('.nav-item');
 
-  // Déterminer la cible du spotlight
   let targetEl = null;
   if(step.navIdx !== null && step.navIdx !== undefined){
     targetEl = navItems[step.navIdx];
@@ -9545,7 +8974,6 @@ function positionnerTutoPopup(){
     spotlight.style.top  = (r.top  - pr.top  - 4) + 'px';
     spotlight.style.width  = (r.width  + 8) + 'px';
     spotlight.style.height = (r.height + 8) + 'px';
-    // Si la cible est en haut (bouton ⚙️), la bulle s'affiche en dessous
     if(step.tab === 'params'){
       popup.style.top = (r.bottom - phone.getBoundingClientRect().top + 12) + 'px';
       popup.style.bottom = 'auto';
@@ -9572,13 +9000,10 @@ function tutoSkip(){
   window._tutoActif = false;
   document.querySelector('.phone').dataset.tuto = '0';
   document.getElementById('tuto-overlay').classList.add('hidden');
-  // Retour sur l'Accueil à la fin du tutoriel
   const navItems = document.querySelectorAll('.nav-item');
   switchTab('accueil', navItems[0]);
 }
 
-// Ferme le tutoriel depuis l'étape Mon Dossier et renvoie directement
-// vers l'onglet Accueil, sans poursuivre vers l'étape Paramètres.
 function tutoRetourAccueil(){
   window._tutoActif = false;
   document.querySelector('.phone').dataset.tuto = '0';
@@ -9586,11 +9011,8 @@ function tutoRetourAccueil(){
   const navItems = document.querySelectorAll('.nav-item');
   switchTab('accueil', navItems[0]);
 }
-// ══ FIN TUTORIEL ══
 
-// ══ SAUVEGARDE DIAGNOSTIC ══
 function loadDiag(){
-  // Restaurer triState
   const saved = localStorage.getItem('argicare-tristate');
   if(saved){
     const state = JSON.parse(saved);
@@ -9600,37 +9022,45 @@ function loadDiag(){
       const itemN = parseInt(parts[1]);
       const choice = state[key];
       triState[key] = choice;
-      // Activer le bouton visuel
       const item = document.getElementById('tri-' + stepId + '-' + itemN);
       if(item){
         item.querySelectorAll('.tri-btn').forEach(b => b.classList.remove('active'));
         const btn = item.querySelector('.tri-btn.' + choice);
         if(btn) btn.classList.add('active');
-        // Déplie les sous-questions si oui
         const detail = document.getElementById('tri-' + stepId + '-' + itemN + '-detail');
         if(detail) detail.classList.toggle('open', choice === 'yes');
       }
     });
   }
-  // Restaurer les cases diag-cb
   const cbSaved = localStorage.getItem('argicare-diagcb');
   if(cbSaved){
     const cbStates = JSON.parse(cbSaved);
     const cbs = document.querySelectorAll('#screen-diag .diag-cb');
     cbs.forEach((cb, i) => { if(cbStates[i]) cb.checked = true; });
   }
-  // Restaurer la date fissure
   const dateSaved = localStorage.getItem('argicare-fissure-date');
   if(dateSaved){
     const dateEl = document.getElementById('fissure-date');
     if(dateEl) dateEl.value = dateSaved;
   }
-  // Mettre à jour la progression
+  // ── Restaurer tous les champs texte / select / textarea ──
+  const fieldsSaved = localStorage.getItem('argicare-fields');
+  if(fieldsSaved){
+    try{
+      const fields = JSON.parse(fieldsSaved);
+      Object.entries(fields).forEach(([id, val]) => {
+        const el = document.getElementById(id);
+        if(!el) return;
+        if(el.type === 'checkbox') el.checked = !!val;
+        else el.value = val || '';
+        // Déclencher un event input pour mettre à jour les compteurs
+        el.dispatchEvent(new Event('input', {bubbles:true}));
+      });
+    } catch(e){}
+  }
   updateProgress();
 }
-// ══ FIN SAUVEGARDE DIAGNOSTIC ══
 
-// ── Uploads parcours diagnostic ──
 const diagUploads = {}; // {uid: {name, data, type}}
 function diagUpload(uid, input){
   if(!input.files.length) return;
@@ -9657,8 +9087,6 @@ function clearUpload(uid){
 function triggerFacePhoto(face){
   document.getElementById('file-face-'+face).click();
 }
-// ── Fin uploads diagnostic ──
-// ── SURLIGNAGE GLOSSAIRE ──
 let surlignageActif = localStorage.getItem('argicare-surligna') !== '0';
 function applySurlignage(){
   document.querySelector('.phone').classList.toggle('no-surligna', !surlignageActif);
@@ -9685,18 +9113,13 @@ function toggleSurlignage(){
   localStorage.setItem('argicare-surligna', surlignageActif ? '1' : '0');
   applySurlignage();
 }
-// ── FIN SURLIGNAGE ──
 
-
-// ══ MODE EXPRESS / COMPLET — Ma Maison ══
 function selectMode(mode){
   localStorage.setItem('argicare-mode-maison', mode);
 
   document.getElementById('mode-btn-express').classList.toggle('selected', mode === 'express');
   document.getElementById('mode-btn-complet').classList.toggle('selected', mode === 'complet');
 
-  // acc-1 (Coordonnées) reste toujours actif — c'est l'essentiel
-  // acc-2 à acc-5 sont grisés en mode express, actifs en mode complet
   [2, 3, 4, 5].forEach(num => {
     const section = document.getElementById('acc-' + num);
     if(!section) return;
@@ -9718,7 +9141,6 @@ function selectMode(mode){
 function modifierSection(num){
   const section = document.getElementById('acc-' + num);
   if(!section) return;
-  // Débloquer uniquement cette section, sans toucher aux autres
   section.classList.remove('mode-grise');
   section.classList.add('open');
   setTimeout(() => section.scrollIntoView({behavior:'smooth', block:'start'}), 100);
@@ -9728,9 +9150,7 @@ function initModeMaison(){
   const saved = localStorage.getItem('argicare-mode-maison');
   if(saved) selectMode(saved);
 }
-// ══ FIN MODE EXPRESS / COMPLET ══
 
-// ── OUVERTURE PARAMÈTRES ──
 function openParamsScreen(){
   document.getElementById('screen-params').style.display = 'flex';
   document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
@@ -9739,19 +9159,12 @@ function openParamsScreen(){
 function closeParamsScreen(){
   document.getElementById('screen-params').style.display = 'none';
 }
-// ── FIN OUVERTURE PARAMÈTRES ──
 
-// ── TOGGLES STORY & TUTO (Paramètres) ──
 function initStoryTutoToggles(){
   const storyDisabled = localStorage.getItem('argicare-story-disabled') === '1';
   const tutoDisabled  = localStorage.getItem('argicare-tuto-disabled')  === '1';
   const storySeen     = localStorage.getItem('argicare-story-seen') === '1';
   const tutoSeen      = localStorage.getItem('argicare-tuto-seen')  === '1';
-  // Popups Cat Nat et disclaimer diagnostic : la clé "hidden"/"accepted"
-  // vaut '1' quand la popup a été masquée définitivement par l'assuré
-  // (bouton "Ne plus afficher" / case "Lu et approuvé"). Le toggle est
-  // donc "activé" quand cette clé est ABSENTE (popup encore programmée
-  // à s'afficher), et "désactivé" quand elle vaut '1'.
   const catnatPopupHidden = localStorage.getItem('argicare-catnat-popup-hidden') === '1';
   const diagDisclaimerAccepted = localStorage.getItem('argicare-disclaimer-diag-accepted') === '1';
 
@@ -9806,7 +9219,6 @@ function toggleTutoParam(cb){
   if(sub) sub.textContent = cb.checked ? 'Disponible depuis le guide de démarrage' : 'Désactivé — ne se lance plus depuis le guide';
 }
 function toggleCatnatPopupParam(cb){
-  // checked = activé = la popup doit pouvoir s'afficher = clé "hidden" absente
   if(cb.checked) localStorage.removeItem('argicare-catnat-popup-hidden');
   else localStorage.setItem('argicare-catnat-popup-hidden', '1');
   const s = document.getElementById('toggle-catnat-popup-slider');
@@ -9817,7 +9229,6 @@ function toggleCatnatPopupParam(cb){
     : 'Désactivée — ne s\'affiche plus sur l\'onglet Cat Nat';
 }
 function toggleDiagDisclaimerParam(cb){
-  // checked = activé = la popup doit pouvoir s'afficher = clé "accepted" absente
   if(cb.checked) localStorage.removeItem('argicare-disclaimer-diag-accepted');
   else localStorage.setItem('argicare-disclaimer-diag-accepted', '1');
   const s = document.getElementById('toggle-diag-disclaimer-slider');
@@ -9839,12 +9250,7 @@ function resetTuto(){
   initStoryTutoToggles();
   showToast('🎓 Tutoriel réinitialisé — disponible depuis le guide de démarrage');
 }
-// ── FIN TOGGLES ──
 
-
-
-
-// ── SCAN DOCUMENT IA ──
 let scanResultData = {};
 async function scanDocument(input){
   if(!input.files.length) return;
@@ -9854,7 +9260,6 @@ async function scanDocument(input){
   if(loading) loading.style.display = 'block';
   if(banner) banner.style.display = 'none';
 
-  // Convertir en base64
   const reader = new FileReader();
   reader.onload = async (e) => {
     const b64 = e.target.result.split(',')[1];
@@ -9924,8 +9329,6 @@ function applyScanResult(){
   document.getElementById('scan-result-banner').style.display = 'none';
   showToast('✅ Informations appliquées — vérifiez et complétez si nécessaire');
 }
-// ── FIN SCAN DOCUMENT ──
-// ── COMPLÉTER PLUS TARD ──
 const laterFields = new Set(JSON.parse(localStorage.getItem('argicare-later-fields') || '[]'));
 function markLater(id){
   const el = document.getElementById(id);
@@ -9959,19 +9362,15 @@ function loadLaterFields(){
   checkLaterCount();
 }
 
-// Scroll vers le premier champ "À compléter plus tard" visible,
-// en ouvrant l'accordéon de la section parente si nécessaire.
 function scrollToLaterFields(){
   const firstLater = document.querySelector('#screen-maison .form-input.later');
   if(!firstLater) return;
-  // Remonter jusqu'au section-body parent pour vérifier si l'accordéon est ouvert
   let parent = firstLater.parentElement;
   while(parent && !parent.classList.contains('section-block')){
     parent = parent.parentElement;
   }
   if(parent){
     const body = parent.querySelector('.section-body');
-    // Si le body est masqué (accordéon fermé), on ouvre la section
     if(body && body.style.display === 'none'){
       const header = parent.querySelector('.section-header');
       if(header) header.click();
@@ -9982,25 +9381,19 @@ function scrollToLaterFields(){
   } else {
     firstLater.scrollIntoView({behavior:'smooth', block:'center'});
   }
-  // Mettre en évidence brièvement le champ ciblé
   firstLater.style.outline = '2px solid #f5a623';
   setTimeout(() => { firstLater.style.outline = ''; }, 1500);
 }
 
-// ── FIN COMPLÉTER PLUS TARD ──
-// ── AUTO-SURLIGNAGE GL{} ──
 function autoHighlightGL(){
   if(document.querySelector('.phone')?.classList.contains('no-surligna')) return;
   const keys = Object.keys(GL);
-  // Trier par longueur décroissante pour éviter les remplacements partiels
   keys.sort((a,b)=>b.length-a.length);
   const screens = document.querySelectorAll('.screen, .param-panel-body, .acteur-text, .cn-card-text, .cn-faq-a, .diag-step-intro, .conclusion-text, .cgu-article');
   screens.forEach(screen=>{
     keys.forEach(key=>{
-      // Chercher le terme tel quel (insensible casse, avec accents)
       const display = key.replace(/ — .*/,'').replace(/\(.*\)/,'').trim();
       if(display.length < 3) return; // ignorer les termes trop courts
-      // Remplacer dans les nœuds texte uniquement
       walkText(screen, display, key);
     });
   });
@@ -10017,24 +9410,17 @@ function walkText(node, term, key){
       node.parentNode.replaceChild(span, node);
     }
   } else if(node.nodeType === 1 && !['SCRIPT','STYLE','INPUT','TEXTAREA','BUTTON'].includes(node.tagName)){
-    // Ne pas re-surligner ce qui est déjà un .gl
     if(node.classList && node.classList.contains('gl')) return;
     [...node.childNodes].forEach(child => walkText(child, term, key));
   }
 }
 function escReg(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
-// ── FIN AUTO-SURLIGNAGE ──
 function toggleGlossaire(){
   const overlay = document.getElementById('glossaire-overlay');
   if(overlay.classList.contains('open')) closeGlossaire();
   else openGlossaire();
 }
 
-
-// ══ ACCUEIL (ex tableau de bord en bottom-sheet, désormais un vrai onglet) ══
-// Ces fonctions sont conservées pour compatibilité avec les appels existants
-// (dashSelectProfil, dashQuickAction...) mais naviguent simplement vers
-// l'onglet Accueil au lieu d'ouvrir un panneau flottant.
 function toggleDashboard(){
   switchTab('accueil', document.querySelectorAll('.nav-item')[0], 'nav');
 }
@@ -10043,19 +9429,13 @@ function openDashboard(){
   refreshDashboard();
 }
 function closeDashboard(){
-  // Plus de panneau à fermer — l'accueil est un onglet comme les autres.
 }
 
 function refreshDashboard(){
-  // Salutation avec le prénom si renseigné — désormais affichée
-  // directement sur la ligne du titre, à côté de l'emoji maison.
   const prenom = document.getElementById('m_prenom')?.value?.trim();
   const greeting = document.getElementById('dash-greeting-title');
   if(greeting) greeting.textContent = prenom ? `🏠 Bonjour ${prenom} 👋` : '🏠 Bonjour 👋';
 
-  // ══ MESSAGE RASSURANT / ADAPTATIF ══
-  // Change de ton selon : premier passage, régularité récente, ou
-  // inactivité prolongée. Toujours bienveillant, jamais culpabilisant.
   (function updateReassuranceBanner(){
     const banner = document.getElementById('dash-reassurance-banner');
     if(!banner) return;
@@ -10071,22 +9451,18 @@ function refreshDashboard(){
 
     let tone, icon, text;
     if(!hasProfil){
-      // Tout premier passage — pas encore de profil choisi
       tone = 'tone-warm';
       icon = '🤝';
       text = "Vous n'êtes pas seul dans cette démarche. Prenez le temps qu'il vous faut — ArgiQare vous accompagne étape par étape, sans rien précipiter.";
     } else if(daysSinceLastAction === null){
-      // Profil choisi mais aucune action enregistrée encore
       tone = 'tone-gentle';
       icon = '🌱';
       text = "Chaque petite information renseignée compte. Avancez à votre rythme, vous pouvez reprendre à tout moment.";
     } else if(daysSinceLastAction <= 2){
-      // Activité récente — encourager la régularité
       tone = 'tone-warm';
       icon = '👏';
       text = "Vous progressez bien sur votre dossier. Continuez à ce rythme, chaque étape vous rapproche d'un dossier solide.";
     } else if(daysSinceLastAction >= 14){
-      // Inactivité longue — ton doux, sans culpabiliser
       tone = 'tone-gentle';
       icon = '💛';
       text = "Pas de nouvelle depuis un moment, et c'est tout à fait normal. On est là quand vous voulez reprendre, sans aucune pression.";
@@ -10099,10 +9475,7 @@ function refreshDashboard(){
     banner.className = 'dash-reassurance-banner visible ' + tone;
     banner.innerHTML = '<span class="dash-reassurance-icon">' + icon + '</span>' + text;
   })();
-  // ══ FIN MESSAGE RASSURANT ══
 
-  // Profil actif — affiche les mêmes informations (titre, sous-texte,
-  // pill) que les cartes profil de l'onglet Mon Parcours.
   const savedProfil = localStorage.getItem('argicare-profil');
   const emptyBlock = document.getElementById('dash-profil-empty');
   const filledBlock = document.getElementById('dash-profil-filled');
@@ -10126,7 +9499,6 @@ function refreshDashboard(){
     if(filledBlock) filledBlock.style.display = 'none';
   }
 
-  // Avancement diagnostic
   const allCb = document.querySelectorAll('#screen-diag .diag-cb');
   const checked = [...allCb].filter(c=>c.checked).length;
   const pct = Math.round((checked / TOTAL_CHECKS) * 100);
@@ -10140,7 +9512,6 @@ function refreshDashboard(){
     circle.style.strokeDashoffset = offset;
   }
 
-  // Prochaine étape
   const steps = document.querySelectorAll('#screen-diag .diag-step');
   let nextLabel = null, completedCount = 0, nextStepIndex = null;
   steps.forEach((s, i) => {
@@ -10156,8 +9527,6 @@ function refreshDashboard(){
   const nextStepLbl = document.getElementById('dash-next-step-label');
   if(nextStepLbl) nextStepLbl.textContent = nextLabel || 'Parcours complet 🎉';
 
-  // Repère numérique "X/14" pour situer la prochaine étape — l'assuré
-  // sait immédiatement où il se trouve dans le parcours global.
   const counterEl = document.getElementById('dash-next-step-counter');
   if(counterEl){
     counterEl.textContent = nextLabel
@@ -10165,10 +9534,6 @@ function refreshDashboard(){
       : '(' + steps.length + '/' + steps.length + ')';
   }
 
-  // ── 3 JAUGES DE PROGRESSION — Mon parcours / Ma Maison / Mon dossier ──
-  // Remplissage visuel transparent qui monte depuis le bas de chaque
-  // case selon son taux de complétion, avec le % affiché au centre.
-  // Une pulsation légère signale visuellement quand le % vient d'augmenter.
   window._qaPctMemory = window._qaPctMemory || {};
   function setQaFill(key, percent){
     const fill = document.getElementById('dash-qa-fill-' + key);
@@ -10187,24 +9552,16 @@ function refreshDashboard(){
     window._qaPctMemory[key] = rounded;
   }
 
-  // Mon parcours — % d'étapes entièrement complétées sur les 14
   const diagQaPct = steps.length ? (completedCount / steps.length) * 100 : 0;
   setQaFill('diag', diagQaPct);
 
-  // Ma Maison — % de champs renseignés sur l'ensemble du formulaire
   const maisonInputs = document.querySelectorAll('#screen-maison .form-input');
   const maisonFilled = [...maisonInputs].filter(inp => inp.value && inp.value.trim() !== '').length;
   const maisonQaPct = maisonInputs.length ? (maisonFilled / maisonInputs.length) * 100 : 0;
   setQaFill('maison', maisonQaPct);
 
-  // Mon dossier — reflète la même progression globale que le diagnostic,
-  // puisque le dossier de synthèse est constitué de ces informations.
   setQaFill('dossier', pct);
 
-  // ══ POINT 3 — REPRISE DE SESSION (progression depuis dernière visite) ══
-  // Compare le nombre d'étapes complétées à un instantané sauvegardé lors
-  // de la visite précédente, façon Strava : valorise le delta entre deux
-  // sessions plutôt qu'un simple pourcentage figé.
   (function trackResumeSession(){
     const banner = document.getElementById('dash-resume-banner');
     if(!banner) return;
@@ -10226,8 +9583,6 @@ function refreshDashboard(){
     } else {
       banner.style.display = 'none';
     }
-    // Mettre à jour l'instantané pour la prochaine comparaison — seulement
-    // une fois par jour pour ne pas écraser la référence à chaque clic.
     const lastSnapDay = localStorage.getItem('argicare-visit-snapshot-day');
     const today = new Date().toDateString();
     if(lastSnapDay !== today){
@@ -10236,7 +9591,6 @@ function refreshDashboard(){
     }
   })();
 
-  // ══ POINT 6 — DERNIÈRE ACTION EFFECTUÉE (renforcement positif) ══
   (function showLastAction(){
     const block = document.getElementById('dash-last-action');
     if(!block) return;
@@ -10251,15 +9605,12 @@ function refreshDashboard(){
     } catch(e){ block.style.display = 'none'; }
   })();
 
-  // ══ POINT 4 — TIMELINE VISUELLE DU PARCOURS GLOBAL ══
-  // Mappe les 12 étapes du diagnostic sur 5 grandes phases du parcours.
   (function updateTimeline(){
     const phaseRanges = {
       constat: [1,1], declaration: [2,5], expertise: [6,12],
       indemnisation: [13,13], travaux: [14,14]
     };
     const phaseOrder = ['constat','declaration','expertise','indemnisation','travaux'];
-    // Étape courante = la prochaine non complétée (ou la dernière si tout est fait)
     const currentStepNum = nextStepIndex || steps.length;
     let currentPhase = null;
     phaseOrder.forEach(phase => {
@@ -10272,8 +9623,6 @@ function refreshDashboard(){
       el.classList.toggle('current', phaseCurrent);
       if(phaseCurrent) currentPhase = phase;
     });
-    // Colorer les traits de liaison entre phases déjà complétées, avec
-    // une vague animée au moment précis où une phase vient d'être validée.
     document.querySelectorAll('.dash-timeline-line').forEach((line, i) => {
       const phaseBefore = phaseOrder[i];
       const [, endBefore] = phaseRanges[phaseBefore];
@@ -10289,13 +9638,11 @@ function refreshDashboard(){
     });
   })();
 
-  // ══ POINT 8 — CE QU'IL VOUS RESTE À FAIRE (actions concrètes) ══
   (function updateTodoList(){
     const card = document.getElementById('dash-todo-card');
     const list = document.getElementById('dash-todo-list');
     if(!card || !list) return;
     const todos = [];
-    // Champs clés de Ma Maison non renseignés
     const keyFields = [
       {id:'m_nom', label:'Renseigner votre nom', tab:'maison'},
       {id:'m_numcontrat', label:'Indiquer votre numéro de contrat', tab:'maison'},
@@ -10307,11 +9654,9 @@ function refreshDashboard(){
         todos.push({icon:'🏠', label:f.label, tab:f.tab});
       }
     });
-    // Prochaine étape du diagnostic si parcours non terminé
     if(nextLabel){
       todos.push({icon:'🔍', label:'Compléter : ' + nextLabel, tab:'diag'});
     }
-    // PDF jamais généré
     if(!localStorage.getItem('argicare-last-pdf-date')){
       todos.push({icon:'📄', label:'Générer votre première synthèse PDF', tab:'dossier'});
     }
@@ -10328,7 +9673,6 @@ function refreshDashboard(){
     }
   })();
 
-  // ══ POINT 9 — ACCÈS RAPIDE AU DERNIER PDF GÉNÉRÉ ══
   (function showLastPdf(){
     const card = document.getElementById('dash-last-pdf-card');
     const dateEl = document.getElementById('dash-last-pdf-date');
@@ -10342,12 +9686,10 @@ function refreshDashboard(){
     }
   })();
 
-  // ══ POINT 5 — BADGE SUR L'ICÔNE ACCUEIL SI ACTION REQUISE ══
   (function updateAccueilBadge(){
     const navAccueil = document.querySelectorAll('.nav-item')[0];
     if(!navAccueil) return;
     let badge = navAccueil.querySelector('.nav-badge-dot');
-    // Action requise = profil non choisi, ou todo-list non vide
     const profilManquant = !localStorage.getItem('argicare-profil');
     const todoCard = document.getElementById('dash-todo-card');
     const actionRequise = profilManquant || (todoCard && todoCard.style.display !== 'none');
@@ -10366,12 +9708,6 @@ function dashGoToNextStep(){
   switchTab('diag', document.querySelectorAll('.nav-item')[2]);
 }
 
-
-// ══ RETOUR GUIDÉ DEPUIS LE TABLEAU DE BORD ══
-// Scrolle vers un élément, lui applique un sursaut visuel léger en
-// surbrillance bleue, et affiche un petit badge d'aide contextuel
-// pointant vers cet élément — pour aider l'assuré à reprendre
-// exactement là où il s'était arrêté dans son parcours.
 function scrollAndHighlight(scrollTarget, tipText, pulseTarget){
   if(!scrollTarget) return;
   const pulseEl = pulseTarget || scrollTarget;
@@ -10401,9 +9737,6 @@ function showReturnGuideTip(targetEl, text){
   }
   document.getElementById('return-guide-tip-text').textContent = text;
 
-  // Pointer précisément sur la pastille numérotée (1, 2, 3...) plutôt
-  // que sur le bord gauche du header — c'est le repère le plus clair
-  // pour l'assuré qui reprend son parcours numéroté.
   const numBadge = targetEl.querySelector('.section-num, .diag-step-num') || targetEl;
   const numRect = numBadge.getBoundingClientRect();
   const phoneRect = phone.getBoundingClientRect();
@@ -10411,7 +9744,6 @@ function showReturnGuideTip(targetEl, text){
 
   const tipTop = numRect.top - phoneRect.top - 56;
   let tipLeft = numCenterX - 29;
-  // Empêcher le badge de sortir du cadre à gauche (marge mini 10px)
   tipLeft = Math.max(10, tipLeft);
   tip.style.top = tipTop + 'px';
   tip.style.left = tipLeft + 'px';
@@ -10421,8 +9753,6 @@ function showReturnGuideTip(targetEl, text){
   tip._hideTimer = setTimeout(() => tip.classList.remove('visible'), 3200);
 }
 
-// Détermine la dernière section de Ma Maison où l'assuré a laissé une
-// trace (au moins un champ rempli), pour y reprendre directement.
 function findLastTouchedMaisonSection(){
   const sections = ['acc-1','acc-2','acc-3','acc-4','acc-5'];
   let lastTouched = null;
@@ -10438,17 +9768,12 @@ function findLastTouchedMaisonSection(){
   return lastTouched;
 }
 
-// Renvoie l'assuré vers Ma Maison, à la dernière section touchée.
 function resumeMaison(){
   const lastId = findLastTouchedMaisonSection();
   const sectionId = lastId || 'acc-1';
   const section = document.getElementById(sectionId);
   if(!section) return;
-  // Ouvrir la section si elle est fermée
   if(!section.classList.contains('open')) toggleAccordion(sectionId);
-  // Le titre est du texte brut directement dans .section-header, entre
-  // .section-num et .accordion-arrow — extraction par clonage pour ne
-  // garder que ce texte sans les éléments enfants.
   const header = section.querySelector('.section-header');
   let label = 'Reprenez ici';
   if(header){
@@ -10456,13 +9781,9 @@ function resumeMaison(){
     clone.querySelectorAll('.section-num, .accordion-arrow').forEach(el => el.remove());
     label = clone.textContent.trim() || label;
   }
-  // Cibler le header de la section pour le scroll/badge (précision),
-  // mais appliquer la pulse visuelle sur la carte entière (esthétique).
   scrollAndHighlight(header || section, lastId ? 'Vous en étiez ici : ' + label : 'Commencez ici', section);
 }
 
-// Renvoie l'assuré vers Mon Parcours, à la prochaine étape
-// non complétée (cohérent avec ce qu'affiche déjà le tableau de bord).
 function resumeDiagnostic(){
   const steps = document.querySelectorAll('#screen-diag .diag-step');
   let targetStep = null, targetLabel = null;
@@ -10481,19 +9802,12 @@ function resumeDiagnostic(){
   const stepHeader = targetStep.querySelector('.diag-step-header');
   scrollAndHighlight(stepHeader || targetStep, targetLabel ? 'Reprenez ici : ' + targetLabel : 'Reprenez ici', targetStep);
 }
-// ══ FIN RETOUR GUIDÉ ══
 
-// Sélection de profil directement depuis le tableau de bord — remplace
-// l'ancienne popup de triage après le storytelling. Appelle selectProfil()
-// (la même logique partagée que les cartes de l'onglet diagnostic), donc
-// le grisage des étapes et le bandeau actif s'y mettent à jour automatiquement.
 function dashSelectProfil(n){
   selectProfil(n);
   refreshDashboard();
 }
 
-// Permet de revenir à la sélection des 3 cartes pour choisir un nouveau
-// profil, sans quitter l'onglet Accueil ni toucher au diagnostic.
 function dashChangerProfil(){
   const emptyBlock = document.getElementById('dash-profil-empty');
   const filledBlock = document.getElementById('dash-profil-filled');
@@ -10506,9 +9820,6 @@ function dashQuickAction(tab){
   const idx = {accueil:0, maison:1, diag:2, dossier:3, catnat:4}[tab] ?? 0;
   switchTab(tab, document.querySelectorAll('.nav-item')[idx]);
 
-  // Reprise guidée : une fois l'écran affiché, scroller vers la
-  // dernière section/étape touchée par l'assuré, avec un sursaut
-  // visuel et une aide contextuelle pour l'aider à se repérer.
   if(tab === 'maison'){
     setTimeout(resumeMaison, 500);
   } else if(tab === 'diag'){
@@ -10516,9 +9827,6 @@ function dashQuickAction(tab){
   }
 }
 
-// ══ FIN TABLEAU DE BORD ══
-
-// ── DRAG GESTURE GLOSSAIRE (swipe haut/bas) ──
 (function initGlossaireDrag(){
   let startY = 0, startH = 0, dragging = false;
   const CLOSED_H = 32, OPEN_H = 430, THRESHOLD = 60;
@@ -10531,7 +9839,6 @@ function dashQuickAction(tab){
     startY = e.touches[0].clientY;
     startH = overlay.offsetHeight;
     dragging = true;
-    // Désactiver la transition pendant le drag
     overlay.style.transition = 'none';
   }
 
@@ -10542,7 +9849,6 @@ function dashQuickAction(tab){
     const dy = startY - e.touches[0].clientY; // positif = glisse vers le haut
     let newH = Math.min(Math.max(startH + dy, CLOSED_H), OPEN_H);
     overlay.style.height = newH + 'px';
-    // Ajuster border-radius selon ouverture
     const ratio = (newH - CLOSED_H) / (OPEN_H - CLOSED_H);
     overlay.style.borderRadius = (ratio * 20) + 'px ' + (ratio * 20) + 'px 0 0';
     e.preventDefault();
@@ -10553,13 +9859,11 @@ function dashQuickAction(tab){
     dragging = false;
     const overlay = getOverlay();
     if(!overlay) return;
-    // Remettre la transition
     overlay.style.transition = '';
     overlay.style.height = '';
     overlay.style.borderRadius = '';
     const currentH = overlay.offsetHeight;
     const dy = startY - e.changedTouches[0].clientY;
-    // Décision : ouvrir ou fermer selon direction + seuil
     if(dy > THRESHOLD || currentH > (CLOSED_H + OPEN_H) / 2){
       openGlossaire();
     } else {
@@ -10575,21 +9879,17 @@ function dashQuickAction(tab){
     overlay.addEventListener('touchend', onTouchEnd, {passive:true});
   });
 })();
-// ── FIN DRAG GESTURE ──
 
-// ── SYSTÈME 3 NIVEAUX ──
 const triState = {};
 
 function triSelect(stepId, itemN, choice){
   const key = stepId + '-' + itemN;
   const prevChoice = triState[key];
 
-  // Désactiver les deux boutons d'abord
   const item = document.getElementById('tri-' + stepId + '-' + itemN);
   if(!item) return;
   item.querySelectorAll('.tri-btn').forEach(b => b.classList.remove('active'));
 
-  // Si même choix → désélectionner (toggle)
   if(prevChoice === choice){
     delete triState[key];
     const detail = document.getElementById('tri-' + stepId + '-' + itemN + '-detail');
@@ -10599,12 +9899,10 @@ function triSelect(stepId, itemN, choice){
     return;
   }
 
-  // Activer le bouton choisi
   triState[key] = choice;
   const btn = item.querySelector('.tri-btn.' + choice);
   if(btn) btn.classList.add('active');
 
-  // Déplier les sous-questions si "yes"
   const detail = document.getElementById('tri-' + stepId + '-' + itemN + '-detail');
   if(detail){
     detail.classList.toggle('open', choice === 'yes');
@@ -10615,13 +9913,11 @@ function triSelect(stepId, itemN, choice){
   saveDiag();
 }
 
-// Compter les items tri d'une étape et afficher le feedback
 function countTriItems(stepId){
   let total = 0, answered = 0;
   Object.keys(triState).forEach(k => {
     if(k.startsWith(stepId + '-')){ total++; answered++; }
   });
-  // Compter le total d'items déclarés dans le DOM
   const step = document.querySelector('[id^="step"][id$="' + stepId.replace('step','') + '"]') ||
                document.getElementById('step-' + stepId.replace('step','') + 'b');
   const allItems = document.querySelectorAll('[id^="tri-' + stepId + '-"][id$="-detail"]') ;
@@ -10639,11 +9935,9 @@ function updateFeedback(stepId){
   const pct = Math.round(answered / total * 100);
   const txt = document.getElementById('fb-' + stepId + '-txt');
 
-  // Messages selon l'étape
   const keySteps = ['step3','step5','step8'];
   const isKey = keySteps.includes(stepId);
 
-  // Messages de toast personnalisés par étape
   const stepToasts = {
     step1:    '🔍 Fissures documentées — bonne base pour la suite !',
     step2:    '📋 Arrêté Cat Nat vérifié — vous pouvez passer à la déclaration.',
@@ -10663,12 +9957,10 @@ function updateFeedback(stepId){
   };
 
   if(answered === total){
-    // Était non complété avant → afficher le toast de félicitation
     const wasCompleted = fb.classList.contains('done') || fb.classList.contains('key');
     if(!wasCompleted){
       const msg = stepToasts[stepId] || '✅ Étape complétée — bien joué !';
       showToast(msg, 3000);
-      // Animation flash sur le header de l'étape
       const stepEl = document.getElementById(stepId === 'step1' ? 'step-1b' :
         stepId === 'step2' ? 'step-2b' : stepId === 'step2new' ? 'step-2b' :
         stepId === 'step3' ? 'step-3b' : stepId === 'step3new' ? 'step-3b' :
@@ -10700,7 +9992,6 @@ function updateFeedback(stepId){
 }
 
 function checkMidFeedback(){
-  // Mi-parcours après étape 5 complète
   const midSteps = ['step1','step2','step3','step4','step5'];
   const allDone = midSteps.every(sid => {
     const items = document.querySelectorAll('[id^="tri-' + sid + '-"][id$="-detail"]');
@@ -10728,7 +10019,6 @@ function closeGlossaire(){
   document.getElementById('glossaire-overlay').classList.remove('open');
 }
 function handleGlossaireClick(e){
-  // Plus de fermeture au clic fond — plein écran, fermeture via ✕
 }
 
 function buildGlossaire(data){
@@ -10755,7 +10045,6 @@ function toggleGlossaireItem(el){
   if(!wasOpen) el.classList.add('open');
 }
 
-// Tri alphabétique du GLOSSAIRE au chargement
 GLOSSAIRE.sort((a, b) => a.term.localeCompare(b.term, 'fr', {sensitivity:'base'}));
 
 function animGlossaireItems(){
@@ -10777,10 +10066,6 @@ function filterGlossaire(q){
   buildGlossaire(filtered);
 }
 
-// ── VOILE DE CONFIDENTIALITÉ — masque l'app en arrière-plan ──
-// Protège contre le regard furtif quand l'assuré change d'app ou
-// verrouille son téléphone avec ArgiQare ouvert. Se réaffiche
-// instantanément, sans rien recharger ni perdre la saisie en cours.
 (function initPrivacyShield(){
   const shield = document.getElementById('privacy-shield');
   if(!shield) return;
@@ -10792,24 +10077,17 @@ function filterGlossaire(q){
     shield.classList.remove('visible');
   }
 
-  // Cas 1 : l'app passe en arrière-plan (autre app, écran verrouillé,
-  // changement d'onglet) — couvre la majorité des navigateurs mobiles.
   document.addEventListener('visibilitychange', () => {
     if(document.hidden) showShield();
     else hideShield();
   });
 
-  // Cas 2 : perte de focus de la fenêtre (utile en navigateur desktop
-  // ou certains contextes où visibilitychange ne suffit pas).
   window.addEventListener('blur', showShield);
   window.addEventListener('focus', hideShield);
 
-  // Sécurité supplémentaire : si l'app est mise en pause (PWA installée,
-  // certains Android), le pagehide couvre ce cas avant fermeture complète.
   window.addEventListener('pagehide', showShield);
 })();
 
-// ── ENREGISTREMENT SERVICE WORKER PWA + DÉTECTION MISE À JOUR ──
 const _isProd = location.hostname === 'argiqare.fr' || location.hostname === 'www.argiqare.fr';
 if('serviceWorker' in navigator && _isProd){
   window.addEventListener('load', () => {
@@ -10817,15 +10095,12 @@ if('serviceWorker' in navigator && _isProd){
       .then(reg => {
         console.log('[ArgiQare] Service Worker enregistré :', reg.scope);
 
-        // Vérifier activement s'il existe une mise à jour disponible
         reg.update();
 
-        // Un nouveau SW est en attente (déjà installé, pas encore actif)
         if(reg.waiting){
           showUpdateBanner(reg.waiting);
         }
 
-        // Détecter l'installation d'un nouveau SW pendant que l'app est ouverte
         reg.addEventListener('updatefound', () => {
           const newWorker = reg.installing;
           if(!newWorker) return;
@@ -10838,7 +10113,6 @@ if('serviceWorker' in navigator && _isProd){
       })
       .catch(err => console.warn('[ArgiQare] Service Worker échec :', err));
 
-    // Recharger automatiquement une fois que le nouveau SW prend le contrôle
     let refreshing = false;
     navigator.serviceWorker.addEventListener('controllerchange', () => {
       if(refreshing) return;
@@ -10848,7 +10122,6 @@ if('serviceWorker' in navigator && _isProd){
   });
 }
 
-// Bannière discrète proposant la mise à jour, sans rien forcer
 function showUpdateBanner(waitingWorker){
   if(document.getElementById('update-banner')) return; // déjà affichée
   const banner = document.createElement('div');
@@ -10871,7 +10144,6 @@ function showUpdateBanner(waitingWorker){
   });
 }
 
-// ── STORYTELLING ──
 let storyCurrent = 0;
 const STORY_TOTAL = 4;
 function openStory(){
@@ -10886,9 +10158,6 @@ function openStory(){
 }
 function closeStory(){
   document.getElementById('story-overlay').classList.add('hidden');
-  // Basculer vers l'onglet Accueil — c'est désormais depuis cet onglet
-  // que l'assuré choisit son profil (ancienne popup de triage supprimée,
-  // ancien bottom-sheet transformé en véritable onglet de navigation).
   setTimeout(()=>{ openDashboard(); }, 250);
 }
 function storyNext(){
