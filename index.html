@@ -45,8 +45,68 @@
 <meta name="description" content="Guide interactif RGA & Cat Nat — comprenez vos droits et pré-constituez votre dossier sinistre.">
 <!-- ══ /PWA ══ -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<!-- ══ SUPABASE ══ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+// ── Configuration Supabase ──
+// Remplace ces deux valeurs par celles de ton projet Supabase
+// Settings → API → Project URL et anon/public key
+const SUPABASE_URL  = 'https://kkwxxthagvwmopdotls.supabase.co';
+const SUPABASE_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtrd3h4dGhhZ3Z2d21vcGRvdGxzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwNDEzODAsImV4cCI6MjEwMjYxNzM4MH0.AjKBUBfaMjOSezIOoKqqCqol2unftHf-k5mKNN9A6Qo';
+const _supabase = (typeof supabase !== 'undefined')
+  ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON)
+  : null;
+</script>
 <style>
 .phone img { max-width:100% !important; }
+
+/* ── Écran de connexion Magic Link ── */
+#screen-auth {
+  position:absolute; inset:0; z-index:900;
+  background:linear-gradient(160deg,#1a2e10 0%,#2d5a27 55%,#1a3a6e 100%);
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding:28px 22px; gap:0;
+  transition:opacity .4s, visibility .4s;
+}
+#screen-auth.hidden { opacity:0; visibility:hidden; pointer-events:none; }
+.auth-logo { font-family:Georgia,serif; font-size:34px; font-weight:300;
+  color:rgba(255,255,255,.88); letter-spacing:2px; margin-bottom:6px; }
+.auth-logo b { font-weight:700; color:#D9B654; }
+.auth-tagline { font-size:10.5px; color:rgba(255,255,255,.5); text-align:center;
+  margin-bottom:28px; line-height:1.55; }
+.auth-card { background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px);
+  border-radius:20px; padding:22px 20px; width:100%; }
+.auth-title { font-size:14px; font-weight:800; color:white; margin-bottom:6px; }
+.auth-sub { font-size:10px; color:rgba(255,255,255,.5); line-height:1.6; margin-bottom:18px; }
+.auth-input { width:100%; padding:12px 14px; border:1.5px solid rgba(255,255,255,.18);
+  border-radius:12px; font-size:13px; font-family:inherit; outline:none;
+  background:rgba(255,255,255,.1); color:white; transition:border-color .2s, background .2s; }
+.auth-input::placeholder { color:rgba(255,255,255,.3); }
+.auth-input:focus { border-color:#C9A23A; background:rgba(255,255,255,.15); }
+.auth-btn { width:100%; padding:13px; background:linear-gradient(135deg,#C9A23A,#D9B654);
+  color:#1a0800; border:none; border-radius:12px; font-size:13px; font-weight:800;
+  cursor:pointer; font-family:inherit; margin-top:12px; transition:opacity .15s;
+  display:flex; align-items:center; justify-content:center; gap:8px; }
+.auth-btn:hover { opacity:.9; }
+.auth-btn:disabled { opacity:.5; cursor:not-allowed; }
+.auth-msg { font-size:10px; text-align:center; margin-top:12px; line-height:1.6; }
+.auth-msg.success { color:#a8d8a8; }
+.auth-msg.error   { color:#f0a0a0; }
+.auth-divider { height:1px; background:linear-gradient(90deg,transparent,rgba(201,162,58,.5),transparent);
+  margin:18px 0; }
+.auth-skip { font-size:10px; color:rgba(255,255,255,.4); text-align:center; cursor:pointer;
+  margin-top:14px; text-decoration:underline; transition:color .15s; }
+.auth-skip:hover { color:rgba(255,255,255,.7); }
+.auth-user-bar { position:absolute; top:0; left:0; right:0; z-index:10;
+  background:rgba(45,90,39,.92); backdrop-filter:blur(8px);
+  padding:8px 14px; display:none; align-items:center; gap:8px; }
+.auth-user-bar.visible { display:flex; }
+.auth-user-email { flex:1; font-size:10px; color:rgba(255,255,255,.8); overflow:hidden;
+  text-overflow:ellipsis; white-space:nowrap; }
+.auth-logout-btn { font-size:9.5px; font-weight:700; color:#C9A23A; background:none;
+  border:none; cursor:pointer; font-family:inherit; white-space:nowrap; }
 #rga-map img { max-width:none !important; max-height:none !important; width:auto !important; height:auto !important; }
 #rga-map { z-index:0 !important; position:relative !important; }
 #rga-map * { box-sizing:content-box; }
@@ -127,6 +187,20 @@
 .profil-card.p2.selected .profil-card-check { background:#8A4A28; border-color:#8A4A28; }
 .profil-card.p3.selected .profil-card-check { background:#7A5024; border-color:#7A5024; }
 .diag-step.profil-grise { opacity:.38; pointer-events:none; }
+/* ── Verrouillage progressif ── */
+.diag-step.step-locked { opacity:.55; pointer-events:none; position:relative; }
+.diag-step.step-locked .diag-step-header { cursor:default; }
+.diag-step.step-locked::after {
+  content:'🔒';
+  position:absolute; top:12px; right:12px;
+  font-size:14px; opacity:.6; pointer-events:none;
+}
+.diag-step.step-just-unlocked { animation: stepUnlockPop .6s cubic-bezier(.34,1.56,.64,1); }
+@keyframes stepUnlockPop {
+  0%  { box-shadow:0 0 0 0 rgba(74,124,63,0); transform:scale(1); }
+  30% { box-shadow:0 0 0 8px rgba(74,124,63,.2); transform:scale(1.02); }
+  100%{ box-shadow:0 0 0 0 rgba(74,124,63,0); transform:scale(1); }
+}
 @keyframes stepUnlock { 0%{box-shadow:0 0 0 0 rgba(74,124,63,0);} 30%{box-shadow:0 0 0 6px rgba(74,124,63,.25);transform:scale(1.015);} 100%{box-shadow:0 0 0 0 rgba(74,124,63,0);transform:scale(1);} }
 .diag-step.step-unlock { animation: stepUnlock .55s cubic-bezier(.34,1.56,.64,1); }
 .diag-step.profil-grise .diag-step-num { background:#c0b8a8 !important; }
@@ -665,6 +739,7 @@ function updateProgress(){
       s.classList.toggle('completed', ok);
     });
   }
+  if(typeof refreshStepLocks === 'function') refreshStepLocks();
 }
 function saveDiag(){
   if(typeof triState === 'undefined') return;
@@ -1201,6 +1276,28 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
 .res-link-title, .res-link-url { text-align:justify; hyphens:auto; -webkit-hyphens:auto; }
 .gl{border-bottom:1.5px dashed #2a5ca8;cursor:pointer;display:inline;border-radius:2px;padding:0 1px;}
 .gl:hover{background:rgba(42,92,168,.1);}
+/* ── Hint glossaire (premier clic) ── */
+.gl-hint-bubble {
+  position:fixed; z-index:2000;
+  background:#1a3a6e; color:white;
+  font-size:10px; font-weight:600; line-height:1.45;
+  padding:8px 12px; border-radius:10px;
+  box-shadow:0 4px 18px rgba(0,0,0,.25);
+  max-width:200px; text-align:center;
+  pointer-events:none;
+  animation:glHintIn .3s cubic-bezier(.34,1.56,.64,1);
+}
+.gl-hint-bubble::after {
+  content:'';
+  position:absolute; top:100%; left:50%; transform:translateX(-50%);
+  border:6px solid transparent; border-top-color:#1a3a6e;
+}
+@keyframes glHintIn { from{opacity:0;transform:translateY(4px)} to{opacity:1;transform:translateY(0)} }
+.gl.gl-pulse { animation:glPulse 1.8s ease-in-out 3; }
+@keyframes glPulse {
+  0%,100%{ border-bottom-color:#2a5ca8; background:transparent; }
+  50%    { border-bottom-color:#C9A23A; background:rgba(201,162,58,.12); }
+}
 .gl-bubble{position:absolute;z-index:800;background:white;border-radius:14px;box-shadow:0 8px 32px rgba(0,0,0,.22);width:260px;padding:14px;display:none;}
 .gl-bubble.open{display:block;animation:glIn .2s cubic-bezier(.34,1.56,.64,1);}
 @keyframes glIn{from{opacity:0;transform:scale(.9) translateY(6px)}to{opacity:1;transform:scale(1) translateY(0)}}
@@ -1343,6 +1440,50 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
   pointer-events:none; max-width:220px;
 }
 .gloss-proactive-tip.visible { opacity:1; transform:translateY(0); pointer-events:auto; cursor:pointer; }
+
+/* ── Hint glossaire global (première utilisation) ── */
+#gloss-first-hint {
+  position:absolute; z-index:570;
+  background:linear-gradient(135deg,#2d5a27,#4a7c3f);
+  color:white; font-size:10.5px; font-weight:700;
+  padding:8px 13px; border-radius:12px;
+  box-shadow:0 6px 20px rgba(45,90,39,.35);
+  display:flex; align-items:center; gap:7px;
+  opacity:0; transform:translateY(6px) scale(.97);
+  transition:opacity .35s, transform .35s;
+  pointer-events:none; max-width:230px;
+  left:14px; bottom:80px;
+}
+#gloss-first-hint.visible { opacity:1; transform:translateY(0) scale(1); pointer-events:auto; cursor:pointer; }
+#gloss-first-hint::after {
+  content:''; position:absolute; bottom:-6px; left:18px;
+  border:6px solid transparent; border-top-color:#2d5a27;
+  border-bottom:none;
+}
+
+/* ── Verrouillage progressif des étapes ── */
+.diag-step.step-locked {
+  opacity:.55;
+  pointer-events:none;
+  position:relative;
+}
+.diag-step.step-locked .diag-step-header {
+  cursor:not-allowed;
+}
+.diag-step.step-locked::after {
+  content:'🔒';
+  position:absolute; top:12px; right:14px;
+  font-size:14px; opacity:.5; pointer-events:none;
+}
+.diag-step.step-locked.step-unlock-anim {
+  animation:stepUnlock .6s cubic-bezier(.34,1.56,.64,1) forwards;
+  opacity:1; pointer-events:auto;
+}
+@keyframes stepUnlockFull {
+  0%   { box-shadow:0 0 0 0 rgba(74,124,63,0); transform:scale(1); }
+  25%  { box-shadow:0 0 0 8px rgba(74,124,63,.3); transform:scale(1.02); }
+  100% { box-shadow:0 0 0 0 rgba(74,124,63,0); transform:scale(1); }
+}
 .dash-search-wrap { position:relative; margin-bottom:10px; }
 .dash-search-input {
   width:100%; padding:10px 14px 10px 36px; border:1.5px solid #e0d8cc; border-radius:12px;
@@ -1389,7 +1530,33 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
 <body>
 <div class="phone">
 
-  <!-- ══ SPLASH SCREEN — animation d'ouverture ══ -->
+  <!-- ══ AUTH — Connexion par magic link Supabase ══ -->
+  <div id="screen-auth" style="display:none;">
+    <div class="auth-logo">argi<b>Q</b>are</div>
+    <div class="auth-tagline">Votre guide RGA &amp; Cat Nat<br>Connectez-vous pour retrouver votre dossier sur tous vos appareils</div>
+    <div class="auth-card">
+      <div class="auth-title">Connexion sécurisée</div>
+      <div class="auth-sub">Entrez votre adresse e-mail — nous vous envoyons un lien de connexion instantané, sans mot de passe.</div>
+      <input class="auth-input" id="auth-email" type="email" placeholder="votre@email.fr" autocomplete="email">
+      <button class="auth-btn" id="auth-send-btn" onclick="authSendMagicLink()">
+        <span id="auth-btn-txt">✉️ Recevoir mon lien de connexion</span>
+      </button>
+      <div class="auth-msg" id="auth-msg"></div>
+      <div class="auth-divider"></div>
+      <div style="font-size:10px;color:#9a8a72;text-align:center;line-height:1.6;">
+        🔒 Vos données restent privées.<br>Aucun mot de passe, aucune création de compte.
+      </div>
+    </div>
+    <div class="auth-skip" onclick="authSkip()">Continuer sans connexion →</div>
+  </div>
+
+  <!-- Barre utilisateur connecté (affichée dans le header quand session active) -->
+  <div class="auth-user-bar" id="auth-user-bar">
+    <span style="font-size:14px;">🔒</span>
+    <span class="auth-user-email" id="auth-user-email">—</span>
+    <button class="auth-logout-btn" onclick="authLogout()">Déconnexion</button>
+  </div>
+  <!-- ══ FIN AUTH ══ -->
   <div id="app-splash">
     <div id="sp-logo">
       <span class="sp-g">argi</span><span class="sp-q">Q</span><span class="sp-a">are</span>
@@ -1435,14 +1602,14 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
       <div class="rgpd-consent-logo">🔒</div>
       <div class="rgpd-consent-title">Vos données personnelles</div>
       <div class="rgpd-consent-text">
-        Avant d'utiliser ArgiQare, nous vous informons que cette application collecte et stocke des données sur <strong>votre appareil uniquement</strong> pour vous permettre de pré-constituer votre dossier RGA.<br><br>
-        <strong>Aucune donnée n'est transmise à des serveurs ou à des tiers.</strong><br><br>
+        Avant d'utiliser ArgiQare, nous vous informons que cette application stocke vos données <strong>d'abord sur votre appareil</strong> pour vous permettre de pré-constituer votre dossier RGA.<br><br>
+        <strong>Si vous choisissez de créer un compte</strong> (connexion par e-mail), vos données de dossier et votre adresse e-mail sont également sauvegardées de manière sécurisée sur nos serveurs (hébergés par Supabase, dans l'Union européenne) afin de les retrouver sur tous vos appareils. <strong>Sans compte, aucune donnée ne quitte votre appareil.</strong><br><br>
         Conformément au RGPD et aux recommandations de la CNIL (délibération n° 2024-061), vous pouvez à tout moment :
       </div>
       <ul class="rgpd-consent-list">
         <li>✅ Consulter les données stockées (Paramètres → Mes informations)</li>
         <li>✅ Exporter vos données (Paramètres → Exporter)</li>
-        <li>✅ Supprimer toutes vos données (Paramètres → Réinitialiser)</li>
+        <li>✅ Supprimer toutes vos données, y compris sur nos serveurs (Paramètres → Réinitialiser)</li>
         <li>✅ Consulter notre politique de confidentialité (Paramètres → RGPD)</li>
       </ul>
       <div class="rgpd-consent-purpose">
@@ -1451,10 +1618,12 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
         <div class="rgpd-consent-purpose-row"><span>🏘️ Commune</span><span>Alerte arrêtés Cat Nat</span></div>
         <div class="rgpd-consent-purpose-row"><span>📋 Parcours</span><span>Constitution de votre dossier RGA</span></div>
         <div class="rgpd-consent-purpose-row"><span>📎 Documents</span><span>Stockage local, génération PDF</span></div>
+        <div class="rgpd-consent-purpose-row"><span>✉️ E-mail</span><span>Connexion sans mot de passe et synchronisation (uniquement si compte créé)</span></div>
       </div>
       <div class="rgpd-consent-base">
         <strong>Base légale :</strong> consentement de l'utilisateur (art. 6.1.a RGPD)<br>
-        <strong>Durée :</strong> données conservées jusqu'à désinstallation ou réinitialisation<br>
+        <strong>Durée :</strong> jusqu'à réinitialisation de l'application ou suppression du compte<br>
+        <strong>Sous-traitant :</strong> Supabase Inc. (hébergement UE) — uniquement en cas de création de compte<br>
         <strong>Responsable :</strong> ArgiQare — contact via Paramètres › Support
       </div>
       <div class="rgpd-consent-btns">
@@ -1462,7 +1631,7 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
         <button class="rgpd-btn-accept" onclick="rgpdAccept()">J'accepte et je continue →</button>
       </div>
       <div class="rgpd-consent-footer">
-        En acceptant, vous consentez au stockage local de vos données sur cet appareil.<br>
+        En acceptant, vous consentez au stockage local de vos données sur cet appareil, et — si vous créez un compte — à leur synchronisation sécurisée sur nos serveurs.<br>
         Vous pouvez retirer votre consentement à tout moment via les Paramètres.<br>
         <span style="text-decoration:underline;cursor:pointer;color:#2d5a27;" onclick="document.getElementById('rgpd-consent-overlay').classList.add('hidden');switchTab('params',null);setTimeout(()=>openPanel('panel-cgu'),400);">Consulter les CGU</span> · <span style="text-decoration:underline;cursor:pointer;color:#2d5a27;" onclick="document.getElementById('rgpd-consent-overlay').classList.add('hidden');switchTab('params',null);setTimeout(()=>openPanel('panel-rgpd'),400);">Politique de confidentialité</span>
       </div>
@@ -1470,9 +1639,6 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
   </div>
 
   <!-- QUIZ ORIENTATION PROFIL -->
-  <div class="quiz-overlay hidden" id="quiz-overlay">
-    <div class="quiz-box" id="quiz-box"></div>
-  </div>
 
   <!-- CHECKLIST JOUR J -->
   <div class="checklist-overlay hidden" id="checklist-overlay">
@@ -3643,8 +3809,8 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
             </div>
           </div>
 
-          <button class="quiz-orientation-trigger" onclick="openQuizOrientation()">
-            🤔 <span>Je ne sais pas par où commencer — répondre à 3 questions</span>
+          <button class="quiz-orientation-trigger" onclick="quizScrollToCards()">
+            🤔 <span>Je ne sais pas quel profil choisir — voir les descriptions</span>
           </button>
         </div>
         <div id="dash-profil-filled" style="display:none;">
@@ -4841,20 +5007,24 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
       <div class="param-panel-body">
         <div style="display:flex;flex-direction:column;gap:12px;font-size:11px;color:#3a3a3a;line-height:1.7;">
           <div style="background:#e8f5e4;border-radius:10px;padding:12px 14px;">
-            <div style="font-weight:800;color:#2d5a27;margin-bottom:4px;">📍 Données stockées localement</div>
-            Toutes vos informations (profil, parcours, photos) sont stockées <strong>uniquement sur votre appareil</strong>. ArgiQare ne dispose d'aucun serveur de données personnelles.
+            <div style="font-weight:800;color:#2d5a27;margin-bottom:4px;">📍 Stockage local par défaut</div>
+            Sans compte, toutes vos informations (profil, parcours, photos) sont stockées <strong>uniquement sur votre appareil</strong>. Aucune donnée ne quitte votre téléphone ou votre ordinateur.
           </div>
           <div style="background:#eaf0ff;border-radius:10px;padding:12px 14px;">
-            <div style="font-weight:800;color:#1a3a6e;margin-bottom:4px;">🔒 Aucune transmission à des tiers</div>
-            Vos données ne sont jamais vendues, partagées ou transmises à des assureurs, courtiers ou organismes tiers sans votre consentement explicite.
+            <div style="font-weight:800;color:#1a3a6e;margin-bottom:4px;">☁️ Synchronisation optionnelle (avec compte)</div>
+            Si vous créez un compte par e-mail (lien de connexion sans mot de passe), votre adresse e-mail et les données de votre dossier sont sauvegardées de manière chiffrée sur nos serveurs, hébergés par <strong>Supabase</strong> (infrastructure située dans l'Union européenne). Cette synchronisation vous permet de retrouver votre dossier sur tous vos appareils. Vous pouvez vous déconnecter à tout moment.
+          </div>
+          <div style="background:#eaf0ff;border-radius:10px;padding:12px 14px;">
+            <div style="font-weight:800;color:#1a3a6e;margin-bottom:4px;">🔒 Aucune transmission commerciale</div>
+            Vos données ne sont jamais vendues, partagées ou transmises à des assureurs, courtiers ou organismes tiers. Le seul destinataire technique est notre hébergeur Supabase, en qualité de sous-traitant au sens de l'article 28 du RGPD, et uniquement si vous avez créé un compte.
           </div>
           <div style="background:#fdf6e8;border-radius:10px;padding:12px 14px;">
             <div style="font-weight:800;color:#8a6000;margin-bottom:4px;">🗑️ Droit à l'effacement</div>
-            Vous pouvez supprimer l'intégralité de vos données à tout moment via "Réinitialiser mes données" dans la zone critique des paramètres.
+            Vous pouvez supprimer l'intégralité de vos données à tout moment via "Réinitialiser mes données" dans les paramètres. Si vous avez un compte, cette action supprime également vos données de nos serveurs. Vous pouvez aussi demander la suppression de votre compte via le support.
           </div>
           <div style="background:#f0ece4;border-radius:10px;padding:12px 14px;">
-            <div style="font-weight:800;color:#5a4a30;margin-bottom:4px;">📋 Données personnelles</div>
-            ArgiQare ne collecte aucune donnée sur un serveur distant. Toutes vos informations restent stockées localement sur votre appareil. Cette application est en cours de mise en conformité avec le Règlement Général sur la Protection des Données (RGPD — UE 2016/679). Pour toute question relative à vos données, contactez-nous via le support.
+            <div style="font-weight:800;color:#5a4a30;margin-bottom:4px;">📋 Vos droits RGPD</div>
+            Conformément au Règlement Général sur la Protection des Données (RGPD — UE 2016/679), vous disposez d'un droit d'accès, de rectification, d'effacement, de portabilité et d'opposition sur vos données. Pour toute question ou demande relative à vos données, contactez-nous via le support. Vous pouvez également saisir la CNIL (cnil.fr) si vous estimez que vos droits ne sont pas respectés.
           </div>
           <div id="rgpd-consent-status" style="background:#e8f5e4;border-radius:10px;padding:12px 14px;margin-top:10px;">
             <div style="font-weight:800;color:#2d5a27;margin-bottom:4px;">✅ Votre consentement</div>
@@ -4939,7 +5109,7 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
           <div class="cgu-article-title">Article 5 — Données personnelles et RGPD</div>
           <div class="cgu-article-body">
             Le traitement des données personnelles collectées par ArgiQare est régi par la Politique de Confidentialité accessible depuis Paramètres › Politique de confidentialité, conformément au Règlement Général sur la Protection des Données (RGPD — UE 2016/679) et aux recommandations de la CNIL (délibération n° 2024-061 du 18 juillet 2024).<br><br>
-            Les données saisies par l'utilisateur sont stockées exclusivement sur son appareil (localStorage). Aucune donnée n'est transmise à l'Éditeur ou à des tiers sans consentement explicite de l'utilisateur.
+            Par défaut, les données saisies par l'utilisateur sont stockées sur son appareil (localStorage). Si l'utilisateur choisit de créer un compte (connexion par e-mail), son adresse e-mail et les données de son dossier sont également hébergées de manière sécurisée par Supabase Inc., sous-traitant au sens de l'article 28 du RGPD, sur une infrastructure située dans l'Union européenne. Aucune donnée n'est vendue ni transmise à des tiers à des fins commerciales.
           </div>
         </div>
 
@@ -5251,25 +5421,184 @@ window.addEventListener('load', () => {
       document.getElementById('rgpd-consent-overlay').classList.remove('hidden');
     }, 700);
   } else {
-    const alreadySeen = localStorage.getItem('argicare-story-seen');
-    if(!alreadySeen){
-      setTimeout(() => {
-        openStory();
-        localStorage.setItem('argicare-story-seen', '1');
-      }, 600);
+    // Initialisation auth Supabase + gestion magic link
+    authInit().then(isSignedIn => {
+      const skipped = localStorage.getItem('argicare-auth-skipped');
+      if (!isSignedIn && !skipped) {
+        // Pas connecté et pas sauté → montrer l'écran auth
+        setTimeout(() => {
+          document.getElementById('screen-auth').style.display = 'flex';
+        }, 400);
+      } else {
+        // Connecté ou sauté → lancer normalement
+        const alreadySeen = localStorage.getItem('argicare-story-seen');
+        if (!alreadySeen) {
+          setTimeout(() => {
+            openStory();
+            localStorage.setItem('argicare-story-seen', '1');
+          }, 600);
+        } else {
+          launchSplash();
+        }
+      }
+    });
+  } // fin else consentData
+}); // fin window.addEventListener('load')
+
+// ══════════════════════════════════════════════════
+//  AUTH — Magic link via Supabase Auth
+// ══════════════════════════════════════════════════
+
+// ══════════════════════════════════════════════════
+//  AUTH — Magic link via Supabase JS SDK v2
+// ══════════════════════════════════════════════════
+
+// Initialisation Supabase (les clés sont dans le bloc <script> en haut du <head>)
+// SUPABASE_URL et SUPABASE_ANON sont déclarés dans le script d'initialisation CDN
+
+async function authInit() {
+  if (!_supabase) return; // SDK non chargé (hors ligne)
+
+  // Écouter les changements de session (retour magic link, expiration…)
+  _supabase.auth.onAuthStateChange(async (event, session) => {
+    if (event === 'SIGNED_IN' && session) {
+      authOnSignedIn(session);
+    } else if (event === 'SIGNED_OUT') {
+      authOnSignedOut();
+    }
+  });
+
+  // Vérifier la session existante au démarrage
+  const { data: { session } } = await _supabase.auth.getSession();
+  if (session) {
+    authOnSignedIn(session);
+    return true; // déjà connecté
+  }
+  return false;
+}
+
+async function authSendMagicLink() {
+  const email = document.getElementById('auth-email').value.trim();
+  if (!email || !email.includes('@')) {
+    document.getElementById('auth-email').style.borderColor = '#c04030';
+    document.getElementById('auth-msg').className = 'auth-msg error';
+    document.getElementById('auth-msg').textContent = 'Adresse e-mail invalide.';
+    return;
+  }
+
+  const btn = document.getElementById('auth-send-btn');
+  const txt = document.getElementById('auth-btn-txt');
+  btn.disabled = true;
+  txt.textContent = '⏳ Envoi en cours…';
+  document.getElementById('auth-msg').textContent = '';
+
+  if (!_supabase) {
+    // Fallback sans SDK : fetch direct
+    try {
+      const res = await fetch(`${SUPABASE_URL}/auth/v1/otp`, {
+        method: 'POST',
+        headers: { 'apikey': SUPABASE_ANON, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, create_user: true })
+      });
+      if (res.ok) {
+        authShowSent(email);
+      } else {
+        const err = await res.json();
+        authShowError(err.msg || err.error_description || 'Réessayez.');
+        btn.disabled = false; txt.textContent = '✉️ Recevoir mon lien de connexion';
+      }
+    } catch(e) {
+      authShowError('Problème réseau. Vérifiez votre connexion.');
+      btn.disabled = false; txt.textContent = '✉️ Recevoir mon lien de connexion';
+    }
+    return;
+  }
+
+  const { error } = await _supabase.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: window.location.href }
+  });
+
+  if (error) {
+    authShowError(error.message || 'Réessayez.');
+    btn.disabled = false;
+    txt.textContent = '✉️ Recevoir mon lien de connexion';
+  } else {
+    authShowSent(email);
+  }
+}
+
+function authShowSent(email) {
+  document.getElementById('auth-msg').className = 'auth-msg success';
+  document.getElementById('auth-msg').innerHTML =
+    '📧 Lien envoyé à <b>' + email + '</b><br>' +
+    'Consultez votre boîte mail et cliquez sur le lien pour vous connecter.';
+  document.getElementById('auth-send-btn').disabled = false;
+  document.getElementById('auth-btn-txt').textContent = '✉️ Renvoyer le lien';
+}
+
+function authShowError(msg) {
+  document.getElementById('auth-msg').className = 'auth-msg error';
+  document.getElementById('auth-msg').textContent = '⚠️ ' + msg;
+}
+
+function authSkip() {
+  localStorage.setItem('argicare-auth-skipped', '1');
+  document.getElementById('screen-auth').style.display = 'none';
+  const alreadySeen = localStorage.getItem('argicare-story-seen');
+  if (!alreadySeen) {
+    openStory();
+    localStorage.setItem('argicare-story-seen', '1');
+  } else {
+    launchSplash();
+  }
+}
+
+async function authLogout() {
+  if (_supabase) await _supabase.auth.signOut();
+  ['argicare-auth-skipped'].forEach(k => localStorage.removeItem(k));
+  document.getElementById('auth-user-bar').classList.remove('visible');
+  showToast('Déconnecté — à bientôt !');
+  setTimeout(() => {
+    document.getElementById('screen-auth').style.display = 'flex';
+  }, 800);
+}
+
+function authOnSignedIn(session) {
+  const email = session.user?.email || '';
+  localStorage.removeItem('argicare-auth-skipped');
+  const authScreen = document.getElementById('screen-auth');
+  const wasVisible = authScreen && authScreen.style.display !== 'none';
+  if(authScreen) authScreen.style.display = 'none';
+  const bar = document.getElementById('auth-user-bar');
+  document.getElementById('auth-user-email').textContent = email;
+  bar.classList.add('visible');
+  showToast('🔒 Connecté : ' + email);
+
+  // Si l'écran auth était affiché (connexion active), enchaîner sur la suite
+  if(wasVisible){
+    const seen = localStorage.getItem('argicare-story-seen');
+    if(!seen){
+      setTimeout(() => { openStory(); localStorage.setItem('argicare-story-seen','1'); }, 400);
     } else {
       launchSplash();
     }
   }
-});
+}
+
+function authOnSignedOut() {
+  document.getElementById('auth-user-bar').classList.remove('visible');
+}
 
 // ══════════════════════════════════════════════════
 //  SUPABASE — Synchronisation cloud ArgiQare
 // ══════════════════════════════════════════════════
-const SUPA_URL = 'https://kkwxxthagvwmopdotls.supabase.co';
-const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtrd3h4dGhhZ3Z2d21vcGRvdGxzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwNDEzODAsImV4cCI6MjEwMjYxNzM4MH0.AjKBUBfaMjOSezIOoKqqCqol2unftHf-k5mKNN9A6Qo';
 
-function getSessionId() {
+async function getSessionId() {
+  if (_supabase) {
+    const { data: { session } } = await _supabase.auth.getSession();
+    if (session?.user?.id) return 'user-' + session.user.id;
+  }
   let sid = localStorage.getItem('argicare-session-id');
   if (!sid) {
     sid = 'aq-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
@@ -5278,17 +5607,27 @@ function getSessionId() {
   return sid;
 }
 
+async function getAuthHeaders() {
+  let token = SUPABASE_ANON;
+  if (_supabase) {
+    const { data: { session } } = await _supabase.auth.getSession();
+    if (session?.access_token) token = session.access_token;
+  }
+  return {
+    'apikey': SUPABASE_ANON,
+    'Authorization': `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  };
+}
+
 async function syncToSupabase(data) {
   try {
-    const payload = { session_id: getSessionId(), ...data };
-    const res = await fetch(`${SUPA_URL}/rest/v1/dossiers`, {
+    const sessionId = await getSessionId();
+    const headers   = await getAuthHeaders();
+    const payload = { session_id: sessionId, ...data };
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/dossiers`, {
       method: 'POST',
-      headers: {
-        'apikey': SUPA_KEY,
-        'Authorization': `Bearer ${SUPA_KEY}`,
-        'Content-Type': 'application/json',
-        'Prefer': 'resolution=merge-duplicates,return=minimal'
-      },
+      headers: { ...headers, 'Prefer': 'resolution=merge-duplicates,return=minimal' },
       body: JSON.stringify(payload)
     });
     showCloudBadge(res.ok);
@@ -5297,9 +5636,11 @@ async function syncToSupabase(data) {
 
 async function loadFromSupabase() {
   try {
+    const sessionId = await getSessionId();
+    const headers   = await getAuthHeaders();
     const res = await fetch(
-      `${SUPA_URL}/rest/v1/dossiers?session_id=eq.${encodeURIComponent(getSessionId())}&select=*&limit=1`,
-      { headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}` } }
+      `${SUPABASE_URL}/rest/v1/dossiers?session_id=eq.${encodeURIComponent(sessionId)}&select=*&limit=1`,
+      { headers }
     );
     if (!res.ok) return null;
     const rows = await res.json();
@@ -5441,6 +5782,27 @@ const QUIZ_QUESTIONS = [
 ];
 let quizAnswers = [];
 let quizStep = 0;
+
+function quizScrollToCards(){
+  // Scroll vers les cartes de profil et les mettre en évidence
+  const cards = document.querySelectorAll('.profil-card');
+  if(!cards.length) return;
+  cards[0].scrollIntoView({behavior:'smooth', block:'center'});
+  // Flash léger sur les 3 cartes pour attirer l'attention
+  cards.forEach((c, i) => {
+    setTimeout(() => {
+      c.style.transition = 'box-shadow .3s, transform .3s';
+      c.style.boxShadow = '0 0 0 2.5px #C9A23A, 0 4px 18px rgba(201,162,58,.3)';
+      c.style.transform = 'translateY(-2px)';
+      setTimeout(() => {
+        c.style.boxShadow = '';
+        c.style.transform = '';
+      }, 800);
+    }, i * 120);
+  });
+  // Toast d'aide
+  showToast('Choisissez le profil qui correspond à votre situation actuelle');
+}
 
 function openQuizOrientation(){
   quizAnswers = [];
@@ -5902,6 +6264,7 @@ function selectProfil(n, opts){
   }
   if(typeof refreshDashboard === 'function') refreshDashboard();
   if(typeof updateProgress === 'function') updateProgress();
+  if(typeof refreshStepLocks === 'function') setTimeout(refreshStepLocks, 100);
 }
 
 function goToAccueilProfil(event){
@@ -5913,9 +6276,75 @@ function initProfil(){
   const saved = localStorage.getItem('argicare-profil');
   if(saved) selectProfil(parseInt(saved), {silent:true});
 }
+// ── Ordre DOM des étapes ──
+const STEP_DOM_ORDER = ['step-1b','step-2b','step-3b','step-5b','step-6b',
+  'step-7b','step-8b','step-9b','step-10b','step-11b','step-13b','step-14b'];
+
+// ── Calcul du % d'une étape ──
+function getStepPct(stepEl){
+  const cbs = stepEl.querySelectorAll('.diag-cb');
+  if(cbs.length === 0) return 100; // étape sans checkbox = toujours complète
+  const checked = [...cbs].filter(c=>c.checked).length;
+  return Math.round((checked / cbs.length) * 100);
+}
+
+// ── Verrouillage progressif : recalcule quels steps sont accessibles ──
+function refreshStepLocks(){
+  const profil = parseInt(localStorage.getItem('argicare-profil') || '1');
+  const cfg = PROFIL_CONFIG[profil] || PROFIL_CONFIG[1];
+  const startIdx = STEP_DOM_ORDER.findIndex(id => {
+    const stepNum = parseInt(id.replace('step-','').replace('b',''));
+    return stepNum >= cfg.startStep;
+  });
+
+  STEP_DOM_ORDER.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if(!el) return;
+
+    // Étapes avant le startStep du profil : lisibles mais pas verrouillées
+    if(i < startIdx){ el.classList.remove('step-locked'); return; }
+
+    // La première étape active est toujours accessible
+    if(i === startIdx){ el.classList.remove('step-locked'); return; }
+
+    // Pour les suivantes : l'étape précédente doit être ≥ 50%
+    const prevId = STEP_DOM_ORDER[i - 1];
+    const prevEl = document.getElementById(prevId);
+    const wasLocked = el.classList.contains('step-locked');
+
+    if(prevEl && getStepPct(prevEl) >= 50){
+      if(wasLocked){
+        // Déverrouillage : animation flash
+        el.classList.remove('step-locked');
+        el.style.animation = 'none';
+        void el.offsetWidth;
+        el.style.animation = 'stepUnlockFull .65s cubic-bezier(.34,1.56,.64,1)';
+        showToast('🔓 Étape suivante déverrouillée !');
+        setTimeout(() => { el.style.animation = ''; }, 700);
+      } else {
+        el.classList.remove('step-locked');
+      }
+    } else {
+      el.classList.add('step-locked');
+    }
+  });
+}
+
 function toggleDiagStep(id){
   const clicked = document.getElementById(id);
   if(!clicked) return;
+
+  // Bloquer si verrouillé
+  if(clicked.classList.contains('step-locked')){
+    // Petit shake pour signaler le verrou
+    clicked.style.animation = 'none';
+    void clicked.offsetWidth;
+    clicked.style.animation = 'shake .35s ease';
+    setTimeout(() => { clicked.style.animation = ''; }, 400);
+    showToast('⬆️ Complétez d\'abord l\'étape précédente à 50%');
+    return;
+  }
+
   const screen = clicked.closest('#screen-diag') || document.getElementById('screen-diag');
   const allSteps = screen ? screen.querySelectorAll('.diag-step') : document.querySelectorAll('.diag-step');
   const wasOpen = clicked.classList.contains('open');
@@ -5932,8 +6361,43 @@ function toggleDiagStep(id){
     if(typeof showProactiveGlossTip === 'function'){
       setTimeout(() => showProactiveGlossTip(clicked), 350);
     }
+    // Hint global glossaire au premier terme souligné rencontré
+    showFirstGlossHint();
   }
 }
+
+// ── Hint global glossaire (une seule fois, premier terme .gl rencontré) ──
+function showFirstGlossHint(){
+  if(localStorage.getItem('argicare-gloss-global-hint-seen')) return;
+  const phone = document.querySelector('.phone');
+  if(!phone) return;
+
+  let hint = document.getElementById('gloss-first-hint');
+  if(!hint){
+    hint = document.createElement('div');
+    hint.id = 'gloss-first-hint';
+    hint.innerHTML = '💬 <span>Les mots <u>soulignés</u> s\'expliquent en appuyant dessus</span>';
+    phone.appendChild(hint);
+    hint.onclick = () => {
+      hint.classList.remove('visible');
+      localStorage.setItem('argicare-gloss-global-hint-seen','1');
+    };
+  }
+  requestAnimationFrame(() => hint.classList.add('visible'));
+  setTimeout(() => {
+    hint.classList.remove('visible');
+    localStorage.setItem('argicare-gloss-global-hint-seen','1');
+  }, 5000);
+}
+
+// Shake CSS (injectée une seule fois)
+(function(){
+  if(document.getElementById('shake-css')) return;
+  const s = document.createElement('style');
+  s.id = 'shake-css';
+  s.textContent = '@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}';
+  document.head.appendChild(s);
+})();
 
 const _glossProactiveShown = new Set(JSON.parse(localStorage.getItem('argicare-gloss-proactive-shown') || '[]'));
 function showProactiveGlossTip(stepEl){
@@ -6011,6 +6475,7 @@ function switchTab(n, el, source='') {
   if(n==='diag'){
     setTimeout(initProfil, 150);
     setTimeout(injectSuccessBadges, 100);
+    setTimeout(refreshStepLocks, 300);
   }
   if(n==='maison'){setTimeout(initModeMaison, 150);}
   if(n==='accueil'){setTimeout(refreshDashboard, 150);}
@@ -6547,6 +7012,35 @@ function glOpen(key, el){
   if(top+220>phone.offsetHeight-20) top=er.top-pr.top-224;
   b.style.top=top+'px'; b.style.left=left+'px';
   b.classList.add('open');
+
+  // ── ④ Hint glossaire : au premier clic seulement ──
+  if(!localStorage.getItem('argicare-gl-hint-seen')){
+    localStorage.setItem('argicare-gl-hint-seen','1');
+    _showGlHint(er, pr);
+    // Faire pulser tous les mots soulignés pour les révéler
+    setTimeout(()=>{
+      document.querySelectorAll('.gl').forEach(g=>{
+        g.classList.add('gl-pulse');
+        setTimeout(()=>g.classList.remove('gl-pulse'), 5500);
+      });
+    }, 1200);
+  }
+}
+
+function _showGlHint(elRect, phoneRect){
+  const existing = document.getElementById('gl-hint-bubble');
+  if(existing) existing.remove();
+  const hint = document.createElement('div');
+  hint.id = 'gl-hint-bubble';
+  hint.className = 'gl-hint-bubble';
+  hint.textContent = '💬 Tous les mots soulignés en bleu ouvrent une définition !';
+  // Positionner sous la bulle glossaire
+  const top = elRect.bottom + 72;
+  const left = phoneRect.left + phoneRect.width / 2 - 100;
+  hint.style.cssText = `top:${top}px;left:${left}px;transform:translateX(-50%);`;
+  document.body.appendChild(hint);
+  setTimeout(()=>{ hint.style.transition='opacity .5s'; hint.style.opacity='0'; }, 3000);
+  setTimeout(()=>hint.remove(), 3600);
 }
 function glClose(){document.getElementById('gl-bubble').classList.remove('open');}
 document.addEventListener('click',function(e){
@@ -8030,7 +8524,8 @@ function shareQRCode(){
 <style>
 /* ══ BANDEAU CONSENTEMENT RGPD ══ */
 .rgpd-consent-overlay { position:absolute; inset:0; background:rgba(10,20,10,.7); z-index:700; display:flex; align-items:flex-end; backdrop-filter:blur(3px); }
-.rgpd-consent-overlay.hidden { display:none; }
+
+/* ── RGPD ── */
 .rgpd-consent-box { background:white; border-radius:22px 22px 0 0; width:100%; max-height:92%; overflow-y:auto; padding:20px 18px 28px; animation:slideUp .35s cubic-bezier(.4,0,.2,1); }
 @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
 .rgpd-consent-logo { font-size:28px; text-align:center; margin-bottom:8px; }
@@ -8689,9 +9184,38 @@ function rgpdAccept(){
     finalites: ['profil','commune','parcours','documents']
   }));
   document.getElementById('rgpd-consent-overlay').classList.add('hidden');
-  const seen = localStorage.getItem('argicare-story-seen');
-  if(!seen){
-    setTimeout(() => { openStory(); localStorage.setItem('argicare-story-seen','1'); }, 400);
+
+  // Enchaîner sur le flux normal : auth → story → splash
+  const startFlow = () => {
+    const skipped = localStorage.getItem('argicare-auth-skipped');
+    const authScreen = document.getElementById('screen-auth');
+    if(!skipped && authScreen){
+      setTimeout(() => { authScreen.style.display = 'flex'; }, 400);
+    } else {
+      const seen = localStorage.getItem('argicare-story-seen');
+      if(!seen){
+        setTimeout(() => { openStory(); localStorage.setItem('argicare-story-seen','1'); }, 400);
+      } else {
+        launchSplash();
+      }
+    }
+  };
+
+  if(typeof authInit === 'function' && typeof _supabase !== 'undefined' && _supabase){
+    authInit().then(isSignedIn => {
+      if(isSignedIn){
+        const seen = localStorage.getItem('argicare-story-seen');
+        if(!seen){
+          setTimeout(() => { openStory(); localStorage.setItem('argicare-story-seen','1'); }, 400);
+        } else {
+          launchSplash();
+        }
+      } else {
+        startFlow();
+      }
+    }).catch(startFlow);
+  } else {
+    startFlow();
   }
 }
 function rgpdRefuse(){
@@ -8856,7 +9380,22 @@ function confirmerReinit(){
     </div>`;
   document.querySelector('.phone').appendChild(overlay);
 }
-function reinitialiserDonnees(){
+async function reinitialiserDonnees(){
+  // Si connecté : supprimer aussi les données côté serveur (promesse RGPD)
+  try {
+    if(typeof _supabase !== 'undefined' && _supabase){
+      const { data: { session } } = await _supabase.auth.getSession();
+      if(session){
+        const sessionId = 'user-' + session.user.id;
+        const headers = await getAuthHeaders();
+        await fetch(`${SUPABASE_URL}/rest/v1/dossiers?session_id=eq.${encodeURIComponent(sessionId)}`, {
+          method: 'DELETE',
+          headers
+        });
+        await _supabase.auth.signOut();
+      }
+    }
+  } catch(e) { /* suppression serveur best-effort : le local est toujours effacé */ }
   localStorage.clear();
   location.reload();
 }
@@ -9141,6 +9680,7 @@ function loadDiag(){
     } catch(e){}
   }
   updateProgress();
+  if(typeof refreshStepLocks === 'function') refreshStepLocks();
 }
 
 const diagUploads = {}; // {uid: {name, data, type}}
@@ -9888,6 +10428,84 @@ function resumeDiagnostic(){
 function dashSelectProfil(n){
   selectProfil(n);
   refreshDashboard();
+  if(typeof refreshStepLocks === 'function') refreshStepLocks();
+}
+
+// ── ① Verrouillage progressif des étapes ──────────────────────────────
+// Ordre DOM des étapes ArgiQare (IDs réels)
+const STEP_ORDER = ['step-1b','step-2b','step-3b','step-5b','step-6b',
+                    'step-7b','step-8b','step-9b','step-10b','step-11b',
+                    'step-13b','step-14b'];
+
+function isStepFullyAnswered(stepId){
+  // Une étape est "répondue" si toutes ses questions tristate ont une réponse
+  const items = document.querySelectorAll('[id^="tri-' + stepId + '-"][id$="-detail"]');
+  if(items.length === 0) return true; // étape sans tristate = considérée passée
+  return [...items].every((_,i) => triState[stepId + '-' + (i+1)]);
+}
+
+function refreshStepLocks(){
+  const cfg = _currentProfil ? PROFIL_CONFIG[_currentProfil] : null;
+  const startStep = cfg ? cfg.startStep : 1;
+  // Index de départ dans STEP_ORDER (ex: profil 2 → startStep=4 → index 3 = step-5b)
+  const startIdx = STEP_ORDER.findIndex(id => {
+    const numMatch = id.match(/step-(\d+)b/);
+    if(!numMatch) return false;
+    const domNum = parseInt(numMatch[1]);
+    // Mapping DOM num → étape affichée
+    const dispNum = domNum <= 9 ? domNum :
+                    domNum === 11 ? 10 :
+                    domNum === 13 ? 11 :
+                    domNum === 14 ? 12 : domNum;
+    return dispNum >= startStep;
+  });
+  const effectiveStart = startIdx < 0 ? 0 : startIdx;
+
+  let prevCompleted = true; // la "pseudo-étape 0" est toujours complétée
+
+  STEP_ORDER.forEach((id, idx) => {
+    const el = document.getElementById(id);
+    if(!el) return;
+
+    const wasLocked = el.classList.contains('step-locked');
+
+    if(idx < effectiveStart){
+      // Avant le startStep du profil → garder l'état profil-grise existant
+      el.classList.remove('step-locked','step-just-unlocked');
+      return;
+    }
+
+    if(idx === effectiveStart){
+      // Première étape du profil : toujours déverrouillée
+      if(wasLocked){
+        el.classList.remove('step-locked');
+        el.classList.add('step-just-unlocked');
+        setTimeout(()=>el.classList.remove('step-just-unlocked'), 700);
+      } else {
+        el.classList.remove('step-locked');
+      }
+      prevCompleted = isStepFullyAnswered(id);
+      return;
+    }
+
+    // Étapes suivantes : déverrouillées seulement si la précédente est complétée
+    if(prevCompleted){
+      if(wasLocked){
+        el.classList.remove('step-locked');
+        el.classList.add('step-just-unlocked');
+        setTimeout(()=>el.classList.remove('step-just-unlocked'), 700);
+      } else {
+        el.classList.remove('step-locked');
+      }
+    } else {
+      // Verrouiller — mais ne pas fermer si déjà ouverte (expérience moins brutale)
+      if(!wasLocked){
+        el.classList.add('step-locked');
+        if(el.classList.contains('open')) el.classList.remove('open');
+      }
+    }
+    prevCompleted = prevCompleted && isStepFullyAnswered(id);
+  });
 }
 
 function dashChangerProfil(){
@@ -9993,6 +10611,7 @@ function triSelect(stepId, itemN, choice){
   updateProgress();
   updateFeedback(stepId);
   saveDiag();
+  refreshStepLocks();
 }
 
 function countTriItems(stepId){
