@@ -691,6 +691,16 @@ function saveDiag(){
     else { fields[el.id] = el.value; }
   });
   localStorage.setItem('argicare-fields', JSON.stringify(fields));
+
+  // Sync cloud (asynchrone, ne bloque pas l'UI)
+  syncToSupabase({
+    profil: localStorage.getItem('argicare-profil'),
+    tristate: JSON.parse(localStorage.getItem('argicare-tristate') || '{}'),
+    diagcb: JSON.parse(localStorage.getItem('argicare-diagcb') || '[]'),
+    fields: fields,
+    fissure_date: localStorage.getItem('argicare-fissure-date') || '',
+    mode_maison: localStorage.getItem('argicare-mode-maison') || ''
+  });
 }
 </script>
 <style>
@@ -5253,6 +5263,65 @@ window.addEventListener('load', () => {
   }
 });
 
+// ══════════════════════════════════════════════════
+//  SUPABASE — Synchronisation cloud ArgiQare
+// ══════════════════════════════════════════════════
+const SUPA_URL = 'https://kkwxxthagvwmopdotls.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imtrd3h4dGhhZ3Z2d21vcGRvdGxzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODcwNDEzODAsImV4cCI6MjEwMjYxNzM4MH0.AjKBUBfaMjOSezIOoKqqCqol2unftHf-k5mKNN9A6Qo';
+
+function getSessionId() {
+  let sid = localStorage.getItem('argicare-session-id');
+  if (!sid) {
+    sid = 'aq-' + Date.now() + '-' + Math.random().toString(36).slice(2, 10);
+    localStorage.setItem('argicare-session-id', sid);
+  }
+  return sid;
+}
+
+async function syncToSupabase(data) {
+  try {
+    const payload = { session_id: getSessionId(), ...data };
+    const res = await fetch(`${SUPA_URL}/rest/v1/dossiers`, {
+      method: 'POST',
+      headers: {
+        'apikey': SUPA_KEY,
+        'Authorization': `Bearer ${SUPA_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'resolution=merge-duplicates,return=minimal'
+      },
+      body: JSON.stringify(payload)
+    });
+    showCloudBadge(res.ok);
+  } catch(e) { showCloudBadge(false); }
+}
+
+async function loadFromSupabase() {
+  try {
+    const res = await fetch(
+      `${SUPA_URL}/rest/v1/dossiers?session_id=eq.${encodeURIComponent(getSessionId())}&select=*&limit=1`,
+      { headers: { 'apikey': SUPA_KEY, 'Authorization': `Bearer ${SUPA_KEY}` } }
+    );
+    if (!res.ok) return null;
+    const rows = await res.json();
+    return rows && rows.length ? rows[0] : null;
+  } catch(e) { return null; }
+}
+
+function showCloudBadge(ok) {
+  let b = document.getElementById('cloud-badge');
+  if (!b) {
+    b = document.createElement('span');
+    b.id = 'cloud-badge';
+    b.style.cssText = 'position:absolute;top:8px;right:44px;font-size:13px;opacity:.8;pointer-events:none;transition:opacity .5s;z-index:10;';
+    const hdr = document.querySelector('.header');
+    if (hdr) { hdr.style.position = 'relative'; hdr.appendChild(b); }
+  }
+  b.textContent = ok ? '☁️' : '📵';
+  b.title = ok ? 'Synchronisé dans le cloud' : 'Hors ligne — sauvegarde locale uniquement';
+  b.style.opacity = '0.8';
+  setTimeout(() => { b.style.opacity = '0.3'; }, 2500);
+}
+
 function launchSplash(){
   const splash = document.getElementById('app-splash');
   const logo   = document.getElementById('sp-logo');
@@ -8830,7 +8899,20 @@ window.addEventListener('load', () => {
   setTimeout(injectSuccessBadges, 250);
   setTimeout(refreshDashboard, 200);
 
-  setTimeout(loadDiag, 300);
+  // ── Chargement cloud → localStorage → UI ──
+  loadFromSupabase().then(row => {
+    if (row) {
+      try {
+        if (row.profil)       localStorage.setItem('argicare-profil', String(row.profil));
+        if (row.tristate)     localStorage.setItem('argicare-tristate', JSON.stringify(row.tristate));
+        if (row.diagcb)       localStorage.setItem('argicare-diagcb', JSON.stringify(row.diagcb));
+        if (row.fields)       localStorage.setItem('argicare-fields', JSON.stringify(row.fields));
+        if (row.fissure_date) localStorage.setItem('argicare-fissure-date', row.fissure_date);
+        if (row.mode_maison)  localStorage.setItem('argicare-mode-maison', row.mode_maison);
+      } catch(e) {}
+    }
+    setTimeout(loadDiag, 300);
+  });
 
   const savedPhoto = localStorage.getItem('argicare-photo-maison');
   if(savedPhoto){
