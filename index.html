@@ -111,7 +111,7 @@ const _supabase = (typeof supabase !== 'undefined')
 #rga-map { z-index:0 !important; position:relative !important; }
 #rga-map * { box-sizing:content-box; }
 .phone .leaflet-container { font-size:12px; }
-.profil-card { border-radius:16px; padding:16px; margin-bottom:9px; cursor:pointer; overflow:hidden; border:1.5px solid transparent; transition:transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s; position:relative; isolation:isolate; }
+.profil-card { border-radius:13px; padding:11px 12px; margin-bottom:7px; cursor:pointer; overflow:hidden; border:1.5px solid transparent; transition:transform .18s cubic-bezier(.34,1.56,.64,1), box-shadow .18s; position:relative; isolation:isolate; }
 .profil-card:active { transform:scale(.97); box-shadow:0 2px 6px rgba(0,0,0,.08); }
 .profil-card:hover { transform:translateY(-2px); }
 .profil-card-bg { display:none; } 
@@ -156,40 +156,40 @@ const _supabase = (typeof supabase !== 'undefined')
 @keyframes profilBgSlate { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
 @keyframes profilBgStone { 0%{background-position:0% 0%;} 50%{background-position:40% 100%;} 100%{background-position:0% 0%;} }
 .profil-card.p2 { border-color:#C4906A; }
-.profil-card.p2 .profil-card-bg { background:linear-gradient(135deg,#EAD2C4 0%,#E0B8A0 35%,#D4A688 65%,#E2C0A8 100%); animation:profilBgStone 26s ease-in-out infinite; }
+.profil-card.p2 .profil-card-bg { display:none; }
 @keyframes profilBgTaupe { 0%{background-position:0% 50%;} 50%{background-position:100% 50%;} 100%{background-position:0% 50%;} }
 .profil-card.p3 { border-color:#A87840; }
-.profil-card.p3 .profil-card-bg { background:linear-gradient(120deg,#E8D4BC 0%,#D8B488 40%,#C29464 70%,#DCBA94 100%); animation:profilBgTaupe 20s ease-in-out infinite; }
+.profil-card.p3 .profil-card-bg { display:none; }
 .profil-card.selected.p1 { border-color:#6E5836; box-shadow:0 4px 16px rgba(110,88,54,.25); }
 .profil-card.selected.p2 { border-color:#8A4A28; box-shadow:0 4px 16px rgba(138,74,40,.25); }
 .profil-card.selected.p3 { border-color:#7A5024; box-shadow:0 4px 16px rgba(122,80,36,.25); }
 .profil-card-top { display:flex; align-items:flex-start; gap:10px; margin-bottom:6px; }
 .profil-card-ic { font-size:26px; flex-shrink:0; }
 .profil-card-body { flex:1; }
-.profil-card-tag { font-size:9px; font-weight:800; letter-spacing:1px; opacity:.65; margin-bottom:2px; }
-.profil-card-title { font-size:12.5px; font-weight:800; line-height:1.3; margin-bottom:3px; }
+.profil-card-tag { font-size:11px; font-weight:900; letter-spacing:1.5px; opacity:.9; margin-bottom:3px; text-transform:uppercase; }
+.profil-card-title { font-size:11.5px; font-weight:800; line-height:1.3; margin-bottom:4px; }
 .profil-card.p1 .profil-card-tag, .profil-card.p1 .profil-card-title { color:#5A4A2E; }
 .profil-card.p2 .profil-card-tag, .profil-card.p2 .profil-card-title { color:#6E3E22; }
 .profil-card.p3 .profil-card-tag, .profil-card.p3 .profil-card-title { color:#4A3014; }
-.profil-card-sub { font-size:10px; line-height:1.5; }
+.profil-card-sub { font-size:9.5px; line-height:1.45; margin-bottom:10px; }
 .profil-card.p1 .profil-card-sub { color:#786448; }
 .profil-card.p2 .profil-card-sub { color:#8E5A3A; }
 .profil-card.p3 .profil-card-sub { color:#6E4A24; }
-.profil-card-footer { display:flex; align-items:center; justify-content:space-between; }
+.profil-card-footer { display:flex; align-items:center; justify-content:center; }
 .profil-card-pill { font-size:9px; font-weight:800; padding:3px 9px; border-radius:20px; position:relative; overflow:hidden; }
 .profil-card.p1 .profil-card-pill { background:#6E5836; color:white; }
 .profil-card.p2 .profil-card-pill { background:#8A4A28; color:white; }
 .profil-card.p3 .profil-card-pill { background:#7A5024; color:white; }
-@keyframes pillShimmer { 0%{transform:translateX(-120%);} 100%{transform:translateX(220%);} }
-.profil-card-pill::after { content:''; position:absolute; top:0; left:0; width:40%; height:100%; background:linear-gradient(110deg,transparent,rgba(255,255,255,.35),transparent); animation:pillShimmer 2.6s ease-in-out infinite; animation-delay:1.2s; }
+
 .profil-card-check { width:22px; height:22px; border-radius:50%; border:2px solid rgba(0,0,0,.15); display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; }
 .profil-card.selected .profil-card-check { background:#6E5836; border-color:#6E5836; color:white; }
 .profil-card.p2.selected .profil-card-check { background:#8A4A28; border-color:#8A4A28; }
 .profil-card.p3.selected .profil-card-check { background:#7A5024; border-color:#7A5024; }
 .diag-step.profil-grise { opacity:.38; pointer-events:none; }
-/* ── Verrouillage progressif ── */
-.diag-step.step-locked { opacity:.55; pointer-events:none; position:relative; }
-.diag-step.step-locked .diag-step-header { cursor:default; }
+/* ── Verrouillage progressif (bloc unique — ne pas dupliquer) ── */
+.diag-step.step-locked { opacity:.55; position:relative; }
+.diag-step.step-locked .diag-step-body { display:none !important; }
+.diag-step.step-locked .diag-step-header { cursor:not-allowed; }
 .diag-step.step-locked::after {
   content:'🔒';
   position:absolute; top:12px; right:12px;
@@ -1233,8 +1233,8 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
 .push-notif-text { font-size:11px; color:#4a5a6a; line-height:1.4; }
 .push-notif-time { font-size:10px; color:#9a8a72; margin-top:3px; }
 .push-notif-close { font-size:14px; color:#ccc; cursor:pointer; flex-shrink:0; background:none; border:none; }
-.bottom-nav { background:linear-gradient(160deg,#2d5a27 0%,#1a3a6e 100%); display:flex; border-top:none; padding:0; flex-shrink:0; height:58px; position:relative; z-index:10; overflow:hidden; }
-.nav-item { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; cursor:pointer; padding:0 2px; border:none; background:transparent; border-top:2.5px solid transparent; transition:border-color 0.2s; }
+.bottom-nav { background:linear-gradient(160deg,#2d5a27 0%,#1a3a6e 100%); display:flex; border-top:none; padding:0 0 2px; flex-shrink:0; height:60px; position:relative; z-index:10; overflow:hidden; }
+.nav-item { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; cursor:pointer; padding:4px 2px 2px; border:none; background:transparent; border-top:3px solid transparent; transition:border-color 0.2s; }
 .nav-badge-dot {
   position:absolute; top:4px; right:18%;
   width:8px; height:8px; border-radius:50%;
@@ -1246,8 +1246,10 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
 .nav-icon { font-size:20px; line-height:1; }
 @keyframes navIconPulse { 0%{transform:scale(1);} 40%{transform:scale(1.25);} 100%{transform:scale(1);} }
 .nav-icon.nav-icon-pulse { animation: navIconPulse .45s cubic-bezier(.34,1.56,.64,1); display:inline-block; }
-.nav-label { font-size:9px; font-weight:600; color:rgba(255,255,255,0.55); text-align:center; line-height:1.2; }
-.nav-item.active .nav-label { color:white; }
+.nav-label { font-size:9.5px; font-weight:600; color:rgba(255,255,255,0.5); text-align:center; line-height:1.15; white-space:nowrap; letter-spacing:-.1px; }
+.nav-item.active .nav-label { color:#fff; font-weight:700; }
+.nav-icon { font-size:18px; line-height:1; }
+.nav-item.active .nav-icon { transform:scale(1.12); display:inline-block; }
 .nav-dot { display:none; }
 @keyframes barPulse{0%{box-shadow:0 0 0 0 rgba(74,124,63,0.5)}100%{box-shadow:0 0 0 6px rgba(74,124,63,0)}}
 .prog-pulse{animation:barPulse 0.45s ease-out;}
@@ -1350,16 +1352,16 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
 </style>
 <style>
 .autosave-badge {
-  position: absolute; top: 14px; right: 14px; z-index: 500;
+  position: absolute; top: 14px; left: 14px; z-index: 500;
   background: rgba(45,90,39,.92); color: white;
-  font-size: 10px; font-weight: 700; padding: 6px 12px;
-  border-radius: 20px; display: flex; align-items: center; gap:5px;
+  font-size: 11.5px; font-weight: 700; padding: 7px 14px;
+  border-radius: 20px; display: flex; align-items: center; gap:6px;
   opacity: 0; transform: translateY(-6px);
   transition: opacity .25s, transform .25s;
   pointer-events: none; box-shadow: 0 4px 12px rgba(45,90,39,.25);
 }
 .autosave-badge.visible { opacity: 1; transform: translateY(0); }
-.autosave-badge-icon { font-size: 11px; }
+.autosave-badge-icon { font-size: 13px; }
 .quiz-orientation-trigger {
   display:flex; align-items:center; justify-content:center; gap:8px;
   width:100%; padding:10px 12px; margin-top:10px;
@@ -1461,29 +1463,73 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
   border-bottom:none;
 }
 
-/* ── Verrouillage progressif des étapes ── */
-.diag-step.step-locked {
-  opacity:.55;
-  pointer-events:none;
-  position:relative;
-}
-.diag-step.step-locked .diag-step-header {
-  cursor:not-allowed;
-}
-.diag-step.step-locked::after {
-  content:'🔒';
-  position:absolute; top:12px; right:14px;
-  font-size:14px; opacity:.5; pointer-events:none;
-}
-.diag-step.step-locked.step-unlock-anim {
-  animation:stepUnlock .6s cubic-bezier(.34,1.56,.64,1) forwards;
-  opacity:1; pointer-events:auto;
-}
-@keyframes stepUnlockFull {
-  0%   { box-shadow:0 0 0 0 rgba(74,124,63,0); transform:scale(1); }
-  25%  { box-shadow:0 0 0 8px rgba(74,124,63,.3); transform:scale(1.02); }
-  100% { box-shadow:0 0 0 0 rgba(74,124,63,0); transform:scale(1); }
-}
+/* ── Accueil modèle A (anneaux + vue d'ensemble 3 étapes) ── */
+.dash-rings-card { display:flex; align-items:center; gap:12px; }
+.dash-rings-leg { flex:1; display:flex; flex-direction:column; gap:2px; }
+.dash-rings-leg-row { font-size:9.5px; font-weight:700; padding:2px 0; display:flex; justify-content:space-between; align-items:center; }
+.dash-rings-leg-row b { font-family:Georgia,serif; font-size:11px; }
+.dash-vs { display:flex; align-items:stretch; gap:0; }
+.dash-vs-left { display:flex; flex-direction:column; align-items:center; width:22px; flex-shrink:0; }
+.dash-vs-dot { width:13px; height:13px; border-radius:50%; flex-shrink:0; margin-top:9px; }
+.dash-vs-dot.done { background:#2D5A27; }
+.dash-vs-dot.now  { background:#fff; border:3px solid #C9A23A; box-shadow:0 0 0 3px rgba(201,162,58,.25); width:15px; height:15px; margin-top:8px; }
+.dash-vs-dot.next { background:#fff; border:2.5px solid #D0C8B8; }
+.dash-vs-line { flex:1; width:2px; margin:0 auto; }
+.dash-vs-line.done { background:#2D5A27; }
+.dash-vs-line.now  { background:linear-gradient(#2D5A27,#E6E2D6); }
+.dash-vs:last-child .dash-vs-line { display:none; }
+.dash-vs-content { flex:1; padding:6px 0 9px 8px; }
+.dash-vs-tag { font-size:8px; font-weight:800; text-transform:uppercase; letter-spacing:.5px; margin-bottom:2px; }
+/* Vue d'ensemble — couleurs statiques (overridées par theme profil) */
+.dash-vs-tag.done { color:var(--vs-done, #4a7c3f); }
+.dash-vs-tag.now  { color:var(--vs-now,  #8a6a1a); }
+.dash-vs-tag.next { color:var(--vs-next, #A05030); }
+.dash-vs-dot.done { background:var(--vs-done, #2D5A27); }
+.dash-vs-dot.now  { border-color:var(--vs-now, #C9A23A) !important; box-shadow:0 0 0 3px color-mix(in srgb, var(--vs-now, #C9A23A) 25%, transparent) !important; }
+.dash-vs-line.done { background:var(--vs-done, #2D5A27) !important; }
+.dash-vs-line.now  { background:linear-gradient(var(--vs-done, #2D5A27), #E6E2D6) !important; }
+.dash-vs-title { font-size:10px; font-weight:800; color:#1a2a0e; margin-bottom:3px; }
+.dash-vs-title.grayed { color:#b0a890; }
+.dash-vs-subs { display:flex; flex-direction:column; gap:2px; margin-top:2px; }
+.dash-vs-sub { font-size:8.5px; font-weight:600; display:flex; align-items:center; gap:4px; padding:2px 4px; border-radius:6px; }
+.dash-vs-sub.ok { color:var(--vs-done, #3a5a32); }
+.dash-vs-sub.here { color:#fff; background:var(--vs-now, #C9A23A); font-weight:800; padding:3px 7px; border-radius:8px; }
+.dash-vs-sub.todo { color:#8a8272; }
+.dash-vs-sub.blocked { color:#8a6a1a; background:#FDF6E8; }
+/* Thèmes profil sur la vue d'ensemble — injectés sur #dash-vue-ensemble */
+#dash-vue-ensemble.vs-p1 { --vs-done:#2D5A27; --vs-now:#C9A23A; --vs-next:#A05030; }
+#dash-vue-ensemble.vs-p2 { --vs-done:#1a3a6e; --vs-now:#4a7aae; --vs-next:#6a3a8e; }
+#dash-vue-ensemble.vs-p3 { --vs-done:#9a7820; --vs-now:#C9A23A; --vs-next:#7a5a10; }
+
+/* ── Accueil : tailles de texte allégées ── */
+#screen-accueil .page-title { font-size:15px; }
+#screen-accueil .dash-card-title { font-size:9.5px; }
+#screen-accueil .dash-reassurance-banner { font-size:10px; padding:8px 11px; }
+#screen-accueil .dash-rings-leg-row { font-size:9px; }
+#screen-accueil .dash-vs-title { font-size:9.5px; }
+#screen-accueil .dash-vs-sub { font-size:8px; }
+#screen-accueil .dash-next-text { font-size:10px; }
+#screen-accueil .dash-next-btn { font-size:9.5px; padding:5px 9px; }
+#screen-diag.theme-p1 { --theme-accent:#2D5A27; --theme-banner-bg:linear-gradient(135deg,#eef8ea,#e0f0d8); --theme-banner-border:#4a7c3f; --theme-banner-color:#1a4a18; --theme-opt-label:#4a7c3f; }
+#screen-diag.theme-p2 { --theme-accent:#B8891A; --theme-banner-bg:linear-gradient(135deg,#fdf6e8,#f5e8c8); --theme-banner-border:#C9A23A; --theme-banner-color:#6A4A00; --theme-opt-label:#8a6a1a; }
+#screen-diag.theme-p3 { --theme-accent:#8A3820; --theme-banner-bg:linear-gradient(135deg,#fbf0ec,#f5ddd0); --theme-banner-border:#A05030; --theme-banner-color:#6A2A10; --theme-opt-label:#8a3a20; }
+#screen-diag[class*="theme-"] .profil-info-banner-wrap { background:var(--theme-banner-bg); border-color:var(--theme-banner-border); color:var(--theme-banner-color); }
+#screen-diag[class*="theme-"] .diag-step.profil-info { border-color:var(--theme-accent) !important; opacity:.72; }
+#screen-diag[class*="theme-"] .diag-step.profil-info .diag-step-num { background:var(--theme-accent) !important; opacity:.6; }
+#screen-diag[class*="theme-"] .profil-step-badge.info { background:var(--theme-accent); color:#fff; opacity:.85; }
+#screen-diag.theme-p1 .diag-step-num { background:linear-gradient(135deg,#2d5a27,#4a7c3f); }
+#screen-diag.theme-p2 .diag-step-num { background:linear-gradient(135deg,#B8891A,#C9A23A); }
+#screen-diag.theme-p3 .diag-step-num { background:linear-gradient(135deg,#8A3820,#A05030); }
+#screen-diag.theme-p1 .tri-btn.yes.active  { background:linear-gradient(135deg,#e0f4d8,#c8e8c0) !important; color:#1a4a18 !important; }
+#screen-diag.theme-p2 .tri-btn.yes.active  { background:linear-gradient(135deg,#fdf0d0,#f5e0a8) !important; color:#6A4A00 !important; }
+#screen-diag.theme-p3 .tri-btn.yes.active  { background:linear-gradient(135deg,#f8e4dc,#f0c8b8) !important; color:#6A2A10 !important; }
+#screen-diag.theme-p1 .tri-btn.blocked.active { background:linear-gradient(160deg,#f7ecd2,#f0e0b8) !important; }
+#screen-diag.theme-p2 .tri-btn.blocked.active { background:linear-gradient(160deg,#fdf6e8,#f5e8c8) !important; }
+#screen-diag.theme-p3 .tri-btn.blocked.active { background:linear-gradient(160deg,#fdf0ec,#f5ddd0) !important; }
+#screen-diag[class*="theme-"] .step-feedback.done { border-left-color:var(--theme-accent); }
+#screen-diag[class*="theme-"] .step-feedback.key  { border-left-color:var(--theme-accent); background:linear-gradient(135deg,var(--theme-banner-bg)); }
+#screen-diag[class*="theme-"] .diag-step.open { border-color:var(--theme-accent) !important; }
+
 .dash-search-wrap { position:relative; margin-bottom:10px; }
 .dash-search-input {
   width:100%; padding:10px 14px 10px 36px; border:1.5px solid #e0d8cc; border-radius:12px;
@@ -1586,9 +1632,13 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
   </div>
 
   <div class="header" style="background:linear-gradient(160deg,#1a3a6e 0%,#2d5a27 100%);padding:18px 14px 24px;clip-path:ellipse(110% 92% at 50% 0%);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:390;">
-    <button id="params-btn" onclick="openParamsScreen()" style="position:absolute;top:10px;right:12px;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:background .2s;" title="Paramètres">⚙️</button>
     <div class="header-arch-logo" style="font-size:1.22em;">
       <span class="g">argi</span><span class="q">Q</span><span class="a">are</span>
+    </div>
+    <!-- Cloud + Params juste sous le logo, côte à côte -->
+    <div style="display:flex;align-items:center;gap:10px;margin-top:6px;">
+      <span id="cloud-badge-slot" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:14px;backdrop-filter:blur(4px);opacity:.6;pointer-events:none;" title="Statut cloud">☁️</span>
+      <button id="params-btn" onclick="openParamsScreen()" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:background .2s;" title="Paramètres">⚙️</button>
     </div>
   </div>
 
@@ -1706,10 +1756,10 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
   <!-- APERÇU EN LECTURE DU DOSSIER (point 6) -->
   <!-- APERÇU EN LECTURE — position:absolute dans .phone, bloque tous les événements -->
   <div id="dossier-preview-overlay" class="hidden"
-       style="position:absolute;inset:0;z-index:820;background:#f5f0e8;display:none;flex-direction:column;overflow:hidden;border-radius:var(--screen-radius,34px);"
+       style="position:absolute;inset:0;z-index:820;background:#f5f0e8;display:none;flex-direction:column;overflow:hidden;border-radius:var(--screen-radius,34px);touch-action:none;"
        onclick="event.stopPropagation()"
        ontouchstart="event.stopPropagation()"
-       ontouchmove="event.stopPropagation()"
+       ontouchmove="event.stopPropagation();event.preventDefault()"
        ontouchend="event.stopPropagation()">
 
     <!-- Barre supérieure — vert sapin -->
@@ -1726,7 +1776,7 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
 
     <!-- Zone de lecture — fond crème doux -->
     <div id="preview-reader-zone"
-         style="flex:1;min-height:0;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;background:#ece6da;">
+         style="flex:1;min-height:0;overflow:hidden;position:relative;display:flex;align-items:center;justify-content:center;background:#ece6da;touch-action:none;">
       <button id="preview-btn-prev" onclick="event.stopPropagation();previewChangePage(-1)"
               style="position:absolute;left:6px;top:50%;transform:translateY(-50%);z-index:3;background:rgba(45,90,39,.15);border:1.5px solid rgba(45,90,39,.2);border-radius:50%;width:34px;height:34px;font-size:18px;color:#2d5a27;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-weight:700;">‹</button>
       <div id="preview-page-large"
@@ -3753,23 +3803,25 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
       <!-- DERNIÈRE ACTION EFFECTUÉE — renforcement positif -->
       <div class="dash-last-action" id="dash-last-action" style="display:none;"></div>
 
+      <!-- CARTE PROFIL DE SITUATION -->
       <div class="dash-card" id="dash-profil-card">
         <div class="dash-card-title">Mon profil de situation</div>
-        <div id="dash-profil-empty" style="display:none;">
-          <div style="font-size:11px;color:#7a8a6a;margin-bottom:10px;line-height:1.5;text-align:justify;">Votre parcours s'adapte à votre situation. Choisissez le profil qui correspond à votre démarche actuelle.</div>
 
+        <!-- État initial : choix du profil -->
+        <div id="dash-profil-empty" style="display:none;">
+          <div style="font-size:10.5px;color:#7a8a6a;margin-bottom:10px;line-height:1.5;text-align:justify;">Votre parcours s'adapte à votre situation. Choisissez le profil qui correspond à votre démarche actuelle.</div>
           <div class="profil-card p1" onclick="dashSelectProfil(1)">
             <div class="profil-card-bg"></div>
             <div class="profil-card-top">
               <div class="profil-card-ic">1</div>
               <div class="profil-card-body">
                 <div class="profil-card-tag">PROFIL</div>
-                <div class="profil-card-pill">Étapes 1 à 12</div>
+
               </div>
             </div>
             <div class="profil-card-divider"></div>
             <div class="profil-card-title">Je viens de constater une fissure</div>
-            <div class="profil-card-sub">Je ne sais pas encore si c'est le RGA. Je démarre depuis le début et veux constituer mon dossier complet.</div>
+            <div class="profil-card-sub">Je ne sais pas encore si c&#39;est le RGA. Je démarre depuis le début et veux constituer mon dossier complet.</div>
             <div class="profil-card-footer">
               <button class="profil-card-cta" onclick="dashSelectProfil(1);event.stopPropagation()">▶ Démarrer le parcours complet</button>
             </div>
@@ -3781,14 +3833,14 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
               <div class="profil-card-ic">2</div>
               <div class="profil-card-body">
                 <div class="profil-card-tag">PROFIL</div>
-                <div class="profil-card-pill">À partir de l'étape 4</div>
+
               </div>
             </div>
             <div class="profil-card-divider"></div>
-            <div class="profil-card-title">Je viens de déclarer mon sinistre et/ou j'attends l'arrêté Cat Nat</div>
-            <div class="profil-card-sub">Mon sinistre est déclaré mais ma commune n'est pas encore reconnue. Je prépare mon dossier en attendant.</div>
+            <div class="profil-card-title">Je viens de déclarer mon sinistre et/ou j&#39;attends l&#39;arrêté Cat Nat</div>
+            <div class="profil-card-sub">Mon sinistre est déclaré mais ma commune n&#39;est pas encore reconnue. Je prépare mon dossier en attendant.</div>
             <div class="profil-card-footer">
-              <button class="profil-card-cta" onclick="dashSelectProfil(2);event.stopPropagation()">▶ Rejoindre à l'étape 4</button>
+              <button class="profil-card-cta" onclick="dashSelectProfil(2);event.stopPropagation()">▶ Rejoindre à l&#39;étape 4</button>
             </div>
           </div>
 
@@ -3798,152 +3850,118 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
               <div class="profil-card-ic">3</div>
               <div class="profil-card-body">
                 <div class="profil-card-tag">PROFIL</div>
-                <div class="profil-card-pill">À partir de l'étape 10</div>
+
               </div>
             </div>
             <div class="profil-card-divider"></div>
             <div class="profil-card-title">Un expert est missionné pour mon dossier</div>
-            <div class="profil-card-sub">L'expertise est en cours ou terminée. Je suis en phase d'indemnisation et de réparation de mon bien.</div>
+            <div class="profil-card-sub">L&#39;expertise est en cours ou terminée. Je suis en phase d&#39;indemnisation et de réparation de mon bien.</div>
             <div class="profil-card-footer">
-              <button class="profil-card-cta" onclick="dashSelectProfil(3);event.stopPropagation()">▶ Rejoindre à l'étape 10</button>
+              <button class="profil-card-cta" onclick="dashSelectProfil(3);event.stopPropagation()">▶ Rejoindre à l&#39;étape 10</button>
             </div>
           </div>
-
-          <button class="quiz-orientation-trigger" onclick="quizScrollToCards()">
+          <button class="quiz-orientation-trigger" onclick="quizScrollToCards()" style="margin-top:6px;">
             🤔 <span>Je ne sais pas quel profil choisir — voir les descriptions</span>
           </button>
         </div>
+
+        <!-- Profil déjà sélectionné : récapitulatif compact -->
         <div id="dash-profil-filled" style="display:none;">
-          <div style="display:flex;align-items:flex-start;gap:10px;">
-            <div id="dash-profil-icon" style="font-size:22px;flex-shrink:0;line-height:1.3;"></div>
-            <div style="flex:1;">
-              <div id="dash-profil-title" style="font-size:12px;font-weight:800;color:#1a2a0e;line-height:1.35;margin-bottom:3px;"></div>
-              <div id="dash-profil-sub" style="font-size:10px;color:#7a8a6a;line-height:1.5;"></div>
+          <div id="dash-profil-filled-inner" style="display:flex;align-items:stretch;border-radius:12px;overflow:hidden;border:1.5px solid #e0d8cc;">
+            <div id="dash-profil-badge" style="width:40px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex-shrink:0;padding:8px 0;border-right:1px solid rgba(0,0,0,.08);">
+              <span id="dash-profil-badge-num" style="font-size:15px;font-weight:800;font-family:Georgia,serif;line-height:1;"></span>
+              <span style="font-size:5.5px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;opacity:.7;">Profil</span>
+            </div>
+            <div style="flex:1;padding:9px 10px;">
+              <div id="dash-profil-title" style="font-size:10px;font-weight:800;color:#1a2a0e;line-height:1.35;margin-bottom:2px;"></div>
+              <div id="dash-profil-sub" style="font-size:8.5px;color:#7a8a6a;line-height:1.4;"></div>
             </div>
           </div>
-          <span class="dash-profil-pill" id="dash-profil-pill" style="margin-top:8px;display:inline-block;"></span>
-          <button onclick="dashChangerProfil()" style="display:block;width:100%;margin-top:10px;padding:8px 12px;background:#f0ece4;border:none;border-radius:9px;font-size:10.5px;font-weight:700;color:#5a6a52;cursor:pointer;font-family:inherit;">🔄 Changer de profil</button>
+          <button onclick="dashChangerProfil()" style="display:block;width:100%;margin-top:8px;padding:7px 12px;background:#f0ece4;border:none;border-radius:9px;font-size:10px;font-weight:700;color:#5a6a52;cursor:pointer;font-family:inherit;">🔄 Changer de profil</button>
         </div>
       </div>
 
+      <!-- ANNEAUX — avancement des 3 piliers -->
       <div class="dash-card">
         <div class="dash-card-title">Avancement de votre parcours</div>
-        <div class="dash-progress-row">
-          <svg class="dash-progress-ring" viewBox="0 0 54 54">
-            <circle cx="27" cy="27" r="22" fill="none" stroke="#eee" stroke-width="5"/>
-            <circle id="dash-progress-circle" cx="27" cy="27" r="22" fill="none" stroke="#1a3a6e" stroke-width="5" stroke-linecap="round" stroke-dasharray="138" stroke-dashoffset="138" transform="rotate(-90 27 27)"/>
+        <div class="dash-rings-card">
+          <svg id="dash-rings-svg" viewBox="0 0 110 110" width="100" height="100" style="flex-shrink:0;">
+            <!-- Anneaux fond -->
+            <circle cx="55" cy="55" r="47" fill="none" stroke="#efece2" stroke-width="8"/>
+            <circle cx="55" cy="55" r="35" fill="none" stroke="#efece2" stroke-width="8"/>
+            <circle cx="55" cy="55" r="23" fill="none" stroke="#efece2" stroke-width="8"/>
+            <!-- Anneaux actifs — couleurs des onglets, pas des profils -->
+            <circle id="dash-ring-diag" cx="55" cy="55" r="47" fill="none" stroke="#2D5A27" stroke-width="8" stroke-linecap="round" stroke-dasharray="0 296" transform="rotate(-90 55 55)"/>
+            <circle id="dash-ring-dossier" cx="55" cy="55" r="35" fill="none" stroke="#1a3a6e" stroke-width="8" stroke-linecap="round" stroke-dasharray="0 220" transform="rotate(-90 55 55)"/>
+            <circle id="dash-ring-maison" cx="55" cy="55" r="23" fill="none" stroke="#C9A23A" stroke-width="8" stroke-linecap="round" stroke-dasharray="0 144" transform="rotate(-90 55 55)"/>
+            <!-- % global centré -->
+            <text id="dash-rings-pct" x="55" y="55" text-anchor="middle" dominant-baseline="central" font-family="Georgia,serif" font-size="16" font-weight="700" fill="#1a2a0e">0%</text>
           </svg>
-          <div class="dash-progress-info">
-            <div class="dash-progress-pct" id="dash-progress-pct">0%</div>
-            <div class="dash-progress-label" id="dash-progress-label">Aucune étape complétée</div>
+          <div class="dash-rings-leg">
+            <div class="dash-card-title" style="margin-bottom:5px;">Score global</div>
+            <div class="dash-rings-leg-row" style="color:#2D5A27;">● Mon parcours <b id="dash-ring-leg-diag">0/12</b></div>
+            <div class="dash-rings-leg-row" style="color:#1a3a6e;">● Mon dossier <b id="dash-ring-leg-dossier">0/9</b></div>
+            <div class="dash-rings-leg-row" style="color:#8a7020;">● Ma Maison <b id="dash-ring-leg-maison">0%</b></div>
           </div>
         </div>
-        <div class="dash-next-step">
+        <!-- CTA reprendre -->
+        <div class="dash-next-step" style="margin-top:10px;">
           <div class="dash-next-ic">🔍</div>
-          <div class="dash-next-text">Prochaine étape <span id="dash-next-step-counter" style="color:#7a8a6a;font-weight:700;">(2/14)</span> : <strong id="dash-next-step-label">Observation d'une fissure</strong></div>
+          <div class="dash-next-text">Prochaine étape <span id="dash-next-step-counter" style="color:#7a8a6a;font-weight:700;">(1/12)</span> : <strong id="dash-next-step-label">Observation d'une fissure</strong></div>
           <div class="dash-next-btn" onclick="dashGoToNextStep()">Reprendre →</div>
         </div>
-      </div>
-
-      <!-- TIMELINE VISUELLE DU PARCOURS GLOBAL -->
-      <div class="dash-card">
-        <div class="dash-card-title">Vue d'ensemble de votre parcours</div>
-        <div class="dash-timeline" id="dash-timeline">
-          <div class="dash-timeline-step" data-step="constat">
-            <div class="dash-timeline-dot">🔍</div>
-            <div class="dash-timeline-label">Constat</div>
-          </div>
-          <div class="dash-timeline-line"></div>
-          <div class="dash-timeline-step" data-step="declaration">
-            <div class="dash-timeline-dot">📋</div>
-            <div class="dash-timeline-label">Déclaration</div>
-          </div>
-          <div class="dash-timeline-line"></div>
-          <div class="dash-timeline-step" data-step="expertise">
-            <div class="dash-timeline-dot">🔬</div>
-            <div class="dash-timeline-label">Expertise</div>
-          </div>
-          <div class="dash-timeline-line"></div>
-          <div class="dash-timeline-step" data-step="indemnisation">
-            <div class="dash-timeline-dot">💶</div>
-            <div class="dash-timeline-label">Indemnisation</div>
-          </div>
-          <div class="dash-timeline-line"></div>
-          <div class="dash-timeline-step" data-step="travaux">
-            <div class="dash-timeline-dot">🏗️</div>
-            <div class="dash-timeline-label">Travaux</div>
-          </div>
+        <!-- Barre de progression masquée (compatibilité ancien JS) -->
+        <circle id="dash-progress-circle" style="display:none;"/>
+        <span id="dash-progress-pct" style="display:none;">0%</span>
+        <span id="dash-progress-label" style="display:none;"></span>
+        <!-- BULLE DERNIÈRE SAUVEGARDE — sous les anneaux -->
+        <div id="dash-last-save-bubble" style="display:flex;align-items:center;gap:7px;background:#F5F8F4;border-radius:9px;padding:5px 10px;font-size:8.5px;color:#7a8a72;font-weight:600;margin-top:8px;">
+          <span style="font-size:12px;flex-shrink:0;">💾</span>
+          <span id="dash-last-save-txt">Aucune modification enregistrée</span>
         </div>
       </div>
 
-      <!-- CE QU'IL VOUS RESTE À FAIRE — actions concrètes prioritaires -->
-      <div class="dash-card" id="dash-todo-card" style="display:none;">
-        <div class="dash-card-title">Ce qu'il vous reste à faire</div>
-        <div id="dash-todo-list"></div>
-      </div>
-
-      <div class="dash-quick-actions">
-        <div class="dash-qa-btn" id="dash-qa-diag" onclick="dashQuickAction('diag')">
-          <div class="dash-qa-fill" id="dash-qa-fill-diag"></div>
-          <div class="dash-qa-content">
-            <div class="dash-qa-ic">🔍</div>
-            <div class="dash-qa-label">Mon parcours</div>
-            <div class="dash-qa-pct" id="dash-qa-pct-diag">0%</div>
-          </div>
-        </div>
-        <div class="dash-qa-btn" id="dash-qa-maison" onclick="dashQuickAction('maison')">
-          <div class="dash-qa-fill" id="dash-qa-fill-maison"></div>
-          <div class="dash-qa-content">
-            <div class="dash-qa-ic">🏠</div>
-            <div class="dash-qa-label">Ma Maison</div>
-            <div class="dash-qa-pct" id="dash-qa-pct-maison">0%</div>
-          </div>
-        </div>
-        <div class="dash-qa-btn" id="dash-qa-dossier" onclick="dashQuickAction('dossier')">
-          <div class="dash-qa-fill" id="dash-qa-fill-dossier"></div>
-          <div class="dash-qa-content">
-            <div class="dash-qa-ic">📁</div>
-            <div class="dash-qa-label">Mon dossier</div>
-            <div class="dash-qa-pct" id="dash-qa-pct-dossier">0%</div>
-          </div>
+      <!-- VUE D'ENSEMBLE — 3 étapes : avant / ici / suivante -->
+      <div class="dash-card" id="dash-vue-ensemble">
+        <div class="dash-card-title">Votre position dans le parcours</div>
+        <div id="dash-vs-container">
+          <!-- Injecté par refreshDashVueEnsemble() -->
+          <div style="font-size:10px;color:#9a8a72;padding:6px 0;">Choisissez d'abord votre profil pour voir votre position.</div>
         </div>
       </div>
 
-      <!-- ACCÈS RAPIDE AU DERNIER PDF GÉNÉRÉ -->
-      <div class="dash-card" id="dash-last-pdf-card" style="display:none;margin-top:8px;">
-        <button onclick="dashQuickAction('dossier')" style="display:flex;align-items:center;gap:10px;text-align:left;border:none;background:none;cursor:pointer;font-family:inherit;width:100%;padding:0;">
-          <div style="font-size:20px;flex-shrink:0;">📄</div>
-          <div style="flex:1;">
-            <div style="font-size:11.5px;font-weight:700;color:#1a2a0e;">Revoir mon dernier dossier PDF</div>
-            <div style="font-size:9.5px;color:#7a8a6a;margin-top:1px;" id="dash-last-pdf-date"></div>
-          </div>
-          <div style="font-size:14px;color:#a8a092;flex-shrink:0;">›</div>
-        </button>
-      </div>
-
-      <!-- PARTAGE LECTURE SEULE — génère un lien à transmettre à un proche -->
-      <button class="share-link-trigger" onclick="openShareLink()">
-        <div class="share-link-ic">🔗</div>
-        <div class="share-link-txt">
-          <div class="share-link-title">Partager mon dossier (lecture seule)</div>
-          <div class="share-link-sub">Générer un lien pour un proche ou un aidant</div>
-        </div>
+      <!-- QR CODE — partager le dossier -->
+      <button onclick="openShareLink()" style="display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid #e0d8cc;border-radius:12px;padding:10px 13px;cursor:pointer;font-family:inherit;width:100%;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,.04);">
+        <span style="font-size:22px;flex-shrink:0;">📷</span>
+        <span style="flex:1;">
+          <span style="display:block;font-size:11px;font-weight:800;color:#1a2a0e;">Partager mon dossier — QR Code</span>
+          <span style="font-size:9px;color:#7a8a6a;font-weight:600;">Générer un QR Code ou un lien pour votre expert</span>
+        </span>
+        <span style="font-size:14px;color:#a8a092;">›</span>
       </button>
 
-      <!-- BOUTON ÉTAPE SUIVANTE — Ma Maison -->
-      <button class="btn-next-tab" onclick="switchTab('maison', document.querySelectorAll('.nav-item')[1])">
-        🏠 Étape suivante — Ma Maison
-      </button>
-
-      <!-- BULLE CAT NAT — en dernier, pour s'informer avant de commencer -->
-      <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px;">
-        <button class="dash-card" onclick="dashQuickAction('catnat')" style="display:flex;align-items:center;gap:10px;text-align:left;border:none;cursor:pointer;font-family:inherit;width:100%;">
-          <div style="font-size:20px;flex-shrink:0;">⚖️</div>
-          <div style="flex:1;font-size:11.5px;font-weight:700;color:#1a2a0e;">Je m'informe sur le régime des catastrophes naturelles (Cat Nat)</div>
-          <div style="font-size:14px;color:#a8a092;flex-shrink:0;">›</div>
-        </button>
+      <!-- WIDGET CONTACTER L'EXPERT -->
+      <div id="dash-expert-card" class="dash-card" style="border:1.5px solid #e0d8cc;">
+        <div class="dash-card-title">📞 Contacter mon expert</div>
+        <div id="dash-expert-filled" style="display:none;">
+          <div style="display:flex;align-items:center;gap:12px;">
+            <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#eef4ff,#d8e8ff);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🔬</div>
+            <div style="flex:1;">
+              <div id="dash-expert-nom" style="font-size:11px;font-weight:800;color:#1a2a0e;margin-bottom:2px;"></div>
+              <div id="dash-expert-cab" style="font-size:9px;color:#7a8a6a;font-weight:600;"></div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;margin-top:10px;">
+            <a id="dash-expert-tel-btn" href="#" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:linear-gradient(135deg,#2D5A27,#4a7c3f);color:#fff;border-radius:10px;padding:9px;font-size:10px;font-weight:800;text-decoration:none;">📱 Appeler</a>
+            <a id="dash-expert-mail-btn" href="#" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:#1a3a6e;color:#fff;border-radius:10px;padding:9px;font-size:10px;font-weight:800;text-decoration:none;">✉️ E-mail</a>
+          </div>
+        </div>
+        <div id="dash-expert-empty" style="font-size:9.5px;color:#9a8a72;line-height:1.5;">
+          Les coordonnées de votre expert apparaîtront ici dès que vous les aurez renseignées à l&#39;étape 9 (Mission de l&#39;expert).
+          <button onclick="goToStep('step-10b')" style="display:block;width:100%;margin-top:8px;padding:7px;background:#f0ece4;border:none;border-radius:9px;font-size:9.5px;font-weight:700;color:#5a6a52;cursor:pointer;font-family:inherit;">Renseigner l&#39;expert → étape 9</button>
+        </div>
       </div>
-    
+
     </div>
 
     <div class="screen" id="screen-catnat">
@@ -5390,7 +5408,7 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
     <button class="nav-item" onclick="switchTab('maison',this)"><span class="nav-icon">🏠</span><span class="nav-label">Ma Maison</span><div class="nav-dot"></div></button>
     <button class="nav-item" onclick="switchTab('diag',this,'nav')"><span class="nav-icon">🔍</span><span class="nav-label">Mon Parcours</span><div class="nav-dot"></div></button>
     <button class="nav-item" onclick="switchTab('dossier',this)"><span class="nav-icon">📁</span><span class="nav-label">Mon Dossier</span><div class="nav-dot"></div></button>
-    <button class="nav-item" onclick="switchTab('catnat',this,'nav')"><span class="nav-icon">⚖️</span><span class="nav-label">Je m'informe</span><div class="nav-dot"></div></button>
+    <button class="nav-item" onclick="switchTab('catnat',this,'nav')"><span class="nav-icon">⚖️</span><span class="nav-label" style="white-space:normal;font-size:9.5px;line-height:1.1;max-width:48px;">Je m’in­forme</span><div class="nav-dot"></div></button>
   </div>
 </div>
 
@@ -5649,18 +5667,13 @@ async function loadFromSupabase() {
 }
 
 function showCloudBadge(ok) {
-  let b = document.getElementById('cloud-badge');
-  if (!b) {
-    b = document.createElement('span');
-    b.id = 'cloud-badge';
-    b.style.cssText = 'position:absolute;top:8px;right:44px;font-size:13px;opacity:.8;pointer-events:none;transition:opacity .5s;z-index:10;';
-    const hdr = document.querySelector('.header');
-    if (hdr) { hdr.style.position = 'relative'; hdr.appendChild(b); }
+  const slot = document.getElementById('cloud-badge-slot');
+  if(slot){
+    slot.textContent = ok ? '☁️' : '⛔';
+    slot.title = ok ? 'Synchronisé dans le cloud' : 'Hors ligne — données sauvegardées localement';
+    slot.style.opacity = '1';
+    setTimeout(() => { slot.style.opacity = '.55'; }, 3000);
   }
-  b.textContent = ok ? '☁️' : '📵';
-  b.title = ok ? 'Synchronisé dans le cloud' : 'Hors ligne — sauvegarde locale uniquement';
-  b.style.opacity = '0.8';
-  setTimeout(() => { b.style.opacity = '0.3'; }, 2500);
 }
 
 function launchSplash(){
@@ -6219,7 +6232,7 @@ function selectProfil(n, opts){
     s.classList.add('profil-info');
     const hdr = s.querySelector('.diag-step-title');
     if(hdr && !hdr.querySelector('.profil-step-badge')){
-      hdr.insertAdjacentHTML('afterend', '<span class="profil-step-badge info">💡 Recommandé</span>');
+      hdr.insertAdjacentHTML('afterend', '<span class="profil-step-badge info">Optionnel</span>');
     }
   });
 
@@ -6238,6 +6251,21 @@ function selectProfil(n, opts){
     }
   });
 
+  // ── Étapes situées AVANT le point de départ du profil : mention « Optionnel » ──
+  // (couvre aussi le profil 3 dont les étapes 1 à 9 ne sont pas listées en infoSteps)
+  if(cfg.startStep > 1){
+    STEP_DOM_ORDER.forEach(domId => {
+      if(STEP_DISPLAY_NUM[domId] >= cfg.startStep) return;
+      const s = document.getElementById(domId);
+      if(!s || s.classList.contains('profil-grise')) return;
+      s.classList.add('profil-info');
+      const hdr = s.querySelector('.diag-step-title');
+      if(hdr && !s.querySelector('.profil-step-badge')){
+        hdr.insertAdjacentHTML('afterend', '<span class="profil-step-badge info">Optionnel</span>');
+      }
+    });
+  }
+
   const introProfilLabel = document.getElementById('intro-profil-label');
   if(introProfilLabel){
     introProfilLabel.innerHTML = cfg.label + ' <span class="profil-actif-change" onclick="goToAccueilProfil(event)">Changer de profil</span>';
@@ -6252,7 +6280,7 @@ function selectProfil(n, opts){
         return titleEl ? titleEl.textContent : null;
       }).filter(Boolean);
       document.getElementById('profil-info-banner-text').textContent =
-        'Pour un dossier encore plus complet, vous pouvez aussi renseigner : ' + labels.join(', ') + '. Ces étapes restent entièrement libres à compléter, à tout moment.';
+        'Les étapes précédant votre point de départ sont optionnelles : ' + labels.join(', ') + '. Vous pouvez les compléter à tout moment pour un dossier encore plus complet.';
       infoBanner.style.display = 'block';
     } else {
       infoBanner.style.display = 'none';
@@ -6261,6 +6289,9 @@ function selectProfil(n, opts){
 
   if(!silent){
     showToast('✅ Profil ' + n + ' sélectionné');
+    // ── Renvoi direct vers l'étape de départ du parcours ──
+    const startDom = STEP_DOM_ORDER.find(id => STEP_DISPLAY_NUM[id] >= cfg.startStep) || 'step-1b';
+    setTimeout(() => goToStep(startDom), 350);
   }
   if(typeof refreshDashboard === 'function') refreshDashboard();
   if(typeof updateProgress === 'function') updateProgress();
@@ -6276,58 +6307,70 @@ function initProfil(){
   const saved = localStorage.getItem('argicare-profil');
   if(saved) selectProfil(parseInt(saved), {silent:true});
 }
-// ── Ordre DOM des étapes ──
+// ── Verrouillage progressif — VERSION UNIQUE ──
+// Ordre DOM des étapes et numéro d'étape affiché (les IDs ne suivent pas la numérotation)
 const STEP_DOM_ORDER = ['step-1b','step-2b','step-3b','step-5b','step-6b',
   'step-7b','step-8b','step-9b','step-10b','step-11b','step-13b','step-14b'];
+const STEP_DISPLAY_NUM = {'step-1b':1,'step-2b':2,'step-3b':3,'step-5b':4,'step-6b':5,
+  'step-7b':6,'step-8b':7,'step-9b':8,'step-10b':9,'step-11b':10,'step-13b':11,'step-14b':12};
 
-// ── Calcul du % d'une étape ──
-function getStepPct(stepEl){
-  const cbs = stepEl.querySelectorAll('.diag-cb');
-  if(cbs.length === 0) return 100; // étape sans checkbox = toujours complète
-  const checked = [...cbs].filter(c=>c.checked).length;
-  return Math.round((checked / cbs.length) * 100);
+// Statistiques tristate d'une étape : combien de questions traitées (oui / non / bloqué)
+function getStepTriStats(stepEl){
+  const items = stepEl.querySelectorAll('.tri-item');
+  let treated = 0;
+  items.forEach(it => {
+    const key = (it.id || '').replace(/^tri-/, '');
+    if(triState[key]) treated++;
+  });
+  return { total: items.length, treated };
 }
 
-// ── Verrouillage progressif : recalcule quels steps sont accessibles ──
-function refreshStepLocks(){
-  const profil = parseInt(localStorage.getItem('argicare-profil') || '1');
-  const cfg = PROFIL_CONFIG[profil] || PROFIL_CONFIG[1];
-  const startIdx = STEP_DOM_ORDER.findIndex(id => {
-    const stepNum = parseInt(id.replace('step-','').replace('b',''));
-    return stepNum >= cfg.startStep;
-  });
+// Une étape "ouvre" la suivante dès que la moitié de ses questions ont une réponse
+// (oui, non ou bloqué — l'assuré bloqué ne doit jamais être puni deux fois).
+function isStepPassable(stepEl){
+  const s = getStepTriStats(stepEl);
+  if(s.total === 0) return true; // étape sans tristate (ex: travaux) = toujours passante
+  return s.treated / s.total >= 0.5;
+}
 
-  STEP_DOM_ORDER.forEach((id, i) => {
+function refreshStepLocks(){
+  const savedProfil = parseInt(localStorage.getItem('argicare-profil') || '0');
+  const cfg = PROFIL_CONFIG[savedProfil] || null;
+  const startStep = cfg ? cfg.startStep : 1;
+  const startIdx = STEP_DOM_ORDER.findIndex(id => STEP_DISPLAY_NUM[id] >= startStep);
+  const effStart = startIdx < 0 ? 0 : startIdx;
+
+  let unlockedSomething = false;
+  // Chaîne cumulative : une étape n'est accessible que si TOUTES les étapes
+  // depuis le point de départ du profil sont suffisamment avancées.
+  // (Des réponses éparses sur une étape isolée ne créent plus de "trous" déverrouillés.)
+  let chainPassable = true;
+
+  STEP_DOM_ORDER.forEach((id, idx) => {
     const el = document.getElementById(id);
     if(!el) return;
-
-    // Étapes avant le startStep du profil : lisibles mais pas verrouillées
-    if(i < startIdx){ el.classList.remove('step-locked'); return; }
-
-    // La première étape active est toujours accessible
-    if(i === startIdx){ el.classList.remove('step-locked'); return; }
-
-    // Pour les suivantes : l'étape précédente doit être ≥ 50%
-    const prevId = STEP_DOM_ORDER[i - 1];
-    const prevEl = document.getElementById(prevId);
     const wasLocked = el.classList.contains('step-locked');
 
-    if(prevEl && getStepPct(prevEl) >= 50){
+    const locked = idx > effStart && !chainPassable;
+    // Étapes avant le startStep du profil : consultables, jamais verrouillées,
+    // et sans influence sur la chaîne (elles sont optionnelles)
+
+    if(!locked){
+      el.classList.remove('step-locked');
       if(wasLocked){
-        // Déverrouillage : animation flash
-        el.classList.remove('step-locked');
-        el.style.animation = 'none';
-        void el.offsetWidth;
-        el.style.animation = 'stepUnlockFull .65s cubic-bezier(.34,1.56,.64,1)';
-        showToast('🔓 Étape suivante déverrouillée !');
-        setTimeout(() => { el.style.animation = ''; }, 700);
-      } else {
-        el.classList.remove('step-locked');
+        el.classList.add('step-just-unlocked');
+        setTimeout(() => el.classList.remove('step-just-unlocked'), 700);
+        unlockedSomething = true;
       }
-    } else {
+    } else if(!wasLocked){
       el.classList.add('step-locked');
+      el.classList.remove('open');
     }
+
+    if(idx >= effStart) chainPassable = chainPassable && isStepPassable(el);
   });
+
+  if(unlockedSomething) showToast('🔓 Étape suivante déverrouillée !');
 }
 
 function toggleDiagStep(id){
@@ -6341,7 +6384,7 @@ function toggleDiagStep(id){
     void clicked.offsetWidth;
     clicked.style.animation = 'shake .35s ease';
     setTimeout(() => { clicked.style.animation = ''; }, 400);
-    showToast('⬆️ Complétez d\'abord l\'étape précédente à 50%');
+    showToast("⬆️ Répondez d'abord aux questions de l'étape précédente");
     return;
   }
 
@@ -6475,6 +6518,7 @@ function switchTab(n, el, source='') {
   if(n==='diag'){
     setTimeout(initProfil, 150);
     setTimeout(injectSuccessBadges, 100);
+    setTimeout(injectBlockedButtons, 100);
     setTimeout(refreshStepLocks, 300);
   }
   if(n==='maison'){setTimeout(initModeMaison, 150);}
@@ -7117,510 +7161,542 @@ function showPushNotif(){const n=document.getElementById('push-notif');n.classLi
 function closePushNotif(){document.getElementById('push-notif').classList.remove('show');}
 function generatePDF(){
   const {jsPDF} = window.jspdf;
-  const doc = new jsPDF({unit:'mm', format:'a4'});
+  if(!jsPDF){ alert('Bibliothèque PDF non chargée.'); return; }
+  const doc = new jsPDF({ unit:'mm', format:'a4' });
 
-  const photoDataUrl = localStorage.getItem('argicare-photo-maison') || null;
+  /* ══════════════════════════════════════════════
+     TOKENS VISUELS — sobre, peu coloré
+     Couleur utilisée avec parcimonie : vert en en-têtes
+     de section uniquement, tout le reste est gris/noir
+  ══════════════════════════════════════════════ */
   const W=210, H=297;
+  const C_BLACK  = [20,  20,  18 ]; // titres, corps
+  const C_GREY   = [95,  98,  90 ]; // secondaire
+  const C_LIGHT  = [168, 170, 162]; // séparateurs, annotations
+  const C_BG     = [250, 248, 244]; // fond crème
+  const C_WHITE  = [255, 255, 255];
+  const C_GREEN  = [45,  90,  39 ]; // en-têtes section, pastilles ✓
+  const C_GOLD_D = [155, 125, 45 ]; // doré atténué, filet couverture uniquement
 
-  const VD=[45,90,39];       // vert sapin (sidebar, header)
-  const VL=[235,245,232];    // vert très clair (fond section)
-  const OR=[201,162,58];     // doré du logo (accents, titres)
-  const OR2=[245,166,35];    // doré vif (badges, puces actives)
-  const WT=[255,255,255];    // blanc
-  const BK=[30,30,30];       // texte principal
-  const GY=[100,105,95];     // texte secondaire
-  const LN=[220,216,210];    // ligne de séparation neutre
-  const BG=[250,248,244];    // fond page crème
+  const ML=18, MR=18;
+  const CW = W - ML - MR;
 
-  const SB=12;       // largeur sidebar en mm
-  const ML=SB+6;     // marge gauche du contenu
-  const MR=12;       // marge droite
-  const CW=W-ML-MR;  // largeur utile du contenu
-
-  const v = id => (document.getElementById(id)||{}).value?.trim()||'—';
-  const ck = id => document.getElementById(id)?.checked||false;
+  /* helpers */
+  const v  = id => (document.getElementById(id)||{}).value?.trim()||'';
+  const vd = (id, fb) => { const r=v(id); return (r && r!=='—') ? r : (fb||'—'); };
+  const fmt = d => { try { return new Date(d).toLocaleDateString('fr-FR'); } catch(_){return d;} };
 
   const now = new Date();
-  const dateStr = now.toLocaleDateString('fr-FR');
-  const timeStr = now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
-  const dateGen = dateStr + ' à ' + timeStr;
+  const DATE_STR = now.toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+  let ref = localStorage.getItem('argicare-dossier-ref');
+  if(!ref){ ref='AQ-'+now.getFullYear()+'-'+Math.random().toString(36).slice(2,6).toUpperCase(); localStorage.setItem('argicare-dossier-ref',ref); }
 
-  let dossierRef = localStorage.getItem('argicare-dossier-ref');
-  if(!dossierRef){
-    const rand = Math.random().toString(36).substring(2,6).toUpperCase();
-    dossierRef = 'AQ-' + now.getFullYear() + '-' + rand;
-    localStorage.setItem('argicare-dossier-ref', dossierRef);
-  }
-  const nomAssure = (v('m_nom') + ' ' + v('m_prenom')).trim().replace(/^—\s*|—$/g,'').trim();
-  const civiliteNom = nomAssure || 'l\'assuré';
-  const savedProfilPdf = localStorage.getItem('argicare-profil');
-  const cfgPdf = savedProfilPdf ? PROFIL_CONFIG[savedProfilPdf] : null;
+  const nomAssure = [v('m_prenom'),v('m_nom')].filter(x=>x).join(' ')||'—';
+  const adr1 = [v('m_voie'),v('m_compl')].filter(x=>x).join(', ')||'—';
+  const adr2 = [v('m_cp'),v('m_ville')].filter(x=>x).join(' ')||'';
+  const savedP  = localStorage.getItem('argicare-profil');
+  const profCfg = savedP ? PROFIL_CONFIG[savedP] : null;
+  const photoData = localStorage.getItem('argicare-photo-maison');
 
-  const maisonFields=['m_nom','m_prenom','m_voie','m_cp','m_ville','m_email','m_tel','m_typecontrat','m_numcontrat','m_assureur'];
-  let mFilled=0; maisonFields.forEach(id=>{if((document.getElementById(id)||{}).value?.trim())mFilled++;});
-  const mPct=Math.round((mFilled/maisonFields.length)*100);
-  const diagCbs=document.querySelectorAll('#screen-diag .diag-cb');
-  const diagChecked=[...diagCbs].filter(c=>c.checked).length;
-  const diagPct=Math.round((diagChecked/Math.max(diagCbs.length,1))*100);
-  const triKeys=Object.keys(triState).length;
-  const nJoints=Object.keys(diagFiles).length;
+  /* ── État avancement ── */
+  const allSteps = [...document.querySelectorAll('#screen-diag .diag-step')].filter(s=>!s.classList.contains('profil-grise'));
+  let g_ok=0, g_blk=0, g_tot=0;
+  allSteps.forEach(s=>{
+    [...s.querySelectorAll('.tri-item')].forEach(it=>{
+      const val = triState[(it.id||'').replace(/^tri-/,'')];
+      g_tot++;
+      if(val==='yes') g_ok++;
+      else if(val==='blocked') g_blk++;
+    });
+  });
+  const g_pct = g_tot>0 ? Math.round(g_ok/g_tot*100) : 0;
 
-  const drawSidebar = () => {
-    doc.setFillColor(...VD); doc.rect(0,0,SB,H,'F');
-    doc.setFillColor(...OR); doc.rect(SB,0,0.8,H,'F');
-  };
+  /* ── Annexes ── */
+  const PIECE_LABELS = ['Description du sinistre','Dégâts causés à des tiers','Études géotechniques',
+    'Acte d\'achat','Permis de construire','États des lieux','Devis, factures et PV','Déclaration sur l\'honneur'];
+  const annexes = [];
+  if(photoData) annexes.push({title:'Photo du bien', data:photoData, isImg:true});
+  if(planFile && planFile.data) annexes.push({title:'Plan de la maison', data:planFile.data, isImg:planFile.type&&planFile.type.startsWith('image/')});
+  Object.keys(diagFiles||{}).sort((a,b)=>+a-+b).forEach(k=>{
+    const f=diagFiles[k]; if(!f||!f.data) return;
+    annexes.push({title:PIECE_LABELS[+k-1]||('Pièce '+k), data:f.data, name:f.name||'', isImg:f.type&&f.type.startsWith('image/')});
+  });
 
-  const drawSidebarText = (refText) => {
-    doc.setFontSize(7.5); doc.setFont(undefined,'bold');
-    doc.setTextColor(...OR);
-    doc.text('argi', SB/2, H/2+8, {align:'center', angle:90});
-    doc.setTextColor(...WT);
-    doc.text('Q', SB/2, H/2-2, {align:'center', angle:90});
-    doc.setFontSize(7.5); doc.setFont(undefined,'normal');
-    doc.text('are', SB/2, H/2-12, {align:'center', angle:90});
-    doc.setFontSize(5.5); doc.setTextColor(180,220,170);
-    doc.text(refText, SB/2, H-8, {align:'center', angle:90});
-  };
+  /* ════════════════════════════════════════
+     MOTEUR DE MISE EN PAGE
+  ════════════════════════════════════════ */
+  let pageN   = 0;
+  let sections = []; // [{name, page}] pour sommaire
 
-  let pageNum = 0;
   const drawFooter = () => {
-    doc.setDrawColor(...LN); doc.setLineWidth(0.2);
-    doc.line(ML, H-10, W-MR, H-10);
-    doc.setFontSize(6); doc.setFont(undefined,'normal');
-    doc.setTextColor(...GY);
-    doc.text("Document d'accompagnement indicatif, sans valeur juridique — ArgiQare", ML, H-6);
-    doc.text('p. '+pageNum+' / —', W-MR, H-6, {align:'right'});
+    doc.setDrawColor(...C_LIGHT); doc.setLineWidth(0.15);
+    doc.line(ML, H-9, W-MR, H-9);
+    doc.setFontSize(6); doc.setFont(undefined,'normal'); doc.setTextColor(...C_LIGHT);
+    doc.text('ArgiQare — document d\'accompagnement indicatif, sans valeur juridique — Réf. '+ref, ML, H-5);
+    doc.text('p. '+pageN, W-MR, H-5, {align:'right'});
   };
 
-  const newPage = (withSidebar=true) => {
-    pageNum++;
-    if(withSidebar){
-      drawSidebar();
-      drawSidebarText(dossierRef);
+  const newPage = (isFirst) => {
+    if(!isFirst) doc.addPage();
+    pageN++;
+    doc.setFillColor(...C_BG); doc.rect(0,0,W,H,'F');
+    if(pageN>1){
+      doc.setDrawColor(...C_GREEN); doc.setLineWidth(0.3);
+      doc.line(ML, 14, W-MR, 14);
     }
     drawFooter();
-    doc.setFillColor(...BG); doc.rect(SB+0.8,0,W-SB-0.8,H,'F');
+    return pageN>1 ? 20 : 0;
   };
 
-  const pageHeader = (sectionLabel, pageLabel) => {
-    doc.setFillColor(...VL);
-    doc.rect(ML, 0, W-ML, 14, 'F');
-    doc.setFontSize(8); doc.setFont(undefined,'bold');
-    doc.setTextColor(...VD);
-    doc.text(sectionLabel, ML+4, 9);
-    doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
-    doc.setFontSize(7);
-    doc.text(pageLabel, W-MR, 9, {align:'right'});
-    doc.setDrawColor(...OR); doc.setLineWidth(0.5);
-    doc.line(ML, 14, W-MR, 14);
-    return 22;
+  /* filet + titre de section */
+  const secTitle = (label, y) => {
+    if(y > H-30){ y=newPage(); }
+    doc.setFillColor(...C_GREEN); doc.rect(ML, y, CW, 6.5, 'F');
+    doc.setFontSize(7.5); doc.setFont(undefined,'bold'); doc.setTextColor(...C_WHITE);
+    doc.text(label.toUpperCase(), ML+3, y+4.5);
+    return y+10;
   };
 
-  const sectionTitle = (text, y) => {
-    if(y > H-20){ doc.addPage(); newPage(); y = pageHeader('(suite)',''); }
-    doc.setFillColor(...OR);
-    doc.rect(ML, y, 2.5, 7, 'F');
-    doc.setFontSize(10); doc.setFont(undefined,'bold');
-    doc.setTextColor(...VD);
-    doc.text(text, ML+5, y+5.5);
-    doc.setDrawColor(...LN); doc.setLineWidth(0.2);
-    doc.line(ML+5, y+8, W-MR, y+8);
-    return y + 13;
+  /* sous-titre en gris italique */
+  const subH = (label, y) => {
+    if(y > H-22){ y=newPage(); }
+    doc.setFontSize(7); doc.setFont(undefined,'bolditalic'); doc.setTextColor(...C_GREY);
+    doc.text(label, ML, y);
+    doc.setDrawColor(225,222,215); doc.setLineWidth(0.12);
+    doc.line(ML, y+1.5, W-MR, y+1.5);
+    return y+5.5;
   };
 
-  const fieldRow = (label, value, y) => {
-    if(y > H-18){ doc.addPage(); newPage(); y = pageHeader('(suite)',''); }
-    doc.setFontSize(7); doc.setFont(undefined,'bold');
-    doc.setTextColor(...GY);
-    doc.text(label, ML+2, y);
-    doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
-    const lines = doc.splitTextToSize(String(value||'—'), CW-48);
-    doc.text(lines, ML+48, y);
-    doc.setDrawColor(...LN); doc.setLineWidth(0.15);
-    doc.line(ML, y+2.5, W-MR, y+2.5);
-    return y + Math.max(6, lines.length*4.5);
+  /* champ label / valeur inline */
+  const field = (lbl, val, y, indX) => {
+    if(y > H-16){ y=newPage(); }
+    const x0 = ML+(indX||0);
+    doc.setFontSize(6.5); doc.setFont(undefined,'bold'); doc.setTextColor(...C_LIGHT);
+    doc.text(lbl, x0, y);
+    doc.setFont(undefined,'normal'); doc.setTextColor(...C_BLACK);
+    const lines = doc.splitTextToSize(String(val&&val!=='—'?val:'—'), CW-48-(indX||0));
+    doc.text(lines, x0+48, y);
+    doc.setDrawColor(235,232,225); doc.setLineWidth(0.1);
+    doc.line(x0, y+2, W-MR, y+2);
+    return y + Math.max(5.5, lines.length*4);
   };
 
-  const triRow = (label, stepId, itemN, y) => {
-    if(y > H-20){ doc.addPage(); newPage(); y = pageHeader('2 — Mon Parcours',''); }
-    const key = stepId+'-'+itemN;
-    const choice = triState[key];
-    const icon = choice==='yes' ? '✓' : choice==='no' ? '−' : '○';
-    const col = choice==='yes' ? OR2 : choice==='no' ? [160,160,155] : [210,205,195];
-    doc.setFillColor(...col);
-    doc.circle(ML+3.5, y+1.5, 2.5,'F');
-    doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-    doc.text(icon, ML+3.5, y+2.5, {align:'center'});
-    doc.setFontSize(8);
-    doc.setFont(undefined, choice ? 'bold' : 'normal');
-    doc.setTextColor(choice ? BK[0] : 150, choice ? BK[1] : 150, choice ? BK[2] : 150);
-    const lblLines = doc.splitTextToSize(label.replace(/^[^\s]+\s/,''), CW-12);
-    doc.text(lblLines, ML+9, y+2);
-    y += Math.max(6, lblLines.length*4);
-    if(choice==='yes'){
-      const detail = document.getElementById('tri-'+stepId+'-'+itemN+'-detail');
-      if(detail){
-        const cbs = detail.querySelectorAll('.tri-sub-cb');
-        const labs = detail.querySelectorAll('.tri-sub-label');
-        cbs.forEach((cb,i)=>{
-          if(y > H-14){ doc.addPage(); newPage(); y = pageHeader('2 — Mon Parcours',''); }
-          doc.setFillColor(cb.checked ? OR[0] : 210, cb.checked ? OR[1] : 205, cb.checked ? OR[2] : 195);
-          doc.roundedRect(ML+10, y-1, 2.5, 2.5, 0.4, 0.4,'F');
-          doc.setFontSize(6.5); doc.setFont(undefined,'normal');
-          doc.setTextColor(cb.checked ? VD[0] : 140, cb.checked ? VD[1] : 140, cb.checked ? VD[2] : 140);
-          const subLine = doc.splitTextToSize(labs[i]?.textContent||'', CW-18);
-          doc.text(subLine, ML+15, y+1.5);
-          y += Math.max(5, subLine.length*4);
-        });
-      }
-    }
-    doc.setDrawColor(...LN); doc.setLineWidth(0.1);
-    doc.line(ML+8, y, W-MR, y);
-    return y + 3;
+  /* deux champs côte à côte */
+  const field2 = (pairs, y) => {
+    if(y > H-16){ y=newPage(); }
+    pairs.forEach(([lbl,val],i)=>{
+      const cx = i===0 ? ML : ML+CW/2+3;
+      const mw = CW/2 - 3;
+      doc.setFontSize(6.5); doc.setFont(undefined,'bold'); doc.setTextColor(...C_LIGHT);
+      doc.text(lbl, cx, y);
+      doc.setFont(undefined,'normal'); doc.setTextColor(...C_BLACK);
+      const lines = doc.splitTextToSize(String(val&&val!=='—'?val:'—'), mw-25);
+      doc.text(lines, cx+25, y);
+    });
+    doc.setDrawColor(235,232,225); doc.setLineWidth(0.1);
+    doc.line(ML, y+2, W-MR, y+2);
+    return y+6;
   };
 
-  pageNum++;
+  /* paragraphe */
+  const para = (txt, y, opts) => {
+    if(y > H-16){ y=newPage(); }
+    opts = opts||{};
+    doc.setFontSize(opts.sz||8); doc.setFont(undefined, opts.b?'bold':'normal');
+    doc.setTextColor(...(opts.col||C_BLACK));
+    const lines = doc.splitTextToSize(txt, CW-(opts.ix||0));
+    doc.text(lines, ML+(opts.ix||0), y);
+    return y + lines.length*(opts.sz||8)*0.41 + 2.5;
+  };
 
-  doc.setFillColor(...BG); doc.rect(0,0,W,H,'F');
+  /* ════════════════════════════════════════
+     PAGE 1 — PAGE DE GARDE
+  ════════════════════════════════════════ */
+  newPage(true);
+  let y = 0;
 
-  drawSidebar();
-  drawSidebarText(dossierRef);
-
-  let coverY = 0;
-  if(photoDataUrl){
+  /* photo du bien pleine largeur */
+  if(photoData){
     try{
-      const fmt = photoDataUrl.includes('image/png') ? 'PNG' : 'JPEG';
-      doc.addImage(photoDataUrl, fmt, SB+0.8, 0, W-SB-0.8, 72);
-      for(let i=0;i<18;i++){
-        const f=i/18;
-        doc.setFillColor(...BG);
-        doc.setGState(new doc.GState({opacity: f*0.9}));
-        doc.rect(SB+0.8, 72-18+i, W-SB-0.8, 1, 'F');
+      const fmt2 = photoData.includes('image/png')?'PNG':'JPEG';
+      doc.addImage(photoData, fmt2, 0, 0, W, 82);
+      for(let i=0;i<22;i++){
+        doc.setFillColor(...C_BG);
+        doc.setGState(new doc.GState({opacity: i/22}));
+        doc.rect(0, 60+i, W, 1, 'F');
       }
       doc.setGState(new doc.GState({opacity:1}));
-      coverY = 78;
-    } catch(e){ coverY = 20; }
+      y = 76;
+    } catch(_){ y=38; }
   } else {
-    coverY = 30;
-    doc.setFillColor(240,244,238);
-    doc.roundedRect(ML, coverY, CW, 50, 3, 3, 'F');
-    doc.setFontSize(9); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
-    doc.text('📸  Photo du bien', W/2, coverY+28, {align:'center'});
-    coverY += 60;
+    doc.setFillColor(238,236,230); doc.rect(0,0,W,72,'F');
+    doc.setFontSize(7.5); doc.setFont(undefined,'normal'); doc.setTextColor(...C_LIGHT);
+    doc.text('Aucune photo du bien renseignée — ajoutez-en une depuis l\'onglet Ma Maison',W/2,38,{align:'center'});
+    y = 80;
   }
 
-  doc.setFontSize(20); doc.setFont(undefined,'normal');
-  doc.setTextColor(VD[0],VD[1],VD[2]); doc.text('argi', ML+2, coverY+10);
-  doc.setFontSize(24); doc.setFont(undefined,'bold');
-  doc.setTextColor(...OR2); doc.text('Q', ML+28, coverY+10);
-  doc.setFontSize(20); doc.setFont(undefined,'normal');
-  doc.setTextColor(VD[0],VD[1],VD[2]); doc.text('are', ML+36, coverY+10);
+  /* logo argiQare sobre */
+  doc.setFontSize(20); doc.setFont(undefined,'normal'); doc.setTextColor(20,20,18);
+  doc.text('argi', ML, y+11);
+  const wA = doc.getTextWidth('argi');
+  doc.setFont(undefined,'bold'); doc.setTextColor(...C_GREEN);
+  doc.text('Q', ML+wA, y+11);
+  const wQ2 = doc.getTextWidth('Q');
+  doc.setFont(undefined,'normal'); doc.setTextColor(20,20,18);
+  doc.text('are', ML+wA+wQ2, y+11);
+  /* filet doré — unique touche sur la couverture */
+  doc.setDrawColor(...C_GOLD_D); doc.setLineWidth(0.5);
+  doc.line(ML, y+14.5, ML+60, y+14.5);
+  y += 22;
 
-  doc.setDrawColor(...OR); doc.setLineWidth(1);
-  doc.line(ML+2, coverY+13, ML+62, coverY+13);
-  coverY += 20;
+  /* Titre document */
+  doc.setFontSize(8.5); doc.setFont(undefined,'bold'); doc.setTextColor(...C_LIGHT);
+  doc.text('DOSSIER DE SYNTHÈSE — RETRAIT-GONFLEMENT DES ARGILES / CAT NAT', ML, y);
+  y += 10;
 
-  doc.setFontSize(8); doc.setFont(undefined,'bold');
-  doc.setTextColor(...GY);
-  doc.text('DOSSIER DE SYNTHÈSE', ML+2, coverY);
-  doc.text('Retrait-Gonflement des Argiles — Cat Nat', ML+2, coverY+5);
-  coverY += 16;
+  /* Identité assuré */
+  doc.setFontSize(14); doc.setFont(undefined,'bold'); doc.setTextColor(...C_BLACK);
+  doc.text(nomAssure, ML, y); y+=7;
+  doc.setFontSize(8); doc.setFont(undefined,'normal'); doc.setTextColor(...C_GREY);
+  if(adr1!=='—'){ doc.text(adr1, ML, y); y+=5; }
+  if(adr2){ doc.text(adr2, ML, y); y+=5; }
+  y+=3;
 
-  doc.setFillColor(...WT);
-  doc.roundedRect(ML, coverY, CW, 62, 3, 3, 'F');
-  doc.setDrawColor(...OR); doc.setLineWidth(0.4);
-  doc.roundedRect(ML, coverY, CW, 62, 3, 3, 'D');
-  doc.setFillColor(...VD); doc.roundedRect(ML, coverY, 28, 6, 1.5, 0, 'F');
-  doc.setFontSize(6); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-  doc.text('ASSURÉ', ML+14, coverY+4, {align:'center'});
-  let cY = coverY + 10;
-  doc.setFontSize(13); doc.setFont(undefined,'bold');
-  doc.setTextColor(...BK);
-  doc.text(nomAssure || '—', ML+4, cY); cY += 6;
-  doc.setFontSize(8); doc.setFont(undefined,'normal');
-  doc.setTextColor(...GY);
-  const adresse = [v('m_voie'), v('m_cp')+' '+v('m_ville')].filter(x=>x!=='—').join(' — ');
-  doc.text(adresse || '—', ML+4, cY); cY += 6;
-  doc.setDrawColor(...LN); doc.setLineWidth(0.2); doc.line(ML+4, cY, ML+CW-4, cY); cY += 5;
-  doc.setFontSize(6.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GY);
-  doc.text('Profil de situation', ML+4, cY);
-  doc.setFont(undefined,'normal'); doc.setTextColor(...VD);
-  doc.text(cfgPdf ? cfgPdf.title : 'Non défini', ML+4, cY+4); cY += 10;
-  doc.setFontSize(6.5); doc.setFont(undefined,'bold'); doc.setTextColor(...GY);
-  doc.text('Contrat', ML+4, cY);
-  doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
-  doc.text(v('m_typecontrat')+' — N° '+v('m_numcontrat'), ML+4, cY+4); cY += 10;
-  const indics=[
-    [mPct+'%', 'Ma Maison', VD],
-    [diagPct+'%', 'Parcours', VD],
-    [triKeys+' rép.', 'Étapes', OR],
-    [nJoints+'/8', 'Documents', OR]
-  ];
-  const iW2=(CW-8)/4;
-  indics.forEach(([val,lbl,col],i)=>{
-    const ix = ML+4 + i*(iW2+2);
-    doc.setFillColor(...col); doc.roundedRect(ix, cY-1, iW2, 10, 1.5, 1.5,'F');
-    doc.setFontSize(9); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-    doc.text(val, ix+iW2/2, cY+5, {align:'center'});
-    doc.setFontSize(6); doc.setFont(undefined,'normal');
-    doc.text(lbl, ix+iW2/2, cY+8.5, {align:'center'});
+  /* Méta-données clés */
+  const metas = [
+    ['Assureur', v('m_assureur')],
+    ['Numéro de contrat', v('m_numcontrat')],
+    ['Type de contrat', v('m_typecontrat')],
+    ['Profil de situation', profCfg ? profCfg.label.replace(/^Profil \d — /,'') : null],
+  ].filter(([,val])=>val&&val.trim());
+  metas.forEach(([lbl,val])=>{
+    doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...C_LIGHT);
+    doc.text(lbl, ML, y);
+    doc.setFont(undefined,'normal'); doc.setTextColor(...C_BLACK);
+    doc.text(val, ML+40, y);
+    y+=5.5;
   });
-  cY += 14;
-  coverY = cY + 6;
 
-  doc.setFontSize(7); doc.setFont(undefined,'bold');
-  doc.setTextColor(...VD); doc.text('Réf. '+dossierRef, ML+2, coverY);
-  doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
-  doc.text('Généré le '+dateGen, W-MR, coverY, {align:'right'});
-  coverY += 10;
+  /* avancement */
+  y+=3;
+  doc.setFontSize(7); doc.setFont(undefined,'normal'); doc.setTextColor(...C_GREY);
+  doc.text('Avancement au '+DATE_STR+' : '+g_ok+' / '+g_tot+' points renseignés ('+g_pct+'%)', ML, y);
 
-  doc.setFillColor(...VL);
-  doc.roundedRect(ML, coverY, CW, 14, 2, 2, 'F');
-  doc.setFontSize(7); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
-  const legitText = doc.splitTextToSize(
-    'Ce document a été constitué par '+civiliteNom+' à l\'aide de l\'application ArgiQare, outil d\'accompagnement indicatif dans le cadre d\'une déclaration de sinistre Cat Nat — Retrait-Gonflement des Argiles.',
-    CW-6
-  );
-  doc.text(legitText, ML+3, coverY+5);
-
+  /* bas de couverture */
+  doc.setDrawColor(...C_LIGHT); doc.setLineWidth(0.15);
+  doc.line(ML, H-22, W-MR, H-22);
+  doc.setFontSize(7); doc.setFont(undefined,'normal'); doc.setTextColor(...C_LIGHT);
+  doc.text('Réf. '+ref, ML, H-16);
+  doc.text('Généré le '+DATE_STR, W-MR, H-16, {align:'right'});
   drawFooter();
 
-  doc.addPage(); newPage();
-  let y = pageHeader('Sommaire', 'p. 2');
-
-  const tocItems = [
-    { num:'1', title:'Ma Maison — Informations sur le bien assuré', pg:'3', main:true },
-    { num:'  1.1', title:'Informations générales & coordonnées', pg:'3', main:false },
-    { num:'  1.2', title:'Caractéristiques du bien', pg:'3', main:false },
-    { num:'  1.3', title:'Environnement et exposition au RGA', pg:'4', main:false },
-    { num:'2', title:'Mon Parcours — Réponses détaillées', pg:'5', main:true },
-    { num:'  2.1', title:'Constat & démarches officielles (étapes 1-4)', pg:'5', main:false },
-    { num:'  2.2', title:'Préparation de l\'expertise (étapes 5-9)', pg:'6', main:false },
-    { num:'  2.3', title:'Expertise & indemnisation (étapes 10-11)', pg:'7', main:false },
-    { num:'  2.4', title:'Travaux de réparation (étape 12)', pg:'8', main:false },
-    { num:'3', title:'Annexes — Documents joints', pg:'9', main:true },
-    { num:'  3.1', title:'Liste des pièces jointes ('+nJoints+' fichier'+(nJoints>1?'s':'')+')', pg:'9', main:false },
+  /* ════════════════════════════════════════
+     PAGE 2 — SOMMAIRE (provisoire, mis à jour en fin)
+  ════════════════════════════════════════ */
+  y = newPage();
+  const PAGE_TOC = pageN;
+  doc.setFontSize(15); doc.setFont(undefined,'bold'); doc.setTextColor(...C_BLACK);
+  doc.text('Sommaire', ML, y); y+=12;
+  /* entrées vides — on revient les remplir après */
+  const TOC_ITEMS = [
+    {label:'1 —  Ma Maison', sub:'Informations sur le bien et l\'assuré'},
+    {label:'2 —  Mon Parcours', sub:'Les 12 étapes de la procédure RGA / Cat Nat'},
+    {label:'3 —  Annexes', sub:'Pièces jointes au dossier'},
   ];
+  const tocY = [];
+  TOC_ITEMS.forEach((item,i)=>{
+    tocY.push(y);
+    doc.setFontSize(9.5); doc.setFont(undefined,'bold'); doc.setTextColor(...C_BLACK);
+    doc.text(item.label, ML, y);
+    doc.setFontSize(7.5); doc.setFont(undefined,'normal'); doc.setTextColor(...C_GREY);
+    doc.text(item.sub, ML+3, y+4.5);
+    /* pointillés */
+    doc.setDrawColor(210,207,200); doc.setLineWidth(0.1);
+    doc.line(ML+3, y+6.5, W-MR-16, y+6.5);
+    /* case page (vide pour l'instant) */
+    doc.setFillColor(238,235,228); doc.roundedRect(W-MR-13,y-1,13,8,1,1,'F');
+    y+=13;
+  });
 
-  tocItems.forEach(item => {
-    if(y > H-20){ doc.addPage(); newPage(); y = pageHeader('Sommaire (suite)',''); }
-    const isMain = item.main;
-    if(isMain){
-      doc.setFillColor(...VL);
-      doc.rect(ML, y-3, CW, 7, 'F');
-      doc.setFontSize(8.5); doc.setFont(undefined,'bold'); doc.setTextColor(...VD);
+  /* ════════════════════════════════════════
+     SECTION 1 — MA MAISON
+  ════════════════════════════════════════ */
+  y = newPage();
+  const PAGE_MAISON = pageN;
+  y = secTitle('1 — Ma Maison — Informations sur le bien et l\'assuré', y);
+
+  y = subH('Informations personnelles', y);
+  y = field2([['Nom',vd('m_nom')],['Prénom',vd('m_prenom')]], y);
+  y = field('Adresse du domicile', [adr1,adr2].filter(x=>x&&x!=='—').join(' · ')||'—', y);
+  if(v('m_bien'))  y = field('Adresse du bien (si différente)', v('m_bien'), y);
+  y = field2([['Téléphone',vd('m_tel')],['Email',vd('m_email')]], y);
+  y+=3;
+
+  y = subH('Contrat d\'assurance', y);
+  y = field2([['Assureur',vd('m_assureur')],['Type de contrat',vd('m_typecontrat')]], y);
+  y = field2([['Numéro de contrat',vd('m_numcontrat')],['Date d\'effet',v('m_dateeffet')?fmt(v('m_dateeffet')):'—']], y);
+  if(v('m_dateres'))  y = field('Date de résiliation (si applicable)', fmt(v('m_dateres')), y);
+  if(v('m_franchise')) y = field('Franchise contractuelle', v('m_franchise'), y);
+  if(v('m_pcontrat')||v('m_scontrat')) y = field2([['Pièces principales (contrat)',vd('m_pcontrat')],['Surface assurée (m²)',vd('m_scontrat')]], y);
+  y+=3;
+
+  y = subH('Description du bien immobilier', y);
+  if(v('m_dateconstr')||v('m_dateacq')) y = field2([['Date de construction',v('m_dateconstr')||'—'],['Date d\'acquisition',v('m_dateacq')?fmt(v('m_dateacq')):'—']], y);
+  if(v('m_precprop'))     y = field('Précédent propriétaire', v('m_precprop'), y);
+  if(v('m_datereception')) y = field('Date de réception des travaux', fmt(v('m_datereception')), y);
+  y+=3;
+
+  if(v('m_datetravaux')||v('m_superficie')||v('m_societe')||v('m_datechantier')){
+    y = subH('Travaux récents', y);
+    if(v('m_datetravaux'))  y = field('Date des travaux', fmt(v('m_datetravaux')), y);
+    if(v('m_superficie'))   y = field('Surface de l\'extension (m²)', v('m_superficie'), y);
+    if(v('m_societe'))      y = field('Entreprise de travaux', v('m_societe'), y);
+    if(v('m_datechantier')) y = field('Date du chantier', fmt(v('m_datechantier')), y);
+  }
+
+  if(profCfg){
+    y+=3;
+    y = subH('Profil de situation', y);
+    y = field('Profil sélectionné', profCfg.title, y);
+    y = para(profCfg.sub||'', y, {col:C_GREY, sz:7.5, ix:1});
+  }
+
+  /* ════════════════════════════════════════
+     SECTION 2 — MON PARCOURS (chronologie verticale)
+  ════════════════════════════════════════ */
+  y = newPage();
+  const PAGE_PARCOURS = pageN;
+  y = secTitle('2 — Mon Parcours — Les 12 étapes de la procédure RGA / Cat Nat', y);
+
+  /* résumé global */
+  doc.setFontSize(7.5); doc.setFont(undefined,'normal'); doc.setTextColor(...C_GREY);
+  const pctTxt = g_tot>0 ? g_ok+' / '+g_tot+' points renseignés ('+g_pct+'%) — '+g_blk+' mis de côté' : 'Aucune réponse enregistrée';
+  doc.text('Avancement : '+pctTxt, ML, y); y+=8;
+
+  /* axe de la timeline */
+  const TL_X = ML+5;        // centre de l'axe
+  const TL_TX = TL_X+8;     // x du texte
+  const TL_CW = W-MR-TL_TX; // largeur utile du texte
+
+  const STEP_IDS = ['step-1b','step-2b','step-3b','step-5b','step-6b','step-7b','step-8b','step-9b','step-10b','step-11b','step-13b','step-14b'];
+  const STEP_NUMS = {
+    'step-1b':1,'step-2b':2,'step-3b':3,'step-5b':4,'step-6b':5,'step-7b':6,
+    'step-8b':7,'step-9b':8,'step-10b':9,'step-11b':10,'step-13b':11,'step-14b':12
+  };
+
+  allSteps.forEach((stepEl, si) => {
+    const domId   = stepEl.id;
+    const dispNum = STEP_NUMS[domId] || (si+1);
+    const titleEl = stepEl.querySelector('.diag-step-title');
+    const title   = titleEl ? titleEl.textContent.trim() : 'Étape '+dispNum;
+    const items   = [...stepEl.querySelectorAll('.tri-item')];
+    const s_ok    = items.filter(it=>triState[(it.id||'').replace(/^tri-/,'')]==='yes').length;
+    const s_blk   = items.filter(it=>triState[(it.id||'').replace(/^tri-/,'')]==='blocked').length;
+    const s_tot   = items.length;
+    const complete = s_tot>0 && s_ok+s_blk===s_tot;
+    const empty    = s_ok+s_blk===0;
+
+    /* hauteur estimée de cette étape */
+    const dotH    = 9;
+    const itemH   = 4;
+    const estH    = dotH + items.length*itemH + 5;
+
+    if(y + estH > H-20){ y = newPage(); y+=2; }
+
+    /* axe vertical (sauf dernier) */
+    if(si < allSteps.length-1){
+      const lineEnd = Math.min(y + estH + 2, H-20);
+      doc.setDrawColor(...C_LIGHT); doc.setLineWidth(0.35);
+      doc.line(TL_X, y+8, TL_X, lineEnd);
+    }
+
+    /* pastille */
+    const DOT_R = 4;
+    if(complete){
+      doc.setFillColor(...C_GREEN); doc.circle(TL_X, y+4.5, DOT_R, 'F');
+      doc.setFontSize(6); doc.setFont(undefined,'bold'); doc.setTextColor(...C_WHITE);
+      doc.text('\u2713', TL_X, y+6, {align:'center'});
+    } else if(empty){
+      doc.setFillColor(...C_WHITE); doc.circle(TL_X, y+4.5, DOT_R, 'F');
+      doc.setDrawColor(...C_LIGHT); doc.setLineWidth(0.4); doc.circle(TL_X, y+4.5, DOT_R, 'D');
+      doc.setFontSize(6.5); doc.setFont(undefined,'normal'); doc.setTextColor(...C_LIGHT);
+      doc.text(''+dispNum, TL_X, y+5.8, {align:'center'});
     } else {
-      doc.setFontSize(8); doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
+      /* partielle */
+      doc.setFillColor(232,242,228); doc.circle(TL_X, y+4.5, DOT_R, 'F');
+      doc.setDrawColor(...C_GREEN); doc.setLineWidth(0.4); doc.circle(TL_X, y+4.5, DOT_R, 'D');
+      doc.setFontSize(6.5); doc.setFont(undefined,'bold'); doc.setTextColor(...C_GREEN);
+      doc.text(''+dispNum, TL_X, y+5.8, {align:'center'});
     }
-    doc.text(item.num, ML+2, y+1);
-    doc.text(item.title, ML+22, y+1);
-    if(!isMain){
-      doc.setTextColor(...LN);
-      doc.setFontSize(7);
-      const dotsW = W-MR - (ML+22) - doc.getTextWidth(item.title) - 4;
-      let dotsX = ML+22 + doc.getTextWidth(item.title) + 2;
-      while(dotsX < W-MR-8){ doc.text('.', dotsX, y+1); dotsX += 3; }
+
+    /* titre étape */
+    const tLines = doc.splitTextToSize(title, TL_CW-20);
+    doc.setFontSize(8.5); doc.setFont(undefined, empty?'normal':'bold');
+    doc.setTextColor(...(empty ? C_LIGHT : C_BLACK));
+    doc.text(tLines, TL_TX, y+5);
+
+    /* statut à droite */
+    if(s_tot>0){
+      const sTxt = complete ? 'Complète ✓' : empty ? 'Non démarrée' : s_ok+'/'+s_tot+(s_blk?' · '+s_blk+' mis de côté':'');
+      doc.setFontSize(6.5); doc.setFont(undefined,'normal');
+      doc.setTextColor(...(complete ? C_GREEN : empty ? C_LIGHT : C_GREY));
+      doc.text(sTxt, W-MR, y+5, {align:'right'});
     }
-    doc.setFontSize(8); doc.setFont(undefined,'bold');
-    doc.setTextColor(...OR); doc.text(item.pg, W-MR, y+1, {align:'right'});
-    y += isMain ? 8 : 6;
-  });
 
-  doc.addPage(); newPage();
-  y = pageHeader('1 — Ma Maison', 'p. 3');
+    y += dotH + tLines.length*3.2;
 
-  y = sectionTitle('Informations générales', y);
-  y = fieldRow('Nom / Prénom', v('m_nom')+' '+v('m_prenom'), y);
-  y = fieldRow('Adresse', v('m_voie')+(v('m_compl')!=='—'?' '+v('m_compl'):'')+', '+v('m_cp')+' '+v('m_ville'), y);
-  y = fieldRow('Téléphone', v('m_tel'), y);
-  y = fieldRow('Email', v('m_email'), y);
-  y = fieldRow('Assureur', v('m_assureur')!=='—'?v('m_assureur'):v('m_typecontrat'), y);
-  y = fieldRow('N° de contrat', v('m_numcontrat'), y);
-  y = fieldRow('Date d\'effet', v('m_dateeffet'), y);
-  y = fieldRow('Prime / Franchise', v('m_pcontrat')+'  /  '+v('m_franchise'), y);
-  y += 4;
+    /* questions tristate */
+    items.forEach(it=>{
+      if(y > H-14){ y=newPage(); y+=2; }
+      const key = (it.id||'').replace(/^tri-/,'');
+      const val = triState[key];
+      const lblEl = it.querySelector('.tri-label,.tri-question,label,p');
+      const lbl   = (lblEl ? lblEl.textContent.trim() : key).replace(/^[\p{Emoji}\s]+/u,'').trim();
+      const dotX  = TL_TX+2;
+      const txtX  = TL_TX+6;
+      const txtW  = TL_CW-8;
 
-  y = sectionTitle('Caractéristiques du bien', y);
-  y = fieldRow('Type de bien', v('m_typebien')!=='—' ? v('m_typebien') : 'Maison individuelle', y);
-  y = fieldRow('Date de construction', v('m_dateconstr'), y);
-  y = fieldRow('Nombre de niveaux', [document.querySelector('input[name="niveaux"]:checked')]
-    .filter(Boolean).map(r=>r.closest('label')?.textContent?.trim()||r.value).join('')||'—', y);
-  y = fieldRow('Fondations', [ck('fond1')?'Semelles filantes':null, ck('fond2')?'Radier':null, ck('fond3')?'Pieux':null, ck('fond4')?'Inconnues':null].filter(Boolean).join(', ')||'—', y);
-  y = fieldRow('Système de drainage', ck('drain_oui')?'Oui':ck('drain_non')?'Non':'Non renseigné', y);
-  y = fieldRow('Arbres à proximité (< 10m)', ck('arb_oui')?'Oui — risque d\'assèchement':ck('arb_non')?'Non':'Non renseigné', y);
-  y = fieldRow('Période de construction', [document.querySelector('input[name="periode"]:checked')]
-    .filter(Boolean).map(r=>r.closest('label')?.textContent?.trim()||r.value).join('')||'—', y);
-  y += 4;
-
-  y = sectionTitle('Exposition au risque RGA', y);
-  y = fieldRow('Aléa BRGM', v('m_alea_brgm')!=='—'?v('m_alea_brgm'):'À vérifier sur Géorisques', y);
-  y = fieldRow('Zone climatique', v('m_zone')!=='—'?v('m_zone'):'—', y);
-  y = fieldRow('Commune', v('m_ville'), y);
-
-  doc.addPage(); newPage();
-  y = pageHeader('2 — Mon Parcours', 'p. 5');
-
-  doc.setFillColor(...VL); doc.roundedRect(ML, y, CW, 12, 2, 2, 'F');
-  doc.setFontSize(8); doc.setFont(undefined,'bold'); doc.setTextColor(...VD);
-  doc.text('Avancement global : '+diagPct+' % — '+diagChecked+' cases sur '+diagCbs.length, ML+4, y+7.5);
-  const barW = CW - 8;
-  doc.setFillColor(210, 220, 205); doc.roundedRect(ML+4, y+9, barW, 2, 1, 1,'F');
-  doc.setFillColor(...OR2); doc.roundedRect(ML+4, y+9, barW*(diagPct/100), 2, 1, 1,'F');
-  y += 18;
-
-  const etapesData = [
-    { id:'step-1b', stepId:'step1', label:'Étape 1 — Observation d\'une fissure', items:[
-      ['1','J\'ai observé des fissures sur les murs, façades ou éléments de structure'],
-      ['2','J\'ai noté la date d\'apparition ou d\'aggravation'],
-      ['3','Je suis capable de localiser les fissures'],
-    ]},
-    { id:'step-2b', stepId:'step2', label:'Étape 2 — Vérification de l\'arrêté Cat Nat', items:[
-      ['1','J\'ai vérifié si ma commune est reconnue Cat Nat'],
-      ['2','J\'ai noté la date de publication de l\'arrêté au JO'],
-    ]},
-    { id:'step-3b', stepId:'step3', label:'Étape 3 — À qui m\'adresser ?', items:[
-      ['1','J\'ai informé ma mairie par écrit'],
-      ['2','J\'ai contacté mon assureur'],
-    ]},
-    { id:'step-4b', stepId:'step4', label:'Étape 4 — Déclaration de sinistre', items:[
-      ['1','J\'ai déclaré mon sinistre à l\'assureur dans les délais'],
-      ['2','J\'ai conservé le récépissé de déclaration'],
-    ]},
-    { id:'step-5b', stepId:'step5', label:'Étape 5 — Environnement de ma maison', items:[
-      ['1','J\'ai documenté le type de sol (argile, terrain)'],
-      ['2','J\'ai noté la végétation et les arbres proches'],
-    ]},
-    { id:'step-6b', stepId:'step6', label:'Étape 6 — Facteurs déclencheurs potentiels', items:[
-      ['1','J\'ai identifié des périodes de sécheresse ou de fortes pluies'],
-      ['2','J\'ai noté des travaux récents à proximité'],
-    ]},
-    { id:'step-7b', stepId:'step7', label:'Étape 7 — Entretien et historique', items:[
-      ['1','J\'ai rassemblé les éléments d\'entretien du bien'],
-      ['2','J\'ai listé les travaux passés'],
-    ]},
-    { id:'step-8b', stepId:'step8', label:'Étape 8 — Description des désordres', items:[
-      ['1','J\'ai décrit et photographié toutes les fissures'],
-      ['2','J\'ai classé les fissures par niveau (< 2mm, 2-5mm, > 5mm)'],
-    ]},
-    { id:'step-9b', stepId:'step9', label:'Étape 9 — Documents pour l\'expert', items:[
-      ['1','J\'ai préparé les documents à remettre à l\'expert'],
-      ['2','J\'ai réuni les photos et plans'],
-    ]},
-    { id:'step-11b', stepId:'step11', label:'Étape 10 — L\'expertise', items:[
-      ['1','J\'étais présent lors de la visite de l\'expert'],
-      ['2','J\'ai communiqué mes observations à l\'expert'],
-    ]},
-    { id:'step-13b', stepId:'step13', label:'Étape 11 — Proposition d\'indemnisation', items:[
-      ['1','J\'ai reçu la proposition d\'indemnisation'],
-      ['2','J\'ai vérifié les montants et la franchise'],
-    ]},
-    { id:'step-14b', stepId:'step14', label:'Étape 12 — Les travaux de réparation', items:[
-      ['1','Les travaux ont débuté ou sont planifiés'],
-    ]},
-  ];
-
-  etapesData.forEach(etape => {
-    if(y > H-28){ doc.addPage(); newPage(); y = pageHeader('2 — Mon Parcours (suite)',''); }
-    const stepEl = document.getElementById(etape.id);
-    const isCompleted = stepEl && stepEl.classList.contains('completed');
-    doc.setFillColor(isCompleted ? VL[0] : 248, isCompleted ? VL[1] : 246, isCompleted ? VL[2] : 242);
-    doc.roundedRect(ML, y, CW, 7, 1.5, 1.5, 'F');
-    doc.setFillColor(isCompleted ? OR2[0] : 200, isCompleted ? OR2[1] : 195, isCompleted ? OR2[2] : 185);
-    doc.rect(ML, y, 1.5, 7, 'F');
-    doc.setFontSize(8); doc.setFont(undefined,'bold');
-    doc.setTextColor(isCompleted ? VD[0] : GY[0], isCompleted ? VD[1] : GY[1], isCompleted ? VD[2] : GY[2]);
-    doc.text(etape.label, ML+5, y+4.8);
-    if(isCompleted){
-      doc.setFontSize(7); doc.setFont(undefined,'normal'); doc.setTextColor(...OR);
-      doc.text('✓ Complété', W-MR, y+4.8, {align:'right'});
-    }
-    y += 10;
-    etape.items.forEach(([n, lbl]) => {
-      y = triRow(lbl, etape.stepId, parseInt(n), y);
+      if(val==='yes'){
+        doc.setFillColor(...C_GREEN);
+        doc.circle(dotX, y-0.5, 1.6, 'F');
+        doc.setFontSize(6.5); doc.setFont(undefined,'normal'); doc.setTextColor(...C_BLACK);
+      } else if(val==='blocked'){
+        doc.setFillColor(155,125,45);
+        doc.circle(dotX, y-0.5, 1.6, 'F');
+        doc.setFontSize(6.5); doc.setFont(undefined,'normal'); doc.setTextColor(...C_GREY);
+      } else {
+        doc.setDrawColor(...C_LIGHT); doc.setLineWidth(0.25);
+        doc.circle(dotX, y-0.5, 1.6, 'D');
+        doc.setFontSize(6.5); doc.setFont(undefined,'normal'); doc.setTextColor(...C_LIGHT);
+      }
+      const iLines = doc.splitTextToSize(lbl, txtW);
+      doc.text(iLines, txtX, y);
+      y += Math.max(4, iLines.length*3.6);
     });
-    y += 3;
+
+    /* micro-séparateur inter-étapes */
+    doc.setDrawColor(238,234,226); doc.setLineWidth(0.1);
+    doc.line(TL_TX, y, W-MR, y);
+    y+=4;
   });
 
-  doc.addPage(); newPage();
-  y = pageHeader('3 — Annexes — Documents joints', 'p. 9');
+  /* ════════════════════════════════════════
+     SECTION 3 — ANNEXES
+  ════════════════════════════════════════ */
+  y = newPage();
+  const PAGE_ANNEXES = pageN;
+  y = secTitle('3 — Annexes — Pièces jointes au dossier', y);
 
-  y = sectionTitle('Récapitulatif des pièces', y);
-  const piecesLabels=['Description du sinistre','Dégâts causés à des tiers','Études géotechniques','Acte d\'achat','Permis de construire','États des lieux','Devis, factures et PV','Déclaration sur l\'honneur'];
-  piecesLabels.forEach((lbl, i) => {
-    if(y > H-18){ doc.addPage(); newPage(); y = pageHeader('3 — Annexes (suite)',''); }
-    const joint=!!diagFiles[i+1];
-    const cb=document.querySelector('#diag-piece-'+(i+1)+' .doc-piece-cb');
-    const checked=cb&&cb.checked;
-    if(joint){ doc.setFillColor(...VD); }
-    else if(checked){ doc.setFillColor(...OR); }
-    else { doc.setFillColor(210,205,200); }
-    doc.roundedRect(ML, y-1, 4, 4, 0.5, 0.5,'F');
-    doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...WT);
-    doc.text(joint?'✓':checked?'−':'○', ML+2, y+2, {align:'center'});
-    doc.setFontSize(8); doc.setFont(undefined, joint?'bold':'normal');
-    doc.setTextColor(joint?VD[0]:checked?OR[0]:150, joint?VD[1]:checked?OR[1]:150, joint?VD[2]:checked?OR[2]:150);
-    doc.text(lbl+(joint?' — Fichier joint':''), ML+7, y+2.5);
-    if(joint && diagFiles[i+1] && diagFiles[i+1].name){
-      doc.setFontSize(6.5); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
-      doc.text(diagFiles[i+1].name+' — '+(diagFiles[i+1].uploadedAt ? new Date(diagFiles[i+1].uploadedAt).toLocaleDateString('fr-FR') : ''), ML+7, y+6.5);
-      y += 4;
-    }
-    doc.setDrawColor(...LN); doc.setLineWidth(0.1); doc.line(ML, y+4.5, W-MR, y+4.5);
-    y += 8;
-  });
+  if(annexes.length===0){
+    doc.setFontSize(8); doc.setFont(undefined,'italic'); doc.setTextColor(...C_GREY);
+    doc.text('Aucune pièce jointe enregistrée.', ML, y); y+=6;
+    doc.setFontSize(7.5); doc.setFont(undefined,'normal');
+    doc.text('Ajoutez vos pièces depuis l\'onglet Mon Parcours ou Mon Dossier.', ML, y);
+  } else {
+    /* en-tête tableau */
+    doc.setFontSize(6.5); doc.setFont(undefined,'bold'); doc.setTextColor(...C_GREY);
+    doc.text('Réf.', ML+3, y); doc.text('Désignation', ML+14, y); doc.text('Page', W-MR-4, y, {align:'right'});
+    y+=2; doc.setDrawColor(...C_LIGHT); doc.setLineWidth(0.2); doc.line(ML, y, W-MR, y); y+=3;
 
-  y += 4;
-  doc.setFillColor(...VL); doc.roundedRect(ML, y, CW, 11, 2, 2,'F');
-  doc.setFillColor(...VD); doc.roundedRect(ML, y, 2, 11, 0, 0,'F');
-  doc.setFontSize(8); doc.setFont(undefined,'bold'); doc.setTextColor(...VD);
-  doc.text(nJoints+' fichier'+(nJoints>1?'s':'')+' joint'+(nJoints>1?'s':'')+' sur '+piecesLabels.length+' — '+(piecesLabels.length-nJoints)+' pièce'+(piecesLabels.length-nJoints>1?'s':'')+' restante'+(piecesLabels.length-nJoints>1?'s':''), ML+5, y+7);
-  y += 18;
-
-  const allAnnexes=[];
-  if(planFile) allAnnexes.push(['Plan de ma maison', planFile]);
-  piecesLabels.forEach((lbl,i)=>{ if(diagFiles[i+1]) allAnnexes.push([lbl, diagFiles[i+1]]); });
-
-  allAnnexes.forEach(([title, file], idx) => {
-    if(file && file.type && file.type.startsWith('image/')){
-      doc.addPage(); newPage();
-      y = pageHeader('3 — Annexes / '+(idx+1), 'Pièce jointe');
-      doc.setFontSize(9); doc.setFont(undefined,'bold'); doc.setTextColor(...VD);
-      doc.text(title, ML, y);
-      doc.setFontSize(7); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
-      doc.text('Fichier : '+(file.name||'—'), ML, y+5);
-      try{
-        doc.addImage(file.data, file.type.includes('png')?'PNG':'JPEG', ML, y+10, CW, 140);
-      } catch(e){}
-    }
-  });
-
-  if(allAnnexes.length === 0){
-    doc.setFontSize(9); doc.setFont(undefined,'italic'); doc.setTextColor(...GY);
-    doc.text('Aucun document joint pour le moment.', ML+2, y+8);
-    doc.setFontSize(8); doc.setFont(undefined,'normal');
-    doc.text('Ajoutez vos pièces depuis l\'onglet Mon Parcours → étape Documents.', ML+2, y+15);
+    annexes.forEach((a,idx)=>{
+      if(y > H-18){ y=newPage(); y+=3; }
+      const ltr = String.fromCharCode(65+idx);
+      doc.setFontSize(7.5); doc.setFont(undefined,'bold'); doc.setTextColor(...C_GREEN);
+      doc.text(ltr, ML+3, y, {align:'center'});
+      doc.setFont(undefined,'normal'); doc.setTextColor(...C_BLACK);
+      doc.text(a.title, ML+14, y);
+      if(a.name){ doc.setFontSize(6); doc.setTextColor(...C_GREY); doc.text(a.name, ML+14, y+3.5); }
+      /* numéro page — placeholder, mis à jour en fin */
+      doc.setFontSize(7.5); doc.setFont(undefined,'normal'); doc.setTextColor(...C_LIGHT);
+      doc.text('—', W-MR-4, y, {align:'right'});
+      a._tocY = y; a._tocPage = PAGE_ANNEXES;
+      doc.setDrawColor(235,231,224); doc.setLineWidth(0.1);
+      doc.line(ML+14, y+(a.name?5.5:2.5), W-MR-14, y+(a.name?5.5:2.5));
+      y += a.name ? 8 : 5.5;
+    });
   }
 
-  const totalPages = doc.internal.getNumberOfPages();
-  for(let p = 1; p <= totalPages; p++){
+  /* pages d'images — une par annexe */
+  const annexeImgPages = {};
+  annexes.forEach((a,idx)=>{
+    if(!a.isImg || !a.data || !a.data.startsWith('data:image')) return;
+    y = newPage();
+    annexeImgPages[idx] = pageN;
+    const ltr = String.fromCharCode(65+idx);
+    /* en-tête */
+    doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...C_GREEN);
+    doc.text('ANNEXE '+ltr, ML, y);
+    doc.setFont(undefined,'normal'); doc.setTextColor(...C_BLACK);
+    doc.text(a.title, ML+22, y);
+    doc.setDrawColor(...C_GREEN); doc.setLineWidth(0.25);
+    doc.line(ML, y+2, W-MR, y+2);
+    y+=8;
+    /* image centrée */
+    try{
+      const fmt3 = a.data.includes('image/png')?'PNG':'JPEG';
+      const maxW2 = CW, maxH2 = H-y-18;
+      const tmp = new Image(); tmp.src = a.data;
+      let iW2=tmp.naturalWidth||maxW2, iH2=tmp.naturalHeight||maxH2;
+      const sc = Math.min(maxW2/iW2, maxH2/iH2, 1);
+      const dX2 = ML+(CW-iW2*sc)/2;
+      doc.addImage(a.data, fmt3, dX2, y, iW2*sc, iH2*sc);
+    } catch(_){
+      doc.setFontSize(8); doc.setFont(undefined,'italic'); doc.setTextColor(...C_GREY);
+      doc.text('(image non disponible)', ML, y+8);
+    }
+  });
+
+  /* ════════════════════════════════════════
+     MISES À JOUR FINALES
+  ════════════════════════════════════════ */
+  const TOTAL = doc.internal.getNumberOfPages();
+
+  /* 1. Numéros de page dans tous les footers */
+  for(let p=1;p<=TOTAL;p++){
     doc.setPage(p);
-    doc.setFillColor(...BG); doc.rect(W-MR-24, H-12, 28, 8,'F');
-    doc.setFontSize(6); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
-    doc.text('p. '+p+' / '+totalPages, W-MR, H-6, {align:'right'});
+    doc.setFillColor(...C_BG);
+    doc.rect(W-MR-10, H-7, 14, 5, 'F');
+    doc.setFontSize(6); doc.setFont(undefined,'normal'); doc.setTextColor(...C_LIGHT);
+    doc.text('p. '+p+' / '+TOTAL, W-MR, H-5, {align:'right'});
   }
 
-  doc.save('ArgiQare_Synthese.pdf');
-  const lbl = document.getElementById('last-gen-label');
-  if(lbl) lbl.textContent = '🕐 Dernière génération : ' + dateGen;
-  localStorage.setItem('argicare-last-pdf-date', dateGen);
-  localStorage.setItem('argicare-last-pdf-ref', dossierRef);
+  /* 2. Sommaire — remplir les numéros réels */
+  doc.setPage(PAGE_TOC);
+  [[PAGE_MAISON,0],[PAGE_PARCOURS,1],[PAGE_ANNEXES,2]].forEach(([pg,i])=>{
+    const ty = tocY[i];
+    doc.setFillColor(238,235,228);
+    doc.roundedRect(W-MR-13, ty-1, 13, 8, 1, 1, 'F');
+    doc.setFontSize(8); doc.setFont(undefined,'bold'); doc.setTextColor(...C_BLACK);
+    doc.text(''+pg, W-MR-2, ty+4.5, {align:'right'});
+  });
 
-  try {
-    let versions = JSON.parse(localStorage.getItem('argicare-pdf-versions') || '[]');
-    versions.push({ date: dateGen, ref: dossierRef, pct: diagPct });
-    if(versions.length > 10) versions = versions.slice(-10);
-    localStorage.setItem('argicare-pdf-versions', JSON.stringify(versions));
-  } catch(e){ /* historique non critique, silencieux */ }
+  /* 3. Numéros de pages dans la table des annexes */
+  doc.setPage(PAGE_ANNEXES);
+  annexes.forEach((a,idx)=>{
+    if(!a._tocY) return;
+    const pg = annexeImgPages[idx];
+    doc.setFillColor(...C_BG); doc.rect(W-MR-12, a._tocY-2, 14, 5.5, 'F');
+    doc.setFontSize(7.5); doc.setFont(undefined,'bold');
+    doc.setTextColor(pg ? C_GREEN[0] : C_LIGHT[0], pg ? C_GREEN[1] : C_LIGHT[1], pg ? C_GREEN[2] : C_LIGHT[2]);
+    doc.text(pg ? ''+pg : 'non img', W-MR-4, a._tocY, {align:'right'});
+  });
+
+  /* ── Sauvegarde ── */
+  doc.save('ArgiQare_DossierComplet_'+ref+'.pdf');
+
+  const lbl2 = document.getElementById('last-gen-label');
+  if(lbl2) lbl2.textContent = '\u23F0 G\u00e9n\u00e9r\u00e9 le '+DATE_STR+' \u2014 '+TOTAL+' pages';
+  localStorage.setItem('argicare-last-pdf-date', DATE_STR);
+  localStorage.setItem('argicare-last-pdf-ref', ref);
+  localStorage.setItem('argicare-last-action', JSON.stringify({
+    date: now.toISOString(), label: 'Synth\u00e8se PDF g\u00e9n\u00e9r\u00e9e ('+TOTAL+' p.)'
+  }));
+  try{
+    let vs=JSON.parse(localStorage.getItem('argicare-pdf-versions')||'[]');
+    vs.push({date:DATE_STR,ref,pages:TOTAL,pct:g_pct});
+    if(vs.length>10) vs=vs.slice(-10);
+    localStorage.setItem('argicare-pdf-versions',JSON.stringify(vs));
+  } catch(_){}
 } // fin generatePDF
 
 const diagLabels=['📝 Description du sinistre','⚠️ Dégâts causés à des tiers','🔬 Études géotechniques','🏠 Acte d\'achat','🏗️ Permis de construire','🔑 États des lieux','🧾 Devis, factures et PV','✍️ Déclaration sur l\'honneur'];
@@ -8257,24 +8333,44 @@ function previewDossierContent(){
 
   const zone = document.getElementById('preview-reader-zone');
   let _swipeX = null;
-  zone.addEventListener('touchstart', e => {
+
+  // ── Gestionnaires au niveau DOCUMENT pendant que la preview est active ──
+  // On capture au plus haut niveau possible pour bloquer toute remontée
+  // vers le screens-wrapper ou le .screen parent.
+  function _previewTouchStart(e){
+    // Ne bloquer que si le touch est à l'intérieur de l'overlay
+    const overlay = document.getElementById('dossier-preview-overlay');
+    if(!overlay || !overlay.contains(e.target)) return;
     e.stopPropagation();
     _swipeX = e.touches[0].clientX;
-  }, {passive:true});
-  zone.addEventListener('touchmove', e => {
+  }
+  function _previewTouchMove(e){
+    const overlay = document.getElementById('dossier-preview-overlay');
+    if(!overlay || !overlay.contains(e.target)) return;
     e.stopPropagation();
-  }, {passive:true});
-  zone.addEventListener('touchend', e => {
+    e.preventDefault(); // indispensable : bloque scroll natif + swipe screens-wrapper
+  }
+  function _previewTouchEnd(e){
+    const overlay = document.getElementById('dossier-preview-overlay');
+    if(!overlay || !overlay.contains(e.target)) return;
     e.stopPropagation();
     if(_swipeX === null) return;
     const dx = e.changedTouches[0].clientX - _swipeX;
     if(Math.abs(dx) > 40) previewChangePage(dx < 0 ? 1 : -1);
     _swipeX = null;
-  }, {passive:true});
+  }
+  // Stocker les références pour pouvoir les retirer à la fermeture
+  window._previewTouchHandlers = { start:_previewTouchStart, move:_previewTouchMove, end:_previewTouchEnd };
+  document.addEventListener('touchstart', _previewTouchStart, {passive:false, capture:true});
+  document.addEventListener('touchmove',  _previewTouchMove,  {passive:false, capture:true});
+  document.addEventListener('touchend',   _previewTouchEnd,   {passive:false, capture:true});
 
   const overlay = document.getElementById('dossier-preview-overlay');
   overlay.classList.remove('hidden');
   overlay.style.display = 'flex';
+  // Bloquer le scroll du .screen parent pour éviter que le swipe déplace le screens-wrapper
+  const parentScreen = document.getElementById('screen-dossier');
+  if(parentScreen) parentScreen.style.overflow = 'hidden';
 
   requestAnimationFrame(() => {
     const phoneEl2 = document.querySelector('.phone');
@@ -8380,6 +8476,15 @@ function closeDossierPreview(){
   const overlay = document.getElementById('dossier-preview-overlay');
   overlay.classList.add('hidden');
   overlay.style.display = 'none';
+  const parentScreen = document.getElementById('screen-dossier');
+  if(parentScreen) parentScreen.style.overflow = '';
+  // Retirer les gestionnaires touch capturés au niveau document
+  if(window._previewTouchHandlers){
+    document.removeEventListener('touchstart', window._previewTouchHandlers.start, {capture:true});
+    document.removeEventListener('touchmove',  window._previewTouchHandlers.move,  {capture:true});
+    document.removeEventListener('touchend',   window._previewTouchHandlers.end,   {capture:true});
+    window._previewTouchHandlers = null;
+  }
 }
 
 function shareLastPdf(){
@@ -8523,7 +8628,8 @@ function shareQRCode(){
 ════════════════════════════════════════ -->
 <style>
 /* ══ BANDEAU CONSENTEMENT RGPD ══ */
-.rgpd-consent-overlay { position:absolute; inset:0; background:rgba(10,20,10,.7); z-index:700; display:flex; align-items:flex-end; backdrop-filter:blur(3px); }
+.rgpd-consent-overlay { position:absolute; inset:0; background:rgba(10,20,10,.7); z-index:700; display:flex; align-items:flex-end; backdrop-filter:blur(3px); overflow:hidden; border-radius:34px; }
+.rgpd-consent-overlay.hidden { display:none !important; }
 
 /* ── RGPD ── */
 .rgpd-consent-box { background:white; border-radius:22px 22px 0 0; width:100%; max-height:92%; overflow-y:auto; padding:20px 18px 28px; animation:slideUp .35s cubic-bezier(.4,0,.2,1); }
@@ -8616,8 +8722,17 @@ function shareQRCode(){
 .tri-btn { padding:0 6px; border:none; background:#faf8f4; font-size:10px; font-weight:700; cursor:pointer; font-family:inherit; transition:all .18s; line-height:1.2; color:#9a8a72; text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; flex:1; min-height:50px; }
 .tri-btn .tri-btn-icon { font-size:17px; line-height:1; transition:transform .18s; }
 .tri-btn .tri-btn-lbl { font-size:9px; font-weight:700; letter-spacing:.2px; }
+.tri-btn { min-height:40px; }
+.tri-btn .tri-btn-icon { font-size:15px; }
 .tri-btn.yes { color:#7a9a72; border-bottom:1px solid #e8e0d0; }
-.tri-btn.no  { color:#9a8a72; }
+.tri-btn.no  { color:#9a8a72; border-bottom:1px solid #e8e0d0; }
+.tri-btn.blocked { color:#a8925a; }
+.tri-btn.blocked:not(.active):hover { background:#fdf6e8; color:#8a6a1a; }
+.tri-btn.blocked.active { background:linear-gradient(160deg,#f7ecd2,#f0e0b8) !important; color:#6a4a00 !important; }
+.tri-btn.blocked.active .tri-btn-icon { transform:scale(1.15); }
+.tri-item:has(.tri-btn.blocked.active) { border-color:#C9A23A; box-shadow:0 1px 6px rgba(201,162,58,.15); }
+.tri-blocked-hint { display:none; padding:8px 12px 10px; background:#FDF6E8; border-top:1px solid #f0e0b8; font-size:10px; color:#6A4A00; line-height:1.6; text-align:justify; hyphens:auto; -webkit-hyphens:auto; }
+.tri-blocked-hint.open { display:block; animation:fadeIn .18s ease both; }
 .tri-btn.yes:not(.active):hover { background:#eef8ea; color:#2d5a27; }
 .tri-btn.no:not(.active):hover  { background:#f5f0e8; color:#8a6a42; }
 .tri-btn.yes.active { background:linear-gradient(160deg,#e0f4d8,#d0eccc) !important; color:#1a4a18 !important; }
@@ -9634,6 +9749,7 @@ function tutoRetourAccueil(){
 }
 
 function loadDiag(){
+  if(typeof injectBlockedButtons === 'function') injectBlockedButtons();
   const saved = localStorage.getItem('argicare-tristate');
   if(saved){
     const state = JSON.parse(saved);
@@ -10098,63 +10214,220 @@ function refreshDashboard(){
     banner.innerHTML = '<span class="dash-reassurance-icon">' + icon + '</span>' + text;
   })();
 
+  // ── Badge profil coloré (modèle A) ──
   const savedProfil = localStorage.getItem('argicare-profil');
   const emptyBlock = document.getElementById('dash-profil-empty');
   const filledBlock = document.getElementById('dash-profil-filled');
+  // couleurs alignées avec les onglets (pas les profils)
+  const BADGE_BORDER = { 1:'#2D5A27', 2:'#1a3a6e', 3:'#9a7820' };
+  const BADGE_BG     = { 1:'#F0F7EC', 2:'#EBF0F8', 3:'#F8F2DC' };
+  const BADGE_TEXT   = { 1:'#2D5A27', 2:'#1a3a6e', 3:'#9a7820' };
   if(savedProfil && PROFIL_CONFIG[savedProfil]){
     const cfg = PROFIL_CONFIG[savedProfil];
+    const n = parseInt(savedProfil);
     if(emptyBlock) emptyBlock.style.display = 'none';
     if(filledBlock) filledBlock.style.display = 'block';
-    const icEl = document.getElementById('dash-profil-icon');
+    const badge = document.getElementById('dash-profil-badge');
+    const badgeNum = document.getElementById('dash-profil-badge-num');
+    const inner = document.getElementById('dash-profil-filled-inner');
+    const borderColors = BADGE_BORDER;
+    const bgColors = BADGE_BG;
+    if(badge){ badge.style.background = BADGE_BG[n] || '#F0F7EC'; badge.style.borderRight = '1px solid ' + (BADGE_BORDER[n]||'#ccc') + '20'; }
+    if(badgeNum){ badgeNum.style.borderColor = BADGE_BORDER[n] || '#2D5A27'; badgeNum.style.color = BADGE_TEXT[n] || '#2D5A27'; }
+    if(badgeNum) badgeNum.textContent = n;
+    if(inner){ inner.style.borderColor = borderColors[n] || '#2D5A27'; inner.style.background = bgColors[n] || '#F0F7EC'; }
     const titleEl = document.getElementById('dash-profil-title');
     const subEl = document.getElementById('dash-profil-sub');
-    const pill = document.getElementById('dash-profil-pill');
-    if(icEl) icEl.textContent = cfg.icon;
     if(titleEl) titleEl.textContent = cfg.title;
     if(subEl) subEl.textContent = cfg.sub;
-    if(pill){
-      pill.className = 'dash-profil-pill ' + cfg.barClass;
-      pill.textContent = cfg.pill;
+
+    // ── Thème couleur de Mon Parcours + Vue d'ensemble ──
+    const screenDiag = document.getElementById('screen-diag');
+    if(screenDiag){
+      screenDiag.classList.remove('theme-p1','theme-p2','theme-p3');
+      screenDiag.classList.add('theme-' + cfg.barClass);
+    }
+    const vsCard = document.getElementById('dash-vue-ensemble');
+    if(vsCard){
+      vsCard.classList.remove('vs-p1','vs-p2','vs-p3');
+      vsCard.classList.add('vs-' + cfg.barClass);
     }
   } else {
     if(emptyBlock) emptyBlock.style.display = 'block';
     if(filledBlock) filledBlock.style.display = 'none';
+    const vsCard = document.getElementById('dash-vue-ensemble');
+    if(vsCard) vsCard.classList.remove('vs-p1','vs-p2','vs-p3');
   }
 
-  const allCb = document.querySelectorAll('#screen-diag .diag-cb');
-  const checked = [...allCb].filter(c=>c.checked).length;
-  const pct = Math.round((checked / TOTAL_CHECKS) * 100);
-  const pctEl = document.getElementById('dash-progress-pct');
-  const lblEl = document.getElementById('dash-progress-label');
-  const circle = document.getElementById('dash-progress-circle');
-  if(pctEl) pctEl.textContent = pct + '%';
-  if(circle){
-    const circumference = 138;
-    const offset = circumference - (circumference * pct / 100);
-    circle.style.strokeDashoffset = offset;
-  }
+  // ── Bulle dernière sauvegarde ──
+  (function updateLastSave(){
+    const el = document.getElementById('dash-last-save-txt');
+    if(!el) return;
+    const raw = localStorage.getItem('argicare-last-action');
+    if(!raw){ el.textContent = 'Aucune modification enregistrée'; return; }
+    try{
+      const data = JSON.parse(raw);
+      const d = new Date(data.date);
+      const now = new Date();
+      const diffMin = Math.floor((now - d) / 60000);
+      const diffH   = Math.floor(diffMin / 60);
+      const diffJ   = Math.floor(diffH / 24);
+      let when;
+      if(diffMin < 1)       when = 'À l\u2019instant';
+      else if(diffMin < 60) when = 'Il y a ' + diffMin + ' min';
+      else if(diffH < 24)   when = 'Il y a ' + diffH + ' h';
+      else if(diffJ === 1)  when = 'Hier';
+      else if(diffJ < 7)    when = 'Il y a ' + diffJ + ' jours';
+      else                  when = d.toLocaleDateString('fr-FR', {day:'numeric', month:'long'});
+      el.textContent = 'Dernière modification : ' + when + (data.label ? ' — ' + data.label : '');
+    }catch(e){ el.textContent = 'Dernière modification : date inconnue'; }
+  })();
 
-  const steps = document.querySelectorAll('#screen-diag .diag-step');
-  let nextLabel = null, completedCount = 0, nextStepIndex = null;
+  // ── Anneaux des 3 piliers ──
+  const steps = document.querySelectorAll('#screen-diag .diag-step:not(.profil-grise)');
+  let completedCount = 0, nextLabel = null, nextStepIndex = null;
   steps.forEach((s, i) => {
-    const cbs = s.querySelectorAll('.diag-cb');
-    const allChecked = cbs.length > 0 && [...cbs].every(c=>c.checked);
-    if(allChecked) completedCount++;
-    else if(!nextLabel){ nextLabel = (typeof ETAPE_LABELS !== 'undefined' && ETAPE_LABELS[i]) || null; nextStepIndex = i + 1; }
+    const items = s.querySelectorAll('.tri-item');
+    const treated = items.length > 0 ? [...items].filter(it => triState[(it.id||'').replace(/^tri-/,'')]).length : 0;
+    const full = items.length > 0 ? treated === items.length : false;
+    if(full) completedCount++;
+    else if(!nextLabel){
+      const t = s.querySelector('.diag-step-title');
+      nextLabel = t ? t.textContent.trim() : null;
+      nextStepIndex = i + 1;
+    }
   });
-  if(lblEl) lblEl.textContent = completedCount === 0
-    ? 'Aucune étape complétée'
-    : completedCount + ' étape' + (completedCount>1?'s':'') + ' sur ' + steps.length + ' complétée' + (completedCount>1?'s':'');
+  const totalSteps = steps.length;
+  const diagPct = totalSteps > 0 ? Math.round(completedCount / totalSteps * 100) : 0;
+  const dossierDocs = document.querySelectorAll('#screen-dossier .dossier-doc-item.uploaded, #screen-dossier .dossier-doc-item.has-file').length || 0;
+  const dossierTotal = document.querySelectorAll('#screen-dossier .dossier-doc-item').length || 9;
+  const dossierPct = dossierTotal > 0 ? Math.round(dossierDocs / dossierTotal * 100) : 0;
+  const maisonCbs = document.querySelectorAll('#screen-maison .diag-cb');
+  const maisonChecked = [...maisonCbs].filter(c=>c.checked).length;
+  const maisonPct = maisonCbs.length > 0 ? Math.round(maisonChecked / maisonCbs.length * 100) : 0;
+  const globalPct = Math.round((diagPct + dossierPct + maisonPct) / 3);
 
-  const nextStepLbl = document.getElementById('dash-next-step-label');
-  if(nextStepLbl) nextStepLbl.textContent = nextLabel || 'Parcours complet 🎉';
-
-  const counterEl = document.getElementById('dash-next-step-counter');
-  if(counterEl){
-    counterEl.textContent = nextLabel
-      ? '(' + nextStepIndex + '/' + steps.length + ')'
-      : '(' + steps.length + '/' + steps.length + ')';
+  function setRing(id, pct, circumference){
+    const el = document.getElementById(id);
+    if(!el) return;
+    const dash = (pct / 100) * circumference;
+    el.setAttribute('stroke-dasharray', dash + ' ' + circumference);
   }
+  setRing('dash-ring-diag', diagPct, 296);
+  setRing('dash-ring-dossier', dossierPct, 220);
+  setRing('dash-ring-maison', maisonPct, 144);
+  const pctTxt = document.getElementById('dash-rings-pct');
+  if(pctTxt) pctTxt.textContent = globalPct + '%';
+  const legDiag = document.getElementById('dash-ring-leg-diag');
+  const legDossier = document.getElementById('dash-ring-leg-dossier');
+  const legMaison = document.getElementById('dash-ring-leg-maison');
+  if(legDiag) legDiag.textContent = completedCount + '/' + totalSteps;
+  if(legDossier) legDossier.textContent = dossierDocs + '/' + dossierTotal;
+  if(legMaison) legMaison.textContent = maisonPct + '%';
+
+
+  // ── Widget Contacter l'expert ──
+  (function updateExpertWidget(){
+    const filled = document.getElementById('dash-expert-filled');
+    const empty  = document.getElementById('dash-expert-empty');
+    if(!filled || !empty) return;
+    const nomEl  = document.getElementById('expert_nom')  || document.getElementById('m_expert_nom')  || document.querySelector('[id*="expert"][id*="nom"]');
+    const telEl  = document.getElementById('expert_tel')  || document.getElementById('m_expert_tel')  || document.querySelector('[id*="expert"][id*="tel"]');
+    const mailEl = document.getElementById('expert_mail') || document.getElementById('m_expert_mail') || document.querySelector('[id*="expert"][id*="mail"]');
+    const cabEl  = document.getElementById('expert_cab')  || document.getElementById('m_expert_cab')  || document.querySelector('[id*="expert"][id*="cab"]');
+    const nom  = nomEl?.value?.trim()  || '';
+    const tel  = telEl?.value?.trim()  || '';
+    const mail = mailEl?.value?.trim() || '';
+    const cab  = cabEl?.value?.trim()  || '';
+    if(nom || tel || mail){
+      filled.style.display = 'block';
+      empty.style.display  = 'none';
+      const nomD = document.getElementById('dash-expert-nom');
+      const cabD = document.getElementById('dash-expert-cab');
+      const telB = document.getElementById('dash-expert-tel-btn');
+      const mailB= document.getElementById('dash-expert-mail-btn');
+      if(nomD)  nomD.textContent  = nom  || 'Expert';
+      if(cabD)  cabD.textContent  = cab  || '';
+      if(telB){  telB.href = tel  ? 'tel:' + tel  : '#'; telB.style.opacity = tel  ? '1' : '.45'; }
+      if(mailB){ mailB.href= mail ? 'mailto:' + mail : '#'; mailB.style.opacity = mail ? '1' : '.45'; }
+    } else {
+      filled.style.display = 'none';
+      empty.style.display  = 'block';
+    }
+  })();
+  const nextStepLbl = document.getElementById('dash-next-step-label');
+  if(nextStepLbl) nextStepLbl.textContent = nextLabel || 'Parcours complet &#127881;';
+  const counterEl = document.getElementById('dash-next-step-counter');
+  if(counterEl) counterEl.textContent = nextLabel ? '(' + nextStepIndex + '/' + totalSteps + ')' : '(' + totalSteps + '/' + totalSteps + ')';
+
+  // ── Vue d'ensemble — 3 étapes : validée / en cours / suivante bloquée ──
+  (function refreshDashVueEnsemble(){
+    const container = document.getElementById('dash-vs-container');
+    if(!container) return;
+    if(!savedProfil || !PROFIL_CONFIG[savedProfil]){ container.innerHTML = '<div style="font-size:10px;color:#9a8a72;padding:6px 0;">Choisissez d&#39;abord votre profil pour voir votre position.</div>'; return; }
+    const allSteps = [...document.querySelectorAll('#screen-diag .diag-step')];
+    // Trouver l'étape en cours (1ère non totalement traitée dans le profil actif)
+    const profCfg = PROFIL_CONFIG[savedProfil];
+    let prevStep = null, currStep = null, nextStep = null, found = false;
+    for(let i = 0; i < allSteps.length; i++){
+      const s = allSteps[i];
+      if(s.classList.contains('profil-grise')) continue;
+      const items = s.querySelectorAll('.tri-item');
+      const treated = [...items].filter(it => triState[(it.id||'').replace(/^tri-/,'')]).length;
+      const isComplete = items.length > 0 ? treated === items.length : true;
+      if(!found){
+        if(!isComplete){ currStep = s; if(i > 0) prevStep = allSteps.slice(0,i).reverse().find(x=>!x.classList.contains('profil-grise')) || null; found = true; }
+        else { prevStep = s; }
+      } else if(!nextStep){ nextStep = s; }
+      if(found && nextStep) break;
+    }
+    // Si tout est complet : dernière étape en "current", rien en suivante
+    if(!currStep && prevStep){ currStep = prevStep; prevStep = null; }
+
+    function getTitle(el){ const t = el && el.querySelector('.diag-step-title'); return t ? t.textContent.trim() : ''; }
+    function getStepNum(el){ const n = el && el.querySelector('.diag-step-num'); return n ? n.textContent.trim() : '?'; }
+    function getSubLines(stepEl){
+      const items = [...stepEl.querySelectorAll('.tri-item')];
+      return items.slice(0,5).map(it => {
+        const key = (it.id||'').replace(/^tri-/,'');
+        const val = triState[key];
+        const lbl = it.querySelector('.tri-item-question, .tri-item-label, label');
+        const txt = lbl ? lbl.textContent.trim().substring(0,48) + (lbl.textContent.trim().length > 48 ? '&#8230;' : '') : key;
+        if(val === 'yes') return '<div class="dash-vs-sub ok">&#10003; ' + txt + '</div>';
+        if(val === 'blocked') return '<div class="dash-vs-sub blocked">&#129300; ' + txt + '</div>';
+        return '<div class="dash-vs-sub todo">&#9675; ' + txt + '</div>';
+      }).join('');
+    }
+    function getHereMarker(stepEl){
+      const items = [...stepEl.querySelectorAll('.tri-item')];
+      const firstUnanswered = items.find(it => !triState[(it.id||'').replace(/^tri-/,'')]);
+      if(!firstUnanswered) return '';
+      const lbl = firstUnanswered.querySelector('.tri-item-question, .tri-item-label, label');
+      const txt = lbl ? lbl.textContent.trim().substring(0,50) + (lbl.textContent.trim().length > 50 ? '&#8230;' : '') : 'question suivante';
+      return '<div class="dash-vs-sub here">&#9654; Reprenez ici&#160;: ' + txt + '</div>';
+    }
+
+    let html = '';
+    // ─ Étape précédente validée ─
+    if(prevStep){
+      html += '<div class="dash-vs"><div class="dash-vs-left"><div class="dash-vs-dot done"></div><div class="dash-vs-line done"></div></div><div class="dash-vs-content"><div class="dash-vs-tag done">&#10003; &#201;tape ' + getStepNum(prevStep) + ' valid&#233;e</div><div class="dash-vs-title">' + getTitle(prevStep) + '</div></div></div>';
+    }
+    // ─ Étape en cours ─
+    if(currStep){
+      const items = currStep.querySelectorAll('.tri-item');
+      const treated = [...items].filter(it => triState[(it.id||'').replace(/^tri-/,'')]).length;
+      const isComplete = items.length > 0 ? treated === items.length : true;
+      const lineClass = nextStep ? 'now' : 'done';
+      const tagTxt = isComplete ? '&#10003; &#201;tape ' + getStepNum(currStep) + ' valid&#233;e' : '&#9679; &#201;tape ' + getStepNum(currStep) + ' &#8212; en cours&#160;&#183;&#160;' + treated + '&#160;/&#160;' + items.length;
+      const tagClass = isComplete ? 'done' : 'now';
+      html += '<div class="dash-vs"><div class="dash-vs-left"><div class="dash-vs-dot ' + (isComplete?'done':'now') + '"></div><div class="dash-vs-line ' + lineClass + '"></div></div><div class="dash-vs-content"><div class="dash-vs-tag ' + tagClass + '">' + tagTxt + '</div><div class="dash-vs-title">' + getTitle(currStep) + '</div><div class="dash-vs-subs">' + getSubLines(currStep) + getHereMarker(currStep) + '</div></div></div>';
+    }
+    // ─ Étape suivante bloquée ─
+    if(nextStep){
+      html += '<div class="dash-vs"><div class="dash-vs-left"><div class="dash-vs-dot next"></div></div><div class="dash-vs-content"><div class="dash-vs-tag next">&#128274; &#201;tape ' + getStepNum(nextStep) + ' &#8212; bloqu&#233;e jusqu&#39;&#224; fin &#233;tape ' + (currStep ? getStepNum(currStep) : '?') + '</div><div class="dash-vs-title grayed">' + getTitle(nextStep) + '</div></div></div>';
+    }
+    container.innerHTML = html || '<div style="font-size:10px;color:#4a7c3f;padding:6px 0;">&#127881; Toutes les &#233;tapes sont valid&#233;es&#160;!</div>';
+  })();
 
   window._qaPctMemory = window._qaPctMemory || {};
   function setQaFill(key, percent){
@@ -10182,7 +10455,7 @@ function refreshDashboard(){
   const maisonQaPct = maisonInputs.length ? (maisonFilled / maisonInputs.length) * 100 : 0;
   setQaFill('maison', maisonQaPct);
 
-  setQaFill('dossier', pct);
+  setQaFill('dossier', dossierPct);
 
   (function trackResumeSession(){
     const banner = document.getElementById('dash-resume-banner');
@@ -10265,6 +10538,31 @@ function refreshDashboard(){
     const list = document.getElementById('dash-todo-list');
     if(!card || !list) return;
     const todos = [];
+    // ── Points marqués « Je suis bloqué » : priorité maximale, en tête de liste ──
+    if(typeof triState !== 'undefined' && typeof TRI_STEP_DOM !== 'undefined'){
+      const blockedBySid = {};
+      Object.entries(triState).forEach(([k, v]) => {
+        if(v !== 'blocked') return;
+        const sid = k.substring(0, k.lastIndexOf('-'));
+        blockedBySid[sid] = (blockedBySid[sid] || 0) + 1;
+      });
+      const blockedByDom = {};
+      Object.entries(blockedBySid).forEach(([sid, count]) => {
+        const domId = TRI_STEP_DOM[sid];
+        if(!domId) return;
+        blockedByDom[domId] = (blockedByDom[domId] || 0) + count;
+      });
+      Object.entries(blockedByDom).forEach(([domId, count]) => {
+        const stepEl = document.getElementById(domId);
+        const titleEl = stepEl ? stepEl.querySelector('.diag-step-title') : null;
+        const title = titleEl ? titleEl.textContent.trim() : 'une étape du parcours';
+        todos.push({
+          icon:'🤔',
+          label:'Débloquer : ' + title + ' (' + count + ' point' + (count>1?'s':'') + ')',
+          action:"goToStep('" + domId + "')"
+        });
+      });
+    }
     const keyFields = [
       {id:'m_nom', label:'Renseigner votre nom', tab:'maison'},
       {id:'m_numcontrat', label:'Indiquer votre numéro de contrat', tab:'maison'},
@@ -10286,8 +10584,8 @@ function refreshDashboard(){
       card.style.display = 'none';
     } else {
       card.style.display = 'block';
-      list.innerHTML = todos.slice(0, 3).map(t =>
-        '<div class="dash-todo-item" onclick="dashQuickAction(\'' + t.tab + '\')">' +
+      list.innerHTML = todos.slice(0, 4).map(t =>
+        '<div class="dash-todo-item" onclick="' + (t.action || "dashQuickAction('" + t.tab + "')") + '">' +
         '<span class="dash-todo-ic">' + t.icon + '</span>' +
         '<span class="dash-todo-text">' + t.label + '</span>' +
         '<span class="dash-todo-arrow">›</span></div>'
@@ -10431,83 +10729,6 @@ function dashSelectProfil(n){
   if(typeof refreshStepLocks === 'function') refreshStepLocks();
 }
 
-// ── ① Verrouillage progressif des étapes ──────────────────────────────
-// Ordre DOM des étapes ArgiQare (IDs réels)
-const STEP_ORDER = ['step-1b','step-2b','step-3b','step-5b','step-6b',
-                    'step-7b','step-8b','step-9b','step-10b','step-11b',
-                    'step-13b','step-14b'];
-
-function isStepFullyAnswered(stepId){
-  // Une étape est "répondue" si toutes ses questions tristate ont une réponse
-  const items = document.querySelectorAll('[id^="tri-' + stepId + '-"][id$="-detail"]');
-  if(items.length === 0) return true; // étape sans tristate = considérée passée
-  return [...items].every((_,i) => triState[stepId + '-' + (i+1)]);
-}
-
-function refreshStepLocks(){
-  const cfg = _currentProfil ? PROFIL_CONFIG[_currentProfil] : null;
-  const startStep = cfg ? cfg.startStep : 1;
-  // Index de départ dans STEP_ORDER (ex: profil 2 → startStep=4 → index 3 = step-5b)
-  const startIdx = STEP_ORDER.findIndex(id => {
-    const numMatch = id.match(/step-(\d+)b/);
-    if(!numMatch) return false;
-    const domNum = parseInt(numMatch[1]);
-    // Mapping DOM num → étape affichée
-    const dispNum = domNum <= 9 ? domNum :
-                    domNum === 11 ? 10 :
-                    domNum === 13 ? 11 :
-                    domNum === 14 ? 12 : domNum;
-    return dispNum >= startStep;
-  });
-  const effectiveStart = startIdx < 0 ? 0 : startIdx;
-
-  let prevCompleted = true; // la "pseudo-étape 0" est toujours complétée
-
-  STEP_ORDER.forEach((id, idx) => {
-    const el = document.getElementById(id);
-    if(!el) return;
-
-    const wasLocked = el.classList.contains('step-locked');
-
-    if(idx < effectiveStart){
-      // Avant le startStep du profil → garder l'état profil-grise existant
-      el.classList.remove('step-locked','step-just-unlocked');
-      return;
-    }
-
-    if(idx === effectiveStart){
-      // Première étape du profil : toujours déverrouillée
-      if(wasLocked){
-        el.classList.remove('step-locked');
-        el.classList.add('step-just-unlocked');
-        setTimeout(()=>el.classList.remove('step-just-unlocked'), 700);
-      } else {
-        el.classList.remove('step-locked');
-      }
-      prevCompleted = isStepFullyAnswered(id);
-      return;
-    }
-
-    // Étapes suivantes : déverrouillées seulement si la précédente est complétée
-    if(prevCompleted){
-      if(wasLocked){
-        el.classList.remove('step-locked');
-        el.classList.add('step-just-unlocked');
-        setTimeout(()=>el.classList.remove('step-just-unlocked'), 700);
-      } else {
-        el.classList.remove('step-locked');
-      }
-    } else {
-      // Verrouiller — mais ne pas fermer si déjà ouverte (expérience moins brutale)
-      if(!wasLocked){
-        el.classList.add('step-locked');
-        if(el.classList.contains('open')) el.classList.remove('open');
-      }
-    }
-    prevCompleted = prevCompleted && isStepFullyAnswered(id);
-  });
-}
-
 function dashChangerProfil(){
   const emptyBlock = document.getElementById('dash-profil-empty');
   const filledBlock = document.getElementById('dash-profil-filled');
@@ -10590,12 +10811,17 @@ function triSelect(stepId, itemN, choice){
   if(!item) return;
   item.querySelectorAll('.tri-btn').forEach(b => b.classList.remove('active'));
 
+  const hint = item.querySelector('.tri-blocked-hint');
+
   if(prevChoice === choice){
     delete triState[key];
     const detail = document.getElementById('tri-' + stepId + '-' + itemN + '-detail');
     if(detail) detail.classList.remove('open');
+    if(hint) hint.classList.remove('open');
     updateProgress();
     updateFeedback(stepId);
+    saveDiag();
+    refreshStepLocks();
     return;
   }
 
@@ -10608,11 +10834,56 @@ function triSelect(stepId, itemN, choice){
     detail.classList.toggle('open', choice === 'yes');
   }
 
+  // ── Mode « Je suis bloqué » : rassurer, orienter, mettre de côté ──
+  if(choice === 'blocked'){
+    ensureBlockedHint(item).classList.add('open');
+  } else if(hint){
+    hint.classList.remove('open');
+  }
+
   updateProgress();
   updateFeedback(stepId);
   saveDiag();
   refreshStepLocks();
+  if(typeof refreshDashboard === 'function' && choice === 'blocked') refreshDashboard();
 }
+
+// ── Mode « Je suis bloqué » — injection et aide contextuelle ──
+// Le 3e bouton est injecté en JS pour ne pas dupliquer 30 blocs HTML.
+function injectBlockedButtons(){
+  document.querySelectorAll('.tri-item').forEach(item => {
+    const btns = item.querySelector('.tri-btns');
+    if(!btns || btns.querySelector('.tri-btn.blocked')) return;
+    const yesBtn = btns.querySelector('.tri-btn.yes');
+    if(!yesBtn) return;
+    const m = (yesBtn.getAttribute('onclick') || '').match(/triSelect\('([^']+)',\s*(\d+),/);
+    if(!m) return;
+    const b = document.createElement('button');
+    b.className = 'tri-btn blocked';
+    b.innerHTML = '<span class="tri-btn-icon">\u{1F914}</span><span class="tri-btn-lbl">Bloqu\u00e9</span>';
+    b.setAttribute('onclick', "triSelect('" + m[1] + "'," + m[2] + ",'blocked')");
+    btns.appendChild(b);
+  });
+}
+
+function ensureBlockedHint(item){
+  let h = item.querySelector('.tri-blocked-hint');
+  if(!h){
+    h = document.createElement('div');
+    h.className = 'tri-blocked-hint';
+    h.innerHTML = '\u{1F914} <strong>Point mis de c\u00f4t\u00e9</strong> &#8212; pas d&#39;inqui\u00e9tude, c&#39;est normal de ne pas tout savoir tout de suite. Vous le retrouverez dans <strong>&#171;&nbsp;Ce qu&#39;il vous reste \u00e0 faire&nbsp;&#187;</strong> sur l&#39;Accueil. L&#39;onglet <strong>Je m&#39;informe</strong> et le glossaire \u{1F4AC} peuvent vous aider \u00e0 d\u00e9bloquer la situation &#8212; et ce point ne vous emp\u00eache pas de continuer le parcours.';
+    item.appendChild(h);
+  }
+  return h;
+}
+
+// Correspondance stepId tristate → étape DOM (pour l'Accueil et la navigation)
+const TRI_STEP_DOM = {
+  step1:'step-1b', step2new:'step-2b', step3new:'step-3b', step3ass:'step-3b',
+  step5new:'step-5b', step2:'step-6b', step3:'step-7b', step5:'step-8b',
+  step7:'step-9b', step6:'step-10b', step11:'step-11b', step11exp:'step-11b',
+  step8:'step-11b', step13:'step-13b'
+};
 
 function countTriItems(stepId){
   let total = 0, answered = 0;
@@ -10628,12 +10899,16 @@ function countTriItems(stepId){
 function updateFeedback(stepId){
   const fb = document.getElementById('fb-' + stepId);
   if(!fb) return;
-  const items = document.querySelectorAll('[id^="tri-' + stepId + '-"][id$="-detail"]');
-  const answered = items.length > 0 ? [...items].filter((_,i) => triState[stepId + '-' + (i+1)]).length : 0;
+  const items = document.querySelectorAll('.tri-item[id^="tri-' + stepId + '-"]');
+  let answered = 0, blocked = 0;
+  items.forEach(it => {
+    const v = triState[(it.id || '').replace(/^tri-/, '')];
+    if(v === 'blocked') blocked++;
+    else if(v) answered++;
+  });
   const total = items.length;
-  if(answered === 0){ fb.classList.remove('visible','done','key','mid','end'); return; }
+  if(answered + blocked === 0){ fb.classList.remove('visible','done','key','mid','end'); return; }
 
-  const pct = Math.round(answered / total * 100);
   const txt = document.getElementById('fb-' + stepId + '-txt');
 
   const keySteps = ['step3','step5','step8'];
@@ -10662,15 +10937,7 @@ function updateFeedback(stepId){
     if(!wasCompleted){
       const msg = stepToasts[stepId] || '✅ Étape complétée — bien joué !';
       showToast(msg, 3000);
-      const stepEl = document.getElementById(stepId === 'step1' ? 'step-1b' :
-        stepId === 'step2' ? 'step-2b' : stepId === 'step2new' ? 'step-2b' :
-        stepId === 'step3' ? 'step-3b' : stepId === 'step3new' ? 'step-3b' :
-        stepId === 'step4' ? 'step-4b' : stepId === 'step5' ? 'step-5b' :
-        stepId === 'step6' ? 'step-6b' : stepId === 'step7' ? 'step-7b' :
-        stepId === 'step8' ? 'step-8b' : stepId === 'step9' ? 'step-9b' :
-        stepId === 'step10' ? 'step-11b' : stepId === 'step11' ? 'step-11b' :
-        stepId === 'step12' ? 'step-12b' : stepId === 'step13' ? 'step-13b' :
-        stepId === 'step14' ? 'step-14b' : null);
+      const stepEl = document.getElementById(TRI_STEP_DOM[stepId] || '');
       if(stepEl){
         const hdr = stepEl.querySelector('.diag-step-header');
         if(hdr){
@@ -10686,9 +10953,12 @@ function updateFeedback(stepId){
       : '✅ Étape renseignée — bien noté !';
     checkMidFeedback();
     checkEndFeedback();
+  } else if(answered + blocked === total){
+    fb.className = 'step-feedback visible key';
+    if(txt) txt.textContent = '🤔 ' + answered + ' / ' + total + ' renseignés — ' + blocked + ' point' + (blocked>1?'s':'') + ' mis de côté, à retrouver sur l\u2019Accueil. Vous pouvez continuer !';
   } else {
     fb.className = 'step-feedback visible done';
-    if(txt) txt.textContent = `${answered} / ${total} points renseignés — continuez !`;
+    if(txt) txt.textContent = answered + ' / ' + total + ' points renseignés' + (blocked > 0 ? ' (' + blocked + ' mis de côté)' : '') + ' — continuez !';
   }
 }
 
