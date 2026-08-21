@@ -571,6 +571,23 @@ button, .nav-item, .diag-step-header, .section-header,
   width:10px; height:10px;
   background:#1a3a6e; transform:rotate(45deg);
 }
+
+/* ── Mon Dossier Cockpit ── */
+.dos-hm-tile{background:#e8e0d0;border-radius:8px;padding:7px 8px;border:2px solid #c0b090;transition:background .3s,border-color .3s;}
+.dos-hm-tile.grey{background:#dedbd4;border-color:#b8b5af;}
+.dos-hm-label{font-size:7.5px;font-weight:600;color:#4a3820;margin-bottom:2px;}
+.dos-hm-tile.grey .dos-hm-label{color:#9a9890;}
+.dos-hm-val{font-size:14px;font-weight:500;color:#4a3820;line-height:1;}
+.dos-hm-tile.grey .dos-hm-val{color:#9a9890;}
+.dos-hm-bar{background:rgba(0,0,0,.1);border-radius:2px;height:3px;overflow:hidden;margin-top:3px;}
+.dos-hm-fill{height:100%;border-radius:2px;background:rgba(0,0,0,.25);transition:width .6s;}
+.dos-hm-tile.grey .dos-hm-fill{background:#c8c5bf;}
+.dos-mini-doc{width:22px;height:28px;background:#fff;border:0.5px solid #D3D1C7;border-radius:2px;display:flex;flex-direction:column;padding:2px;gap:1.5px;}
+.dos-mini-doc::before,.dos-mini-doc::after{content:'';display:block;height:1.5px;background:#D3D1C7;border-radius:1px;}
+.dos-mini-doc::before{width:90%;}
+.dos-mini-doc::after{width:70%;}
+/* ─────────────────────────── */
+
 </style>
 <script>
 const TOTAL_CHECKS = 106;
@@ -792,7 +809,8 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
   border:none;
   position:absolute;
   top:50%; left:50%;
-  transform:translate(-50%, -50%) scale(0.72);
+  transform:translate(-50%, -50%) scale(var(--phone-scale, 0.72));
+  transform-origin:center center;
 }
 /* ── Mobile tactile : plein écran ──
    Seuls les vrais appareils tactiles (smartphones) basculent en plein écran.
@@ -802,7 +820,7 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
   .nav-item  { padding:4px 0 2px; }
   .nav-icon  { font-size:15px; }
   .nav-label { font-size:8px; }
-  .glossaire-overlay { height:26px; }
+  .glossaire-overlay { height:34px; background:transparent; position:absolute; z-index:19; border-radius:16px 16px 0 0; overflow:hidden; display:flex; flex-direction:column; transition:height .35s cubic-bezier(.4,0,.2,1); }
 }
 /* ── Paysage ── */
 @media (orientation: landscape) and (max-height: 500px) {
@@ -810,6 +828,56 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
   .nav-icon  { font-size:14px; }
   .nav-label { font-size:7.5px; }
   .glossaire-overlay { height:24px; }
+}
+/* ── Échelles automatiques selon la hauteur disponible (desktop) ── */
+@media (max-height: 950px) { :root { --phone-scale: 0.68; } }
+@media (max-height: 860px) { :root { --phone-scale: 0.62; } }
+@media (max-height: 780px) { :root { --phone-scale: 0.56; } }
+@media (max-height: 700px) { :root { --phone-scale: 0.50; } }
+@media (max-height: 620px) { :root { --phone-scale: 0.44; } }
+@media (max-height: 540px) { :root { --phone-scale: 0.38; } }
+
+/* ══ SMARTPHONE — Plein écran natif ══
+   pointer:coarse = écran tactile (smartphone/tablette)
+   Sur ordinateur (pointer:fine = souris), le phone maquette reste visible */
+@media (pointer: coarse) and (hover: none) {
+  html, body {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
+  body {
+    background: #faf8f4;
+    display: block;
+    padding: 0;
+    margin: 0;
+  }
+  .phone {
+    position: fixed !important;
+    top: 0 !important; left: 0 !important;
+    width: 100% !important;
+    height: 100dvh !important;
+    transform: none !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    display: flex !important;
+    flex-direction: column !important;
+  }
+  .header {
+    flex-shrink: 0 !important;
+    padding-top: max(18px, env(safe-area-inset-top, 18px));
+  }
+  .content {
+    flex: 1 !important;
+    overflow: hidden !important;
+    min-height: 0 !important;
+    position: relative;
+  }
+  .bottom-nav {
+    flex-shrink: 0 !important;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
 }
 .phone.dark { background:#1a1f1a !important; }
 .phone.dark .screen { background:#1a1f1a !important; color:#d4e8d0 !important; }
@@ -1088,9 +1156,9 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
 .diag-step-title { font-size:13px; font-weight:700; color:#2d3a1e; line-height:1.4; flex:1; }
 .diag-step-emoji { font-size:20px; flex-shrink:0; }
 .diag-step-intro { font-size:11px; color:#7a6a52; margin-bottom:8px; line-height:1.5; }
-#screen-diag.theme-p1 { --theme-accent:#6E5836; --theme-grad:linear-gradient(135deg,#8A7048,#6E5836); --theme-yes-bg:#EDE3D3; --theme-yes-text:#5A4A2E; }
-#screen-diag.theme-p2 { --theme-accent:#8A4A28; --theme-grad:linear-gradient(135deg,#A8643E,#8A4A28); --theme-yes-bg:#EAD2C4; --theme-yes-text:#6E3E22; }
-#screen-diag.theme-p3 { --theme-accent:#7A5024; --theme-grad:linear-gradient(135deg,#98683A,#7A5024); --theme-yes-bg:#E8D4BC; --theme-yes-text:#4A3014; }
+#screen-diag.theme-p1 { --theme-accent:#2d5a27; --theme-grad:linear-gradient(135deg,#2d5a27,#4a7a38); --theme-yes-bg:#f0ece4; --theme-yes-text:#6E5836; }
+#screen-diag.theme-p2 { --theme-accent:#c06030; --theme-grad:linear-gradient(135deg,#8a4a28,#c06030); --theme-yes-bg:#f4ece4; --theme-yes-text:#8A4A28; }
+#screen-diag.theme-p3 { --theme-accent:#a07030; --theme-grad:linear-gradient(135deg,#7a5024,#a07030); --theme-yes-bg:#ece4d8; --theme-yes-text:#7A5024; }
 .diag-check-item { display:flex; align-items:flex-start; gap:10px; padding:8px 10px; border-radius:9px; margin-bottom:6px; background:#faf8f4; cursor:pointer; transition:background 0.2s; }
 .diag-check-item:hover { background:#e8f5e4; }
 .diag-check-item.checked { background:#e8f5e4; }
@@ -1233,8 +1301,8 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
 .push-notif-text { font-size:11px; color:#4a5a6a; line-height:1.4; }
 .push-notif-time { font-size:10px; color:#9a8a72; margin-top:3px; }
 .push-notif-close { font-size:14px; color:#ccc; cursor:pointer; flex-shrink:0; background:none; border:none; }
-.bottom-nav { background:linear-gradient(160deg,#2d5a27 0%,#1a3a6e 100%); display:flex; border-top:none; padding:0 0 2px; flex-shrink:0; height:60px; position:relative; z-index:10; overflow:hidden; }
-.nav-item { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; cursor:pointer; padding:4px 2px 2px; border:none; background:transparent; border-top:3px solid transparent; transition:border-color 0.2s; }
+.bottom-nav { background:transparent; display:block; border-top:none; padding:0; flex-shrink:0; height:0; overflow:visible; position:static; z-index:0; }
+.nav-item { flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; cursor:pointer; padding:4px 2px; border:none; background:transparent; border-top:none; border-radius:10px; transition:background .2s; }
 .nav-badge-dot {
   position:absolute; top:4px; right:18%;
   width:8px; height:8px; border-radius:50%;
@@ -1242,13 +1310,13 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
   animation:navBadgePulse 2s infinite;
 }
 @keyframes navBadgePulse { 0%,100% { opacity:1; } 50% { opacity:.5; } }
-.nav-item.active { border-top-color:#f5a623; }
+.nav-item.active { background:#fff; box-shadow:0 1px 6px rgba(26,58,110,.18); }
 .nav-icon { font-size:20px; line-height:1; }
 @keyframes navIconPulse { 0%{transform:scale(1);} 40%{transform:scale(1.25);} 100%{transform:scale(1);} }
 .nav-icon.nav-icon-pulse { animation: navIconPulse .45s cubic-bezier(.34,1.56,.64,1); display:inline-block; }
-.nav-label { font-size:9.5px; font-weight:600; color:rgba(255,255,255,0.5); text-align:center; line-height:1.15; white-space:nowrap; letter-spacing:-.1px; }
-.nav-item.active .nav-label { color:#fff; font-weight:700; }
-.nav-icon { font-size:18px; line-height:1; }
+.nav-label { font-size:7px; font-weight:500; color:rgba(255,255,255,.6); text-align:center; line-height:1.1; white-space:nowrap; letter-spacing:-.2px; }
+.nav-item.active .nav-label { color:#2d5a27; font-weight:700; }
+.nav-icon { font-size:15px; line-height:1; }
 .nav-item.active .nav-icon { transform:scale(1.12); display:inline-block; }
 .nav-dot { display:none; }
 @keyframes barPulse{0%{box-shadow:0 0 0 0 rgba(74,124,63,0.5)}100%{box-shadow:0 0 0 6px rgba(74,124,63,0)}}
@@ -1501,6 +1569,75 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
 #dash-vue-ensemble.vs-p2 { --vs-done:#1a3a6e; --vs-now:#4a7aae; --vs-next:#6a3a8e; }
 #dash-vue-ensemble.vs-p3 { --vs-done:#9a7820; --vs-now:#C9A23A; --vs-next:#7a5a10; }
 
+/* ════ THÈME PROFIL GLOBAL ════
+   Appliqué sur .phone via JS selectProfil()
+   Propage --app-accent, --app-accent-light, --app-header-a, --app-header-b
+   sur tous les onglets en une seule variable root */
+
+/* ── Thème profil global — palette calée sur les profil-cards de l'accueil ── */
+.phone.app-theme-p1 {
+  --app-accent:  #2d5a27;   /* vert CTA card p1 */
+  --app-accent2: #4a7a38;
+  --app-light:   #f0ece4;   /* sable clair p1 */
+  --app-light2:  #e8e2d8;
+  --app-border:  #d8cfc0;
+  --app-text:    #6E5836;
+  --app-ring:    #C9A23A;
+}
+.phone.app-theme-p2 {
+  --app-accent:  #c06030;   /* CTA card p2 */
+  --app-accent2: #8a4a28;
+  --app-light:   #f4ece4;   /* sable-pêche p2 */
+  --app-light2:  #ead8c4;
+  --app-border:  #d8b8a0;
+  --app-text:    #8A4A28;
+  --app-ring:    #C08040;
+}
+.phone.app-theme-p3 {
+  --app-accent:  #a07030;   /* CTA card p3 */
+  --app-accent2: #7a5024;
+  --app-light:   #ece4d8;   /* sable-or p3 */
+  --app-light2:  #dcd0b4;
+  --app-border:  #c8b090;
+  --app-text:    #7A5024;
+  --app-ring:    #A87840;
+}
+
+/* Header : couleur fixe, ne change pas selon le profil */
+
+/* Anneau et barres dans refreshDashboard */
+.phone[class*="app-theme-"] #dash-ring-diag   { stroke:var(--app-accent) !important; }
+.phone[class*="app-theme-"] #dash-ring-dossier { stroke:var(--app-ring) !important; }
+.phone[class*="app-theme-"] #dash-ring-maison  { stroke:var(--app-accent2) !important; }
+
+/* Vue d'ensemble bouton Continuer */
+.phone.app-theme-p1 .dash-next-btn  { background:#2d5a27 !important; }
+.phone.app-theme-p2 .dash-next-btn  { background:#c06030 !important; }
+.phone.app-theme-p3 .dash-next-btn  { background:#a07030 !important; }
+.phone.app-theme-p1 .dash-next-btn, .phone.app-theme-p1 #dash-profil-filled .btn-reprendre { background:#2d5a27 !important; }
+.phone.app-theme-p2 .dash-next-btn, .phone.app-theme-p2 #dash-profil-filled .btn-reprendre { background:#c06030 !important; }
+.phone.app-theme-p3 .dash-next-btn, .phone.app-theme-p3 #dash-profil-filled .btn-reprendre { background:#a07030 !important; }
+
+/* Mon Dossier — heatmap tiles */
+.phone[class*="app-theme-"] .dos-hm-tile:not(.grey) { background:var(--app-light); border-color:var(--app-border); }
+.phone[class*="app-theme-"] .dos-hm-tile:not(.grey) .dos-hm-label { color:var(--app-text); }
+.phone[class*="app-theme-"] .dos-hm-tile:not(.grey) .dos-hm-val   { color:var(--app-accent); }
+.phone[class*="app-theme-"] .dos-hm-fill { background:var(--app-accent) !important; opacity:.7; }
+
+/* Bottom nav dot couleur profil */
+.phone[class*="app-theme-"] .nav-dot { background:var(--app-accent) !important; }
+
+/* ── Thèmes profil Mon Dossier ── */
+#screen-dossier.dos-theme-p1 { --dos-accent:#2D5A27; --dos-light:#e8f4e0; --dos-ring:#c8a84a; }
+#screen-dossier.dos-theme-p2 { --dos-accent:#1a3a6e; --dos-light:#e8f0fc; --dos-ring:#c8a84a; }
+#screen-dossier.dos-theme-p3 { --dos-accent:#7a4e20; --dos-light:#f5e8d8; --dos-ring:#f0d898; }
+
+#screen-dossier[class*="dos-theme-"] .dos-hm-tile        { background:var(--dos-light); border-color:var(--dos-accent); }
+#screen-dossier[class*="dos-theme-"] .dos-hm-fill        { background:var(--dos-accent); opacity:.6; }
+#screen-dossier[class*="dos-theme-"] .dos-hm-tile.grey   { background:#e8e6e0; border-color:#c8c5bf; }
+#screen-dossier[class*="dos-theme-"] .dos-hm-tile.grey .dos-hm-fill { background:#c8c5bf; opacity:1; }
+#screen-dossier[class*="dos-theme-"] #dos-pdf-bar        { background:var(--dos-accent) !important; }
+
 /* ── Accueil : tailles de texte allégées ── */
 #screen-accueil .page-title { font-size:15px; }
 #screen-accueil .dash-card-title { font-size:9.5px; }
@@ -1510,19 +1647,19 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
 #screen-accueil .dash-vs-sub { font-size:8px; }
 #screen-accueil .dash-next-text { font-size:10px; }
 #screen-accueil .dash-next-btn { font-size:9.5px; padding:5px 9px; }
-#screen-diag.theme-p1 { --theme-accent:#2D5A27; --theme-banner-bg:linear-gradient(135deg,#eef8ea,#e0f0d8); --theme-banner-border:#4a7c3f; --theme-banner-color:#1a4a18; --theme-opt-label:#4a7c3f; }
-#screen-diag.theme-p2 { --theme-accent:#B8891A; --theme-banner-bg:linear-gradient(135deg,#fdf6e8,#f5e8c8); --theme-banner-border:#C9A23A; --theme-banner-color:#6A4A00; --theme-opt-label:#8a6a1a; }
-#screen-diag.theme-p3 { --theme-accent:#8A3820; --theme-banner-bg:linear-gradient(135deg,#fbf0ec,#f5ddd0); --theme-banner-border:#A05030; --theme-banner-color:#6A2A10; --theme-opt-label:#8a3a20; }
+#screen-diag.theme-p1 { --theme-accent:#2d5a27; --theme-banner-bg:linear-gradient(135deg,#f0ece4,#e8e2d8); --theme-banner-border:#d8cfc0; --theme-banner-color:#6E5836; --theme-opt-label:#2d5a27; }
+#screen-diag.theme-p2 { --theme-accent:#c06030; --theme-banner-bg:linear-gradient(135deg,#f4ece4,#ead8c4); --theme-banner-border:#d8b8a0; --theme-banner-color:#8A4A28; --theme-opt-label:#c06030; }
+#screen-diag.theme-p3 { --theme-accent:#a07030; --theme-banner-bg:linear-gradient(135deg,#ece4d8,#dcd0b4); --theme-banner-border:#c8b090; --theme-banner-color:#7A5024; --theme-opt-label:#a07030; }
 #screen-diag[class*="theme-"] .profil-info-banner-wrap { background:var(--theme-banner-bg); border-color:var(--theme-banner-border); color:var(--theme-banner-color); }
 #screen-diag[class*="theme-"] .diag-step.profil-info { border-color:var(--theme-accent) !important; opacity:.72; }
 #screen-diag[class*="theme-"] .diag-step.profil-info .diag-step-num { background:var(--theme-accent) !important; opacity:.6; }
 #screen-diag[class*="theme-"] .profil-step-badge.info { background:var(--theme-accent); color:#fff; opacity:.85; }
-#screen-diag.theme-p1 .diag-step-num { background:linear-gradient(135deg,#2d5a27,#4a7c3f); }
-#screen-diag.theme-p2 .diag-step-num { background:linear-gradient(135deg,#B8891A,#C9A23A); }
-#screen-diag.theme-p3 .diag-step-num { background:linear-gradient(135deg,#8A3820,#A05030); }
-#screen-diag.theme-p1 .tri-btn.yes.active  { background:linear-gradient(135deg,#e0f4d8,#c8e8c0) !important; color:#1a4a18 !important; }
-#screen-diag.theme-p2 .tri-btn.yes.active  { background:linear-gradient(135deg,#fdf0d0,#f5e0a8) !important; color:#6A4A00 !important; }
-#screen-diag.theme-p3 .tri-btn.yes.active  { background:linear-gradient(135deg,#f8e4dc,#f0c8b8) !important; color:#6A2A10 !important; }
+#screen-diag.theme-p1 .diag-step-num { background:linear-gradient(135deg,#2d5a27,#4a7a38); }
+#screen-diag.theme-p2 .diag-step-num { background:linear-gradient(135deg,#8a4a28,#c06030); }
+#screen-diag.theme-p3 .diag-step-num { background:linear-gradient(135deg,#7a5024,#a07030); }
+#screen-diag.theme-p1 .tri-btn.yes.active  { background:linear-gradient(135deg,#f0ece4,#e8e2d8) !important; color:#2d5a27 !important; }
+#screen-diag.theme-p2 .tri-btn.yes.active  { background:linear-gradient(135deg,#f4ece4,#ead8c4) !important; color:#8A4A28 !important; }
+#screen-diag.theme-p3 .tri-btn.yes.active  { background:linear-gradient(135deg,#ece4d8,#dcd0b4) !important; color:#7A5024 !important; }
 #screen-diag.theme-p1 .tri-btn.blocked.active { background:linear-gradient(160deg,#f7ecd2,#f0e0b8) !important; }
 #screen-diag.theme-p2 .tri-btn.blocked.active { background:linear-gradient(160deg,#fdf6e8,#f5e8c8) !important; }
 #screen-diag.theme-p3 .tri-btn.blocked.active { background:linear-gradient(160deg,#fdf0ec,#f5ddd0) !important; }
@@ -1631,15 +1768,29 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
     <div class="gl-src" id="gl-src"></div>
   </div>
 
-  <div class="header" style="background:linear-gradient(160deg,#1a3a6e 0%,#2d5a27 100%);padding:18px 14px 24px;clip-path:ellipse(110% 92% at 50% 0%);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:390;">
-    <div class="header-arch-logo" style="font-size:1.22em;">
+  <div class="header" id="app-header" style="background:linear-gradient(160deg,#1a3a6e 0%,#2d5a27 100%);padding:14px 14px 22px;clip-path:ellipse(110% 92% at 50% 0%);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:390;">
+
+    <!-- ☁️ coin haut gauche — légèrement plus bas -->
+    <span id="cloud-badge-slot" title="Statut cloud"
+      style="position:absolute;top:18px;left:16px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:15px;backdrop-filter:blur(4px);opacity:.75;pointer-events:none;">☁</span>
+
+    <!-- ⚙️ coin haut droit — légèrement plus bas -->
+    <button id="params-btn" onclick="openParamsScreen()" title="Paramètres"
+      style="position:absolute;top:18px;right:16px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:background .2s;">⚙️</button>
+
+    <!-- Logo centré agrandi -->
+    <div class="header-arch-logo" style="font-size:1.45em;margin-bottom:0;">
       <span class="g">argi</span><span class="q">Q</span><span class="a">are</span>
     </div>
-    <!-- Cloud + Params juste sous le logo, côte à côte -->
-    <div style="display:flex;align-items:center;gap:10px;margin-top:6px;">
-      <span id="cloud-badge-slot" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);display:flex;align-items:center;justify-content:center;font-size:14px;backdrop-filter:blur(4px);opacity:.6;pointer-events:none;" title="Statut cloud">☁️</span>
-      <button id="params-btn" onclick="openParamsScreen()" style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:background .2s;" title="Paramètres">⚙️</button>
+  </div>
+
+  <!-- Barre de recherche sous le header — inline avec le Bonjour -->
+  <div id="dash-search-wrap" style="display:none;padding:8px 14px 4px;background:#fff;border-bottom:1px solid #eee;position:relative;z-index:380;">
+    <div style="position:relative;">
+      <span class="dash-search-icon">🔍</span>
+      <input id="dash-search-input" class="dash-search-input" type="search" placeholder="Rechercher dans ArgiQare…" oninput="dashSearch(this.value)" style="width:100%;padding:8px 10px 8px 34px;border:1.5px solid #e0d8cc;border-radius:10px;font-size:12px;font-family:inherit;box-sizing:border-box;outline:none;">
     </div>
+    <div id="dash-search-results" class="dash-search-results"></div>
   </div>
 
   <!-- POPUP "AVANT DE COMMENCER" — au niveau .phone, z-index max -->
@@ -2028,6 +2179,230 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
 
   <div class="content">
   <div class="screens-wrapper" id="screens-wrapper">
+
+    <!-- ===== ACCUEIL ===== -->
+    <div class="screen" id="screen-accueil">
+
+      <!-- Greeting -->
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
+        <div id="dash-greeting-title" style="font-size:13px;font-weight:800;color:#1a2a0e;flex:1;"></div>
+        <button id="dash-search-toggle" onclick="toggleDashSearch()" title="Rechercher"
+          style="width:30px;height:30px;border-radius:50%;background:#f0ece4;border:1px solid #e0d8cc;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .2s;">🔍</button>
+      </div>
+      <div id="dash-reassurance-banner" style="font-size:10px;color:#5a6a52;margin-bottom:10px;line-height:1.4;"></div>
+
+      <!-- Profil vide -->
+      <div id="dash-profil-empty" style="display:block;">
+        <div style="font-size:11px;font-weight:700;color:#2d5a27;margin-bottom:8px;">Choisissez votre profil pour commencer</div>
+
+        <div class="profil-card p1" onclick="dashSelectProfil(1)">
+          <div class="profil-card-bg"></div>
+          <div class="profil-card-top">
+            <div class="profil-card-ic">1</div>
+            <div class="profil-card-body">
+              <div class="profil-card-tag">PROFIL</div>
+            </div>
+          </div>
+          <div class="profil-card-divider"></div>
+          <div class="profil-card-title">Je viens de constater une fissure</div>
+          <div class="profil-card-sub">Je ne sais pas encore si c&#39;est le RGA. Je démarre depuis le début et veux constituer mon dossier complet.</div>
+          <div class="profil-card-footer">
+            <button class="profil-card-cta" onclick="dashSelectProfil(1);event.stopPropagation()">▶ Démarrer le parcours complet</button>
+          </div>
+        </div>
+
+        <div class="profil-card p2" onclick="dashSelectProfil(2)">
+          <div class="profil-card-bg"></div>
+          <div class="profil-card-top">
+            <div class="profil-card-ic">2</div>
+            <div class="profil-card-body">
+              <div class="profil-card-tag">PROFIL</div>
+            </div>
+          </div>
+          <div class="profil-card-divider"></div>
+          <div class="profil-card-title">Je viens de déclarer mon sinistre et/ou j&#39;attends l&#39;arrêté Cat Nat</div>
+          <div class="profil-card-sub">Mon sinistre est déclaré mais ma commune n&#39;est pas encore reconnue. Je prépare mon dossier en attendant.</div>
+          <div class="profil-card-footer">
+            <button class="profil-card-cta" onclick="dashSelectProfil(2);event.stopPropagation()">▶ Rejoindre à l&#39;étape 4</button>
+          </div>
+        </div>
+
+        <div class="profil-card p3" onclick="dashSelectProfil(3)">
+          <div class="profil-card-bg"></div>
+          <div class="profil-card-top">
+            <div class="profil-card-ic">3</div>
+            <div class="profil-card-body">
+              <div class="profil-card-tag">PROFIL</div>
+            </div>
+          </div>
+          <div class="profil-card-divider"></div>
+          <div class="profil-card-title">Un expert est missionné pour mon dossier</div>
+          <div class="profil-card-sub">L&#39;expertise est en cours ou terminée. Je suis en phase d&#39;indemnisation et de réparation de mon bien.</div>
+          <div class="profil-card-footer">
+            <button class="profil-card-cta" onclick="dashSelectProfil(3);event.stopPropagation()">▶ Rejoindre à l&#39;étape 10</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Profil rempli -->
+      <div id="dash-profil-filled" style="display:none;">
+        <div class="dash-card" style="margin-bottom:6px;" id="dash-profil-card">
+          <div style="display:flex;align-items:stretch;border-radius:10px;overflow:hidden;border:1px solid #e0dcd0;">
+            <div id="dash-profil-badge" style="width:40px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex-shrink:0;padding:8px 0;border-right:1px solid rgba(0,0,0,.08);">
+              <span id="dash-profil-badge-num" style="font-size:15px;font-weight:800;font-family:Georgia,serif;line-height:1;"></span>
+              <span style="font-size:5.5px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;opacity:.7;">Profil</span>
+            </div>
+            <div id="dash-profil-filled-inner" style="flex:1;padding:8px 10px;">
+              <div id="dash-profil-title" style="font-size:10px;font-weight:800;color:#1a2a0e;margin-bottom:2px;"></div>
+              <div id="dash-profil-sub" style="font-size:8px;color:#7a6a52;line-height:1.4;margin-bottom:6px;"></div>
+              <div style="display:flex;gap:6px;margin-top:2px;">
+                <button onclick="goToStep(null)" style="font-size:9px;font-weight:700;background:#2d5a27;color:#fff;border:none;border-radius:8px;padding:5px 10px;cursor:pointer;font-family:inherit;flex:1;">Reprendre →</button>
+                <button onclick="dashChangerProfil()" style="font-size:9px;font-weight:600;background:#f0ece4;color:#5a6a52;border:none;border-radius:8px;padding:5px 10px;cursor:pointer;font-family:inherit;">Changer de profil</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Anneaux avancement -->
+        <div class="dash-card" style="padding:10px 11px;">
+          <div class="dash-card-title">Avancement de votre parcours</div>
+          <div class="dash-rings-card">
+            <div style="position:relative;flex-shrink:0;">
+              <svg width="100" height="100" viewBox="0 0 100 100">
+                <!-- Anneau extérieur : Mon Parcours -->
+                <circle cx="50" cy="50" r="47" fill="none" stroke="#e8e4dc" stroke-width="6"/>
+                <circle id="dash-ring-diag" cx="50" cy="50" r="47" fill="none" stroke="#2D5A27" stroke-width="6"
+                  stroke-dasharray="295.3" stroke-dashoffset="295.3" stroke-linecap="round"
+                  transform="rotate(-90 50 50)" style="transition:stroke-dashoffset .8s ease;"/>
+                <!-- Anneau médian : Mon Dossier -->
+                <circle cx="50" cy="50" r="35" fill="none" stroke="#e8e4dc" stroke-width="6"/>
+                <circle id="dash-ring-dossier" cx="50" cy="50" r="35" fill="none" stroke="#1a3a6e" stroke-width="6"
+                  stroke-dasharray="219.9" stroke-dashoffset="219.9" stroke-linecap="round"
+                  transform="rotate(-90 50 50)" style="transition:stroke-dashoffset .8s ease;"/>
+                <!-- Anneau intérieur : Ma Maison -->
+                <circle cx="50" cy="50" r="23" fill="none" stroke="#e8e4dc" stroke-width="6"/>
+                <circle id="dash-ring-maison" cx="50" cy="50" r="23" fill="none" stroke="#C9A23A" stroke-width="6"
+                  stroke-dasharray="144.5" stroke-dashoffset="144.5" stroke-linecap="round"
+                  transform="rotate(-90 50 50)" style="transition:stroke-dashoffset .8s ease;"/>
+                <text id="dash-rings-pct" x="50" y="50" text-anchor="middle" dominant-baseline="central"
+                  style="font-size:12px;font-weight:800;fill:#1a2a0e;font-family:Georgia,serif;">0%</text>
+              </svg>
+            </div>
+            <div class="dash-rings-leg">
+              <div class="dash-rings-leg-row">
+                <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;border-radius:50%;background:#2D5A27;display:inline-block;"></span>Mon Parcours</span>
+                <b id="dash-ring-leg-diag">—</b>
+              </div>
+              <div class="dash-rings-leg-row">
+                <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;border-radius:50%;background:#1a3a6e;display:inline-block;"></span>Mon Dossier</span>
+                <b id="dash-ring-leg-dossier">—</b>
+              </div>
+              <div class="dash-rings-leg-row">
+                <span style="display:flex;align-items:center;gap:4px;"><span style="width:8px;height:8px;border-radius:50%;background:#C9A23A;display:inline-block;"></span>Ma Maison</span>
+                <b id="dash-ring-leg-maison">—</b>
+              </div>
+            </div>
+          </div>
+          <!-- Bulle dernière sauvegarde -->
+          <div id="dash-last-save-bubble" style="display:flex;align-items:center;gap:7px;background:#F5F8F4;border-radius:9px;padding:5px 10px;font-size:8.5px;color:#7a8a72;font-weight:600;margin-top:8px;">
+            <span style="font-size:12px;flex-shrink:0;">💾</span>
+            <span id="dash-last-save-txt">Aucune modification enregistrée</span>
+          </div>
+        </div>
+
+        <!-- Vue d'ensemble -->
+        <div class="dash-card" id="dash-vue-ensemble">
+          <div class="dash-card-title">Votre position dans le parcours</div>
+          <div id="dash-vs-container"></div>
+          <div class="dash-next-step" style="margin-top:8px;display:flex;align-items:center;gap:8px;background:#f7f5f0;border-radius:10px;padding:8px 10px;">
+            <div class="dash-next-text" style="flex:1;font-size:10px;color:#4a5a42;">
+              Prochaine étape <span id="dash-next-step-counter" style="color:#7a8a6a;font-weight:700;"></span> : <strong id="dash-next-step-label">Observation d'une fissure</strong>
+            </div>
+            <button class="dash-next-btn" id="dash-next-btn" onclick="goToStep(null)" style="font-size:9.5px;font-weight:700;background:#2d5a27;color:#fff;border:none;border-radius:8px;padding:5px 10px;cursor:pointer;font-family:inherit;white-space:nowrap;">Continuer →</button>
+          </div>
+        </div>
+
+        <!-- Expert -->
+        <div id="dash-expert-card" class="dash-card" style="border:1.5px solid #e0d8cc;">
+          <div class="dash-card-title">📞 Contacter mon expert</div>
+
+          <!-- Champs libres toujours visibles -->
+          <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:8px;">
+            <div>
+              <div style="font-size:8px;font-weight:700;color:#9a8a72;margin-bottom:2px;text-transform:uppercase;letter-spacing:.4px;">Nom et prénom</div>
+              <input id="m_expert_nom" type="text" placeholder="Ex : Jean Dupont"
+                style="width:100%;padding:7px 10px;border:1.5px solid #e0d8cc;border-radius:8px;font-size:11px;font-family:inherit;box-sizing:border-box;background:#fafaf8;color:#1a2a0e;outline:none;"
+                oninput="saveExpertFields()" />
+            </div>
+            <div>
+              <div style="font-size:8px;font-weight:700;color:#9a8a72;margin-bottom:2px;text-transform:uppercase;letter-spacing:.4px;">Téléphone</div>
+              <input id="m_expert_tel" type="tel" placeholder="Ex : 06 12 34 56 78"
+                style="width:100%;padding:7px 10px;border:1.5px solid #e0d8cc;border-radius:8px;font-size:11px;font-family:inherit;box-sizing:border-box;background:#fafaf8;color:#1a2a0e;outline:none;"
+                oninput="saveExpertFields()" />
+            </div>
+            <div>
+              <div style="font-size:8px;font-weight:700;color:#9a8a72;margin-bottom:2px;text-transform:uppercase;letter-spacing:.4px;">Adresse e-mail</div>
+              <input id="m_expert_mail" type="email" placeholder="Ex : expert@cabinet.fr"
+                style="width:100%;padding:7px 10px;border:1.5px solid #e0d8cc;border-radius:8px;font-size:11px;font-family:inherit;box-sizing:border-box;background:#fafaf8;color:#1a2a0e;outline:none;"
+                oninput="saveExpertFields()" />
+            </div>
+          </div>
+
+          <!-- Boutons d'action (apparaissent si tel ou mail renseigné) -->
+          <div id="dash-expert-actions" style="display:none;display:flex;gap:8px;">
+            <a id="dash-expert-tel-btn" href="#"
+              style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:linear-gradient(135deg,#2D5A27,#4a7c3f);color:#fff;border-radius:10px;padding:9px;font-size:10px;font-weight:800;text-decoration:none;">
+              📱 Appeler
+            </a>
+            <a id="dash-expert-mail-btn" href="#"
+              style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:#8a4a28;color:#fff;border-radius:10px;padding:9px;font-size:10px;font-weight:800;text-decoration:none;">
+              ✉️ E-mail
+            </a>
+          </div>
+
+          <!-- Hint si vide -->
+          <div id="dash-expert-hint" style="font-size:9px;color:#b0a090;text-align:center;margin-top:2px;">
+            Renseignez les coordonnées de votre expert ci-dessus
+          </div>
+        </div>
+
+      </div><!-- /dash-profil-filled -->
+
+      <!-- WIDGET PARTAGE DOSSIER -->
+      <div style="background:linear-gradient(135deg,#eef8ea,#e0f0d8);border-radius:12px;padding:10px 12px;margin-top:4px;border:1px solid #c8dfc0;">
+        <div style="font-size:7.5px;font-weight:700;color:#2d5a27;text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px;">Partager le dossier</div>
+        <div style="display:flex;gap:6px;">
+          <button onclick="shareByEmail()" style="flex:1;background:rgba(45,90,39,.12);border:1px solid rgba(45,90,39,.2);border-radius:8px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <span style="font-size:18px;line-height:1;">✉️</span>
+            <span style="font-size:7.5px;color:#2d5a27;font-family:inherit;font-weight:600;">Par e-mail</span>
+          </button>
+          <button onclick="shareByQR()" style="flex:1;background:rgba(45,90,39,.12);border:1px solid rgba(45,90,39,.2);border-radius:8px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="20" height="20" viewBox="0 0 22 22" style="display:block;">
+              <rect x="1" y="1" width="8" height="8" rx="1" fill="none" stroke="#2d5a27" stroke-width="1.2"/>
+              <rect x="3" y="3" width="4" height="4" rx=".5" fill="#2d5a27"/>
+              <rect x="13" y="1" width="8" height="8" rx="1" fill="none" stroke="#2d5a27" stroke-width="1.2"/>
+              <rect x="15" y="3" width="4" height="4" rx=".5" fill="#2d5a27"/>
+              <rect x="1" y="13" width="8" height="8" rx="1" fill="none" stroke="#2d5a27" stroke-width="1.2"/>
+              <rect x="3" y="15" width="4" height="4" rx=".5" fill="#2d5a27"/>
+              <rect x="11" y="11" width="2" height="2" fill="#2d5a27"/>
+              <rect x="14" y="11" width="2" height="2" fill="#2d5a27"/>
+              <rect x="17" y="11" width="2" height="2" fill="#2d5a27"/>
+              <rect x="11" y="14" width="2" height="2" fill="#2d5a27"/>
+              <rect x="14" y="14" width="2" height="2" fill="#2d5a27"/>
+              <rect x="17" y="17" width="2" height="2" fill="#2d5a27"/>
+              <rect x="11" y="17" width="4" height="2" fill="#2d5a27"/>
+            </svg>
+            <span style="font-size:7.5px;color:#2d5a27;font-family:inherit;font-weight:600;">QR code</span>
+          </button>
+          <button onclick="downloadPDF()" style="flex:1;background:rgba(45,90,39,.12);border:1px solid rgba(45,90,39,.2);border-radius:8px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <span style="font-size:18px;line-height:1;">⬇️</span>
+            <span style="font-size:7.5px;color:#2d5a27;font-family:inherit;font-weight:600;">Télécharger</span>
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /screen-accueil -->
+
 
     <!-- ===== MA MAISON ===== -->
     <div class="screen" id="screen-maison">
@@ -3417,7 +3792,7 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
           </div>
           <div class="tri-item" id="tri-step8-1">
             <div class="tri-item-header">
-              <div class="tri-label">🪛 L'expert a proposé une étude de sol (géotechnique G2) pour analyser la nature du terrain</div>
+              <div class="tri-label">🪛 L'expert a réalisé des investigations techniques sur votre bien</div>
               <div class="tri-btns">
                 <button class="tri-btn yes" onclick="triSelect('step8',1,'yes')"><span class="tri-btn-icon">✓</span><span class="tri-btn-lbl">Oui</span></button>
                 <button class="tri-btn no"  onclick="triSelect('step8',1,'no')"><span class="tri-btn-icon">—</span><span class="tri-btn-lbl">Non / N·A</span></button>
@@ -3425,8 +3800,8 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
             </div>
             <div class="tri-detail" id="tri-step8-1-detail">
               <div style="font-size:10px;color:#5a7a52;font-weight:700;margin-bottom:6px;">Précisez :</div>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Une mission G2 a été prescrite ou réalisée</span></label>
-              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Les résultats de l'étude de sol sont disponibles</span></label>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Les investigations techniques ont été prescrites ou réalisées</span></label>
+              <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">Les résultats des investigations techniques sont disponibles</span></label>
               <label class="tri-sub-item"><input type="checkbox" class="tri-sub-cb diag-cb" onchange="updateProgress()"><span class="tri-sub-label">L'étude confirme la présence d'argile sous les fondations</span></label>
             </div>
           </div>
@@ -3471,7 +3846,7 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
           <input type="file" id="upload-input-rapport-expertise" accept=".pdf,.jpg,.jpeg,.png" style="display:none" onchange="diagUpload('rapport-expertise',this)">
         </div>
         <div style="background:#F5F8F4;border-radius:12px;padding:10px 12px;border:1.5px dashed #b5d9af;margin-top:8px;">
-          <div style="font-size:11px;font-weight:700;color:#2d5a27;margin-bottom:6px;">📎 Rapport géotechnique G2 ou résultats investigations</div>
+          <div style="font-size:11px;font-weight:700;color:#2d5a27;margin-bottom:6px;">📎 Rapport d'investigations techniques ou résultats d'analyse</div>
           <div id="upload-preview-etude-g2" style="display:none;background:#e8f5e4;border-radius:8px;padding:6px 10px;font-size:10px;color:#2d5a27;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:6px;">
             <span>✅</span><span id="upload-name-etude-g2"></span>
             <button onclick="clearUpload('etude-g2')" style="margin-left:auto;background:none;border:none;color:#c04030;cursor:pointer;font-size:14px;line-height:1;">×</button>
@@ -3610,361 +3985,158 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
     </div>
 
     <!-- ===== MON DOSSIER ===== -->
-    <div class="screen" id="screen-dossier">
-      <div class="page-title">📁 Mon Dossier</div>
+    <div class="screen" id="screen-dossier" style="padding:0;display:flex;flex-direction:column;">
 
-      <!-- MENTION DE NON-VALEUR JURIDIQUE — positionnée juste sous le titre -->
-      <div style="background:rgba(154,88,0,.08);border-radius:12px;padding:10px 14px;margin-bottom:12px;display:flex;align-items:flex-start;gap:8px;">
-        <span style="font-size:15px;flex-shrink:0;">⚖️</span>
-        <div style="font-size:10px;color:#6a4a00;line-height:1.55;">Ce dossier est un outil d'accompagnement indicatif, sans valeur juridique. Il ne remplace pas l'avis d'un professionnel — expert, assureur, avocat ou géotechnicien selon votre situation.</div>
-      </div>
+      <!-- ════ COCKPIT MON DOSSIER ════ -->
 
-      <!-- POINT 4 — INDICATEUR DE FRAÎCHEUR DES DONNÉES -->
-      <div id="dossier-freshness" style="display:none;font-size:10px;color:#7a8a6a;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
-        <span>🕐</span><span id="dossier-freshness-text"></span>
-      </div>
+      <!-- HEADER thématique profil -->
+      <div id="dos-header" style="padding:10px 14px 9px;background:#2d5a27;transition:background .4s;flex-shrink:0;">
+        <div style="display:flex;align-items:center;gap:10px;">
 
-      <!-- CYCLE DE VIE + PROGRESSION — carte unifiée -->
-      <div style="background:white;border-radius:18px;padding:0;margin-bottom:12px;box-shadow:0 2px 12px rgba(0,0,0,.07);overflow:hidden;">
+          <!-- Bloc texte : Profil + situation + étape -->
+          <div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:5px;">
+            <div>
+              <div id="dos-profil-label" style="font-size:12px;font-weight:700;color:#fff;line-height:1.15;">Mon dossier</div>
+              <div id="dos-profil-sub" style="font-size:7.5px;color:rgba(255,255,255,.6);margin-top:2px;line-height:1.3;">Choisissez votre profil dans l'accueil</div>
+            </div>
+            <!-- Étape en cours pleine largeur -->
+            <div id="dos-etape-wrap" style="background:rgba(0,0,0,.2);border-radius:7px;padding:5px 8px;display:flex;align-items:center;gap:6px;">
+              <div id="dos-etape-num" style="width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:6.5px;font-weight:700;color:#c8a84a;">—</div>
+              <div style="flex:1;min-width:0;">
+                <div style="font-size:6px;color:rgba(255,255,255,.4);line-height:1;">Étape en cours</div>
+                <div id="dos-etape-titre" style="font-size:8.5px;color:#fff;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">—</div>
+              </div>
+              <span id="dos-etape-prog" style="font-size:7px;color:#c8a84a;white-space:nowrap;flex-shrink:0;"></span>
+            </div>
+          </div>
 
-        <!-- Bandeau supérieur : pourcentage + message -->
-        <div style="background:linear-gradient(135deg,#2d5a27,#4a7c3f);padding:14px 16px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden;">
-          <div style="position:absolute;top:-24px;right:-16px;width:80px;height:80px;border-radius:50%;background:rgba(255,255,255,.06);"></div>
-
-          <!-- Anneau de progression -->
-          <div style="position:relative;width:52px;height:52px;flex-shrink:0;">
-            <svg width="52" height="52" viewBox="0 0 52 52" style="transform:rotate(-90deg);">
-              <circle cx="26" cy="26" r="22" fill="none" stroke="rgba(255,255,255,.18)" stroke-width="5"/>
-              <circle id="lifecycle-ring" cx="26" cy="26" r="22" fill="none" stroke="#D9B654" stroke-width="5"
-                      stroke-linecap="round" stroke-dasharray="138.2" stroke-dashoffset="138.2"
-                      style="transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1);"/>
+          <!-- Grand anneau progression -->
+          <div style="position:relative;width:58px;height:58px;flex-shrink:0;">
+            <svg width="58" height="58" style="transform:rotate(-90deg);position:absolute;inset:0;">
+              <circle cx="29" cy="29" r="24" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.18)" stroke-width="5"/>
+              <circle id="dos-ring-circle" cx="29" cy="29" r="24" fill="none" stroke="#c8a84a" stroke-width="5"
+                stroke-dasharray="150.8" stroke-dashoffset="150.8" stroke-linecap="round"
+                style="transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1);"/>
             </svg>
-            <div id="lifecycle-pct-label" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:white;">0%</div>
-          </div>
-
-          <div style="flex:1;min-width:0;position:relative;z-index:1;">
-            <div style="font-size:12.5px;font-weight:800;color:white;margin-bottom:2px;">Mon dossier en un coup d'œil</div>
-            <div id="lifecycle-message" style="font-size:10px;color:rgba(255,255,255,.75);line-height:1.4;"></div>
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+              <span id="dos-ring-pct" style="font-size:13px;font-weight:500;color:#fff;line-height:1;">0%</span>
+              <span style="font-size:5px;color:rgba(255,255,255,.4);margin-top:1px;">global</span>
+            </div>
           </div>
         </div>
-
-        <!-- Frise des 4 jalons -->
-        <div style="padding:18px 14px 8px;">
-          <!-- Jalons au-dessus, rail en dessous -->
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;" id="dossier-lifecycle">
-
-            <div class="lifecycle-step" data-stage="constitution" style="display:flex;flex-direction:column;align-items:center;gap:7px;flex:1;min-width:0;">
-              <div style="position:relative;">
-                <div class="lifecycle-dot" style="width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;background:#f7f5f0;border:2px solid #ded6c8;transition:all .45s cubic-bezier(.34,1.2,.4,1);">📝</div>
-                <div class="lifecycle-check" style="position:absolute;bottom:-2px;right:-2px;width:16px;height:16px;border-radius:50%;background:#2d5a27;color:white;font-size:9px;font-weight:900;display:none;align-items:center;justify-content:center;border:2px solid white;">✓</div>
-              </div>
-              <div class="lifecycle-label" style="font-size:8.5px;font-weight:700;color:#a89880;text-align:center;line-height:1.25;transition:color .3s;">Constitution</div>
-            </div>
-
-            <div class="lifecycle-step" data-stage="verification" style="display:flex;flex-direction:column;align-items:center;gap:7px;flex:1;min-width:0;">
-              <div style="position:relative;">
-                <div class="lifecycle-dot" style="width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;background:#f7f5f0;border:2px solid #ded6c8;transition:all .45s cubic-bezier(.34,1.2,.4,1);">🔎</div>
-                <div class="lifecycle-check" style="position:absolute;bottom:-2px;right:-2px;width:16px;height:16px;border-radius:50%;background:#2d5a27;color:white;font-size:9px;font-weight:900;display:none;align-items:center;justify-content:center;border:2px solid white;">✓</div>
-              </div>
-              <div class="lifecycle-label" style="font-size:8.5px;font-weight:700;color:#a89880;text-align:center;line-height:1.25;transition:color .3s;">Vérification</div>
-            </div>
-
-            <div class="lifecycle-step" data-stage="pret" style="display:flex;flex-direction:column;align-items:center;gap:7px;flex:1;min-width:0;">
-              <div style="position:relative;">
-                <div class="lifecycle-dot" style="width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;background:#f7f5f0;border:2px solid #ded6c8;transition:all .45s cubic-bezier(.34,1.2,.4,1);">📄</div>
-                <div class="lifecycle-check" style="position:absolute;bottom:-2px;right:-2px;width:16px;height:16px;border-radius:50%;background:#2d5a27;color:white;font-size:9px;font-weight:900;display:none;align-items:center;justify-content:center;border:2px solid white;">✓</div>
-              </div>
-              <div class="lifecycle-label" style="font-size:8.5px;font-weight:700;color:#a89880;text-align:center;line-height:1.25;transition:color .3s;">Prêt</div>
-            </div>
-
-            <div class="lifecycle-step" data-stage="telecharge" style="display:flex;flex-direction:column;align-items:center;gap:7px;flex:1;min-width:0;">
-              <div style="position:relative;">
-                <div class="lifecycle-dot" style="width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;background:#f7f5f0;border:2px solid #ded6c8;transition:all .45s cubic-bezier(.34,1.2,.4,1);">📤</div>
-                <div class="lifecycle-check" style="position:absolute;bottom:-2px;right:-2px;width:16px;height:16px;border-radius:50%;background:#2d5a27;color:white;font-size:9px;font-weight:900;display:none;align-items:center;justify-content:center;border:2px solid white;">✓</div>
-              </div>
-              <div class="lifecycle-label" style="font-size:8.5px;font-weight:700;color:#a89880;text-align:center;line-height:1.25;transition:color .3s;">Téléchargé</div>
-            </div>
-
-          </div>
-
-          <!-- Rail sous les jalons -->
-          <div style="position:relative;height:6px;background:#efeae1;border-radius:4px;margin:0 4px;">
-            <div id="lifecycle-progress-bar" style="position:absolute;left:0;top:0;height:6px;background:linear-gradient(90deg,#2d5a27,#4a7c3f 60%,#C9A23A);border-radius:4px;width:0%;transition:width .9s cubic-bezier(.34,1.2,.4,1);"></div>
-          </div>
-
-        </div>
-
-        <!-- Pied : prochaine action concrète -->
-        <div id="lifecycle-next" style="margin:0 14px 14px;background:#f7f9f5;border:1px solid #e4ebe0;border-radius:12px;padding:9px 12px;display:flex;align-items:center;gap:9px;">
-          <div id="lifecycle-next-ic" style="font-size:15px;flex-shrink:0;">👉</div>
-          <div id="lifecycle-next-txt" style="font-size:10px;color:#4a5a42;line-height:1.45;flex:1;">Choisissez votre profil pour démarrer.</div>
-        </div>
-
       </div>
 
-      <!-- BANNIÈRE PDF -->
-      <div id="pdf-banner" style="background:linear-gradient(135deg,#2d5a27,#4a7c3f);border-radius:14px;padding:14px 16px;margin-bottom:14px;position:relative;overflow:hidden;">
-        <div style="position:absolute;top:-15px;right:-15px;width:70px;height:70px;border-radius:50%;background:rgba(255,255,255,.06);"></div>
-        <div style="font-size:11px;font-weight:800;color:rgba(255,255,255,.7);letter-spacing:1px;text-transform:uppercase;margin-bottom:4px;">Votre dossier de synthèse</div>
-        <div id="pdf-banner-status" style="font-size:14px;font-weight:900;color:white;margin-bottom:8px;">Complétez votre parcours</div>
-        <div id="pdf-banner-sub" style="font-size:10.5px;color:rgba(255,255,255,.8);line-height:1.6;margin-bottom:12px;text-align:justify;">Renseignez votre parcours pour constituer automatiquement votre dossier. Ce PDF rassemble toutes vos réponses, photos et pièces justificatives dans un format prêt à remettre à votre expert.</div>
+      <!-- ZONE SCROLLABLE -->
+      <div style="flex:1;overflow-y:auto;padding:10px 14px 8px;display:flex;flex-direction:column;gap:0;scrollbar-width:thin;scrollbar-color:#4a7c3f #f0ece4;">
 
-        <!-- POINT 2 — VIGNETTE DE PREVIEW DU PDF -->
-        <div id="pdf-preview-thumb" style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.1);border-radius:10px;padding:8px 10px;margin-bottom:10px;">
-          <div style="width:34px;height:44px;background:white;border-radius:3px;flex-shrink:0;position:relative;box-shadow:0 2px 6px rgba(0,0,0,.2);overflow:hidden;">
-            <div style="position:absolute;top:0;left:0;right:0;height:10px;background:#2d5a27;"></div>
-            <div style="position:absolute;top:14px;left:4px;right:4px;height:2px;background:#d8d8d0;"></div>
-            <div style="position:absolute;top:19px;left:4px;right:4px;height:2px;background:#d8d8d0;"></div>
-            <div style="position:absolute;top:24px;left:4px;right:8px;height:2px;background:#d8d8d0;"></div>
-            <div style="position:absolute;top:31px;left:4px;right:4px;height:2px;background:#d8d8d0;"></div>
-            <div style="position:absolute;top:36px;left:4px;right:10px;height:2px;background:#d8d8d0;"></div>
-          </div>
-          <div style="font-size:9.5px;color:rgba(255,255,255,.85);line-height:1.5;"><span id="pdf-preview-pages">~9 pages</span> — couverture, profil, parcours, pièces jointes</div>
+      <!-- HEATMAP 2×2 sections -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px;">
+        <div id="dos-hm-maison" class="dos-hm-tile">
+          <div class="dos-hm-label">🏠 Ma Maison</div>
+          <div class="dos-hm-val" id="dos-hm-maison-val">—</div>
+          <div class="dos-hm-bar"><div id="dos-hm-maison-fill" class="dos-hm-fill" style="width:0%;"></div></div>
         </div>
+        <div id="dos-hm-parcours" class="dos-hm-tile">
+          <div class="dos-hm-label">🗺 Mon Parcours</div>
+          <div class="dos-hm-val" id="dos-hm-parcours-val">—</div>
+          <div class="dos-hm-bar"><div id="dos-hm-parcours-fill" class="dos-hm-fill" style="width:0%;"></div></div>
+        </div>
+        <div id="dos-hm-docs" class="dos-hm-tile">
+          <div class="dos-hm-label">📎 Documents</div>
+          <div class="dos-hm-val" id="dos-hm-docs-val">—</div>
+          <div class="dos-hm-bar"><div id="dos-hm-docs-fill" class="dos-hm-fill" style="width:0%;"></div></div>
+        </div>
+        <div id="dos-hm-pieces" class="dos-hm-tile">
+          <div class="dos-hm-label">📋 Pièces</div>
+          <div class="dos-hm-val" id="dos-hm-pieces-val">—</div>
+          <div class="dos-hm-bar"><div id="dos-hm-pieces-fill" class="dos-hm-fill" style="width:0%;"></div></div>
+        </div>
+      </div>
 
-        <!-- POINT 6 — BOUTONS GÉNÉRER / APERÇU SÉPARÉS -->
-        <div style="display:flex;gap:8px;">
-          <button onclick="generatePDF()" style="flex:1;padding:11px;background:white;color:#2d5a27;border:none;border-radius:10px;font-size:12.5px;font-weight:800;cursor:pointer;font-family:inherit;display:flex;align-items:center;justify-content:center;gap:6px;">
-            <span>📄</span> <span id="pdf-banner-btn">Générer</span>
+      <!-- WIDGET PDF -->
+      <div style="background:#fff;border-radius:12px;padding:11px 12px;margin-bottom:10px;border:0.5px solid #ECEAE4;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+          <div style="display:flex;gap:3px;flex-shrink:0;">
+            <div class="dos-mini-doc"></div>
+            <div class="dos-mini-doc"></div>
+            <div class="dos-mini-doc"></div>
+            <div class="dos-mini-doc"></div>
+          </div>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:10px;font-weight:700;color:#1a1c18;">Synthèse PDF · <span id="dos-pdf-pages">~8 pages</span></div>
+            <div style="font-size:8px;color:#A8AB9F;margin-top:1px;">Couverture · ma maison · parcours · annexes</div>
+            <div style="background:#E8E6E0;border-radius:2px;height:3px;overflow:hidden;margin-top:4px;">
+              <div id="dos-pdf-bar" style="height:100%;width:0%;background:#C0DD97;border-radius:2px;transition:width .6s;"></div>
+            </div>
+            <div id="last-gen-label" style="font-size:7.5px;color:#A8AB9F;margin-top:2px;"></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <button onclick="generatePDF()" id="dos-btn-gen" style="flex:1;padding:8px;background:#2d5a27;color:#fff;border:none;border-radius:8px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;">📄 Générer</button>
+          <button onclick="previewDossierContent()" id="dos-btn-apercu" style="flex:1;padding:8px;background:transparent;color:#2d5a27;border:1.5px solid #2d5a27;border-radius:8px;font-size:10px;font-weight:700;cursor:pointer;font-family:inherit;">👁 Aperçu</button>
+        </div>
+      </div>
+
+      <!-- HISTORIQUE : 3 dernières + déroulant interne -->
+      <div style="background:#fff;border-radius:12px;border:0.5px solid #ECEAE4;margin-bottom:10px;overflow:hidden;">
+        <div style="padding:10px 11px 6px;">
+          <div style="font-size:8px;font-weight:700;color:#A8AB9F;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">Historique</div>
+          <div id="dos-hist-list" style="position:relative;padding-left:2px;">
+            <div style="position:absolute;left:7px;top:2px;bottom:2px;width:1px;background:#ecdccc;"></div>
+            <div style="font-size:9px;color:#A8AB9F;padding:4px 0 4px 18px;">Aucune action enregistrée.</div>
+          </div>
+        </div>
+        <!-- Déroulant interne — caché par défaut -->
+        <div id="dos-hist-extra" style="display:none;border-top:0.5px solid #F5F2EE;padding:0 11px 8px;margin-top:2px;">
+          <div id="dos-hist-extra-list" style="position:relative;padding-left:2px;padding-top:6px;">
+            <div style="position:absolute;left:7px;top:6px;bottom:2px;width:1px;background:#ecdccc;"></div>
+          </div>
+        </div>
+        <button id="dos-hist-tgl" onclick="toggleDosHist()" style="width:100%;font-size:8px;font-weight:600;color:#A8AB9F;background:#FAFAF8;border:none;border-top:0.5px solid #F5F2EE;cursor:pointer;font-family:inherit;padding:7px 12px;text-align:center;display:none;">▼ Voir tout l'historique</button>
+      </div>
+
+      <!-- WIDGET PARTAGE -->
+      <div id="dos-share-widget" style="background:#2d5a27;border-radius:12px;padding:10px 12px;margin-bottom:10px;transition:background .4s;">
+        <div style="font-size:7.5px;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:.5px;margin-bottom:7px;">Partager le dossier</div>
+        <div style="display:flex;gap:6px;">
+          <button onclick="shareByEmail()" style="flex:1;background:rgba(0,0,0,.18);border:none;border-radius:8px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <span style="font-size:18px;line-height:1;">✉️</span>
+            <span style="font-size:7.5px;color:rgba(255,255,255,.85);font-family:inherit;">Par e-mail</span>
           </button>
-          <button onclick="previewDossierContent()" style="flex:0 0 auto;padding:11px 14px;background:rgba(255,255,255,.15);color:white;border:1.5px solid rgba(255,255,255,.3);border-radius:10px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit;">
-            👁️ Aperçu
+          <button onclick="shareByQR()" style="flex:1;background:rgba(0,0,0,.18);border:none;border-radius:8px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <svg width="20" height="20" viewBox="0 0 22 22" style="display:block;">
+              <rect x="1" y="1" width="8" height="8" rx="1" fill="none" stroke="rgba(255,255,255,.9)" stroke-width="1.2"/>
+              <rect x="3" y="3" width="4" height="4" rx=".5" fill="rgba(255,255,255,.9)"/>
+              <rect x="13" y="1" width="8" height="8" rx="1" fill="none" stroke="rgba(255,255,255,.9)" stroke-width="1.2"/>
+              <rect x="15" y="3" width="4" height="4" rx=".5" fill="rgba(255,255,255,.9)"/>
+              <rect x="1" y="13" width="8" height="8" rx="1" fill="none" stroke="rgba(255,255,255,.9)" stroke-width="1.2"/>
+              <rect x="3" y="15" width="4" height="4" rx=".5" fill="rgba(255,255,255,.9)"/>
+              <rect x="11" y="11" width="2" height="2" fill="rgba(255,255,255,.9)"/>
+              <rect x="14" y="11" width="2" height="2" fill="rgba(255,255,255,.9)"/>
+              <rect x="17" y="11" width="2" height="2" fill="rgba(255,255,255,.9)"/>
+              <rect x="11" y="14" width="2" height="2" fill="rgba(255,255,255,.9)"/>
+              <rect x="14" y="14" width="2" height="2" fill="rgba(255,255,255,.9)"/>
+              <rect x="17" y="17" width="2" height="2" fill="rgba(255,255,255,.9)"/>
+              <rect x="11" y="17" width="4" height="2" fill="rgba(255,255,255,.9)"/>
+            </svg>
+            <span style="font-size:7.5px;color:rgba(255,255,255,.85);font-family:inherit;">QR code</span>
+          </button>
+          <button onclick="downloadPDF()" style="flex:1;background:rgba(0,0,0,.18);border:none;border-radius:8px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;">
+            <span style="font-size:18px;line-height:1;">⬇️</span>
+            <span style="font-size:7.5px;color:rgba(255,255,255,.85);font-family:inherit;">Télécharger</span>
           </button>
         </div>
-
-        <!-- POINT 8 — PARTAGE NATIF -->
-        <button id="dossier-share-btn" onclick="shareLastPdf()" style="display:none;width:100%;margin-top:8px;padding:9px;background:rgba(255,255,255,.1);color:white;border:1px solid rgba(255,255,255,.25);border-radius:9px;font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit;align-items:center;justify-content:center;gap:6px;">
-          📤 Partager mon dossier
-        </button>
-
-        <div id="last-gen-label" style="margin-top:8px;font-size:10px;color:rgba(255,255,255,.5);text-align:center;min-height:14px;"></div>
       </div>
 
-      <!-- POINT 7 — TAGS DE STATUT PAR SECTION (remplace le sommaire numéroté) -->
-      <div style="background:white;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
-        <div style="font-size:13px;font-weight:700;color:#2d5a27;margin-bottom:10px;display:flex;align-items:center;gap:6px;">📑 Contenu du document généré</div>
-        <div id="dossier-section-tags" style="display:flex;flex-direction:column;gap:0;"></div>
-      </div>
+      </div><!-- /scroll-zone -->
 
-      <!-- DOCUMENTS JOINTS AU PDF + SUGGESTIONS -->
-      <div style="background:white;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
-        <div style="font-size:13px;font-weight:700;color:#2d5a27;margin-bottom:4px;display:flex;align-items:center;gap:6px;">📎 Documents joints au PDF <span id="chip-pieces" style="margin-left:auto;font-size:12px;font-weight:800;color:#1a3a6e;">—</span></div>
-        <div id="dossier-joints-list" style="margin-top:8px;"></div>
+      <!-- overlay preview PDF (conservé) -->
 
-        <div id="dossier-suggestions-sep" style="display:none;height:1px;background:#eee7d8;margin:14px 0 12px;"></div>
-        <div id="dossier-suggestions-wrap" style="display:none;">
-          <div style="font-size:11px;font-weight:800;color:#9a8a72;text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px;">Suggestions de documents à joindre</div>
-          <div id="dossier-suggestions-list"></div>
-        </div>
-      </div>
-
-      <!-- POINT 3 — HISTORIQUE DES VERSIONS GÉNÉRÉES -->
-      <div id="dossier-history-card" style="display:none;background:white;border-radius:14px;padding:14px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
-        <div style="font-size:13px;font-weight:700;color:#2d5a27;margin-bottom:8px;display:flex;align-items:center;gap:6px;">🕓 Historique des versions</div>
-        <div id="dossier-history-list"></div>
-      </div>
-
-      <!-- L'aperçu en lecture (point 6) est positionné plus haut dans le
-           document, au même niveau que les autres modales globales de
-           l'app (checklist-overlay, share-overlay), pour ne pas être
-           contenu par l'overflow:auto de cet écran. Voir #dossier-preview-overlay. -->
+      <!-- overlay non trouvé -->
 
     </div>
 
-    <!-- ===== CATNAT ===== -->
-        
-    <!-- ===== ACCUEIL (ex tableau de bord) ===== -->
-    <div class="screen" id="screen-accueil">
-
-      <div class="page-title" style="justify-content:space-between;">
-        <span id="dash-greeting-title">🏠 Bonjour 👋</span>
-        <span id="dash-search-toggle" onclick="toggleDashSearch()" style="cursor:pointer;font-size:16px;flex-shrink:0;">🔍</span>
-      </div>
-
-      <!-- MESSAGE RASSURANT / ADAPTATIF — change de ton selon l'activité
-           récente et le profil. Sert d'ancre émotionnelle avant tout le
-           reste de l'écran, particulièrement pour les premiers passages. -->
-      <div class="dash-reassurance-banner" id="dash-reassurance-banner"></div>
-
-      <!-- RECHERCHE UNIFIÉE — repliée par défaut, se déploie au clic sur
-           la loupe en haut de l'écran. Interroge glossaire + FAQ Cat Nat
-           + étapes du parcours en une seule barre. -->
-      <div class="dash-search-wrap" id="dash-search-wrap" style="display:none;">
-        <span class="dash-search-icon">🔍</span>
-        <input type="text" class="dash-search-input" id="dash-search-input"
-               placeholder="Rechercher un terme, une question, une étape…"
-               oninput="dashSearchUnified(this.value)">
-      </div>
-      <div class="dash-search-results" id="dash-search-results"></div>
-
-      <!-- REPRISE DE SESSION — progression depuis la dernière visite -->
-      <div class="dash-resume-banner" id="dash-resume-banner" style="display:none;"></div>
-
-      <!-- DERNIÈRE ACTION EFFECTUÉE — renforcement positif -->
-      <div class="dash-last-action" id="dash-last-action" style="display:none;"></div>
-
-      <!-- CARTE PROFIL DE SITUATION -->
-      <div class="dash-card" id="dash-profil-card">
-        <div class="dash-card-title">Mon profil de situation</div>
-
-        <!-- État initial : choix du profil -->
-        <div id="dash-profil-empty" style="display:none;">
-          <div style="font-size:10.5px;color:#7a8a6a;margin-bottom:10px;line-height:1.5;text-align:justify;">Votre parcours s'adapte à votre situation. Choisissez le profil qui correspond à votre démarche actuelle.</div>
-          <div class="profil-card p1" onclick="dashSelectProfil(1)">
-            <div class="profil-card-bg"></div>
-            <div class="profil-card-top">
-              <div class="profil-card-ic">1</div>
-              <div class="profil-card-body">
-                <div class="profil-card-tag">PROFIL</div>
-
-              </div>
-            </div>
-            <div class="profil-card-divider"></div>
-            <div class="profil-card-title">Je viens de constater une fissure</div>
-            <div class="profil-card-sub">Je ne sais pas encore si c&#39;est le RGA. Je démarre depuis le début et veux constituer mon dossier complet.</div>
-            <div class="profil-card-footer">
-              <button class="profil-card-cta" onclick="dashSelectProfil(1);event.stopPropagation()">▶ Démarrer le parcours complet</button>
-            </div>
-          </div>
-
-          <div class="profil-card p2" onclick="dashSelectProfil(2)">
-            <div class="profil-card-bg"></div>
-            <div class="profil-card-top">
-              <div class="profil-card-ic">2</div>
-              <div class="profil-card-body">
-                <div class="profil-card-tag">PROFIL</div>
-
-              </div>
-            </div>
-            <div class="profil-card-divider"></div>
-            <div class="profil-card-title">Je viens de déclarer mon sinistre et/ou j&#39;attends l&#39;arrêté Cat Nat</div>
-            <div class="profil-card-sub">Mon sinistre est déclaré mais ma commune n&#39;est pas encore reconnue. Je prépare mon dossier en attendant.</div>
-            <div class="profil-card-footer">
-              <button class="profil-card-cta" onclick="dashSelectProfil(2);event.stopPropagation()">▶ Rejoindre à l&#39;étape 4</button>
-            </div>
-          </div>
-
-          <div class="profil-card p3" onclick="dashSelectProfil(3)">
-            <div class="profil-card-bg"></div>
-            <div class="profil-card-top">
-              <div class="profil-card-ic">3</div>
-              <div class="profil-card-body">
-                <div class="profil-card-tag">PROFIL</div>
-
-              </div>
-            </div>
-            <div class="profil-card-divider"></div>
-            <div class="profil-card-title">Un expert est missionné pour mon dossier</div>
-            <div class="profil-card-sub">L&#39;expertise est en cours ou terminée. Je suis en phase d&#39;indemnisation et de réparation de mon bien.</div>
-            <div class="profil-card-footer">
-              <button class="profil-card-cta" onclick="dashSelectProfil(3);event.stopPropagation()">▶ Rejoindre à l&#39;étape 10</button>
-            </div>
-          </div>
-          <button class="quiz-orientation-trigger" onclick="quizScrollToCards()" style="margin-top:6px;">
-            🤔 <span>Je ne sais pas quel profil choisir — voir les descriptions</span>
-          </button>
-        </div>
-
-        <!-- Profil déjà sélectionné : récapitulatif compact -->
-        <div id="dash-profil-filled" style="display:none;">
-          <div id="dash-profil-filled-inner" style="display:flex;align-items:stretch;border-radius:12px;overflow:hidden;border:1.5px solid #e0d8cc;">
-            <div id="dash-profil-badge" style="width:40px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;flex-shrink:0;padding:8px 0;border-right:1px solid rgba(0,0,0,.08);">
-              <span id="dash-profil-badge-num" style="font-size:15px;font-weight:800;font-family:Georgia,serif;line-height:1;"></span>
-              <span style="font-size:5.5px;font-weight:800;text-transform:uppercase;letter-spacing:.6px;opacity:.7;">Profil</span>
-            </div>
-            <div style="flex:1;padding:9px 10px;">
-              <div id="dash-profil-title" style="font-size:10px;font-weight:800;color:#1a2a0e;line-height:1.35;margin-bottom:2px;"></div>
-              <div id="dash-profil-sub" style="font-size:8.5px;color:#7a8a6a;line-height:1.4;"></div>
-            </div>
-          </div>
-          <button onclick="dashChangerProfil()" style="display:block;width:100%;margin-top:8px;padding:7px 12px;background:#f0ece4;border:none;border-radius:9px;font-size:10px;font-weight:700;color:#5a6a52;cursor:pointer;font-family:inherit;">🔄 Changer de profil</button>
-        </div>
-      </div>
-
-      <!-- ANNEAUX — avancement des 3 piliers -->
-      <div class="dash-card">
-        <div class="dash-card-title">Avancement de votre parcours</div>
-        <div class="dash-rings-card">
-          <svg id="dash-rings-svg" viewBox="0 0 110 110" width="100" height="100" style="flex-shrink:0;">
-            <!-- Anneaux fond -->
-            <circle cx="55" cy="55" r="47" fill="none" stroke="#efece2" stroke-width="8"/>
-            <circle cx="55" cy="55" r="35" fill="none" stroke="#efece2" stroke-width="8"/>
-            <circle cx="55" cy="55" r="23" fill="none" stroke="#efece2" stroke-width="8"/>
-            <!-- Anneaux actifs — couleurs des onglets, pas des profils -->
-            <circle id="dash-ring-diag" cx="55" cy="55" r="47" fill="none" stroke="#2D5A27" stroke-width="8" stroke-linecap="round" stroke-dasharray="0 296" transform="rotate(-90 55 55)"/>
-            <circle id="dash-ring-dossier" cx="55" cy="55" r="35" fill="none" stroke="#1a3a6e" stroke-width="8" stroke-linecap="round" stroke-dasharray="0 220" transform="rotate(-90 55 55)"/>
-            <circle id="dash-ring-maison" cx="55" cy="55" r="23" fill="none" stroke="#C9A23A" stroke-width="8" stroke-linecap="round" stroke-dasharray="0 144" transform="rotate(-90 55 55)"/>
-            <!-- % global centré -->
-            <text id="dash-rings-pct" x="55" y="55" text-anchor="middle" dominant-baseline="central" font-family="Georgia,serif" font-size="16" font-weight="700" fill="#1a2a0e">0%</text>
-          </svg>
-          <div class="dash-rings-leg">
-            <div class="dash-card-title" style="margin-bottom:5px;">Score global</div>
-            <div class="dash-rings-leg-row" style="color:#2D5A27;">● Mon parcours <b id="dash-ring-leg-diag">0/12</b></div>
-            <div class="dash-rings-leg-row" style="color:#1a3a6e;">● Mon dossier <b id="dash-ring-leg-dossier">0/9</b></div>
-            <div class="dash-rings-leg-row" style="color:#8a7020;">● Ma Maison <b id="dash-ring-leg-maison">0%</b></div>
-          </div>
-        </div>
-        <!-- CTA reprendre -->
-        <div class="dash-next-step" style="margin-top:10px;">
-          <div class="dash-next-ic">🔍</div>
-          <div class="dash-next-text">Prochaine étape <span id="dash-next-step-counter" style="color:#7a8a6a;font-weight:700;">(1/12)</span> : <strong id="dash-next-step-label">Observation d'une fissure</strong></div>
-          <div class="dash-next-btn" onclick="dashGoToNextStep()">Reprendre →</div>
-        </div>
-        <!-- Barre de progression masquée (compatibilité ancien JS) -->
-        <circle id="dash-progress-circle" style="display:none;"/>
-        <span id="dash-progress-pct" style="display:none;">0%</span>
-        <span id="dash-progress-label" style="display:none;"></span>
-        <!-- BULLE DERNIÈRE SAUVEGARDE — sous les anneaux -->
-        <div id="dash-last-save-bubble" style="display:flex;align-items:center;gap:7px;background:#F5F8F4;border-radius:9px;padding:5px 10px;font-size:8.5px;color:#7a8a72;font-weight:600;margin-top:8px;">
-          <span style="font-size:12px;flex-shrink:0;">💾</span>
-          <span id="dash-last-save-txt">Aucune modification enregistrée</span>
-        </div>
-      </div>
-
-      <!-- VUE D'ENSEMBLE — 3 étapes : avant / ici / suivante -->
-      <div class="dash-card" id="dash-vue-ensemble">
-        <div class="dash-card-title">Votre position dans le parcours</div>
-        <div id="dash-vs-container">
-          <!-- Injecté par refreshDashVueEnsemble() -->
-          <div style="font-size:10px;color:#9a8a72;padding:6px 0;">Choisissez d'abord votre profil pour voir votre position.</div>
-        </div>
-      </div>
-
-      <!-- QR CODE — partager le dossier -->
-      <button onclick="openShareLink()" style="display:flex;align-items:center;gap:10px;background:#fff;border:1.5px solid #e0d8cc;border-radius:12px;padding:10px 13px;cursor:pointer;font-family:inherit;width:100%;text-align:left;box-shadow:0 2px 8px rgba(0,0,0,.04);">
-        <span style="font-size:22px;flex-shrink:0;">📷</span>
-        <span style="flex:1;">
-          <span style="display:block;font-size:11px;font-weight:800;color:#1a2a0e;">Partager mon dossier — QR Code</span>
-          <span style="font-size:9px;color:#7a8a6a;font-weight:600;">Générer un QR Code ou un lien pour votre expert</span>
-        </span>
-        <span style="font-size:14px;color:#a8a092;">›</span>
-      </button>
-
-      <!-- WIDGET CONTACTER L'EXPERT -->
-      <div id="dash-expert-card" class="dash-card" style="border:1.5px solid #e0d8cc;">
-        <div class="dash-card-title">📞 Contacter mon expert</div>
-        <div id="dash-expert-filled" style="display:none;">
-          <div style="display:flex;align-items:center;gap:12px;">
-            <div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#eef4ff,#d8e8ff);display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🔬</div>
-            <div style="flex:1;">
-              <div id="dash-expert-nom" style="font-size:11px;font-weight:800;color:#1a2a0e;margin-bottom:2px;"></div>
-              <div id="dash-expert-cab" style="font-size:9px;color:#7a8a6a;font-weight:600;"></div>
-            </div>
-          </div>
-          <div style="display:flex;gap:8px;margin-top:10px;">
-            <a id="dash-expert-tel-btn" href="#" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:linear-gradient(135deg,#2D5A27,#4a7c3f);color:#fff;border-radius:10px;padding:9px;font-size:10px;font-weight:800;text-decoration:none;">📱 Appeler</a>
-            <a id="dash-expert-mail-btn" href="#" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:#1a3a6e;color:#fff;border-radius:10px;padding:9px;font-size:10px;font-weight:800;text-decoration:none;">✉️ E-mail</a>
-          </div>
-        </div>
-        <div id="dash-expert-empty" style="font-size:9.5px;color:#9a8a72;line-height:1.5;">
-          Les coordonnées de votre expert apparaîtront ici dès que vous les aurez renseignées à l&#39;étape 9 (Mission de l&#39;expert).
-          <button onclick="goToStep('step-10b')" style="display:block;width:100%;margin-top:8px;padding:7px;background:#f0ece4;border:none;border-radius:9px;font-size:9.5px;font-weight:700;color:#5a6a52;cursor:pointer;font-family:inherit;">Renseigner l&#39;expert → étape 9</button>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="screen" id="screen-catnat">
+        <div class="screen" id="screen-catnat">
       <div class="page-title">📚 Ressources & Régime Cat Nat</div>
       <div class="catnat-hero">
         <div class="catnat-hero-text">Cet onglet vous présente le fonctionnement du régime des catastrophes naturelles — ce qu'il couvre, comment il s'active, et ce que vous pouvez attendre de votre assureur. Vous y trouverez également les évolutions récentes de la réglementation ainsi que les réponses aux questions les plus fréquentes posées par les assurés.</div>
@@ -4506,7 +4678,7 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
         <!-- Q9 -->
         <div class="cn-faq-item" onclick="toggleFaq(this)">
           <div class="cn-faq-q">🔬 Mes frais d'étude géotechnique sont-ils pris en charge ?<span class="faq-arrow">›</span></div>
-          <div class="cn-faq-a">Oui. Le coût d'une étude de sol réalisée par un bureau géotechnique entre dans la catégorie des <strong>dommages matériels directs</strong> pris en charge par le régime Cat Nat (art. L125-1 Code des assurances).<br><br>Plus largement, depuis le <strong>1er janvier 2023</strong>, votre assureur doit également couvrir les honoraires d'architecte et de maître d'œuvre engagés pour la réparation, ainsi que les éventuels frais de démolition partielle et d'évacuation des gravats. Ces postes, autrefois à la charge de l'assuré, font désormais partie intégrante de l'indemnisation.</div>
+          <div class="cn-faq-a">Oui. Le coût des investigations techniques réalisées par un professionnel (bureau d'études, expert) entre dans la catégorie des <strong>dommages matériels directs</strong> pris en charge par le régime Cat Nat (art. L125-1 Code des assurances).<br><br>Plus largement, depuis le <strong>1er janvier 2023</strong>, votre assureur doit également couvrir les honoraires d'architecte et de maître d'œuvre engagés pour la réparation, ainsi que les éventuels frais de démolition partielle et d'évacuation des gravats. Ces postes, autrefois à la charge de l'assuré, font désormais partie intégrante de l'indemnisation.</div>
         </div>
 
         <!-- Q10 -->
@@ -5247,14 +5419,21 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
   </div>
 
   <!-- PANEL GLOSSAIRE bas -->
-  <div class="glossaire-overlay" id="glossaire-overlay">
+  <div class="glossaire-overlay" id="glossaire-overlay" style="position:absolute;bottom:58px;left:10%;width:80%;z-index:19;overflow:hidden;border-radius:16px 16px 0 0;">
     <div class="glossaire-sheet" id="glossaire-sheet">
-      <div class="glossaire-sheet-collapsed" onclick="toggleGlossaire()">
-        <div class="glossaire-sheet-handle"></div>
-        <span class="glossaire-sheet-handle-label">💬 Glossaire</span>
+      <div class="glossaire-sheet-collapsed" onclick="toggleGlossaire()" style="background:#e0f0d8;border-radius:8px 8px 0 0;border:0.5px solid #b8dca8;cursor:grab;padding:4px 0 3px;width:100%;">
+        <!-- Poignée drag visible -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
+          <div style="width:30px;height:3px;border-radius:2px;background:#4a8a3a;opacity:.5;"></div>
+          <div style="display:flex;align-items:center;gap:4px;">
+            <span style="font-size:9px;color:#2d6a20;opacity:.75;">↑</span>
+            <span style="font-size:7px;font-weight:700;color:#2d6a20;letter-spacing:.8px;">GLOSSAIRE</span>
+            <span style="font-size:9px;color:#2d6a20;opacity:.75;">↑</span>
+          </div>
+        </div>
       </div>
       <div class="glossaire-sheet-header">
-        <div style="font-size:10.5px;color:rgba(255,255,255,.75);line-height:1.6;padding:2px 0;">Appuyez sur un mot souligné dans l'application pour afficher sa définition. Utilisez la recherche pour explorer les termes du régime Cat Nat et du RGA.</div>
+        <div style="font-size:9.5px;color:rgba(255,255,255,.75);line-height:1.5;padding:2px 0;word-wrap:break-word;overflow-wrap:break-word;white-space:normal;max-width:100%;">Appuyez sur un mot souligné pour afficher sa définition. Utilisez la recherche pour explorer les termes Cat Nat et RGA.</div>
         <div id="gl-surligna-toggle" onclick="toggleSurlignage()" style="display:flex;align-items:center;gap:6px;cursor:pointer;padding:5px 10px;border-radius:20px;background:#e8f5e4;border:1.5px solid #a8d5a2;transition:all .2s;">
           <span id="gl-surligna-icon" style="font-size:13px;">✨</span>
           <span id="gl-surligna-label" style="font-size:10px;font-weight:700;color:#2d5a27;">Surlignage actif</span>
@@ -5404,11 +5583,33 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
       </div><!-- fin contenu scrollable -->
     </div>
   <div class="bottom-nav">
-    <button class="nav-item active" id="nav-item-accueil" onclick="switchTab('accueil',this,'nav')"><span class="nav-icon" style="position:relative;">🧭<span class="nav-progress-pop" id="nav-progress-pop"></span></span><span class="nav-label">Accueil</span><div class="nav-dot"></div></button>
-    <button class="nav-item" onclick="switchTab('maison',this)"><span class="nav-icon">🏠</span><span class="nav-label">Ma Maison</span><div class="nav-dot"></div></button>
-    <button class="nav-item" onclick="switchTab('diag',this,'nav')"><span class="nav-icon">🔍</span><span class="nav-label">Mon Parcours</span><div class="nav-dot"></div></button>
-    <button class="nav-item" onclick="switchTab('dossier',this)"><span class="nav-icon">📁</span><span class="nav-label">Mon Dossier</span><div class="nav-dot"></div></button>
-    <button class="nav-item" onclick="switchTab('catnat',this,'nav')"><span class="nav-icon">⚖️</span><span class="nav-label" style="white-space:normal;font-size:9.5px;line-height:1.1;max-width:48px;">Je m’in­forme</span><div class="nav-dot"></div></button>
+    <div style="position:absolute;bottom:12px;left:10%;width:80%;background:linear-gradient(155deg,#1a3a6e 0%,#2d5a27 100%);border-radius:0 0 16px 16px;padding:5px 4px 6px;display:flex;gap:2px;align-items:stretch;box-shadow:0 8px 28px rgba(26,58,110,.38),0 2px 8px rgba(0,0,0,.15);">
+      <button class="nav-item active" id="nav-item-accueil" onclick="switchTab('accueil',this,'nav')" style="flex:1;">
+        <span class="nav-icon" style="position:relative;font-size:14px;">🧭<span class="nav-progress-pop" id="nav-progress-pop"></span></span>
+        <span class="nav-label" style="font-size:7px;">Accueil</span>
+        <div class="nav-dot"></div>
+      </button>
+      <button class="nav-item" onclick="switchTab('maison',this)" style="flex:1;">
+        <span class="nav-icon" style="font-size:14px;">🏠</span>
+        <span class="nav-label" style="font-size:7px;">Ma Maison</span>
+        <div class="nav-dot"></div>
+      </button>
+      <button class="nav-item" onclick="switchTab('diag',this,'nav')" style="flex:1;">
+        <span class="nav-icon" style="font-size:14px;">🔍</span>
+        <span class="nav-label" style="font-size:7px;">Parcours</span>
+        <div class="nav-dot"></div>
+      </button>
+      <button class="nav-item" onclick="switchTab('dossier',this)" style="flex:1;">
+        <span class="nav-icon" style="font-size:14px;">📁</span>
+        <span class="nav-label" style="font-size:7px;">Mon Dossier</span>
+        <div class="nav-dot"></div>
+      </button>
+      <button class="nav-item" onclick="switchTab('catnat',this,'nav')" style="flex:1;">
+        <span class="nav-icon" style="font-size:14px;">⚖️</span>
+        <span class="nav-label" style="font-size:7px;">Infos</span>
+        <div class="nav-dot"></div>
+      </button>
+    </div>
   </div>
 </div>
 
@@ -5418,6 +5619,14 @@ let currentTabIndex = 0;
 
 window.addEventListener('load', () => {
   if(typeof checkSharedViewOnLoad === 'function') checkSharedViewOnLoad();
+
+  /* Restaurer le thème profil au chargement */
+  setTimeout(loadExpertFields, 200);
+  const savedProfilLoad = localStorage.getItem('argicare-profil');
+  if(savedProfilLoad){
+    const phoneEl2 = document.querySelector('.phone');
+    if(phoneEl2) phoneEl2.classList.add('app-theme-p'+savedProfilLoad);
+  }
 
   const wrapper = document.getElementById('screens-wrapper');
   TAB_ORDER.forEach(id => {
@@ -5669,7 +5878,7 @@ async function loadFromSupabase() {
 function showCloudBadge(ok) {
   const slot = document.getElementById('cloud-badge-slot');
   if(slot){
-    slot.textContent = ok ? '☁️' : '⛔';
+    slot.textContent = ok ? '☁' : '🌧';
     slot.title = ok ? 'Synchronisé dans le cloud' : 'Hors ligne — données sauvegardées localement';
     slot.style.opacity = '1';
     setTimeout(() => { slot.style.opacity = '.55'; }, 3000);
@@ -6196,6 +6405,13 @@ function selectProfil(n, opts){
   localStorage.setItem('argicare-profil', n);
   const cfg = PROFIL_CONFIG[n];
 
+  /* Theme global sur .phone */
+  const phoneEl = document.querySelector('.phone');
+  if(phoneEl){
+    phoneEl.classList.remove('app-theme-p1','app-theme-p2','app-theme-p3');
+    phoneEl.classList.add('app-theme-p'+n);
+  }
+
   [1,2,3].forEach(i => {
     const card = document.getElementById('profil-card-' + i);
     const check = document.getElementById('profil-check-' + i);
@@ -6513,7 +6729,7 @@ function switchTab(n, el, source='') {
 
   wrapper.style.transform = `translateX(-${newIndex * 100}%)`;
 
-  if(n==='dossier'){setTimeout(refreshCompletion,350);}
+  if(n==='dossier'){setTimeout(refreshCompletion,350);setTimeout(refreshDossierCockpit,400);}
   if(n==='params'){setTimeout(initStoryTutoToggles, 100);}
   if(n==='diag'){
     setTimeout(initProfil, 150);
@@ -7036,7 +7252,7 @@ const GL={
   'relogement d\'urgence':{badge:'Prestation légale',def:'Prise en charge des frais de relogement temporaire lorsque la résidence principale est rendue impropre à l\'habitation par les dommages. Applicable depuis le 1er novembre 2023, dans la limite de 6 mois.',src:'Source : Loi Baudu 28/12/2021'},
   'expertise (rapport d\'—)':{badge:'Document clé',def:'Document rédigé par l\'expert mandaté par l\'assureur, récapitulant ses constats, l\'analyse des causes et la proposition d\'indemnisation. L\'assuré peut en demander une copie et le contester via une contre-expertise.',src:'Source : Art. L125-2 Code des assurances'},
   'brgm':{badge:'Institution',def:'Bureau de Recherches Géologiques et Minières. Établissement public qui cartographie les aléas naturels en France, notamment l\'aléa RGA (carte nationale disponible sur Géorisques). Ses données sont utilisées par les experts et les assureurs.',src:'Source : BRGM — georisques.gouv.fr'},
-  'étude géotechnique g2':{badge:'Investigation technique',def:'Mission d\'étude de sol réalisée par un bureau géotechnique. La G2 (mission de base) comprend des sondages pour analyser la nature et le comportement du sol sous les fondations. Les frais sont pris en charge par le régime Cat Nat.',src:'Source : Norme NF P94-500 / Art. L125-1 Code des assurances'},
+  'étude géotechnique g2':{badge:'Investigation technique',def:'Mission d\'investigation technique réalisée par un professionnel qualifié pour analyser le comportement du sol sous les fondations. Les frais sont pris en charge par le régime Cat Nat.',src:'Source : Art. L125-1 Code des assurances'},
   'attestation d\'assurance':{badge:'Document contractuel',def:'Document délivré par l\'assureur certifiant l\'existence et les caractéristiques du contrat en vigueur. Elle prouve que le bien était bien assuré à la date du sinistre reconnu par l\'arrêté Cat Nat.',src:'Source : Art. L112-2 Code des assurances'},
   'indemnisation':{badge:'Terme assurantiel',def:'Versement par l\'assureur d\'une somme compensant les dommages subis, après déduction de la franchise légale. Depuis l\'ordonnance de 2023, l\'assuré a l\'obligation d\'affecter cette somme à la réparation effective de son bien.',src:'Source : Ordonnance 2023-78'}
 };
@@ -7161,334 +7377,340 @@ function showPushNotif(){const n=document.getElementById('push-notif');n.classLi
 function closePushNotif(){document.getElementById('push-notif').classList.remove('show');}
 function generatePDF(){
   const {jsPDF} = window.jspdf;
-  if(!jsPDF){ alert('Bibliothèque PDF non chargée.'); return; }
-  const doc = new jsPDF({ unit:'mm', format:'a4' });
+  if(!jsPDF){ alert('Biblioth\u00e8que PDF non charg\u00e9e.'); return; }
+  const doc = new jsPDF({unit:'mm', format:'a4'});
 
-  /* ══════════════════════════════════════════════
-     TOKENS VISUELS — sobre, peu coloré
-     Couleur utilisée avec parcimonie : vert en en-têtes
-     de section uniquement, tout le reste est gris/noir
-  ══════════════════════════════════════════════ */
+  /* ── Palette ── */
   const W=210, H=297;
-  const C_BLACK  = [20,  20,  18 ]; // titres, corps
-  const C_GREY   = [95,  98,  90 ]; // secondaire
-  const C_LIGHT  = [168, 170, 162]; // séparateurs, annotations
-  const C_BG     = [250, 248, 244]; // fond crème
-  const C_WHITE  = [255, 255, 255];
-  const C_GREEN  = [45,  90,  39 ]; // en-têtes section, pastilles ✓
-  const C_GOLD_D = [155, 125, 45 ]; // doré atténué, filet couverture uniquement
+  const BK  = [20, 20, 18];    // corps texte
+  const GY  = [90, 93, 86];    // secondaire
+  const LT  = [162,165,158];   // s\u00e9parateurs, notes
+  const BG  = [250,248,244];   // fond cr\u00e8me
+  const WH  = [255,255,255];
+  const GR  = [45, 90, 39];    // vert ArgiQare
+  const GD  = [150,122,42];    // dor\u00e9 atténu\u00e9 (couverture)
 
-  const ML=18, MR=18;
-  const CW = W - ML - MR;
+  const ML=16, MR=16, CW=W-ML-MR;
+  const SZ_BODY=7, SZ_SMALL=6, SZ_TINY=5.5, SZ_SEC=6.5, SZ_FIELD=6;
+  const LH_BODY=4.2, LH_SMALL=3.8;
 
   /* helpers */
   const v  = id => (document.getElementById(id)||{}).value?.trim()||'';
-  const vd = (id, fb) => { const r=v(id); return (r && r!=='—') ? r : (fb||'—'); };
-  const fmt = d => { try { return new Date(d).toLocaleDateString('fr-FR'); } catch(_){return d;} };
+  const vd = (id,fb) => { const r=v(id); return (r&&r!=='—') ? r : (fb||'—'); };
+  const fmtDate = d => { try{ return new Date(d).toLocaleDateString('fr-FR'); }catch(_){return d||'—';} };
+  const trunc = (s,n) => s && s.length>n ? s.slice(0,n-1)+'\u2026' : (s||'—');
 
   const now = new Date();
-  const DATE_STR = now.toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+  const DATE_LONG  = now.toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
+  const DATE_SHORT = now.toLocaleDateString('fr-FR');
+
   let ref = localStorage.getItem('argicare-dossier-ref');
   if(!ref){ ref='AQ-'+now.getFullYear()+'-'+Math.random().toString(36).slice(2,6).toUpperCase(); localStorage.setItem('argicare-dossier-ref',ref); }
 
-  const nomAssure = [v('m_prenom'),v('m_nom')].filter(x=>x).join(' ')||'—';
-  const adr1 = [v('m_voie'),v('m_compl')].filter(x=>x).join(', ')||'—';
+  const nomAssure  = [v('m_prenom'),v('m_nom')].filter(x=>x).join(' ')||'\u2014';
+  const adr1 = [v('m_voie'),v('m_compl')].filter(x=>x).join(', ')||'';
   const adr2 = [v('m_cp'),v('m_ville')].filter(x=>x).join(' ')||'';
+  const adrFull = [adr1,adr2].filter(x=>x).join(' \u00b7 ')||'\u2014';
   const savedP  = localStorage.getItem('argicare-profil');
   const profCfg = savedP ? PROFIL_CONFIG[savedP] : null;
   const photoData = localStorage.getItem('argicare-photo-maison');
 
-  /* ── État avancement ── */
+  /* avancement global */
   const allSteps = [...document.querySelectorAll('#screen-diag .diag-step')].filter(s=>!s.classList.contains('profil-grise'));
   let g_ok=0, g_blk=0, g_tot=0;
-  allSteps.forEach(s=>{
-    [...s.querySelectorAll('.tri-item')].forEach(it=>{
-      const val = triState[(it.id||'').replace(/^tri-/,'')];
-      g_tot++;
-      if(val==='yes') g_ok++;
-      else if(val==='blocked') g_blk++;
-    });
-  });
+  allSteps.forEach(s=>[...s.querySelectorAll('.tri-item')].forEach(it=>{
+    g_tot++;
+    const val=triState[(it.id||'').replace(/^tri-/,'')];
+    if(val==='yes') g_ok++; else if(val==='blocked') g_blk++;
+  }));
   const g_pct = g_tot>0 ? Math.round(g_ok/g_tot*100) : 0;
 
-  /* ── Annexes ── */
-  const PIECE_LABELS = ['Description du sinistre','Dégâts causés à des tiers','Études géotechniques',
-    'Acte d\'achat','Permis de construire','États des lieux','Devis, factures et PV','Déclaration sur l\'honneur'];
-  const annexes = [];
-  if(photoData) annexes.push({title:'Photo du bien', data:photoData, isImg:true});
-  if(planFile && planFile.data) annexes.push({title:'Plan de la maison', data:planFile.data, isImg:planFile.type&&planFile.type.startsWith('image/')});
+  /* annexes */
+  const PIECE_LABELS=['Description du sinistre','D\u00e9g\u00e2ts caus\u00e9s \u00e0 des tiers','\u00c9tudes g\u00e9otechniques',
+    'Acte d\'achat','Permis de construire','\u00c9tats des lieux','Devis, factures et PV','D\u00e9claration sur l\'honneur'];
+  const annexes=[];
+  if(photoData) annexes.push({title:'Photo du bien',data:photoData,isImg:true,name:''});
+  if(planFile&&planFile.data) annexes.push({title:'Plan de la maison',data:planFile.data,isImg:!!(planFile.type&&planFile.type.startsWith('image/')),name:planFile.name||''});
   Object.keys(diagFiles||{}).sort((a,b)=>+a-+b).forEach(k=>{
     const f=diagFiles[k]; if(!f||!f.data) return;
-    annexes.push({title:PIECE_LABELS[+k-1]||('Pièce '+k), data:f.data, name:f.name||'', isImg:f.type&&f.type.startsWith('image/')});
+    annexes.push({title:PIECE_LABELS[+k-1]||('Pi\u00e8ce '+k),data:f.data,isImg:!!(f.type&&f.type.startsWith('image/')),name:f.name||''});
   });
 
-  /* ════════════════════════════════════════
-     MOTEUR DE MISE EN PAGE
-  ════════════════════════════════════════ */
-  let pageN   = 0;
-  let sections = []; // [{name, page}] pour sommaire
+  /* ═══════════════════════════════════════
+     MOTEUR DE PAGE
+  ═══════════════════════════════════════ */
+  let pageN=0;
 
-  const drawFooter = () => {
-    doc.setDrawColor(...C_LIGHT); doc.setLineWidth(0.15);
-    doc.line(ML, H-9, W-MR, H-9);
-    doc.setFontSize(6); doc.setFont(undefined,'normal'); doc.setTextColor(...C_LIGHT);
-    doc.text('ArgiQare — document d\'accompagnement indicatif, sans valeur juridique — Réf. '+ref, ML, H-5);
-    doc.text('p. '+pageN, W-MR, H-5, {align:'right'});
+  const footer = () => {
+    doc.setDrawColor(...LT); doc.setLineWidth(0.12);
+    doc.line(ML,H-8,W-MR,H-8);
+    doc.setFontSize(SZ_TINY); doc.setFont(undefined,'normal'); doc.setTextColor(...LT);
+    doc.text('ArgiQare \u2014 document d\'accompagnement indicatif, sans valeur juridique \u2014 R\u00e9f.\u00a0'+ref, ML, H-4.5);
+    doc.text('p.\u00a0'+pageN, W-MR, H-4.5, {align:'right'});
   };
 
-  const newPage = (isFirst) => {
-    if(!isFirst) doc.addPage();
+  const newPage = (first) => {
+    if(!first) doc.addPage();
     pageN++;
-    doc.setFillColor(...C_BG); doc.rect(0,0,W,H,'F');
+    doc.setFillColor(...BG); doc.rect(0,0,W,H,'F');
     if(pageN>1){
-      doc.setDrawColor(...C_GREEN); doc.setLineWidth(0.3);
-      doc.line(ML, 14, W-MR, 14);
+      /* filet vert en-t\u00eate */
+      doc.setFillColor(...GR); doc.rect(0,0,W,8,'F');
+      /* logo minuscule dans le bandeau */
+      doc.setFontSize(SZ_SMALL); doc.setFont(undefined,'normal'); doc.setTextColor(...WH);
+      doc.text('argi',ML,5.5);
+      const wA=doc.getTextWidth('argi');
+      doc.setFont(undefined,'bold');
+      doc.text('Q',ML+wA,5.5);
+      const wQ=doc.getTextWidth('Q');
+      doc.setFont(undefined,'normal');
+      doc.text('are',ML+wA+wQ,5.5);
+      doc.setFontSize(SZ_TINY); doc.setTextColor(200,230,195);
+      doc.text(nomAssure, W-MR, 5.5, {align:'right'});
     }
-    drawFooter();
-    return pageN>1 ? 20 : 0;
+    footer();
+    return pageN>1 ? 13 : 0;
   };
 
-  /* filet + titre de section */
-  const secTitle = (label, y) => {
-    if(y > H-30){ y=newPage(); }
-    doc.setFillColor(...C_GREEN); doc.rect(ML, y, CW, 6.5, 'F');
-    doc.setFontSize(7.5); doc.setFont(undefined,'bold'); doc.setTextColor(...C_WHITE);
-    doc.text(label.toUpperCase(), ML+3, y+4.5);
-    return y+10;
+  const guardY = (y, need) => { if(y+need > H-14){ y=newPage(); } return y; };
+
+  /* titre de section plein fond */
+  const secTitle = (lbl, y) => {
+    y = guardY(y, 20);
+    doc.setFillColor(...GR); doc.rect(ML, y, CW, 6, 'F');
+    doc.setFontSize(SZ_SEC); doc.setFont(undefined,'bold'); doc.setTextColor(...WH);
+    doc.text(lbl.toUpperCase(), ML+3, y+4.2);
+    return y+9;
   };
 
-  /* sous-titre en gris italique */
-  const subH = (label, y) => {
-    if(y > H-22){ y=newPage(); }
-    doc.setFontSize(7); doc.setFont(undefined,'bolditalic'); doc.setTextColor(...C_GREY);
-    doc.text(label, ML, y);
-    doc.setDrawColor(225,222,215); doc.setLineWidth(0.12);
-    doc.line(ML, y+1.5, W-MR, y+1.5);
-    return y+5.5;
+  /* sous-titre italique */
+  const subH = (lbl, y) => {
+    y = guardY(y, 10);
+    doc.setFontSize(SZ_SMALL); doc.setFont(undefined,'bolditalic'); doc.setTextColor(...GY);
+    doc.text(lbl, ML, y);
+    doc.setDrawColor(225,222,215); doc.setLineWidth(0.1);
+    doc.line(ML, y+1.2, W-MR, y+1.2);
+    return y+5;
   };
 
-  /* champ label / valeur inline */
-  const field = (lbl, val, y, indX) => {
-    if(y > H-16){ y=newPage(); }
-    const x0 = ML+(indX||0);
-    doc.setFontSize(6.5); doc.setFont(undefined,'bold'); doc.setTextColor(...C_LIGHT);
-    doc.text(lbl, x0, y);
-    doc.setFont(undefined,'normal'); doc.setTextColor(...C_BLACK);
-    const lines = doc.splitTextToSize(String(val&&val!=='—'?val:'—'), CW-48-(indX||0));
-    doc.text(lines, x0+48, y);
-    doc.setDrawColor(235,232,225); doc.setLineWidth(0.1);
-    doc.line(x0, y+2, W-MR, y+2);
-    return y + Math.max(5.5, lines.length*4);
+  /* ligne champ label / valeur — col fixe */
+  const LABEL_W = 42; // mm r\u00e9serv\u00e9s au label
+  const field = (lbl, val, y, ix) => {
+    const x0 = ML+(ix||0);
+    const valW = CW - LABEL_W - (ix||0);
+    y = guardY(y, 7);
+    doc.setFontSize(SZ_FIELD); doc.setFont(undefined,'bold'); doc.setTextColor(...LT);
+    doc.text(trunc(lbl,32), x0, y);
+    doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
+    const lines = doc.splitTextToSize(String(val&&val!=='\u2014'?val:'\u2014'), valW);
+    doc.text(lines, x0+LABEL_W, y);
+    doc.setDrawColor(232,229,222); doc.setLineWidth(0.1);
+    doc.line(x0, y+1.8, W-MR, y+1.8);
+    const h = Math.max(5, lines.length*LH_BODY);
+    return y+h;
   };
 
-  /* deux champs côte à côte */
+  /* deux champs c\u00f4te \u00e0 c\u00f4te */
   const field2 = (pairs, y) => {
-    if(y > H-16){ y=newPage(); }
+    y = guardY(y, 7);
+    const hw = CW/2 - 1;
+    const LW2 = 22; // label dans demi-col
     pairs.forEach(([lbl,val],i)=>{
-      const cx = i===0 ? ML : ML+CW/2+3;
-      const mw = CW/2 - 3;
-      doc.setFontSize(6.5); doc.setFont(undefined,'bold'); doc.setTextColor(...C_LIGHT);
-      doc.text(lbl, cx, y);
-      doc.setFont(undefined,'normal'); doc.setTextColor(...C_BLACK);
-      const lines = doc.splitTextToSize(String(val&&val!=='—'?val:'—'), mw-25);
-      doc.text(lines, cx+25, y);
+      const cx = i===0 ? ML : ML+CW/2+2;
+      const vw = hw - LW2 - 1;
+      doc.setFontSize(SZ_FIELD); doc.setFont(undefined,'bold'); doc.setTextColor(...LT);
+      doc.text(trunc(lbl,20), cx, y);
+      doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
+      const lines = doc.splitTextToSize(String(val&&val!=='\u2014'?val:'\u2014'), vw);
+      doc.text(lines, cx+LW2, y);
     });
-    doc.setDrawColor(235,232,225); doc.setLineWidth(0.1);
-    doc.line(ML, y+2, W-MR, y+2);
-    return y+6;
+    doc.setDrawColor(232,229,222); doc.setLineWidth(0.1);
+    doc.line(ML, y+1.8, W-MR, y+1.8);
+    return y+5;
   };
 
-  /* paragraphe */
-  const para = (txt, y, opts) => {
-    if(y > H-16){ y=newPage(); }
-    opts = opts||{};
-    doc.setFontSize(opts.sz||8); doc.setFont(undefined, opts.b?'bold':'normal');
-    doc.setTextColor(...(opts.col||C_BLACK));
-    const lines = doc.splitTextToSize(txt, CW-(opts.ix||0));
-    doc.text(lines, ML+(opts.ix||0), y);
-    return y + lines.length*(opts.sz||8)*0.41 + 2.5;
-  };
+  /* \u00c9space blanc */
+  const gap = (y, mm) => y+mm;
 
-  /* ════════════════════════════════════════
-     PAGE 1 — PAGE DE GARDE
-  ════════════════════════════════════════ */
+  /* ═══════════════════════════════════════
+     PAGE 1 — COUVERTURE
+  ═══════════════════════════════════════ */
   newPage(true);
   let y = 0;
 
-  /* photo du bien pleine largeur */
+  /* photo pleine largeur */
   if(photoData){
     try{
-      const fmt2 = photoData.includes('image/png')?'PNG':'JPEG';
-      doc.addImage(photoData, fmt2, 0, 0, W, 82);
+      const fmt2=photoData.includes('image/png')?'PNG':'JPEG';
+      doc.addImage(photoData,fmt2,0,0,W,80);
+      /* fondu bas */
       for(let i=0;i<22;i++){
-        doc.setFillColor(...C_BG);
-        doc.setGState(new doc.GState({opacity: i/22}));
-        doc.rect(0, 60+i, W, 1, 'F');
+        doc.setFillColor(...BG);
+        doc.setGState(new doc.GState({opacity:i/22*0.95}));
+        doc.rect(0,58+i,W,1,'F');
       }
       doc.setGState(new doc.GState({opacity:1}));
-      y = 76;
-    } catch(_){ y=38; }
+      y=74;
+    }catch(_){ y=36; }
   } else {
-    doc.setFillColor(238,236,230); doc.rect(0,0,W,72,'F');
-    doc.setFontSize(7.5); doc.setFont(undefined,'normal'); doc.setTextColor(...C_LIGHT);
-    doc.text('Aucune photo du bien renseignée — ajoutez-en une depuis l\'onglet Ma Maison',W/2,38,{align:'center'});
-    y = 80;
+    doc.setFillColor(238,236,230); doc.rect(0,0,W,70,'F');
+    doc.setFontSize(SZ_SMALL); doc.setFont(undefined,'normal'); doc.setTextColor(...LT);
+    doc.text('Aucune photo du bien renseign\u00e9e \u2014 ajoutez-en une depuis l\'onglet Ma Maison',W/2,37,{align:'center',maxWidth:CW});
+    y=78;
   }
 
-  /* logo argiQare sobre */
-  doc.setFontSize(20); doc.setFont(undefined,'normal'); doc.setTextColor(20,20,18);
-  doc.text('argi', ML, y+11);
-  const wA = doc.getTextWidth('argi');
-  doc.setFont(undefined,'bold'); doc.setTextColor(...C_GREEN);
-  doc.text('Q', ML+wA, y+11);
-  const wQ2 = doc.getTextWidth('Q');
-  doc.setFont(undefined,'normal'); doc.setTextColor(20,20,18);
-  doc.text('are', ML+wA+wQ2, y+11);
-  /* filet doré — unique touche sur la couverture */
-  doc.setDrawColor(...C_GOLD_D); doc.setLineWidth(0.5);
-  doc.line(ML, y+14.5, ML+60, y+14.5);
-  y += 22;
+  /* logo sobre */
+  doc.setFontSize(19); doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
+  doc.text('argi',ML,y+10);
+  const wArgi=doc.getTextWidth('argi');
+  doc.setFont(undefined,'bold'); doc.setTextColor(...GR);
+  doc.text('Q',ML+wArgi,y+10);
+  const wQQ=doc.getTextWidth('Q');
+  doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
+  doc.text('are',ML+wArgi+wQQ,y+10);
+  /* filet dor\u00e9 unique */
+  doc.setDrawColor(...GD); doc.setLineWidth(0.5);
+  doc.line(ML,y+13.5,ML+52,y+13.5);
+  y+=21;
 
-  /* Titre document */
-  doc.setFontSize(8.5); doc.setFont(undefined,'bold'); doc.setTextColor(...C_LIGHT);
-  doc.text('DOSSIER DE SYNTHÈSE — RETRAIT-GONFLEMENT DES ARGILES / CAT NAT', ML, y);
-  y += 10;
+  /* titre doc */
+  doc.setFontSize(SZ_SMALL); doc.setFont(undefined,'bold'); doc.setTextColor(...LT);
+  doc.text('DOSSIER DE SYNTH\u00c8SE \u2014 RETRAIT-GONFLEMENT DES ARGILES / CAT NAT',ML,y);
+  y+=9;
 
-  /* Identité assuré */
-  doc.setFontSize(14); doc.setFont(undefined,'bold'); doc.setTextColor(...C_BLACK);
-  doc.text(nomAssure, ML, y); y+=7;
-  doc.setFontSize(8); doc.setFont(undefined,'normal'); doc.setTextColor(...C_GREY);
-  if(adr1!=='—'){ doc.text(adr1, ML, y); y+=5; }
-  if(adr2){ doc.text(adr2, ML, y); y+=5; }
+  /* identit\u00e9 */
+  doc.setFontSize(12); doc.setFont(undefined,'bold'); doc.setTextColor(...BK);
+  doc.text(nomAssure,ML,y); y+=7;
+  doc.setFontSize(SZ_BODY); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
+  if(adrFull!=='\u2014'){ doc.text(adrFull,ML,y,{maxWidth:CW-30}); y+=5; }
+  const tel=v('m_tel'), email=v('m_email');
+  const contact=[tel,email].filter(x=>x).join('  \u00b7  ');
+  if(contact){ doc.text(contact,ML,y,{maxWidth:CW-30}); y+=5; }
   y+=3;
 
-  /* Méta-données clés */
-  const metas = [
-    ['Assureur', v('m_assureur')],
-    ['Numéro de contrat', v('m_numcontrat')],
-    ['Type de contrat', v('m_typecontrat')],
-    ['Profil de situation', profCfg ? profCfg.label.replace(/^Profil \d — /,'') : null],
+  /* m\u00e9ta-donn\u00e9es cl\u00e9s */
+  const metas=[
+    ['Assureur',v('m_assureur')],
+    ['N\u00b0 de contrat',v('m_numcontrat')],
+    ['Type de contrat',v('m_typecontrat')],
+    ['Profil',profCfg ? profCfg.label.replace(/^Profil \d+ \u2014 /,'').replace(/^Profil \d — /,'') : null],
   ].filter(([,val])=>val&&val.trim());
   metas.forEach(([lbl,val])=>{
-    doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...C_LIGHT);
-    doc.text(lbl, ML, y);
-    doc.setFont(undefined,'normal'); doc.setTextColor(...C_BLACK);
-    doc.text(val, ML+40, y);
-    y+=5.5;
+    doc.setFontSize(SZ_SMALL); doc.setFont(undefined,'bold'); doc.setTextColor(...LT);
+    doc.text(lbl,ML,y);
+    doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
+    doc.text(trunc(String(val),60),ML+32,y);
+    y+=5;
   });
 
   /* avancement */
   y+=3;
-  doc.setFontSize(7); doc.setFont(undefined,'normal'); doc.setTextColor(...C_GREY);
-  doc.text('Avancement au '+DATE_STR+' : '+g_ok+' / '+g_tot+' points renseignés ('+g_pct+'%)', ML, y);
+  doc.setFontSize(SZ_SMALL); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
+  doc.text('Avancement au '+DATE_LONG+'\u00a0: '+g_ok+' / '+g_tot+' points renseign\u00e9s ('+g_pct+'%)',ML,y,{maxWidth:CW});
 
   /* bas de couverture */
-  doc.setDrawColor(...C_LIGHT); doc.setLineWidth(0.15);
-  doc.line(ML, H-22, W-MR, H-22);
-  doc.setFontSize(7); doc.setFont(undefined,'normal'); doc.setTextColor(...C_LIGHT);
-  doc.text('Réf. '+ref, ML, H-16);
-  doc.text('Généré le '+DATE_STR, W-MR, H-16, {align:'right'});
-  drawFooter();
+  doc.setDrawColor(...LT); doc.setLineWidth(0.12);
+  doc.line(ML,H-20,W-MR,H-20);
+  doc.setFontSize(SZ_SMALL); doc.setFont(undefined,'normal'); doc.setTextColor(...LT);
+  doc.text('R\u00e9f.\u00a0'+ref,ML,H-14);
+  doc.text('G\u00e9n\u00e9r\u00e9 le '+DATE_LONG,W-MR,H-14,{align:'right'});
+  footer();
 
-  /* ════════════════════════════════════════
-     PAGE 2 — SOMMAIRE (provisoire, mis à jour en fin)
-  ════════════════════════════════════════ */
+  /* ═══════════════════════════════════════
+     PAGE 2 — SOMMAIRE
+  ═══════════════════════════════════════ */
   y = newPage();
   const PAGE_TOC = pageN;
-  doc.setFontSize(15); doc.setFont(undefined,'bold'); doc.setTextColor(...C_BLACK);
-  doc.text('Sommaire', ML, y); y+=12;
-  /* entrées vides — on revient les remplir après */
-  const TOC_ITEMS = [
-    {label:'1 —  Ma Maison', sub:'Informations sur le bien et l\'assuré'},
-    {label:'2 —  Mon Parcours', sub:'Les 12 étapes de la procédure RGA / Cat Nat'},
-    {label:'3 —  Annexes', sub:'Pièces jointes au dossier'},
+  doc.setFontSize(13); doc.setFont(undefined,'bold'); doc.setTextColor(...BK);
+  doc.text('Sommaire',ML,y); y+=11;
+
+  const TOC = [
+    {lbl:'1 \u2014  Ma Maison',sub:'Informations sur le bien et l\'assur\u00e9'},
+    {lbl:'2 \u2014  Mon Parcours',sub:'Les 12 \u00e9tapes de la proc\u00e9dure RGA / Cat Nat'},
+    {lbl:'3 \u2014  Annexes',sub:'Pi\u00e8ces jointes au dossier ('+annexes.length+' fichier'+(annexes.length!==1?'s':'')+')'},
   ];
-  const tocY = [];
-  TOC_ITEMS.forEach((item,i)=>{
+  const tocY=[];
+  TOC.forEach((item,i)=>{
     tocY.push(y);
-    doc.setFontSize(9.5); doc.setFont(undefined,'bold'); doc.setTextColor(...C_BLACK);
-    doc.text(item.label, ML, y);
-    doc.setFontSize(7.5); doc.setFont(undefined,'normal'); doc.setTextColor(...C_GREY);
-    doc.text(item.sub, ML+3, y+4.5);
-    /* pointillés */
-    doc.setDrawColor(210,207,200); doc.setLineWidth(0.1);
-    doc.line(ML+3, y+6.5, W-MR-16, y+6.5);
-    /* case page (vide pour l'instant) */
-    doc.setFillColor(238,235,228); doc.roundedRect(W-MR-13,y-1,13,8,1,1,'F');
+    doc.setFontSize(9.5); doc.setFont(undefined,'bold'); doc.setTextColor(...BK);
+    doc.text(item.lbl,ML,y);
+    doc.setFontSize(SZ_SMALL); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
+    doc.text(item.sub,ML+3,y+4);
+    doc.setDrawColor(215,212,205); doc.setLineWidth(0.1);
+    doc.line(ML+3,y+6,W-MR-14,y+6);
+    /* case page provisoire */
+    doc.setFillColor(238,235,228); doc.roundedRect(W-MR-12,y-1,12,7.5,1,1,'F');
     y+=13;
   });
 
-  /* ════════════════════════════════════════
+  /* ═══════════════════════════════════════
      SECTION 1 — MA MAISON
-  ════════════════════════════════════════ */
+  ═══════════════════════════════════════ */
   y = newPage();
   const PAGE_MAISON = pageN;
-  y = secTitle('1 — Ma Maison — Informations sur le bien et l\'assuré', y);
+  y = secTitle('1 \u2014 Ma Maison \u2014 Informations sur le bien et l\'assur\u00e9', y);
 
   y = subH('Informations personnelles', y);
-  y = field2([['Nom',vd('m_nom')],['Prénom',vd('m_prenom')]], y);
-  y = field('Adresse du domicile', [adr1,adr2].filter(x=>x&&x!=='—').join(' · ')||'—', y);
-  if(v('m_bien'))  y = field('Adresse du bien (si différente)', v('m_bien'), y);
-  y = field2([['Téléphone',vd('m_tel')],['Email',vd('m_email')]], y);
-  y+=3;
+  y = field2([['Nom',vd('m_nom')],['Pr\u00e9nom',vd('m_prenom')]], y);
+  y = field('Adresse du bien', adrFull, y);
+  if(v('m_bien')) y = field('Adresse (si diff\u00e9rente)', v('m_bien'), y);
+  y = field2([['T\u00e9l\u00e9phone',vd('m_tel')],['Email',vd('m_email')]], y);
+  y = gap(y,3);
 
   y = subH('Contrat d\'assurance', y);
   y = field2([['Assureur',vd('m_assureur')],['Type de contrat',vd('m_typecontrat')]], y);
-  y = field2([['Numéro de contrat',vd('m_numcontrat')],['Date d\'effet',v('m_dateeffet')?fmt(v('m_dateeffet')):'—']], y);
-  if(v('m_dateres'))  y = field('Date de résiliation (si applicable)', fmt(v('m_dateres')), y);
+  y = field2([['N\u00b0 de contrat',vd('m_numcontrat')],['Date d\'effet',v('m_dateeffet')?fmtDate(v('m_dateeffet')):'\u2014']], y);
+  if(v('m_dateres'))   y = field('Date de r\u00e9siliation (si applicable)', fmtDate(v('m_dateres')), y);
   if(v('m_franchise')) y = field('Franchise contractuelle', v('m_franchise'), y);
-  if(v('m_pcontrat')||v('m_scontrat')) y = field2([['Pièces principales (contrat)',vd('m_pcontrat')],['Surface assurée (m²)',vd('m_scontrat')]], y);
-  y+=3;
+  if(v('m_pcontrat')||v('m_scontrat')) y = field2([['Pi\u00e8ces principales',vd('m_pcontrat')],['Surface assur\u00e9e (m\u00b2)',vd('m_scontrat')]], y);
+  y = gap(y,3);
 
   y = subH('Description du bien immobilier', y);
-  if(v('m_dateconstr')||v('m_dateacq')) y = field2([['Date de construction',v('m_dateconstr')||'—'],['Date d\'acquisition',v('m_dateacq')?fmt(v('m_dateacq')):'—']], y);
-  if(v('m_precprop'))     y = field('Précédent propriétaire', v('m_precprop'), y);
-  if(v('m_datereception')) y = field('Date de réception des travaux', fmt(v('m_datereception')), y);
-  y+=3;
-
-  if(v('m_datetravaux')||v('m_superficie')||v('m_societe')||v('m_datechantier')){
-    y = subH('Travaux récents', y);
-    if(v('m_datetravaux'))  y = field('Date des travaux', fmt(v('m_datetravaux')), y);
-    if(v('m_superficie'))   y = field('Surface de l\'extension (m²)', v('m_superficie'), y);
-    if(v('m_societe'))      y = field('Entreprise de travaux', v('m_societe'), y);
-    if(v('m_datechantier')) y = field('Date du chantier', fmt(v('m_datechantier')), y);
+  if(v('m_dateconstr')||v('m_dateacq')) y = field2([['Date de construction',v('m_dateconstr')||'\u2014'],['Date d\'acquisition',v('m_dateacq')?fmtDate(v('m_dateacq')):'\u2014']], y);
+  if(v('m_precprop'))      y = field('Pr\u00e9c\u00e9dent propri\u00e9taire', v('m_precprop'), y);
+  if(v('m_datereception')) y = field('Date de r\u00e9ception des travaux', fmtDate(v('m_datereception')), y);
+  if(v('m_datetravaux')||v('m_superficie')||v('m_societe')){
+    y = gap(y,2);
+    y = subH('Travaux r\u00e9cents', y);
+    if(v('m_datetravaux')) y = field2([['Date des travaux',fmtDate(v('m_datetravaux'))],['Surface extension (m\u00b2)',vd('m_superficie')]], y);
+    if(v('m_societe'))     y = field('Entreprise de travaux', v('m_societe'), y);
   }
-
   if(profCfg){
-    y+=3;
+    y = gap(y,3);
     y = subH('Profil de situation', y);
-    y = field('Profil sélectionné', profCfg.title, y);
-    y = para(profCfg.sub||'', y, {col:C_GREY, sz:7.5, ix:1});
+    y = field('Profil s\u00e9lectionn\u00e9', trunc(profCfg.title,80), y);
+    const subLines = doc.splitTextToSize(profCfg.sub||'', CW-2);
+    y = guardY(y,subLines.length*LH_BODY+3);
+    doc.setFontSize(SZ_SMALL); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
+    doc.text(subLines, ML, y); y += subLines.length*LH_BODY+2;
   }
 
-  /* ════════════════════════════════════════
-     SECTION 2 — MON PARCOURS (chronologie verticale)
-  ════════════════════════════════════════ */
+  /* ═══════════════════════════════════════
+     SECTION 2 — MON PARCOURS (chronologie)
+  ═══════════════════════════════════════ */
   y = newPage();
   const PAGE_PARCOURS = pageN;
-  y = secTitle('2 — Mon Parcours — Les 12 étapes de la procédure RGA / Cat Nat', y);
+  y = secTitle('2 \u2014 Mon Parcours \u2014 Les 12 \u00e9tapes de la proc\u00e9dure RGA / Cat Nat', y);
 
-  /* résumé global */
-  doc.setFontSize(7.5); doc.setFont(undefined,'normal'); doc.setTextColor(...C_GREY);
-  const pctTxt = g_tot>0 ? g_ok+' / '+g_tot+' points renseignés ('+g_pct+'%) — '+g_blk+' mis de côté' : 'Aucune réponse enregistrée';
-  doc.text('Avancement : '+pctTxt, ML, y); y+=8;
+  doc.setFontSize(SZ_SMALL); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
+  const pctLine='Avancement\u00a0: '+g_ok+' / '+g_tot+' points renseign\u00e9s ('+g_pct+'%)'+(g_blk?' \u2014 '+g_blk+' mis de c\u00f4t\u00e9':'');
+  doc.text(pctLine, ML, y, {maxWidth:CW}); y+=6;
 
-  /* axe de la timeline */
-  const TL_X = ML+5;        // centre de l'axe
-  const TL_TX = TL_X+8;     // x du texte
-  const TL_CW = W-MR-TL_TX; // largeur utile du texte
+  /* axe vertical */
+  const TLX = ML+5;   // centre pastille
+  const TXT = TLX+8;  // x texte
+  const TCW = W-MR-TXT; // largeur texte
 
-  const STEP_IDS = ['step-1b','step-2b','step-3b','step-5b','step-6b','step-7b','step-8b','step-9b','step-10b','step-11b','step-13b','step-14b'];
-  const STEP_NUMS = {
-    'step-1b':1,'step-2b':2,'step-3b':3,'step-5b':4,'step-6b':5,'step-7b':6,
-    'step-8b':7,'step-9b':8,'step-10b':9,'step-11b':10,'step-13b':11,'step-14b':12
-  };
+  const STEP_IDS=['step-1b','step-2b','step-3b','step-5b','step-6b','step-7b','step-8b','step-9b','step-10b','step-11b','step-13b','step-14b'];
+  const STEP_NUM={'step-1b':1,'step-2b':2,'step-3b':3,'step-5b':4,'step-6b':5,'step-7b':6,'step-8b':7,'step-9b':8,'step-10b':9,'step-11b':10,'step-13b':11,'step-14b':12};
 
-  allSteps.forEach((stepEl, si) => {
+  const activeList = allSteps.filter(s=>STEP_IDS.includes(s.id));
+
+  activeList.forEach((stepEl,si)=>{
     const domId   = stepEl.id;
-    const dispNum = STEP_NUMS[domId] || (si+1);
+    const dispNum = STEP_NUM[domId]||si+1;
     const titleEl = stepEl.querySelector('.diag-step-title');
-    const title   = titleEl ? titleEl.textContent.trim() : 'Étape '+dispNum;
+    const title   = titleEl ? titleEl.textContent.trim() : '\u00c9tape '+dispNum;
     const items   = [...stepEl.querySelectorAll('.tri-item')];
     const s_ok    = items.filter(it=>triState[(it.id||'').replace(/^tri-/,'')]==='yes').length;
     const s_blk   = items.filter(it=>triState[(it.id||'').replace(/^tri-/,'')]==='blocked').length;
@@ -7496,207 +7718,197 @@ function generatePDF(){
     const complete = s_tot>0 && s_ok+s_blk===s_tot;
     const empty    = s_ok+s_blk===0;
 
-    /* hauteur estimée de cette étape */
-    const dotH    = 9;
-    const itemH   = 4;
-    const estH    = dotH + items.length*itemH + 5;
+    /* estimation hauteur */
+    const titleLines = doc.splitTextToSize(title, TCW-24);
+    const estH = 9 + titleLines.length*LH_BODY + items.length*LH_SMALL + 5;
+    y = guardY(y, Math.min(estH, 40));
 
-    if(y + estH > H-20){ y = newPage(); y+=2; }
-
-    /* axe vertical (sauf dernier) */
-    if(si < allSteps.length-1){
-      const lineEnd = Math.min(y + estH + 2, H-20);
-      doc.setDrawColor(...C_LIGHT); doc.setLineWidth(0.35);
-      doc.line(TL_X, y+8, TL_X, lineEnd);
+    /* axe continu */
+    if(si<activeList.length-1){
+      const lineLen=Math.min(estH+2, H-y-16);
+      doc.setDrawColor(...LT); doc.setLineWidth(0.3);
+      doc.line(TLX, y+8, TLX, y+lineLen);
     }
 
-    /* pastille */
-    const DOT_R = 4;
+    /* pastille 4 mm */
+    const R=3.5, cy=y+4;
     if(complete){
-      doc.setFillColor(...C_GREEN); doc.circle(TL_X, y+4.5, DOT_R, 'F');
-      doc.setFontSize(6); doc.setFont(undefined,'bold'); doc.setTextColor(...C_WHITE);
-      doc.text('\u2713', TL_X, y+6, {align:'center'});
+      doc.setFillColor(...GR); doc.circle(TLX,cy,R,'F');
+      doc.setFontSize(SZ_TINY); doc.setFont(undefined,'bold'); doc.setTextColor(...WH);
+      doc.text('\u2713',TLX,cy+1,{align:'center'});
     } else if(empty){
-      doc.setFillColor(...C_WHITE); doc.circle(TL_X, y+4.5, DOT_R, 'F');
-      doc.setDrawColor(...C_LIGHT); doc.setLineWidth(0.4); doc.circle(TL_X, y+4.5, DOT_R, 'D');
-      doc.setFontSize(6.5); doc.setFont(undefined,'normal'); doc.setTextColor(...C_LIGHT);
-      doc.text(''+dispNum, TL_X, y+5.8, {align:'center'});
+      doc.setFillColor(...BG); doc.circle(TLX,cy,R,'F');
+      doc.setDrawColor(...LT); doc.setLineWidth(0.4); doc.circle(TLX,cy,R,'D');
+      doc.setFontSize(SZ_TINY); doc.setFont(undefined,'normal'); doc.setTextColor(...LT);
+      doc.text(''+dispNum,TLX,cy+1,{align:'center'});
     } else {
-      /* partielle */
-      doc.setFillColor(232,242,228); doc.circle(TL_X, y+4.5, DOT_R, 'F');
-      doc.setDrawColor(...C_GREEN); doc.setLineWidth(0.4); doc.circle(TL_X, y+4.5, DOT_R, 'D');
-      doc.setFontSize(6.5); doc.setFont(undefined,'bold'); doc.setTextColor(...C_GREEN);
-      doc.text(''+dispNum, TL_X, y+5.8, {align:'center'});
+      doc.setFillColor(232,242,228); doc.circle(TLX,cy,R,'F');
+      doc.setDrawColor(...GR); doc.setLineWidth(0.4); doc.circle(TLX,cy,R,'D');
+      doc.setFontSize(SZ_TINY); doc.setFont(undefined,'bold'); doc.setTextColor(...GR);
+      doc.text(''+dispNum,TLX,cy+1,{align:'center'});
     }
 
-    /* titre étape */
-    const tLines = doc.splitTextToSize(title, TL_CW-20);
-    doc.setFontSize(8.5); doc.setFont(undefined, empty?'normal':'bold');
-    doc.setTextColor(...(empty ? C_LIGHT : C_BLACK));
-    doc.text(tLines, TL_TX, y+5);
+    /* titre \u00e9tape */
+    doc.setFontSize(SZ_BODY); doc.setFont(undefined,empty?'normal':'bold');
+    doc.setTextColor(...(empty?LT:BK));
+    doc.text(titleLines, TXT, y+5);
 
-    /* statut à droite */
+    /* statut \u00e0 droite */
     if(s_tot>0){
-      const sTxt = complete ? 'Complète ✓' : empty ? 'Non démarrée' : s_ok+'/'+s_tot+(s_blk?' · '+s_blk+' mis de côté':'');
-      doc.setFontSize(6.5); doc.setFont(undefined,'normal');
-      doc.setTextColor(...(complete ? C_GREEN : empty ? C_LIGHT : C_GREY));
-      doc.text(sTxt, W-MR, y+5, {align:'right'});
+      const st = complete?'Compl\u00e8te \u2713':empty?'Non d\u00e9marr\u00e9e':s_ok+'/'+s_tot+(s_blk?' \u00b7 '+s_blk+' mis de c\u00f4t\u00e9':'');
+      doc.setFontSize(SZ_TINY); doc.setFont(undefined,'normal');
+      doc.setTextColor(...(complete?GR:empty?LT:GY));
+      doc.text(st,W-MR,y+5,{align:'right'});
     }
 
-    y += dotH + tLines.length*3.2;
+    y += 7 + titleLines.length*LH_BODY;
 
     /* questions tristate */
     items.forEach(it=>{
-      if(y > H-14){ y=newPage(); y+=2; }
-      const key = (it.id||'').replace(/^tri-/,'');
-      const val = triState[key];
-      const lblEl = it.querySelector('.tri-label,.tri-question,label,p');
-      const lbl   = (lblEl ? lblEl.textContent.trim() : key).replace(/^[\p{Emoji}\s]+/u,'').trim();
-      const dotX  = TL_TX+2;
-      const txtX  = TL_TX+6;
-      const txtW  = TL_CW-8;
-
+      y = guardY(y, 6);
+      const key=(it.id||'').replace(/^tri-/,'');
+      const val=triState[key];
+      const lblEl=it.querySelector('.tri-label,.tri-question,label,p');
+      const lbl=(lblEl?lblEl.textContent.trim():key).replace(/^[\p{Emoji}\u{FE0F}\s]+/u,'').trim();
+      const dotX=TXT+2, txtX=TXT+6, txtW=TCW-7;
       if(val==='yes'){
-        doc.setFillColor(...C_GREEN);
-        doc.circle(dotX, y-0.5, 1.6, 'F');
-        doc.setFontSize(6.5); doc.setFont(undefined,'normal'); doc.setTextColor(...C_BLACK);
+        doc.setFillColor(...GR); doc.circle(dotX,y-0.5,1.5,'F');
+        doc.setFontSize(SZ_TINY); doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
       } else if(val==='blocked'){
-        doc.setFillColor(155,125,45);
-        doc.circle(dotX, y-0.5, 1.6, 'F');
-        doc.setFontSize(6.5); doc.setFont(undefined,'normal'); doc.setTextColor(...C_GREY);
+        doc.setFillColor(150,122,42); doc.circle(dotX,y-0.5,1.5,'F');
+        doc.setFontSize(SZ_TINY); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
       } else {
-        doc.setDrawColor(...C_LIGHT); doc.setLineWidth(0.25);
-        doc.circle(dotX, y-0.5, 1.6, 'D');
-        doc.setFontSize(6.5); doc.setFont(undefined,'normal'); doc.setTextColor(...C_LIGHT);
+        doc.setDrawColor(...LT); doc.setLineWidth(0.25); doc.circle(dotX,y-0.5,1.5,'D');
+        doc.setFontSize(SZ_TINY); doc.setFont(undefined,'normal'); doc.setTextColor(...LT);
       }
-      const iLines = doc.splitTextToSize(lbl, txtW);
-      doc.text(iLines, txtX, y);
-      y += Math.max(4, iLines.length*3.6);
+      const iLines=doc.splitTextToSize(lbl,txtW);
+      doc.text(iLines,txtX,y);
+      y += Math.max(LH_SMALL, iLines.length*LH_SMALL);
     });
 
-    /* micro-séparateur inter-étapes */
+    /* s\u00e9parateur inter-\u00e9tapes */
     doc.setDrawColor(238,234,226); doc.setLineWidth(0.1);
-    doc.line(TL_TX, y, W-MR, y);
+    doc.line(TXT,y+1,W-MR,y+1);
     y+=4;
   });
 
-  /* ════════════════════════════════════════
+  /* ═══════════════════════════════════════
      SECTION 3 — ANNEXES
-  ════════════════════════════════════════ */
+  ═══════════════════════════════════════ */
   y = newPage();
   const PAGE_ANNEXES = pageN;
-  y = secTitle('3 — Annexes — Pièces jointes au dossier', y);
+  y = secTitle('3 \u2014 Annexes \u2014 Pi\u00e8ces jointes au dossier', y);
 
   if(annexes.length===0){
-    doc.setFontSize(8); doc.setFont(undefined,'italic'); doc.setTextColor(...C_GREY);
-    doc.text('Aucune pièce jointe enregistrée.', ML, y); y+=6;
-    doc.setFontSize(7.5); doc.setFont(undefined,'normal');
-    doc.text('Ajoutez vos pièces depuis l\'onglet Mon Parcours ou Mon Dossier.', ML, y);
+    doc.setFontSize(SZ_BODY); doc.setFont(undefined,'italic'); doc.setTextColor(...GY);
+    doc.text('Aucune pi\u00e8ce jointe enregistr\u00e9e.',ML,y); y+=6;
+    doc.setFont(undefined,'normal');
+    doc.text('Ajoutez vos pi\u00e8ces depuis l\'onglet Mon Parcours ou Mon Dossier.',ML,y,{maxWidth:CW});
   } else {
-    /* en-tête tableau */
-    doc.setFontSize(6.5); doc.setFont(undefined,'bold'); doc.setTextColor(...C_GREY);
-    doc.text('Réf.', ML+3, y); doc.text('Désignation', ML+14, y); doc.text('Page', W-MR-4, y, {align:'right'});
-    y+=2; doc.setDrawColor(...C_LIGHT); doc.setLineWidth(0.2); doc.line(ML, y, W-MR, y); y+=3;
+    /* en-t\u00eate tableau */
+    doc.setFontSize(SZ_TINY); doc.setFont(undefined,'bold'); doc.setTextColor(...GY);
+    doc.text('R\u00e9f.',ML+3,y); doc.text('D\u00e9signation / fichier',ML+14,y); doc.text('Page',W-MR-4,y,{align:'right'});
+    y+=2;
+    doc.setDrawColor(...LT); doc.setLineWidth(0.18); doc.line(ML,y,W-MR,y); y+=3;
 
     annexes.forEach((a,idx)=>{
-      if(y > H-18){ y=newPage(); y+=3; }
-      const ltr = String.fromCharCode(65+idx);
-      doc.setFontSize(7.5); doc.setFont(undefined,'bold'); doc.setTextColor(...C_GREEN);
-      doc.text(ltr, ML+3, y, {align:'center'});
-      doc.setFont(undefined,'normal'); doc.setTextColor(...C_BLACK);
-      doc.text(a.title, ML+14, y);
-      if(a.name){ doc.setFontSize(6); doc.setTextColor(...C_GREY); doc.text(a.name, ML+14, y+3.5); }
-      /* numéro page — placeholder, mis à jour en fin */
-      doc.setFontSize(7.5); doc.setFont(undefined,'normal'); doc.setTextColor(...C_LIGHT);
-      doc.text('—', W-MR-4, y, {align:'right'});
-      a._tocY = y; a._tocPage = PAGE_ANNEXES;
-      doc.setDrawColor(235,231,224); doc.setLineWidth(0.1);
-      doc.line(ML+14, y+(a.name?5.5:2.5), W-MR-14, y+(a.name?5.5:2.5));
+      y = guardY(y, 9);
+      const ltr=String.fromCharCode(65+idx);
+      doc.setFontSize(SZ_BODY); doc.setFont(undefined,'bold'); doc.setTextColor(...GR);
+      doc.text(ltr,ML+3,y,{align:'center'});
+      doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
+      doc.text(trunc(a.title,45),ML+14,y);
+      doc.setFontSize(SZ_TINY); doc.setFont(undefined,'normal'); doc.setTextColor(...LT);
+      doc.text('\u2014',W-MR-4,y,{align:'right'}); // mise \u00e0 jour apr\u00e8s
+      a._tocY=y;
+      if(a.name){
+        doc.setFontSize(SZ_TINY); doc.setTextColor(...LT);
+        doc.text(trunc(a.name,55),ML+14,y+3.2);
+      }
+      doc.setDrawColor(232,229,222); doc.setLineWidth(0.1);
+      doc.line(ML+14,y+(a.name?5.5:2.5),W-MR-18,y+(a.name?5.5:2.5));
       y += a.name ? 8 : 5.5;
     });
   }
 
-  /* pages d'images — une par annexe */
-  const annexeImgPages = {};
+  /* pages d'images */
+  const annexePgs={};
   annexes.forEach((a,idx)=>{
-    if(!a.isImg || !a.data || !a.data.startsWith('data:image')) return;
+    if(!a.isImg||!a.data||!a.data.startsWith('data:image')) return;
     y = newPage();
-    annexeImgPages[idx] = pageN;
-    const ltr = String.fromCharCode(65+idx);
-    /* en-tête */
-    doc.setFontSize(7); doc.setFont(undefined,'bold'); doc.setTextColor(...C_GREEN);
-    doc.text('ANNEXE '+ltr, ML, y);
-    doc.setFont(undefined,'normal'); doc.setTextColor(...C_BLACK);
-    doc.text(a.title, ML+22, y);
-    doc.setDrawColor(...C_GREEN); doc.setLineWidth(0.25);
-    doc.line(ML, y+2, W-MR, y+2);
+    annexePgs[idx]=pageN;
+    const ltr=String.fromCharCode(65+idx);
+    /* bandeau \u00e9troit */
+    doc.setFillColor(...GR); doc.rect(ML,y,CW,5,'F');
+    doc.setFontSize(SZ_TINY); doc.setFont(undefined,'bold'); doc.setTextColor(...WH);
+    doc.text('ANNEXE\u00a0'+ltr+'\u00a0\u2014\u00a0'+trunc(a.title,40),ML+3,y+3.5);
     y+=8;
-    /* image centrée */
+    if(a.name){
+      doc.setFontSize(SZ_TINY); doc.setFont(undefined,'normal'); doc.setTextColor(...LT);
+      doc.text(a.name,ML,y); y+=4;
+    }
     try{
-      const fmt3 = a.data.includes('image/png')?'PNG':'JPEG';
-      const maxW2 = CW, maxH2 = H-y-18;
-      const tmp = new Image(); tmp.src = a.data;
-      let iW2=tmp.naturalWidth||maxW2, iH2=tmp.naturalHeight||maxH2;
-      const sc = Math.min(maxW2/iW2, maxH2/iH2, 1);
-      const dX2 = ML+(CW-iW2*sc)/2;
-      doc.addImage(a.data, fmt3, dX2, y, iW2*sc, iH2*sc);
-    } catch(_){
-      doc.setFontSize(8); doc.setFont(undefined,'italic'); doc.setTextColor(...C_GREY);
-      doc.text('(image non disponible)', ML, y+8);
+      const fmt3=a.data.includes('image/png')?'PNG':'JPEG';
+      const maxW=CW, maxH=H-y-14;
+      const tmp=new Image(); tmp.src=a.data;
+      let iW=tmp.naturalWidth||maxW, iH=tmp.naturalHeight||maxH;
+      const sc=Math.min(maxW/iW, maxH/iH, 1);
+      const dX=ML+(CW-iW*sc)/2;
+      doc.addImage(a.data,fmt3,dX,y,iW*sc,iH*sc);
+    }catch(_){
+      doc.setFontSize(SZ_BODY); doc.setFont(undefined,'italic'); doc.setTextColor(...LT);
+      doc.text('(image non disponible)',ML,y+8);
     }
   });
 
-  /* ════════════════════════════════════════
-     MISES À JOUR FINALES
-  ════════════════════════════════════════ */
-  const TOTAL = doc.internal.getNumberOfPages();
+  /* ═══════════════════════════════════════
+     MISES \u00c0 JOUR FINALES
+  ═══════════════════════════════════════ */
+  const TOTAL=doc.internal.getNumberOfPages();
 
-  /* 1. Numéros de page dans tous les footers */
+  /* 1. Pagination finale */
   for(let p=1;p<=TOTAL;p++){
     doc.setPage(p);
-    doc.setFillColor(...C_BG);
-    doc.rect(W-MR-10, H-7, 14, 5, 'F');
-    doc.setFontSize(6); doc.setFont(undefined,'normal'); doc.setTextColor(...C_LIGHT);
-    doc.text('p. '+p+' / '+TOTAL, W-MR, H-5, {align:'right'});
+    doc.setFillColor(...BG);
+    doc.rect(W-MR-10,H-7,14,5,'F');
+    doc.setFontSize(SZ_TINY); doc.setFont(undefined,'normal'); doc.setTextColor(...LT);
+    doc.text('p.\u00a0'+p+'\u00a0/\u00a0'+TOTAL,W-MR,H-4.5,{align:'right'});
   }
 
-  /* 2. Sommaire — remplir les numéros réels */
+  /* 2. Sommaire — num\u00e9ros r\u00e9els */
   doc.setPage(PAGE_TOC);
   [[PAGE_MAISON,0],[PAGE_PARCOURS,1],[PAGE_ANNEXES,2]].forEach(([pg,i])=>{
-    const ty = tocY[i];
-    doc.setFillColor(238,235,228);
-    doc.roundedRect(W-MR-13, ty-1, 13, 8, 1, 1, 'F');
-    doc.setFontSize(8); doc.setFont(undefined,'bold'); doc.setTextColor(...C_BLACK);
-    doc.text(''+pg, W-MR-2, ty+4.5, {align:'right'});
+    const ty=tocY[i];
+    doc.setFillColor(238,235,228); doc.roundedRect(W-MR-12,ty-1,12,7.5,1,1,'F');
+    doc.setFontSize(8); doc.setFont(undefined,'bold'); doc.setTextColor(...BK);
+    doc.text(''+pg,W-MR-2,ty+4,{align:'right'});
   });
 
-  /* 3. Numéros de pages dans la table des annexes */
+  /* 3. Pages dans table des annexes */
   doc.setPage(PAGE_ANNEXES);
   annexes.forEach((a,idx)=>{
     if(!a._tocY) return;
-    const pg = annexeImgPages[idx];
-    doc.setFillColor(...C_BG); doc.rect(W-MR-12, a._tocY-2, 14, 5.5, 'F');
-    doc.setFontSize(7.5); doc.setFont(undefined,'bold');
-    doc.setTextColor(pg ? C_GREEN[0] : C_LIGHT[0], pg ? C_GREEN[1] : C_LIGHT[1], pg ? C_GREEN[2] : C_LIGHT[2]);
-    doc.text(pg ? ''+pg : 'non img', W-MR-4, a._tocY, {align:'right'});
+    const pg=annexePgs[idx];
+    doc.setFillColor(...BG); doc.rect(W-MR-14,a._tocY-2,16,5,'F');
+    doc.setFontSize(SZ_BODY); doc.setFont(undefined, pg?'bold':'normal');
+    doc.setTextColor(...(pg?GR:LT));
+    doc.text(pg?''+pg:'\u2014',W-MR-4,a._tocY,{align:'right'});
   });
 
-  /* ── Sauvegarde ── */
+  /* sauvegarde */
   doc.save('ArgiQare_DossierComplet_'+ref+'.pdf');
 
-  const lbl2 = document.getElementById('last-gen-label');
-  if(lbl2) lbl2.textContent = '\u23F0 G\u00e9n\u00e9r\u00e9 le '+DATE_STR+' \u2014 '+TOTAL+' pages';
-  localStorage.setItem('argicare-last-pdf-date', DATE_STR);
-  localStorage.setItem('argicare-last-pdf-ref', ref);
-  localStorage.setItem('argicare-last-action', JSON.stringify({
-    date: now.toISOString(), label: 'Synth\u00e8se PDF g\u00e9n\u00e9r\u00e9e ('+TOTAL+' p.)'
-  }));
+  const lbl2=document.getElementById('last-gen-label');
+  if(lbl2) lbl2.textContent='\u23f0 G\u00e9n\u00e9r\u00e9 le '+DATE_LONG+' \u2014 '+TOTAL+' pages';
+  localStorage.setItem('argicare-last-pdf-date',DATE_SHORT);
+  localStorage.setItem('argicare-last-pdf-ref',ref);
+  localStorage.setItem('argicare-last-action',JSON.stringify({date:now.toISOString(),label:'Synth\u00e8se PDF ('+TOTAL+'\u00a0p.)'}));
   try{
     let vs=JSON.parse(localStorage.getItem('argicare-pdf-versions')||'[]');
-    vs.push({date:DATE_STR,ref,pages:TOTAL,pct:g_pct});
+    vs.push({date:DATE_SHORT,ref,pages:TOTAL,pct:g_pct});
     if(vs.length>10) vs=vs.slice(-10);
     localStorage.setItem('argicare-pdf-versions',JSON.stringify(vs));
-  } catch(_){}
+  }catch(_){}
 } // fin generatePDF
 
 const diagLabels=['📝 Description du sinistre','⚠️ Dégâts causés à des tiers','🔬 Études géotechniques','🏠 Acte d\'achat','🏗️ Permis de construire','🔑 États des lieux','🧾 Devis, factures et PV','✍️ Déclaration sur l\'honneur'];
@@ -8776,27 +8988,7 @@ function shareQRCode(){
 .glossaire-bubble:hover { transform:scale(1.05); }
 .glossaire-bubble-close { margin-top:16px; width:20px; height:20px; border-radius:50%; background:white; border:1.5px solid #d4c9b5; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:700; color:#4a3a2a; box-shadow:0 2px 6px rgba(0,0,0,.12); font-family:inherit; transition:background .15s; }
 .glossaire-bubble-close:hover { background:#fde8e4; color:#c04030; }
-.glossaire-overlay {
-  position:relative;
-  left:auto; right:auto; bottom:auto;
-  width:100%;
-  height:32px;
-  overflow:hidden;
-  border-radius:0;
-  background:rgba(45,90,39,.92);
-  backdrop-filter:blur(20px) saturate(180%);
-  -webkit-backdrop-filter:blur(20px) saturate(180%);
-  border-top:2px solid rgba(45,70,35,.5);
-  box-shadow:0 -4px 18px rgba(45,90,39,.3);
-  z-index:400;
-  pointer-events:auto;
-  flex-shrink:0;
-  transition:height .4s cubic-bezier(.4,0,.2,1), border-radius .4s;
-  display:flex;
-  flex-direction:column;
-  cursor:pointer;
-  order:0;
-}
+/* glossaire-overlay legacy supprimé */
 .glossaire-overlay.open {
   height:430px;
   border-radius:20px 20px 0 0;
@@ -8810,7 +9002,7 @@ function shareQRCode(){
   backdrop-filter:blur(24px) saturate(160%);
   -webkit-backdrop-filter:blur(24px) saturate(160%);
 }
-.glossaire-sheet { display:contents; }
+.glossaire-sheet { display:contents; overflow:hidden; }
 .glossaire-sheet-collapsed {
   height:32px; display:flex; align-items:center; justify-content:center;
   gap:10px; flex-shrink:0; cursor:pointer; padding:0 16px;
@@ -8821,7 +9013,7 @@ function shareQRCode(){
 .glossaire-sheet-collapsed:active { cursor:grabbing; }
 .glossaire-sheet-handle-label { font-size:10px; font-weight:800; color:rgba(255,255,255,.9); letter-spacing:1px; text-transform:uppercase; }
 .glossaire-sheet-header { padding:10px 16px 8px; display:flex; flex-direction:column; gap:8px; border-bottom:1px solid rgba(45,90,39,.12); flex-shrink:0; }
-.glossaire-sheet-header > div { text-align:justify; hyphens:auto; -webkit-hyphens:auto; font-size:10.5px; color:#5a7a52; line-height:1.6; }
+.glossaire-sheet-header > div { text-align:left; hyphens:auto; -webkit-hyphens:auto; font-size:9.5px; color:#5a7a52; line-height:1.5; word-wrap:break-word; overflow-wrap:break-word; max-width:100%; }
 #gl-surligna-toggle { align-self:flex-start; white-space:nowrap; flex-shrink:0; width:auto !important; }
 .glossaire-sheet-title { font-size:13px; font-weight:800; color:#1e3a1e; flex:1; text-align:center; }
 .glossaire-sheet-sub { font-size:9px; font-weight:700; background:rgba(45,90,39,.15); color:#2d5a27; padding:2px 8px; border-radius:10px; white-space:nowrap; }
@@ -10252,6 +10444,13 @@ function refreshDashboard(){
       vsCard.classList.remove('vs-p1','vs-p2','vs-p3');
       vsCard.classList.add('vs-' + cfg.barClass);
     }
+    // Thème sur le bouton Continuer → et le badge profil accueil
+    const ACCENT = {p1:'#2d5a27', p2:'#c06030', p3:'#a07030'};  /* palette canonique cards */
+    const accent = ACCENT[cfg.barClass] || '#2D5A27';
+    const nextBtn = document.getElementById('dash-next-btn');
+    if(nextBtn) nextBtn.style.background = accent;
+    const reprendreBtn = document.querySelector('#dash-profil-filled button[onclick="goToStep(null)"]');
+    if(reprendreBtn) reprendreBtn.style.background = accent;
   } else {
     if(emptyBlock) emptyBlock.style.display = 'block';
     if(filledBlock) filledBlock.style.display = 'none';
@@ -10724,9 +10923,16 @@ function resumeDiagnostic(){
 }
 
 function dashSelectProfil(n){
+  const estPremierChoix = !localStorage.getItem('argicare-profil');
   selectProfil(n);
   refreshDashboard();
   if(typeof refreshStepLocks === 'function') refreshStepLocks();
+  // Première sélection : rester sur l'accueil pour configurer
+  // Changement depuis Mon Dossier : switchTab géré par dashChangerProfil
+  if(!estPremierChoix){
+    // profil déjà existant = changement volontaire → rester là où on est
+  }
+  // Toujours : pas de redirection automatique
 }
 
 function dashChangerProfil(){
@@ -11148,6 +11354,329 @@ function storyRefresh(){
   const skip = document.getElementById('story-skip-btn');
   if(skip) skip.style.display = storyCurrent === STORY_TOTAL - 1 ? 'none' : 'block';
 }
+
+/* ════════════════════════════════════════════════════════
+   refreshDossierCockpit — alimente le cockpit Mon Dossier
+   Appelé à chaque switchTab('dossier') et après toute modif
+════════════════════════════════════════════════════════ */
+function refreshDossierCockpit(){
+  const savedP = localStorage.getItem('argicare-profil');
+  const cfg    = savedP ? PROFIL_CONFIG[savedP] : null;
+
+  /* ── Couleurs profil ── */
+  const THEME = {
+    1: {hdr:'#2d5a27', hdr2:'#1e4018', ring:'#C9A23A'},  /* vert sapin — même que CTA card p1 */
+    2: {hdr:'#8a4a28', hdr2:'#6e3820', ring:'#C08040'},  /* brun-terracotta — card p2 */
+    3: {hdr:'#7a5024', hdr2:'#5e3c14', ring:'#A87840'},  /* brun-doré — card p3 */
+  };
+  const t = (savedP && THEME[savedP]) ? THEME[savedP] : THEME[1];
+
+  /* ── Thème classe sur le screen ── */
+  const screenDos = document.getElementById('screen-dossier');
+  if(screenDos){
+    screenDos.classList.remove('dos-theme-p1','dos-theme-p2','dos-theme-p3');
+    if(savedP) screenDos.classList.add('dos-theme-p'+savedP);
+  }
+
+  /* ── Header ── */
+  const dosHdr = document.getElementById('dos-header');
+  if(dosHdr) dosHdr.style.background = t.hdr;
+
+  const etapeWrap = document.getElementById('dos-etape-wrap');
+  if(etapeWrap) etapeWrap.style.background = 'rgba(0,0,0,.22)';
+
+  /* ── Anneau : couleur selon profil ── */
+  const ringCircle = document.getElementById('dos-ring-circle');
+  if(ringCircle) ringCircle.setAttribute('stroke', t.ring);
+
+  /* ── Bouton Générer ── */
+  const dosBtn = document.getElementById('dos-btn-gen');
+  if(dosBtn){ dosBtn.style.background = t.hdr; dosBtn.style.borderColor = t.hdr; }
+
+  /* ── Bouton Aperçu — couleur accent ── */
+  const dosApercu = document.getElementById('dos-btn-apercu');
+  if(dosApercu){ dosApercu.style.color = t.hdr; dosApercu.style.borderColor = t.hdr; }
+
+  /* ── Barre progression PDF ── */
+  const pdfBar = document.getElementById('dos-pdf-bar');
+  if(pdfBar) pdfBar.style.background = t.hdr;
+
+  /* ── Widget partage ── */
+  const dosShareW = document.getElementById('dos-share-widget');
+  if(dosShareW) dosShareW.style.background = t.hdr;
+
+  /* ── Toggle historique ── */
+  const htgl = document.getElementById('dos-hist-tgl');
+  if(htgl) htgl.style.color = t.hdr;
+
+  /* ── Profil label + situation ── */
+  const lbl = document.getElementById('dos-profil-label');
+  const sub = document.getElementById('dos-profil-sub');
+  if(cfg){
+    if(lbl) lbl.textContent = 'Profil ' + savedP;
+    if(sub) sub.textContent = cfg.sub || cfg.title || '';
+  } else {
+    if(lbl) lbl.textContent = 'Mon dossier';
+    if(sub) sub.textContent = 'Choisissez votre profil dans l\'accueil';
+  }
+
+  /* ── Étape courante ── */
+  const allSteps = [...document.querySelectorAll('#screen-diag .diag-step')]
+    .filter(s=>!s.classList.contains('profil-grise'));
+  let currentStep = null, currentNum = 0, totalQ = 0, doneQ = 0;
+  let stepNum = 0;
+  allSteps.forEach(s=>{
+    stepNum++;
+    const items = [...s.querySelectorAll('.tri-item')];
+    const done  = items.filter(it=>triState[(it.id||'').replace(/^tri-/,'')]).length;
+    totalQ += items.length;
+    doneQ  += done;
+    if(!currentStep && done < items.length){
+      currentStep = s;
+      currentNum  = stepNum;
+    }
+  });
+
+  const etapeNum   = document.getElementById('dos-etape-num');
+  const etapeTitre = document.getElementById('dos-etape-titre');
+  const etapeProg  = document.getElementById('dos-etape-prog');
+  if(currentStep){
+    const tEl = currentStep.querySelector('.diag-step-title');
+    const title = tEl ? tEl.textContent.trim() : ('Étape '+currentNum);
+    const items = [...currentStep.querySelectorAll('.tri-item')];
+    const done  = items.filter(it=>triState[(it.id||'').replace(/^tri-/,'')]).length;
+    if(etapeNum)   { etapeNum.textContent = currentNum; etapeNum.style.color = t.ring; }
+    if(etapeTitre) etapeTitre.textContent = 'Étape '+currentNum+' — '+title;
+    if(etapeProg)  { etapeProg.textContent = done+' / '+items.length+' →'; etapeProg.style.color = t.ring; }
+  } else {
+    if(etapeNum)   etapeNum.textContent = '✓';
+    if(etapeTitre) etapeTitre.textContent = allSteps.length > 0 ? 'Parcours complet 🎉' : 'Aucun profil sélectionné';
+    if(etapeProg)  etapeProg.textContent = '';
+  }
+
+  /* ── Anneau global ── */
+  const globalPct = totalQ > 0 ? Math.round(doneQ/totalQ*100) : 0;
+  const circle = document.getElementById('dos-ring-circle');
+  const pctLbl = document.getElementById('dos-ring-pct');
+  if(circle){
+    const C = 2*Math.PI*24; // r=24
+    circle.style.strokeDashoffset = C*(1-globalPct/100);
+    circle.setAttribute('stroke', t.ring);
+  }
+  if(pctLbl) pctLbl.textContent = globalPct+'%';
+
+  /* ── Heatmap 2×2 ── */
+  // Ma Maison
+  const maisonInputs = document.querySelectorAll('#screen-maison .form-input');
+  const maisonFilled = [...maisonInputs].filter(i=>i.value&&i.value.trim()).length;
+  const maisonPct    = maisonInputs.length ? Math.round(maisonFilled/maisonInputs.length*100) : 0;
+  // Parcours
+  const parcoursItems = [...document.querySelectorAll('#screen-diag .tri-item')];
+  const parcoursDone  = parcoursItems.filter(it=>triState[(it.id||'').replace(/^tri-/,'')]).length;
+  const parcoursPct   = parcoursItems.length ? Math.round(parcoursDone/parcoursItems.length*100) : 0;
+  // Documents
+  const nDocs = Object.keys(diagFiles||{}).length;
+  const docsPct = Math.round(Math.min(nDocs/8,1)*100);
+  // Pièces
+  const photoOk = !!localStorage.getItem('argicare-photo-maison');
+  const planOk  = !!(planFile && planFile.data);
+  const piecesPct = Math.round(((photoOk?1:0)+(planOk?1:0)+nDocs)/10*100);
+
+  const tiles=[
+    ['maison', maisonPct],
+    ['parcours', parcoursPct],
+    ['docs', docsPct],
+    ['pieces', piecesPct],
+  ];
+  tiles.forEach(([key,pct])=>{
+    const tile  = document.getElementById('dos-hm-'+key);
+    const val   = document.getElementById('dos-hm-'+key+'-val');
+    const fill  = document.getElementById('dos-hm-'+key+'-fill');
+    if(!tile) return;
+    if(pct===0){
+      tile.classList.add('grey');
+    } else {
+      tile.classList.remove('grey');
+    }
+    if(val)  val.textContent  = pct>0 ? pct+'%' : '—';
+    if(fill) fill.style.width = pct+'%';
+  });
+
+  /* ── Widget PDF barre ── */
+  const pdfBarW = document.getElementById('dos-pdf-bar');
+  if(pdfBarW) pdfBarW.style.width = globalPct+'%';
+  const pdfPages = document.getElementById('dos-pdf-pages');
+  if(pdfPages){
+    const estPages = 3 + Math.round(doneQ/6) + Object.keys(diagFiles||{}).length;
+    pdfPages.textContent = '~'+Math.max(4,estPages)+' pages';
+  }
+
+  /* ── Historique ── */
+  dosHistExpanded = false;
+  renderDosHist();
+}
+
+let dosHistExpanded = false;
+
+function _buildHistEvents(){
+  const events = [];
+  try{
+    const raw = localStorage.getItem('argicare-last-action');
+    if(raw){
+      const d = JSON.parse(raw);
+      const diffMin = Math.floor((Date.now()-new Date(d.date))/60000);
+      const label = diffMin<1?'À l\'instant':diffMin<60?'Il y a '+diffMin+' min':diffMin<1440?'Il y a '+Math.floor(diffMin/60)+' h':'Le '+new Date(d.date).toLocaleDateString('fr-FR');
+      events.push({t:d.label||'Modification enregistrée', m:label});
+    }
+  }catch(_){}
+  try{
+    const vs = JSON.parse(localStorage.getItem('argicare-pdf-versions')||'[]');
+    vs.slice().reverse().forEach(v=>{ events.push({t:'PDF généré — '+v.pages+' pages', m:v.date}); });
+  }catch(_){}
+  if(localStorage.getItem('argicare-photo-maison')) events.push({t:'Photo du bien ajoutée', m:'Ma Maison'});
+  const savedP = localStorage.getItem('argicare-profil');
+  if(savedP) events.push({t:'Profil '+savedP+' sélectionné', m:'Accueil'});
+  return events;
+}
+
+function _histRow(e){
+  return `<div style="display:flex;gap:8px;padding:4px 0;align-items:center;border-bottom:0.5px solid #F5F2EE;">
+    <div style="width:8px;height:8px;border-radius:50%;background:#c4a882;border:1.5px solid #fff;flex-shrink:0;z-index:1;position:relative;"></div>
+    <div style="flex:1;min-width:0;">
+      <div style="font-size:8.5px;color:#1a1c18;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${e.t}</div>
+      <div style="font-size:7px;color:#A8AB9F;">${e.m}</div>
+    </div>
+  </div>`;
+}
+
+function renderDosHist(){
+  const list  = document.getElementById('dos-hist-list');
+  const extra = document.getElementById('dos-hist-extra');
+  const extraList = document.getElementById('dos-hist-extra-list');
+  const tgl   = document.getElementById('dos-hist-tgl');
+  if(!list) return;
+
+  const events = _buildHistEvents();
+  const AXE = '<div style="position:absolute;left:7px;top:0;bottom:0;width:1px;background:#ecdccc;"></div>';
+
+  if(events.length===0){
+    list.innerHTML = AXE + '<div style="font-size:9px;color:#A8AB9F;padding:4px 0 4px 18px;">Aucune action enregistrée.</div>';
+    if(tgl)   tgl.style.display   = 'none';
+    if(extra) extra.style.display = 'none';
+    return;
+  }
+
+  // Toujours afficher les 3 premières dans la zone principale
+  const first3 = events.slice(0, 3);
+  const rest   = events.slice(3);
+
+  list.innerHTML = AXE + first3.map(_histRow).join('');
+
+  // Zone déroulante interne pour le reste
+  if(rest.length > 0){
+    if(tgl) {
+      tgl.style.display = 'block';
+      tgl.textContent = dosHistExpanded ? '▲ Réduire' : '▼ Voir tout ('+events.length+' actions)';
+    }
+    if(extra && extraList){
+      extraList.innerHTML = AXE + rest.map(_histRow).join('');
+      extra.style.display = dosHistExpanded ? 'block' : 'none';
+    }
+  } else {
+    if(tgl)   tgl.style.display   = 'none';
+    if(extra) extra.style.display = 'none';
+  }
+}
+
+function toggleDosHist(){
+  dosHistExpanded = !dosHistExpanded;
+  const extra = document.getElementById('dos-hist-extra');
+  const tgl   = document.getElementById('dos-hist-tgl');
+  const events = _buildHistEvents();
+  if(extra) extra.style.display = dosHistExpanded ? 'block' : 'none';
+  if(tgl)   tgl.textContent = dosHistExpanded ? '▲ Réduire' : '▼ Voir tout ('+events.length+' actions)';
+}
+
+function shareByEmail(){
+  const ref = localStorage.getItem('argicare-dossier-ref') || 'AQ-XXXX';
+  const sub = encodeURIComponent('Mon dossier ArgiQare — Réf. '+ref);
+  const body= encodeURIComponent('Veuillez trouver ci-joint ma synthèse de dossier RGA / Cat Nat générée via ArgiQare.\n\nRéférence : '+ref);
+  window.location.href = 'mailto:?subject='+sub+'&body='+body;
+}
+
+function shareByQR(){
+  alert('Générez d\'abord votre PDF, puis utilisez ce QR code pour le partager. Fonctionnalité disponible après génération.');
+}
+
+function downloadPDF(){
+  generatePDF();
+}
+
+
+/* ── Scale adaptatif du phone selon la fenêtre ── */
+function adjustPhoneScale(){
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+  // Hauteur du phone : 844px, largeur : 390px
+  const scaleH = (vh * 0.96) / 844;   // 96% de la hauteur disponible
+  const scaleW = (vw * 0.98) / 390;   // 98% de la largeur disponible
+  const scale  = Math.min(scaleH, scaleW, 0.90); // jamais > 90%
+  const clamped = Math.max(scale, 0.30);          // jamais < 30%
+  document.documentElement.style.setProperty('--phone-scale', clamped.toFixed(3));
+}
+adjustPhoneScale();
+window.addEventListener('resize', adjustPhoneScale);
+
+
+/* ── Expert card : sauvegarde et restauration des 3 champs ── */
+function saveExpertFields(){
+  const nom  = document.getElementById('m_expert_nom')?.value  || '';
+  const tel  = document.getElementById('m_expert_tel')?.value  || '';
+  const mail = document.getElementById('m_expert_mail')?.value || '';
+  localStorage.setItem('argicare-expert', JSON.stringify({nom, tel, mail}));
+
+  /* Mettre à jour les boutons d'action */
+  const actions = document.getElementById('dash-expert-actions');
+  const hint    = document.getElementById('dash-expert-hint');
+  const telBtn  = document.getElementById('dash-expert-tel-btn');
+  const mailBtn = document.getElementById('dash-expert-mail-btn');
+
+  const hasTel  = tel.trim().length > 0;
+  const hasMail = mail.trim().length > 0;
+
+  if(actions){
+    actions.style.display = (hasTel || hasMail) ? 'flex' : 'none';
+  }
+  if(hint){
+    hint.style.display = (hasTel || hasMail) ? 'none' : 'block';
+  }
+  if(telBtn){
+    telBtn.href  = hasTel  ? 'tel:'+tel.replace(/\s/g,'')  : '#';
+    telBtn.style.opacity = hasTel ? '1' : '.4';
+    telBtn.style.pointerEvents = hasTel ? 'auto' : 'none';
+  }
+  if(mailBtn){
+    mailBtn.href = hasMail ? 'mailto:'+mail.trim() : '#';
+    mailBtn.style.opacity = hasMail ? '1' : '.4';
+    mailBtn.style.pointerEvents = hasMail ? 'auto' : 'none';
+  }
+}
+
+function loadExpertFields(){
+  try{
+    const raw = localStorage.getItem('argicare-expert');
+    if(!raw) return;
+    const {nom, tel, mail} = JSON.parse(raw);
+    const nomEl  = document.getElementById('m_expert_nom');
+    const telEl  = document.getElementById('m_expert_tel');
+    const mailEl = document.getElementById('m_expert_mail');
+    if(nomEl  && nom)  nomEl.value  = nom;
+    if(telEl  && tel)  telEl.value  = tel;
+    if(mailEl && mail) mailEl.value = mail;
+    saveExpertFields(); /* Met à jour les boutons */
+  }catch(_){}
+}
+
 </script>
 </body>
 </html>
