@@ -536,7 +536,7 @@ button, .nav-item, .diag-step-header, .section-header,
 }
 .privacy-shield {
   position:absolute; inset:0; z-index:9999;
-  background:linear-gradient(160deg,#1a3a6e 0%,#2d5a27 100%);
+  background:#6A9E7E;
   backdrop-filter:blur(24px); -webkit-backdrop-filter:blur(24px);
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   gap:12px; opacity:0; pointer-events:none;
@@ -1018,7 +1018,7 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
 }
 .phone-inner { position:absolute; inset:0; pointer-events:none; z-index:280; overflow:hidden; border-radius:var(--screen-radius,34px); }
 .status-bar { background:#2d5a27; color:white; font-size:11px; padding:8px 20px 6px; display:flex; justify-content:space-between; flex-shrink:0; }
-.header { background:linear-gradient(160deg,#1a3a6e 0%,#2d5a27 100%); padding:16px 14px 22px; color:white; flex-shrink:0; position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; margin-bottom:-4px; }
+.header { background:#6A9E7E; padding:16px 14px 22px; color:white; flex-shrink:0; position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; margin-bottom:-4px; }
 .app-name { font-size:26px; font-weight:800; letter-spacing:1px; }
 .app-name .orange { color:#f5a623; }
 .app-name .green { color:#a8d5a2; }
@@ -1156,7 +1156,7 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
 .diag-step-title { font-size:13px; font-weight:700; color:#2d3a1e; line-height:1.4; flex:1; }
 .diag-step-emoji { font-size:20px; flex-shrink:0; }
 .diag-step-intro { font-size:11px; color:#7a6a52; margin-bottom:8px; line-height:1.5; }
-#screen-diag.theme-p1 { --theme-accent:#2d5a27; --theme-grad:linear-gradient(135deg,#2d5a27,#4a7a38); --theme-yes-bg:#f0ece4; --theme-yes-text:#6E5836; }
+#screen-diag.theme-p1 { --theme-accent:#6A9E7E; --theme-grad:linear-gradient(135deg,#2d5a27,#4a7a38); --theme-yes-bg:#f0ece4; --theme-yes-text:#6E5836; }
 #screen-diag.theme-p2 { --theme-accent:#c06030; --theme-grad:linear-gradient(135deg,#8a4a28,#c06030); --theme-yes-bg:#f4ece4; --theme-yes-text:#8A4A28; }
 #screen-diag.theme-p3 { --theme-accent:#a07030; --theme-grad:linear-gradient(135deg,#7a5024,#a07030); --theme-yes-bg:#ece4d8; --theme-yes-text:#7A5024; }
 .diag-check-item { display:flex; align-items:flex-start; gap:10px; padding:8px 10px; border-radius:9px; margin-bottom:6px; background:#faf8f4; cursor:pointer; transition:background 0.2s; }
@@ -1315,7 +1315,7 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
 @keyframes navIconPulse { 0%{transform:scale(1);} 40%{transform:scale(1.25);} 100%{transform:scale(1);} }
 .nav-icon.nav-icon-pulse { animation: navIconPulse .45s cubic-bezier(.34,1.56,.64,1); display:inline-block; }
 .nav-label { font-size:7px; font-weight:500; color:rgba(255,255,255,.6); text-align:center; line-height:1.1; white-space:nowrap; letter-spacing:-.2px; }
-.nav-item.active .nav-label { color:#2d5a27; font-weight:700; }
+.nav-item.active .nav-label { color:#6A9E7E; font-weight:700; }
 .nav-icon { font-size:15px; line-height:1; }
 .nav-item.active .nav-icon { transform:scale(1.12); display:inline-block; }
 .nav-dot { display:none; }
@@ -1576,8 +1576,8 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
 
 /* ── Thème profil global — palette calée sur les profil-cards de l'accueil ── */
 .phone.app-theme-p1 {
-  --app-accent:  #2d5a27;   /* vert CTA card p1 */
-  --app-accent2: #4a7a38;
+  --app-accent:  #6A9E7E;   /* vert CTA card p1 */
+  --app-accent2: #527E64;
   --app-light:   #f0ece4;   /* sable clair p1 */
   --app-light2:  #e8e2d8;
   --app-border:  #d8cfc0;
@@ -1611,7 +1611,7 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
 .phone[class*="app-theme-"] #dash-ring-maison  { stroke:var(--app-accent2) !important; }
 
 /* Vue d'ensemble bouton Continuer */
-.phone.app-theme-p1 .dash-next-btn  { background:#2d5a27 !important; }
+.phone.app-theme-p1 .dash-next-btn  { background:#6A9E7E !important; }
 .phone.app-theme-p2 .dash-next-btn  { background:#c06030 !important; }
 .phone.app-theme-p3 .dash-next-btn  { background:#a07030 !important; }
 .phone.app-theme-p1 .dash-next-btn, .phone.app-theme-p1 #dash-profil-filled .btn-reprendre { background:#2d5a27 !important; }
@@ -1628,7 +1628,7 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
 .phone[class*="app-theme-"] .nav-dot { background:var(--app-accent) !important; }
 
 /* ── Thèmes profil Mon Dossier ── */
-#screen-dossier.dos-theme-p1 { --dos-accent:#2D5A27; --dos-light:#e8f4e0; --dos-ring:#c8a84a; }
+#screen-dossier.dos-theme-p1 { --dos-accent:#6A9E7E; --dos-light:#e8f4e0; --dos-ring:#c8a84a; }
 #screen-dossier.dos-theme-p2 { --dos-accent:#1a3a6e; --dos-light:#e8f0fc; --dos-ring:#c8a84a; }
 #screen-dossier.dos-theme-p3 { --dos-accent:#7a4e20; --dos-light:#f5e8d8; --dos-ring:#f0d898; }
 
@@ -1647,7 +1647,7 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
 #screen-accueil .dash-vs-sub { font-size:8px; }
 #screen-accueil .dash-next-text { font-size:10px; }
 #screen-accueil .dash-next-btn { font-size:9.5px; padding:5px 9px; }
-#screen-diag.theme-p1 { --theme-accent:#2d5a27; --theme-banner-bg:linear-gradient(135deg,#f0ece4,#e8e2d8); --theme-banner-border:#d8cfc0; --theme-banner-color:#6E5836; --theme-opt-label:#2d5a27; }
+#screen-diag.theme-p1 { --theme-accent:#6A9E7E; --theme-banner-bg:linear-gradient(135deg,#f0ece4,#e8e2d8); --theme-banner-border:#d8cfc0; --theme-banner-color:#6E5836; --theme-opt-label:#2d5a27; }
 #screen-diag.theme-p2 { --theme-accent:#c06030; --theme-banner-bg:linear-gradient(135deg,#f4ece4,#ead8c4); --theme-banner-border:#d8b8a0; --theme-banner-color:#8A4A28; --theme-opt-label:#c06030; }
 #screen-diag.theme-p3 { --theme-accent:#a07030; --theme-banner-bg:linear-gradient(135deg,#ece4d8,#dcd0b4); --theme-banner-border:#c8b090; --theme-banner-color:#7A5024; --theme-opt-label:#a07030; }
 #screen-diag[class*="theme-"] .profil-info-banner-wrap { background:var(--theme-banner-bg); border-color:var(--theme-banner-border); color:var(--theme-banner-color); }
@@ -1768,7 +1768,7 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
     <div class="gl-src" id="gl-src"></div>
   </div>
 
-  <div class="header" id="app-header" style="background:linear-gradient(160deg,#1a3a6e 0%,#2d5a27 100%);padding:14px 14px 22px;clip-path:ellipse(110% 92% at 50% 0%);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:390;">
+  <div class="header" id="app-header" style="background:#6A9E7E;padding:14px 14px 22px;clip-path:ellipse(110% 92% at 50% 0%);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:390;">
 
     <!-- ☁️ coin haut gauche — légèrement plus bas -->
     <span id="cloud-badge-slot" title="Statut cloud"
@@ -1779,7 +1779,7 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
       style="position:absolute;top:18px;right:16px;width:30px;height:30px;border-radius:50%;background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:background .2s;">⚙️</button>
 
     <!-- Logo centré agrandi -->
-    <div class="header-arch-logo" style="font-size:1.45em;margin-bottom:0;">
+    <div class="header-arch-logo" style="font-size:2em;margin-bottom:0;">
       <span class="g">argi</span><span class="q">Q</span><span class="a">are</span>
     </div>
   </div>
@@ -5421,14 +5421,14 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
   <!-- PANEL GLOSSAIRE bas -->
   <div class="glossaire-overlay" id="glossaire-overlay" style="position:absolute;bottom:58px;left:10%;width:80%;z-index:19;overflow:hidden;border-radius:16px 16px 0 0;">
     <div class="glossaire-sheet" id="glossaire-sheet">
-      <div class="glossaire-sheet-collapsed" onclick="toggleGlossaire()" style="background:#e0f0d8;border-radius:8px 8px 0 0;border:0.5px solid #b8dca8;cursor:grab;padding:4px 0 3px;width:100%;">
+      <div class="glossaire-sheet-collapsed" onclick="toggleGlossaire()" style="background:#6A9E7E;border-radius:16px 16px 0 0;border:none;cursor:grab;padding:5px 0 4px;width:100%;">
         <!-- Poignée drag visible -->
         <div style="display:flex;flex-direction:column;align-items:center;gap:2px;">
           <div style="width:30px;height:3px;border-radius:2px;background:#4a8a3a;opacity:.5;"></div>
           <div style="display:flex;align-items:center;gap:4px;">
-            <span style="font-size:9px;color:#2d6a20;opacity:.75;">↑</span>
-            <span style="font-size:7px;font-weight:700;color:#2d6a20;letter-spacing:.8px;">GLOSSAIRE</span>
-            <span style="font-size:9px;color:#2d6a20;opacity:.75;">↑</span>
+            <span style="font-size:11px;color:#fff;">↑</span>
+            <span style="font-size:9px;font-weight:700;color:#fff;letter-spacing:.8px;">GLOSSAIRE</span>
+            <span style="font-size:11px;color:#fff;">↑</span>
           </div>
         </div>
       </div>
@@ -5450,7 +5450,7 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
 
     <div id="screen-params" style="position:absolute;inset:0;z-index:400;background:white;display:none;flex-direction:column;overflow:hidden;">
       <!-- HEADER FIXE — ne scroll jamais -->
-      <div style="background:linear-gradient(160deg,#1a3a6e 0%,#2d5a27 100%);padding:14px 16px 18px;clip-path:ellipse(110% 92% at 50% 0%);display:flex;align-items:center;gap:10px;position:relative;margin-bottom:4px;flex-shrink:0;">
+      <div style="background:#6A9E7E;padding:14px 16px 18px;clip-path:ellipse(110% 92% at 50% 0%);display:flex;align-items:center;gap:10px;position:relative;margin-bottom:4px;flex-shrink:0;">
         <button onclick="closeParamsScreen()" style="background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:700;color:white;cursor:pointer;font-family:inherit;backdrop-filter:blur(4px);">‹ Retour</button>
         <div style="font-size:15px;font-weight:900;color:white;flex:1;text-align:center;letter-spacing:-.2px;">⚙️ Paramètres</div>
         <div style="width:68px;"></div>
@@ -5583,30 +5583,30 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
       </div><!-- fin contenu scrollable -->
     </div>
   <div class="bottom-nav">
-    <div style="position:absolute;bottom:12px;left:10%;width:80%;background:linear-gradient(155deg,#1a3a6e 0%,#2d5a27 100%);border-radius:0 0 16px 16px;padding:5px 4px 6px;display:flex;gap:2px;align-items:stretch;box-shadow:0 8px 28px rgba(26,58,110,.38),0 2px 8px rgba(0,0,0,.15);">
+    <div style="position:absolute;bottom:12px;left:10%;width:80%;background:#527E64;border-radius:0 0 16px 16px;padding:5px 4px 6px;display:flex;gap:2px;align-items:stretch;box-shadow:0 8px 28px rgba(26,58,110,.38),0 2px 8px rgba(0,0,0,.15);">
       <button class="nav-item active" id="nav-item-accueil" onclick="switchTab('accueil',this,'nav')" style="flex:1;">
-        <span class="nav-icon" style="position:relative;font-size:14px;">🧭<span class="nav-progress-pop" id="nav-progress-pop"></span></span>
-        <span class="nav-label" style="font-size:7px;">Accueil</span>
+        <span class="nav-icon" style="position:relative;font-size:16px;">🧭<span class="nav-progress-pop" id="nav-progress-pop"></span></span>
+        <span class="nav-label" style="font-size:9px;">Accueil</span>
         <div class="nav-dot"></div>
       </button>
       <button class="nav-item" onclick="switchTab('maison',this)" style="flex:1;">
-        <span class="nav-icon" style="font-size:14px;">🏠</span>
-        <span class="nav-label" style="font-size:7px;">Ma Maison</span>
+        <span class="nav-icon" style="font-size:16px;">🏠</span>
+        <span class="nav-label" style="font-size:9px;">Ma Maison</span>
         <div class="nav-dot"></div>
       </button>
       <button class="nav-item" onclick="switchTab('diag',this,'nav')" style="flex:1;">
-        <span class="nav-icon" style="font-size:14px;">🔍</span>
-        <span class="nav-label" style="font-size:7px;">Parcours</span>
+        <span class="nav-icon" style="font-size:16px;">🔍</span>
+        <span class="nav-label" style="font-size:9px;">Parcours</span>
         <div class="nav-dot"></div>
       </button>
       <button class="nav-item" onclick="switchTab('dossier',this)" style="flex:1;">
-        <span class="nav-icon" style="font-size:14px;">📁</span>
-        <span class="nav-label" style="font-size:7px;">Mon Dossier</span>
+        <span class="nav-icon" style="font-size:16px;">📁</span>
+        <span class="nav-label" style="font-size:9px;">Mon Dossier</span>
         <div class="nav-dot"></div>
       </button>
       <button class="nav-item" onclick="switchTab('catnat',this,'nav')" style="flex:1;">
-        <span class="nav-icon" style="font-size:14px;">⚖️</span>
-        <span class="nav-label" style="font-size:7px;">Infos</span>
+        <span class="nav-icon" style="font-size:17px;">⚖️</span>
+        <span class="nav-label" style="font-size:9px;font-weight:600;letter-spacing:.1px;">Infos</span>
         <div class="nav-dot"></div>
       </button>
     </div>
@@ -10445,7 +10445,7 @@ function refreshDashboard(){
       vsCard.classList.add('vs-' + cfg.barClass);
     }
     // Thème sur le bouton Continuer → et le badge profil accueil
-    const ACCENT = {p1:'#2d5a27', p2:'#c06030', p3:'#a07030'};  /* palette canonique cards */
+    const ACCENT = {p1:'#6A9E7E', p2:'#c06030', p3:'#a07030'};  /* palette canonique cards */
     const accent = ACCENT[cfg.barClass] || '#2D5A27';
     const nextBtn = document.getElementById('dash-next-btn');
     if(nextBtn) nextBtn.style.background = accent;
@@ -11365,7 +11365,7 @@ function refreshDossierCockpit(){
 
   /* ── Couleurs profil ── */
   const THEME = {
-    1: {hdr:'#2d5a27', hdr2:'#1e4018', ring:'#C9A23A'},  /* vert sapin — même que CTA card p1 */
+    1: {hdr:'#6A9E7E', hdr2:'#3E6450', ring:'#C9A23A'},  /* vert prairie clair */
     2: {hdr:'#8a4a28', hdr2:'#6e3820', ring:'#C08040'},  /* brun-terracotta — card p2 */
     3: {hdr:'#7a5024', hdr2:'#5e3c14', ring:'#A87840'},  /* brun-doré — card p3 */
   };
