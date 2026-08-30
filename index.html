@@ -612,6 +612,19 @@ button, .nav-item, .diag-step-header, .section-header,
 .dos-mini-doc::before{width:90%;}
 .dos-mini-doc::after{width:70%;}
 
+/* ── BULLES DE TRANSITION TERRACOTTA ── */
+.diag-transition-bubble {
+  display:flex; align-items:flex-start; gap:10px;
+  background:linear-gradient(135deg,#F5E0CC,#E8C8A8);
+  border-left:4px solid #A05030; border-radius:0 12px 12px 0;
+  padding:12px 14px; margin:12px 0 8px;
+}
+.diag-transition-bubble-icon { font-size:17px; flex-shrink:0; margin-top:1px; }
+.diag-transition-bubble-body { flex:1; }
+.diag-transition-bubble-title { font-size:11px; font-weight:800; color:#7A3A1A; margin-bottom:3px; }
+.diag-transition-bubble-text  { font-size:10px; color:#7A3A2A; line-height:1.6; }
+/* ── FIN BULLES TRANSITION ── */
+
 </style>
 <script>
 const TOTAL_CHECKS = 106;
@@ -922,6 +935,7 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
 .phone.dark .glossaire-overlay { background:rgba(20,30,20,.88) !important; }
 .phone.dark .glossaire-sheet-title { color:#a8d5a2 !important; }
 .phone.dark .glossaire-list { background:transparent !important; }
+.glossaire-sheet-body { background:rgba(30,58,30,.55); backdrop-filter:blur(18px) saturate(160%); -webkit-backdrop-filter:blur(18px) saturate(160%); }
 .phone.dark .glossaire-term { color:#a8d5a2 !important; }
 .phone.dark .glossaire-item { border-color:#3a4e3a !important; }
 .phone.dark .glossaire-item:hover { background:rgba(45,90,39,.15) !important; }
@@ -2422,7 +2436,7 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
           <!-- Boutons d'action (apparaissent si tel ou mail renseigné) -->
           <div id="dash-expert-actions" style="display:none;display:flex;gap:8px;">
             <a id="dash-expert-tel-btn" href="#"
-              style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:linear-gradient(135deg,#2D5A27,#4a7c3f);color:#fff;border-radius:10px;padding:9px;font-size:10px;font-weight:800;text-decoration:none;">
+              style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:#f0ece4;color:#2D5A27;border:1.5px solid #d8cfc0;border-radius:10px;padding:9px;font-size:10px;font-weight:800;text-decoration:none;">
               📱 Appeler
             </a>
             <a id="dash-expert-mail-btn" href="#"
@@ -3672,6 +3686,15 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
         </div>
       </div>
 
+      <!-- BULLE TRANSITION — avant étape 9 (documents expert) -->
+      <div class="diag-transition-bubble">
+        <div class="diag-transition-bubble-icon">📌</div>
+        <div class="diag-transition-bubble-body">
+          <div class="diag-transition-bubble-title">Un expert est désigné pour votre dossier</div>
+          <div class="diag-transition-bubble-text">À partir de cette étape, vous préparez les éléments que l'expert mandaté par votre assureur va examiner. Rassemblez dès maintenant vos photos, factures et documents techniques — un dossier bien préparé accélère significativement la procédure.</div>
+        </div>
+      </div>
+
       <!-- ÉTAPE 9 — DOCUMENTS À FOURNIR À L'EXPERT -->
       <div class="diag-step" id="step-10b">
         <div class="diag-step-header" onclick="toggleDiagStep('step-10b')" style="cursor:pointer;">
@@ -3946,6 +3969,15 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
         </div>
       </div>
 
+      <!-- BULLE TRANSITION — après expertise avant indemnisation -->
+      <div class="diag-transition-bubble">
+        <div class="diag-transition-bubble-icon">📌</div>
+        <div class="diag-transition-bubble-body">
+          <div class="diag-transition-bubble-title">Étape importante — Après le rapport de l'expert</div>
+          <div class="diag-transition-bubble-text">Le rapport d'expertise est une pièce centrale de votre dossier. Lisez-le attentivement : il détermine le montant de l'indemnisation proposée par votre assureur. Vous avez le droit de le contester si vous estimez qu'il sous-évalue les dommages.</div>
+        </div>
+      </div>
+
       <!-- ÉTAPE 11 — PROPOSITION D'INDEMNISATION -->
       <div class="diag-step" id="step-13b">
         <div class="diag-step-header" onclick="toggleDiagStep('step-13b')" style="cursor:pointer;">
@@ -4067,19 +4099,19 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
         <div id="dos-card-split" style="background:#fff;border-radius:12px;border:0.5px solid #e0d8cc;box-shadow:0 3px 12px rgba(0,0,0,.09);overflow:hidden;display:flex;">
 
           <!-- Zone gauche — info profil -->
-          <div id="dos-zone-left" style="flex:1;background:rgba(106,158,126,.08);padding:11px 12px 12px;border-right:0.5px solid #ece8e0;min-width:0;overflow:hidden;">
+          <div id="dos-zone-left" style="flex:1;background:rgba(106,158,126,.08);padding:9px 10px 10px;border-right:0.5px solid #ece8e0;min-width:0;overflow:hidden;">
             <!-- Tag profil -->
-            <div id="dos-profil-label-tag" style="font-size:8px;font-weight:700;color:#6A9E7E;text-transform:uppercase;letter-spacing:.6px;margin-bottom:3px;">PROFIL —</div>
+            <div id="dos-profil-label-tag" style="font-size:6.5px;font-weight:700;color:#6A9E7E;text-transform:uppercase;letter-spacing:.6px;margin-bottom:2px;">PROFIL —</div>
             <!-- Titre situation -->
-            <div id="dos-profil-label" style="font-size:12px;font-weight:700;color:#1a2a0e;line-height:1.3;margin-bottom:6px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">—</div>
+            <div id="dos-profil-label" style="font-size:8.5px;font-weight:700;color:#1a2a0e;line-height:1.25;margin-bottom:5px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;">—</div>
             <!-- Badge étape : fond couleur, texte blanc, une seule ligne -->
             <div id="dos-etape-wrap" style="background:#6A9E7E;border-radius:5px;padding:3px 8px;display:flex;align-items:center;gap:4px;max-width:100%;overflow:hidden;">
-              <span id="dos-etape-num" style="font-size:8px;font-weight:700;color:#C9A23A;flex-shrink:0;white-space:nowrap;"></span>
-              <span id="dos-etape-titre" style="font-size:8px;color:rgba(255,255,255,.9);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1;"></span>
-              <span id="dos-etape-prog" style="font-size:7.5px;color:rgba(255,255,255,.6);flex-shrink:0;white-space:nowrap;margin-left:2px;"></span>
+              <span id="dos-etape-num" style="font-size:6px;font-weight:700;color:#C9A23A;flex-shrink:0;white-space:nowrap;"></span>
+              <span id="dos-etape-titre" style="font-size:6.5px;color:rgba(255,255,255,.9);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0;flex:1;"></span>
+              <span id="dos-etape-prog" style="font-size:6px;color:rgba(255,255,255,.6);flex-shrink:0;white-space:nowrap;margin-left:2px;"></span>
             </div>
             <!-- Sous-titre discret -->
-            <div id="dos-profil-sub" style="font-size:7.5px;color:#9a8a72;margin-top:4px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
+            <div id="dos-profil-sub" style="font-size:6px;color:#9a8a72;margin-top:3px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
           </div>
 
           <!-- Zone droite — anneau + % -->
@@ -4093,7 +4125,7 @@ body { background:#e8e2d8; display:flex; justify-content:center; align-items:cen
                   style="transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1);"/>
               </svg>
               <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-                <span id="dos-ring-pct" style="font-size:13px;font-weight:700;color:#6A9E7E;line-height:1;">0%</span>
+                <span id="dos-ring-pct" style="font-size:9px;font-weight:700;color:#6A9E7E;line-height:1;">0%</span>
               </div>
             </div>
             <span style="font-size:6px;color:#9a8a72;">global</span>
@@ -6170,16 +6202,16 @@ const PROFIL_CONFIG = {
        title:'Je viens de constater une fissure',
        sub:'Je ne sais pas encore si c\'est le RGA. Je démarre depuis le début et veux constituer mon dossier complet.',
        pill:'📍 Étapes 1 à 12 — parcours complet' },
-  2: { grises:[], infoSteps:[1,2,3], actives:[5,6,7,8,9,10,11,13,14], startStep:4,
-       icon:'📋', label:'Profil 2 — J\'attends l\'arrêté Cat Nat', barClass:'p2',
-       title:'Je viens de déclarer mon sinistre à mon assureur et/ou j\'attends la publication de l\'arrêté Cat Nat',
+  2: { grises:[], infoSteps:[], actives:[1,2,3,5,6,7,8,9,10,11,13,14], startStep:1,
+       icon:'📋', label:'Profil 2 — Sinistre déclaré, dossier complet', barClass:'p2',
+       title:'J\'ai déclaré mon sinistre — je constitue mon dossier complet (étapes 1 à 10)',
        sub:'Mon sinistre est déclaré mais ma commune n\'est pas encore reconnue. Je prépare mon dossier en attendant.',
-       pill:'📍 À partir de l\'étape 4' },
-  3: { grises:[], infoSteps:[], actives:[1,2,3,5,6,7,8,9,10,11,13,14], startStep:10,
+       pill:'📍 Étapes 1 à 10 — dossier complet' },
+  3: { grises:[], infoSteps:[], actives:[1,2,3,5,6,7,8,9,10,11,13,14], startStep:9,
        icon:'🏗️', label:'Profil 3 — Expert missionné', barClass:'p3',
        title:'Un expert est missionné pour mon dossier',
        sub:'L\'expertise est en cours ou terminée. Je suis en phase d\'indemnisation et de réparation de mon bien.',
-       pill:'📍 À partir de l\'étape 10' },
+       pill:'📍 À partir de l\'étape 9' },
 };
 let _currentProfil = null;
 
@@ -6876,7 +6908,7 @@ function showFirstGlossHint(){
   document.head.appendChild(s);
 })();
 
-const _glossProactiveShown = new Set(JSON.parse(localStorage.getItem('argicare-gloss-proactive-shown') || '[]'));
+const _glossProactiveShown = new Set(JSON.parse(localStorage.getItem('argicare-gloss-proactive-shown')||'[]'));
 function showProactiveGlossTip(stepEl){
   const firstTerm = stepEl.querySelector('.diag-step-body .gl');
   if(!firstTerm) return;
@@ -7680,556 +7712,368 @@ function saveCommuneNotif(){const c=document.getElementById('notif-commune').val
 function showPushNotif(){const n=document.getElementById('push-notif');n.classList.add('show');setTimeout(()=>n.classList.remove('show'),6000);}
 function closePushNotif(){document.getElementById('push-notif').classList.remove('show');}
 function generatePDF(){
-  // Spinner feedback
+  // ── Gardes ──
+  const _savedP = localStorage.getItem('argicare-profil');
+  AppState.update();
+  if(!_savedP){ showToast("Sélectionnez d'abord votre profil depuis l'Accueil"); switchTab('accueil',document.querySelectorAll('.nav-item')[0]); return; }
+  if(AppState.globalPct < 5){ showToast('💡 Complétez Ma Maison et Mon Parcours avant de générer le PDF'); return; }
+
+  // ── Spinner ──
   const genBtns = document.querySelectorAll('#dos-btn-gen, [onclick*="generatePDF"]');
-  genBtns.forEach(b=>{ b._origText=b.textContent; b.textContent='⏳ Génération…'; b.disabled=true; });
-  const doGenerate = () => {
-  const {jsPDF} = window.jspdf;
-  if(!jsPDF){ genBtns.forEach(b=>{b.textContent=b._origText||'📄 Générer';b.disabled=false;}); showToast('⚠️ PDF non disponible'); return; }
-  const doc = new jsPDF({unit:'mm', format:'a4'});
+  genBtns.forEach(b=>{ b._orig=b.innerHTML; b.innerHTML='⏳'; b.disabled=true; });
+  const restore = ()=> genBtns.forEach(b=>{ b.innerHTML=b._orig||'📄 Générer'; b.disabled=false; });
 
-  /* ── Palette ── */
-  const W=210, H=297;
-  const BK  = [20, 20, 18];    // corps texte
-  const GY  = [90, 93, 86];    // secondaire
-  const LT  = [162,165,158];   // s\u00e9parateurs, notes
-  const BG  = [250,248,244];   // fond cr\u00e8me
-  const WH  = [255,255,255];
-  const GR  = [45, 90, 39];    // vert ArgiQare
-  const GD  = [150,122,42];    // dor\u00e9 atténu\u00e9 (couverture)
+  // ── Charger jsPDF ──
+  const _run = ()=>{
+    try{ _doGeneratePDF(); } catch(e){ console.error(e); showToast('Erreur PDF : '+e.message); } finally{ restore(); }
+  };
+  if(typeof window.jspdf !== 'undefined' || (typeof jsPDF !== 'undefined')){ _run(); return; }
+  const sc = document.createElement('script');
+  sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+  sc.onload = _run; sc.onerror = ()=>{ showToast('Impossible de charger jsPDF'); restore(); };
+  document.head.appendChild(sc);
+}
 
-  const ML=16, MR=16, CW=W-ML-MR;
-  const SZ_BODY=7, SZ_SMALL=6, SZ_TINY=5.5, SZ_SEC=6.5, SZ_FIELD=6;
-  const LH_BODY=4.2, LH_SMALL=3.8;
-
-  /* helpers */
-  const v  = id => (document.getElementById(id)||{}).value?.trim()||'';
-  const vd = (id,fb) => { const r=v(id); return (r&&r!=='—') ? r : (fb||'—'); };
-  const fmtDate = d => { try{ return new Date(d).toLocaleDateString('fr-FR'); }catch(_){return d||'—';} };
-  const trunc = (s,n) => s && s.length>n ? s.slice(0,n-1)+'\u2026' : (s||'—');
-
-  const now = new Date();
-  const DATE_LONG  = now.toLocaleDateString('fr-FR',{day:'2-digit',month:'long',year:'numeric'});
-  const DATE_SHORT = now.toLocaleDateString('fr-FR');
-
-  let ref = localStorage.getItem('argicare-dossier-ref');
-  if(!ref){ ref='AQ-'+now.getFullYear()+'-'+Math.random().toString(36).slice(2,6).toUpperCase(); localStorage.setItem('argicare-dossier-ref',ref); }
-
-  const nomAssure  = [v('m_prenom'),v('m_nom')].filter(x=>x).join(' ')||'\u2014';
-  const adr1 = [v('m_voie'),v('m_compl')].filter(x=>x).join(', ')||'';
-  const adr2 = [v('m_cp'),v('m_ville')].filter(x=>x).join(' ')||'';
-  const adrFull = [adr1,adr2].filter(x=>x).join(' \u00b7 ')||'\u2014';
-  const savedP  = localStorage.getItem('argicare-profil');
-  const profCfg = savedP ? PROFIL_CONFIG[savedP] : null;
+function _doGeneratePDF(){
+  const { jsPDF } = (window.jspdf||window);
+  const doc = new jsPDF({unit:'mm',format:'a4',orientation:'portrait'});
+  const v  = id=>(document.getElementById(id)||{}).value?.trim()||'';
+  const vd = id=>v(id)||'—';
+  const savedP  = localStorage.getItem('argicare-profil')||'1';
+  const cfg     = PROFIL_CONFIG[savedP]||{};
+  const prenom  = v('m_prenom'), nom=v('m_nom');
+  const nomFull = [prenom,nom].filter(Boolean).join(' ')||'—';
+  const adresse = [v('m_voie'),[v('m_cp'),v('m_ville')].filter(Boolean).join(' ')].filter(Boolean).join(', ')||'—';
+  const dateStr = new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
   const photoData = localStorage.getItem('argicare-photo-maison');
+  let ex={}; try{ex=JSON.parse(localStorage.getItem('argicare-expert')||'{}');}catch(_){}
 
-  /* avancement global */
-  const allSteps = [...document.querySelectorAll('#screen-diag .diag-step')].filter(s=>!s.classList.contains('profil-grise'));
-  let g_ok=0, g_blk=0, g_tot=0;
-  allSteps.forEach(s=>[...s.querySelectorAll('.tri-item')].forEach(it=>{
-    g_tot++;
-    const val=triState[(it.id||'').replace(/^tri-/,'')];
-    if(val==='yes') g_ok++; else if(val==='blocked') g_blk++;
-  }));
-  const g_pct = g_tot>0 ? Math.round(g_ok/g_tot*100) : 0;
+  // Palette profil
+  const PC_MAP={'1':[106,158,126],'2':[138,74,40],'3':[122,80,36]};
+  const PC  = PC_MAP[savedP]||[106,158,126];
+  const GOLD= [201,162,58];
+  const DARK= [26,42,14];
+  const GREY= [120,120,120];
+  const LGREY=[220,215,205];
+  const WH  = [255,255,255];
+  const BG  = [250,248,244];
 
-  /* annexes */
-  const PIECE_LABELS=['Description du sinistre','D\u00e9g\u00e2ts caus\u00e9s \u00e0 des tiers','\u00c9tudes g\u00e9otechniques',
-    'Acte d\'achat','Permis de construire','\u00c9tats des lieux','Devis, factures et PV','D\u00e9claration sur l\'honneur'];
-  const annexes=[];
-  if(photoData) annexes.push({title:'Photo du bien',data:photoData,isImg:true,name:''});
-  if(planFile&&planFile.data) annexes.push({title:'Plan de la maison',data:planFile.data,isImg:!!(planFile.type&&planFile.type.startsWith('image/')),name:planFile.name||''});
-  Object.keys(diagFiles||{}).sort((a,b)=>+a-+b).forEach(k=>{
-    const f=diagFiles[k]; if(!f||!f.data) return;
-    annexes.push({title:PIECE_LABELS[+k-1]||('Pi\u00e8ce '+k),data:f.data,isImg:!!(f.type&&f.type.startsWith('image/')),name:f.name||''});
-  });
+  const W=210,H=297,M=14,CW=W-M*2;
+  const rgb =c=>doc.setTextColor(...c);
+  const fill=c=>doc.setFillColor(...c);
+  const strk=c=>doc.setDrawColor(...c);
+  let pageN=0, y=0;
 
-  /* ═══════════════════════════════════════
-     MOTEUR DE PAGE
-  ═══════════════════════════════════════ */
-  let pageN=0;
-
-  const footer = () => {
-    doc.setDrawColor(...LT); doc.setLineWidth(0.12);
-    doc.line(ML,H-8,W-MR,H-8);
-    doc.setFontSize(SZ_TINY); doc.setFont(undefined,'normal'); doc.setTextColor(...LT);
-    doc.text('ArgiQare \u2014 document d\'accompagnement indicatif, sans valeur juridique \u2014 R\u00e9f.\u00a0'+ref, ML, H-4.5);
-    doc.text('p.\u00a0'+pageN, W-MR, H-4.5, {align:'right'});
+  const footer = ()=>{
+    rgb(GREY); doc.setFontSize(5.5); doc.setFont(undefined,'normal');
+    doc.text('ArgiQare · Dossier de synthèse RGA / Cat Nat · Document indicatif sans valeur juridique',M,H-5);
+    doc.text('Page '+pageN,W-M,H-5,{align:'right'});
   };
-
-  const newPage = (first) => {
-    if(!first) doc.addPage();
+  const newPage=()=>{
+    if(pageN>0) doc.addPage();
     pageN++;
-    doc.setFillColor(...BG); doc.rect(0,0,W,H,'F');
-    if(pageN>1){
-      /* filet vert en-t\u00eate */
-      doc.setFillColor(...GR); doc.rect(0,0,W,8,'F');
-      /* logo minuscule dans le bandeau */
-      doc.setFontSize(SZ_SMALL); doc.setFont(undefined,'normal'); doc.setTextColor(...WH);
-      doc.text('argi',ML,5.5);
-      const wA=doc.getTextWidth('argi');
-      doc.setFont(undefined,'bold');
-      doc.text('Q',ML+wA,5.5);
-      const wQ=doc.getTextWidth('Q');
-      doc.setFont(undefined,'normal');
-      doc.text('are',ML+wA+wQ,5.5);
-      doc.setFontSize(SZ_TINY); doc.setTextColor(200,230,195);
-      doc.text(nomAssure, W-MR, 5.5, {align:'right'});
-    }
+    fill(BG); doc.rect(0,0,W,H,'F');
+    fill(PC); doc.rect(0,0,W,6,'F');
     footer();
-    return pageN>1 ? 13 : 0;
+    return 14;
   };
+  const guardY=(yy,need=12)=>{ if(yy+need>H-14){ yy=newPage(); } return yy; };
 
-  const guardY = (y, need) => { if(y+need > H-14){ y=newPage(); } return y; };
-
-  /* titre de section plein fond */
-  const secTitle = (lbl, y) => {
-    y = guardY(y, 20);
-    doc.setFillColor(...GR); doc.rect(ML, y, CW, 6, 'F');
-    doc.setFontSize(SZ_SEC); doc.setFont(undefined,'bold'); doc.setTextColor(...WH);
-    doc.text(lbl.toUpperCase(), ML+3, y+4.2);
-    return y+9;
+  const secBar=(txt,yy)=>{
+    yy=guardY(yy,12);
+    fill(PC); doc.roundedRect(M,yy,CW,8,1.5,1.5,'F');
+    rgb(WH); doc.setFontSize(8.5); doc.setFont(undefined,'bold');
+    doc.text(txt,M+4,yy+5.5);
+    doc.setFont(undefined,'normal');
+    return yy+11;
   };
-
-  /* sous-titre italique */
-  const subH = (lbl, y) => {
-    y = guardY(y, 10);
-    doc.setFontSize(SZ_SMALL); doc.setFont(undefined,'bolditalic'); doc.setTextColor(...GY);
-    doc.text(lbl, ML, y);
-    doc.setDrawColor(225,222,215); doc.setLineWidth(0.1);
-    doc.line(ML, y+1.2, W-MR, y+1.2);
-    return y+5;
+  const subH2=(txt,yy)=>{
+    yy=guardY(yy,8);
+    rgb(PC); doc.setFontSize(7.5); doc.setFont(undefined,'bold');
+    doc.text(txt,M,yy+4);
+    strk(LGREY); doc.setLineWidth(0.3);
+    doc.line(M+doc.getTextWidth(txt)+2,yy+3.5,M+CW,yy+3.5);
+    doc.setFont(undefined,'normal');
+    return yy+7.5;
   };
-
-  /* ligne champ label / valeur — col fixe */
-  const LABEL_W = 42; // mm r\u00e9serv\u00e9s au label
-  const field = (lbl, val, y, ix) => {
-    const x0 = ML+(ix||0);
-    const valW = CW - LABEL_W - (ix||0);
-    y = guardY(y, 7);
-    doc.setFontSize(SZ_FIELD); doc.setFont(undefined,'bold'); doc.setTextColor(...LT);
-    doc.text(trunc(lbl,32), x0, y);
-    doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
-    const lines = doc.splitTextToSize(String(val&&val!=='\u2014'?val:'\u2014'), valW);
-    doc.text(lines, x0+LABEL_W, y);
-    doc.setDrawColor(232,229,222); doc.setLineWidth(0.1);
-    doc.line(x0, y+1.8, W-MR, y+1.8);
-    const h = Math.max(5, lines.length*LH_BODY);
-    return y+h;
+  const field=(label,val,yy)=>{
+    if(!val||val==='—') return yy;
+    yy=guardY(yy,7);
+    rgb(GREY); doc.setFontSize(6); doc.text(label+':',M,yy+3.5);
+    rgb(DARK); doc.setFontSize(7);
+    const lines=doc.splitTextToSize(val,CW-40);
+    doc.text(lines,M+40,yy+3.5);
+    const h=Math.max(6,lines.length*3.8+2);
+    strk(LGREY); doc.setLineWidth(0.15);
+    doc.line(M,yy+h,M+CW,yy+h);
+    return yy+h+1.5;
   };
-
-  /* deux champs c\u00f4te \u00e0 c\u00f4te */
-  const field2 = (pairs, y) => {
-    y = guardY(y, 7);
-    const hw = CW/2 - 1;
-    const LW2 = 22; // label dans demi-col
-    pairs.forEach(([lbl,val],i)=>{
-      const cx = i===0 ? ML : ML+CW/2+2;
-      const vw = hw - LW2 - 1;
-      doc.setFontSize(SZ_FIELD); doc.setFont(undefined,'bold'); doc.setTextColor(...LT);
-      doc.text(trunc(lbl,20), cx, y);
-      doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
-      const lines = doc.splitTextToSize(String(val&&val!=='\u2014'?val:'\u2014'), vw);
-      doc.text(lines, cx+LW2, y);
-    });
-    doc.setDrawColor(232,229,222); doc.setLineWidth(0.1);
-    doc.line(ML, y+1.8, W-MR, y+1.8);
-    return y+5;
+  const pctBar=(pct,x,yy,w=40,h=2.5)=>{
+    fill(LGREY); doc.roundedRect(x,yy,w,h,h/2,h/2,'F');
+    fill(PC);    doc.roundedRect(x,yy,w*pct/100,h,h/2,h/2,'F');
   };
+  const gap=(yy,n=3)=>yy+n;
 
-  /* \u00c9space blanc */
-  const gap = (y, mm) => y+mm;
+  // ═══════════════════════════════════════
+  // PAGE DE COUVERTURE
+  // ═══════════════════════════════════════
+  doc.addPage(); pageN++;
 
-  /* ═══════════════════════════════════════
-     PAGE 1 — COUVERTURE
-  ═══════════════════════════════════════ */
-  newPage(true);
-  let y = 0;
+  // Fond couleur profil plein
+  fill(PC); doc.rect(0,0,W,H,'F');
 
-  /* photo pleine largeur */
+  // Photo si disponible
+  let photoH=0;
   if(photoData){
     try{
-      const fmt2=photoData.includes('image/png')?'PNG':'JPEG';
-      doc.addImage(photoData,fmt2,0,0,W,80);
-      /* fondu bas */
-      for(let i=0;i<22;i++){
-        doc.setFillColor(...BG);
-        doc.setGState(new doc.GState({opacity:i/22*0.95}));
-        doc.rect(0,58+i,W,1,'F');
+      const fmt=photoData.includes('image/png')?'PNG':'JPEG';
+      doc.addImage(photoData,fmt,0,0,W,100);
+      photoH=100;
+      // Dégradé de fondu bas de photo
+      for(let fi=0;fi<20;fi++){
+        doc.setFillColor(PC[0],PC[1],PC[2]);
+        try{ doc.setGState(new doc.GState({opacity:(fi/20)*0.95})); }catch(_){}
+        doc.rect(0,80+fi*1.2,W,3,'F');
       }
-      doc.setGState(new doc.GState({opacity:1}));
-      y=74;
-    }catch(_){ y=36; }
-  } else {
-    doc.setFillColor(238,236,230); doc.rect(0,0,W,70,'F');
-    doc.setFontSize(SZ_SMALL); doc.setFont(undefined,'normal'); doc.setTextColor(...LT);
-    doc.text('Aucune photo du bien renseign\u00e9e \u2014 ajoutez-en une depuis l\'onglet Ma Maison',W/2,37,{align:'center',maxWidth:CW});
-    y=78;
+    }catch(_){ photoH=0; }
   }
 
-  /* logo sobre */
-  doc.setFontSize(19); doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
-  doc.text('argi',ML,y+10);
-  const wArgi=doc.getTextWidth('argi');
-  doc.setFont(undefined,'bold'); doc.setTextColor(...GR);
-  doc.text('Q',ML+wArgi,y+10);
-  const wQQ=doc.getTextWidth('Q');
-  doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
-  doc.text('are',ML+wArgi+wQQ,y+10);
-  /* filet dor\u00e9 unique */
-  doc.setDrawColor(...GD); doc.setLineWidth(0.5);
-  doc.line(ML,y+13.5,ML+52,y+13.5);
-  y+=21;
+  const LY = photoH>0 ? 118 : 95;
 
-  /* titre doc */
-  doc.setFontSize(SZ_SMALL); doc.setFont(undefined,'bold'); doc.setTextColor(...LT);
-  doc.text('DOSSIER DE SYNTH\u00c8SE \u2014 RETRAIT-GONFLEMENT DES ARGILES / CAT NAT',ML,y);
-  y+=9;
+  // Logo argiQare
+  doc.setFontSize(36); doc.setFont('helvetica','normal');
+  rgb(WH); doc.text('argi',W/2,LY,{align:'right'});
+  doc.setFont('helvetica','bold');
+  rgb(GOLD); doc.text('Q',W/2,LY,{align:'center'});
+  doc.setFont('helvetica','normal');
+  rgb(WH); doc.text('are',W/2+2,LY,{align:'left'});
 
-  /* identit\u00e9 */
-  doc.setFontSize(12); doc.setFont(undefined,'bold'); doc.setTextColor(...BK);
-  doc.text(nomAssure,ML,y); y+=7;
-  doc.setFontSize(SZ_BODY); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
-  if(adrFull!=='\u2014'){ doc.text(adrFull,ML,y,{maxWidth:CW-30}); y+=5; }
-  const tel=v('m_tel'), email=v('m_email');
-  const contact=[tel,email].filter(x=>x).join('  \u00b7  ');
-  if(contact){ doc.text(contact,ML,y,{maxWidth:CW-30}); y+=5; }
-  y+=3;
+  // Sous-titre
+  rgb(GOLD); doc.setFontSize(7); doc.setFont(undefined,'normal');
+  doc.text('Dossier de synthèse RGA / Cat Nat',W/2,LY+9,{align:'center'});
 
-  /* m\u00e9ta-donn\u00e9es cl\u00e9s */
-  const metas=[
-    ['Assureur',v('m_assureur')],
-    ['N\u00b0 de contrat',v('m_numcontrat')],
-    ['Type de contrat',v('m_typecontrat')],
-    ['Profil',profCfg ? profCfg.label.replace(/^Profil \d+ \u2014 /,'').replace(/^Profil \d — /,'') : null],
-  ].filter(([,val])=>val&&val.trim());
-  metas.forEach(([lbl,val])=>{
-    doc.setFontSize(SZ_SMALL); doc.setFont(undefined,'bold'); doc.setTextColor(...LT);
-    doc.text(lbl,ML,y);
-    doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
-    doc.text(trunc(String(val),60),ML+32,y);
-    y+=5;
+  // Séparateur
+  fill(GOLD); doc.rect(W/2-20,LY+13,40,0.5,'F');
+
+  // Nom assuré
+  rgb(WH); doc.setFontSize(16); doc.setFont(undefined,'bold');
+  doc.text(nomFull,W/2,LY+22,{align:'center'});
+  doc.setFontSize(8.5); doc.setFont(undefined,'normal');
+  doc.text(adresse,W/2,LY+30,{align:'center'});
+
+  // Badge profil
+  const profilTxt='Profil '+savedP+' — '+(cfg.label||'').replace(/^Profil \d+ — /,'').replace(/^Profil \d — /,'');
+  const bW2=doc.getTextWidth(profilTxt)+12;
+  fill([255,255,255,40]); doc.roundedRect(W/2-bW2/2,LY+34,bW2,7,2,2,'F');
+  rgb(GOLD); doc.setFontSize(7.5); doc.setFont(undefined,'bold');
+  doc.text(profilTxt,W/2,LY+39,{align:'center'});
+
+  // Date
+  rgb([255,255,255,140]); doc.setFontSize(6.5); doc.setFont(undefined,'normal');
+  doc.text('Document généré le '+dateStr,W/2,H-16,{align:'center'});
+  doc.text('ArgiQare · Outil indépendant · Sans valeur juridique',W/2,H-11,{align:'center'});
+
+  // Avancement global bas de couverture
+  AppState.update();
+  const gPct=AppState.globalPct||0, mPct=AppState.maisonPct||0, dPct=AppState.diagPct||0;
+  const statY=LY+48;
+  const statW=(CW-12)/3;
+  [['Ma Maison',mPct],['Parcours',dPct],['Global',gPct]].forEach(([lbl,pct],si)=>{
+    const sx=M+si*(statW+6);
+    fill([255,255,255,25]); doc.roundedRect(sx,statY,statW,14,2,2,'F');
+    rgb(WH); doc.setFontSize(11); doc.setFont(undefined,'bold');
+    doc.text(pct+'%',sx+statW/2,statY+7,{align:'center'});
+    doc.setFontSize(6); doc.setFont(undefined,'normal');
+    doc.text(lbl,sx+statW/2,statY+12,{align:'center'});
   });
 
-  /* avancement */
-  y+=3;
-  doc.setFontSize(SZ_SMALL); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
-  doc.text('Avancement au '+DATE_LONG+'\u00a0: '+g_ok+' / '+g_tot+' points renseign\u00e9s ('+g_pct+'%)',ML,y,{maxWidth:CW});
-
-  /* bas de couverture */
-  doc.setDrawColor(...LT); doc.setLineWidth(0.12);
-  doc.line(ML,H-20,W-MR,H-20);
-  doc.setFontSize(SZ_SMALL); doc.setFont(undefined,'normal'); doc.setTextColor(...LT);
-  doc.text('R\u00e9f.\u00a0'+ref,ML,H-14);
-  doc.text('G\u00e9n\u00e9r\u00e9 le '+DATE_LONG,W-MR,H-14,{align:'right'});
-  footer();
-
-  /* ═══════════════════════════════════════
-     PAGE 2 — SOMMAIRE
-  ═══════════════════════════════════════ */
-  y = newPage();
-  const PAGE_TOC = pageN;
-  doc.setFontSize(13); doc.setFont(undefined,'bold'); doc.setTextColor(...BK);
-  doc.text('Sommaire',ML,y); y+=11;
-
-  const TOC = [
-    {lbl:'1 \u2014  Ma Maison',sub:'Informations sur le bien et l\'assur\u00e9'},
-    {lbl:'2 \u2014  Mon Parcours',sub:'Les 12 \u00e9tapes de la proc\u00e9dure RGA / Cat Nat'},
-    {lbl:'3 \u2014  Annexes',sub:'Pi\u00e8ces jointes au dossier ('+annexes.length+' fichier'+(annexes.length!==1?'s':'')+')'},
-  ];
-  const tocY=[];
-  TOC.forEach((item,i)=>{
-    tocY.push(y);
-    doc.setFontSize(9.5); doc.setFont(undefined,'bold'); doc.setTextColor(...BK);
-    doc.text(item.lbl,ML,y);
-    doc.setFontSize(SZ_SMALL); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
-    doc.text(item.sub,ML+3,y+4);
-    doc.setDrawColor(215,212,205); doc.setLineWidth(0.1);
-    doc.line(ML+3,y+6,W-MR-14,y+6);
-    /* case page provisoire */
-    doc.setFillColor(238,235,228); doc.roundedRect(W-MR-12,y-1,12,7.5,1,1,'F');
-    y+=13;
-  });
-
-  /* ═══════════════════════════════════════
-     SECTION 1 — MA MAISON
-  ═══════════════════════════════════════ */
-  y = newPage();
-  const PAGE_MAISON = pageN;
-  y = secTitle('1 \u2014 Ma Maison \u2014 Informations sur le bien et l\'assur\u00e9', y);
-
-  y = subH('Informations personnelles', y);
-  y = field2([['Nom',vd('m_nom')],['Pr\u00e9nom',vd('m_prenom')]], y);
-  y = field('Adresse du bien', adrFull, y);
-  if(v('m_bien')) y = field('Adresse (si diff\u00e9rente)', v('m_bien'), y);
-  y = field2([['T\u00e9l\u00e9phone',vd('m_tel')],['Email',vd('m_email')]], y);
-  y = gap(y,3);
-
-  y = subH('Contrat d\'assurance', y);
-  y = field2([['Assureur',vd('m_assureur')],['Type de contrat',vd('m_typecontrat')]], y);
-  y = field2([['N\u00b0 de contrat',vd('m_numcontrat')],['Date d\'effet',v('m_dateeffet')?fmtDate(v('m_dateeffet')):'\u2014']], y);
-  if(v('m_dateres'))   y = field('Date de r\u00e9siliation (si applicable)', fmtDate(v('m_dateres')), y);
-  if(v('m_franchise')) y = field('Franchise contractuelle', v('m_franchise'), y);
-  if(v('m_pcontrat')||v('m_scontrat')) y = field2([['Pi\u00e8ces principales',vd('m_pcontrat')],['Surface assur\u00e9e (m\u00b2)',vd('m_scontrat')]], y);
-  y = gap(y,3);
-
-  y = subH('Description du bien immobilier', y);
-  if(v('m_dateconstr')||v('m_dateacq')) y = field2([['Date de construction',v('m_dateconstr')||'\u2014'],['Date d\'acquisition',v('m_dateacq')?fmtDate(v('m_dateacq')):'\u2014']], y);
-  if(v('m_precprop'))      y = field('Pr\u00e9c\u00e9dent propri\u00e9taire', v('m_precprop'), y);
-  if(v('m_datereception')) y = field('Date de r\u00e9ception des travaux', fmtDate(v('m_datereception')), y);
-  if(v('m_datetravaux')||v('m_superficie')||v('m_societe')){
-    y = gap(y,2);
-    y = subH('Travaux r\u00e9cents', y);
-    if(v('m_datetravaux')) y = field2([['Date des travaux',fmtDate(v('m_datetravaux'))],['Surface extension (m\u00b2)',vd('m_superficie')]], y);
-    if(v('m_societe'))     y = field('Entreprise de travaux', v('m_societe'), y);
-  }
-  if(profCfg){
-    y = gap(y,3);
-    y = subH('Profil de situation', y);
-    y = field('Profil s\u00e9lectionn\u00e9', trunc(profCfg.title,80), y);
-    const subLines = doc.splitTextToSize(profCfg.sub||'', CW-2);
-    y = guardY(y,subLines.length*LH_BODY+3);
-    doc.setFontSize(SZ_SMALL); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
-    doc.text(subLines, ML, y); y += subLines.length*LH_BODY+2;
+  // ═══════════════════════════════════════
+  // SECTION 1 — MA MAISON
+  // ═══════════════════════════════════════
+  y=newPage();
+  y=secBar('1 — Ma Maison · Bien assuré et informations personnelles',y);
+  y=subH2('Assuré',y);
+  y=field('Nom',vd('m_nom'),y); y=field('Prénom',vd('m_prenom'),y);
+  y=field('Adresse',adresse,y); y=field('Téléphone',vd('m_tel'),y); y=field('Email',vd('m_email'),y);
+  y=gap(y,3);
+  y=subH2("Contrat d'assurance",y);
+  y=field('Assureur',vd('m_assureur'),y); y=field('Type de contrat',vd('m_typecontrat'),y);
+  y=field('N° de contrat',vd('m_numcontrat'),y); y=field("Date d'effet",vd('m_dateeffet'),y);
+  y=field('Franchise',vd('m_franchise'),y); y=field('Date résiliation',vd('m_dateres'),y);
+  y=gap(y,3);
+  y=subH2('Description du bien',y);
+  y=field('Date de construction',vd('m_dateconstr'),y);
+  y=field("Date d'acquisition",vd('m_dateacq'),y);
+  if(v('m_superficie')) y=field('Surface habitable',v('m_superficie')+' m²',y);
+  y=field('Précédent propriétaire',vd('m_precprop'),y);
+  y=field('Travaux réalisés',vd('m_datetravaux'),y);
+  y=field('Syndic / Gestion',vd('m_societe'),y);
+  if(ex.nom||ex.tel){
+    y=gap(y,3);
+    y=subH2('Expert missionné',y);
+    y=field('Nom',ex.nom||'—',y); y=field('Cabinet',ex.cab||'—',y);
+    y=field('Téléphone',ex.tel||'—',y); y=field('Email',ex.mail||'—',y);
   }
 
-  /* ═══════════════════════════════════════
-     SECTION 2 — MON PARCOURS (chronologie)
-  ═══════════════════════════════════════ */
-  y = newPage();
-  const PAGE_PARCOURS = pageN;
-  y = secTitle('2 \u2014 Mon Parcours \u2014 Les 12 \u00e9tapes de la proc\u00e9dure RGA / Cat Nat', y);
+  // ═══════════════════════════════════════
+  // SECTION 2 — MON PARCOURS (miroir exact reader)
+  // ═══════════════════════════════════════
+  y=newPage();
+  y=secBar('2 — Mon Parcours · Réponses aux 12 étapes de la procédure',y);
 
-  doc.setFontSize(SZ_SMALL); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
-  const pctLine='Avancement\u00a0: '+g_ok+' / '+g_tot+' points renseign\u00e9s ('+g_pct+'%)'+(g_blk?' \u2014 '+g_blk+' mis de c\u00f4t\u00e9':'');
-  doc.text(pctLine, ML, y, {maxWidth:CW}); y+=6;
-
-  /* axe vertical */
-  const TLX = ML+5;   // centre pastille
-  const TXT = TLX+8;  // x texte
-  const TCW = W-MR-TXT; // largeur texte
-
-  const STEP_IDS=['step-1b','step-2b','step-3b','step-5b','step-6b','step-7b','step-8b','step-9b','step-10b','step-11b','step-13b','step-14b'];
-  const STEP_NUM={'step-1b':1,'step-2b':2,'step-3b':3,'step-5b':4,'step-6b':5,'step-7b':6,'step-8b':7,'step-9b':8,'step-10b':9,'step-11b':10,'step-13b':11,'step-14b':12};
-
-  const activeList = allSteps.filter(s=>STEP_IDS.includes(s.id));
-
-  activeList.forEach((stepEl,si)=>{
-    const domId   = stepEl.id;
-    const dispNum = STEP_NUM[domId]||si+1;
-    const titleEl = stepEl.querySelector('.diag-step-title');
-    const title   = titleEl ? titleEl.textContent.trim() : '\u00c9tape '+dispNum;
-    const items   = [...stepEl.querySelectorAll('.tri-item')];
-    const s_ok    = items.filter(it=>triState[(it.id||'').replace(/^tri-/,'')]==='yes').length;
-    const s_blk   = items.filter(it=>triState[(it.id||'').replace(/^tri-/,'')]==='blocked').length;
-    const s_tot   = items.length;
-    const complete = s_tot>0 && s_ok+s_blk===s_tot;
-    const empty    = s_ok+s_blk===0;
-
-    /* estimation hauteur */
-    const titleLines = doc.splitTextToSize(title, TCW-24);
-    const estH = 9 + titleLines.length*LH_BODY + items.length*LH_SMALL + 5;
-    y = guardY(y, Math.min(estH, 40));
-
-    /* axe continu */
-    if(si<activeList.length-1){
-      const lineLen=Math.min(estH+2, H-y-16);
-      doc.setDrawColor(...LT); doc.setLineWidth(0.3);
-      doc.line(TLX, y+8, TLX, y+lineLen);
-    }
-
-    /* pastille 4 mm */
-    const R=3.5, cy=y+4;
-    if(complete){
-      doc.setFillColor(...GR); doc.circle(TLX,cy,R,'F');
-      doc.setFontSize(SZ_TINY); doc.setFont(undefined,'bold'); doc.setTextColor(...WH);
-      doc.text('\u2713',TLX,cy+1,{align:'center'});
-    } else if(empty){
-      doc.setFillColor(...BG); doc.circle(TLX,cy,R,'F');
-      doc.setDrawColor(...LT); doc.setLineWidth(0.4); doc.circle(TLX,cy,R,'D');
-      doc.setFontSize(SZ_TINY); doc.setFont(undefined,'normal'); doc.setTextColor(...LT);
-      doc.text(''+dispNum,TLX,cy+1,{align:'center'});
-    } else {
-      doc.setFillColor(232,242,228); doc.circle(TLX,cy,R,'F');
-      doc.setDrawColor(...GR); doc.setLineWidth(0.4); doc.circle(TLX,cy,R,'D');
-      doc.setFontSize(SZ_TINY); doc.setFont(undefined,'bold'); doc.setTextColor(...GR);
-      doc.text(''+dispNum,TLX,cy+1,{align:'center'});
-    }
-
-    /* titre \u00e9tape */
-    doc.setFontSize(SZ_BODY); doc.setFont(undefined,empty?'normal':'bold');
-    doc.setTextColor(...(empty?LT:BK));
-    doc.text(titleLines, TXT, y+5);
-
-    /* statut \u00e0 droite */
-    if(s_tot>0){
-      const st = complete?'Compl\u00e8te \u2713':empty?'Non d\u00e9marr\u00e9e':s_ok+'/'+s_tot+(s_blk?' \u00b7 '+s_blk+' mis de c\u00f4t\u00e9':'');
-      doc.setFontSize(SZ_TINY); doc.setFont(undefined,'normal');
-      doc.setTextColor(...(complete?GR:empty?LT:GY));
-      doc.text(st,W-MR,y+5,{align:'right'});
-    }
-
-    y += 7 + titleLines.length*LH_BODY;
-
-    /* questions tristate */
-    items.forEach(it=>{
-      y = guardY(y, 6);
-      const key=(it.id||'').replace(/^tri-/,'');
-      const val=triState[key];
-      const lblEl=it.querySelector('.tri-label,.tri-question,label,p');
-      const lbl=(lblEl?lblEl.textContent.trim():key).replace(/^[\p{Emoji}\u{FE0F}\s]+/u,'').trim();
-      const dotX=TXT+2, txtX=TXT+6, txtW=TCW-7;
-      if(val==='yes'){
-        doc.setFillColor(...GR); doc.circle(dotX,y-0.5,1.5,'F');
-        doc.setFontSize(SZ_TINY); doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
-      } else if(val==='blocked'){
-        doc.setFillColor(150,122,42); doc.circle(dotX,y-0.5,1.5,'F');
-        doc.setFontSize(SZ_TINY); doc.setFont(undefined,'normal'); doc.setTextColor(...GY);
-      } else {
-        doc.setDrawColor(...LT); doc.setLineWidth(0.25); doc.circle(dotX,y-0.5,1.5,'D');
-        doc.setFontSize(SZ_TINY); doc.setFont(undefined,'normal'); doc.setTextColor(...LT);
-      }
-      const iLines=doc.splitTextToSize(lbl,txtW);
-      doc.text(iLines,txtX,y);
-      y += Math.max(LH_SMALL, iLines.length*LH_SMALL);
+  // Résumé
+  const STEP_IDS=[1,2,3,5,6,7,8,9,10,11,13,14];
+  const stepsInfo=STEP_IDS.map(num=>{
+    const el=document.getElementById('step-'+num+'b');
+    if(!el) return null;
+    const title=(el.querySelector('.diag-step-title')||{}).textContent?.trim()||'Etape '+num;
+    const items=[...el.querySelectorAll('.tri-item')].map(it=>{
+      const id=(it.id||'').replace(/^tri-/,'');
+      const label=(it.querySelector('.tri-label')||{}).textContent?.trim()||'';
+      const val=triState[id]||null;
+      return{id,label,val};
     });
+    const done=items.filter(x=>x.val).length;
+    const pct=items.length?Math.round(done/items.length*100):0;
+    return{num,title,items,done,tot:items.length,pct};
+  }).filter(Boolean);
 
-    /* s\u00e9parateur inter-\u00e9tapes */
-    doc.setDrawColor(238,234,226); doc.setLineWidth(0.1);
-    doc.line(TXT,y+1,W-MR,y+1);
-    y+=4;
-  });
+  const nDone=stepsInfo.filter(s=>s.pct===100).length;
+  fill(WH); strk(LGREY); doc.setLineWidth(0.3);
+  doc.roundedRect(M,y,CW,12,2,2,'FD');
+  rgb(DARK); doc.setFontSize(8); doc.setFont(undefined,'bold');
+  doc.text('Avancement : '+gPct+'%',M+4,y+5);
+  doc.setFont(undefined,'normal'); rgb(GREY); doc.setFontSize(6.5);
+  doc.text(nDone+' étape(s) complète(s) sur '+stepsInfo.length,M+4,y+9.5);
+  pctBar(gPct,M+80,y+4,CW-84,3);
+  y+=16;
 
-  /* ═══════════════════════════════════════
-     SECTION 3 — ANNEXES
-  ═══════════════════════════════════════ */
-  y = newPage();
-  const PAGE_ANNEXES = pageN;
-  y = secTitle('3 \u2014 Annexes \u2014 Pi\u00e8ces jointes au dossier', y);
-
-  if(annexes.length===0){
-    doc.setFontSize(SZ_BODY); doc.setFont(undefined,'italic'); doc.setTextColor(...GY);
-    doc.text('Aucune pi\u00e8ce jointe enregistr\u00e9e.',ML,y); y+=6;
+  // Chaque étape avec TOUTES ses réponses
+  stepsInfo.forEach((s,si)=>{
+    y=guardY(y,14);
+    // En-tête étape
+    const isDone=s.pct===100, isPartial=s.pct>0;
+    const dotCol=isDone?PC:isPartial?GOLD:LGREY;
+    fill(dotCol); doc.circle(M+3.5,y+3.5,3,'F');
+    rgb(isDone||isPartial?WH:GREY); doc.setFontSize(6); doc.setFont(undefined,'bold');
+    doc.text(isDone?'✓':String(si+1),M+3.5,y+4.8,{align:'center'});
     doc.setFont(undefined,'normal');
-    doc.text('Ajoutez vos pi\u00e8ces depuis l\'onglet Mon Parcours ou Mon Dossier.',ML,y,{maxWidth:CW});
-  } else {
-    /* en-t\u00eate tableau */
-    doc.setFontSize(SZ_TINY); doc.setFont(undefined,'bold'); doc.setTextColor(...GY);
-    doc.text('R\u00e9f.',ML+3,y); doc.text('D\u00e9signation / fichier',ML+14,y); doc.text('Page',W-MR-4,y,{align:'right'});
-    y+=2;
-    doc.setDrawColor(...LT); doc.setLineWidth(0.18); doc.line(ML,y,W-MR,y); y+=3;
 
-    annexes.forEach((a,idx)=>{
-      y = guardY(y, 9);
-      const ltr=String.fromCharCode(65+idx);
-      doc.setFontSize(SZ_BODY); doc.setFont(undefined,'bold'); doc.setTextColor(...GR);
-      doc.text(ltr,ML+3,y,{align:'center'});
-      doc.setFont(undefined,'normal'); doc.setTextColor(...BK);
-      doc.text(trunc(a.title,45),ML+14,y);
-      doc.setFontSize(SZ_TINY); doc.setFont(undefined,'normal'); doc.setTextColor(...LT);
-      doc.text('\u2014',W-MR-4,y,{align:'right'}); // mise \u00e0 jour apr\u00e8s
-      a._tocY=y;
-      if(a.name){
-        doc.setFontSize(SZ_TINY); doc.setTextColor(...LT);
-        doc.text(trunc(a.name,55),ML+14,y+3.2);
+    rgb(isDone?PC:DARK); doc.setFontSize(8); doc.setFont(undefined,'bold');
+    const titleLines=doc.splitTextToSize(s.title,CW-24);
+    doc.text(titleLines,M+9,y+4);
+    rgb(isDone?PC:isPartial?GOLD[0]:GREY[0]); doc.setFontSize(7); doc.setFont(undefined,'bold');
+    doc.text(s.pct+'%',W-M,y+4,{align:'right'});
+    doc.setFont(undefined,'normal');
+
+    // Mini barre progression
+    pctBar(s.pct,M+9,y+7.5,CW-18,2);
+    y+=12;
+
+    // Questions répondues — miroir exact du reader
+    if(s.items.length){
+      const answered=s.items.filter(it=>it.val);
+      answered.forEach(it=>{
+        y=guardY(y,7);
+        // Badge réponse
+        const badgeTxt=it.val==='yes'?'Oui':it.val==='no'?'Non / N·A':'Bloqué';
+        const badgeCol=it.val==='yes'?PC:it.val==='blocked'?GOLD:LGREY;
+        fill(badgeCol);
+        const bw=doc.getTextWidth(badgeTxt)+6;
+        doc.roundedRect(W-M-bw,y+0.5,bw,4.5,1,1,'F');
+        rgb(it.val==='no'?GREY:WH); doc.setFontSize(5.5); doc.setFont(undefined,'bold');
+        doc.text(badgeTxt,W-M-bw/2,y+3.5,{align:'center'});
+
+        // Label question
+        rgb(DARK); doc.setFontSize(6.5); doc.setFont(undefined,'normal');
+        const lLines=doc.splitTextToSize(it.label,CW-bw-14);
+        doc.text(lLines,M+6,y+3.5);
+        const rowH=Math.max(6,lLines.length*3.5+2);
+        strk(LGREY); doc.setLineWidth(0.1);
+        doc.line(M+6,y+rowH,M+CW,y+rowH);
+        y+=rowH+1;
+      });
+      const unanswered=s.items.filter(it=>!it.val);
+      if(unanswered.length){
+        y=guardY(y,6);
+        rgb(LGREY[0]); doc.setFontSize(5.5); doc.setFont(undefined,'italic');
+        doc.text(unanswered.length+' question(s) non encore renseignée(s)',M+6,y+3.5);
+        doc.setFont(undefined,'normal');
+        y+=6;
       }
-      doc.setDrawColor(232,229,222); doc.setLineWidth(0.1);
-      doc.line(ML+14,y+(a.name?5.5:2.5),W-MR-18,y+(a.name?5.5:2.5));
-      y += a.name ? 8 : 5.5;
-    });
+    }
+    y=gap(y,3);
+    strk(LGREY); doc.setLineWidth(0.3);
+    doc.line(M,y-1,M+CW,y-1);
+  });
+
+  // ═══════════════════════════════════════
+  // SECTION 3 — ANNEXES (pièces jointes)
+  // ═══════════════════════════════════════
+  y=newPage();
+  y=secBar('3 — Annexes · Pièces jointes au dossier',y);
+
+  const PIECE_LABELS=['Description du sinistre','Dégâts causés à des tiers',
+    'Études géotechniques',"Acte d'achat",'Permis de construire','États des lieux',
+    'Devis / factures travaux',"Rapport d'expertise",'Correspondances assureur',
+    'Déclaration de sinistre','Arrêté Cat Nat','Photos du sinistre','Autres documents'];
+  let hasDoc=false;
+  for(let i=0;i<13;i++){
+    const fd=diagFiles[i+1];
+    if(!fd) continue;
+    hasDoc=true;
+    y=guardY(y,10);
+    fill(WH); strk(LGREY); doc.setLineWidth(0.2);
+    doc.roundedRect(M,y,CW,8,1.5,1.5,'FD');
+    rgb(PC); doc.setFontSize(7); doc.setFont(undefined,'bold');
+    doc.text(PIECE_LABELS[i],M+5,y+5);
+    rgb(GREY); doc.setFontSize(6); doc.setFont(undefined,'normal');
+    doc.text(fd.name||'Fichier joint',W-M-2,y+5,{align:'right'});
+    fill(PC); doc.roundedRect(W-M-2.5,y+2.5,2,3,0.5,0.5,'F');
+    y+=10;
+    // Aperçu image
+    if(fd.type&&fd.type.startsWith('image/')&&fd.data){
+      try{
+        const fmt2=fd.type.includes('png')?'PNG':'JPEG';
+        y=guardY(y,55);
+        doc.addImage(fd.data,fmt2,M+2,y,CW-4,50,'','MEDIUM');
+        y+=52;
+      }catch(_){}
+    }
+  }
+  if(!hasDoc){
+    rgb(GREY); doc.setFontSize(7.5); doc.setFont(undefined,'italic');
+    doc.text('Aucune pièce jointe.',M,y+6);
+    y+=10;
   }
 
-  /* pages d'images */
-  const annexePgs={};
-  annexes.forEach((a,idx)=>{
-    if(!a.isImg||!a.data||!a.data.startsWith('data:image')) return;
-    y = newPage();
-    annexePgs[idx]=pageN;
-    const ltr=String.fromCharCode(65+idx);
-    /* bandeau \u00e9troit */
-    doc.setFillColor(...GR); doc.rect(ML,y,CW,5,'F');
-    doc.setFontSize(SZ_TINY); doc.setFont(undefined,'bold'); doc.setTextColor(...WH);
-    doc.text('ANNEXE\u00a0'+ltr+'\u00a0\u2014\u00a0'+trunc(a.title,40),ML+3,y+3.5);
-    y+=8;
-    if(a.name){
-      doc.setFontSize(SZ_TINY); doc.setFont(undefined,'normal'); doc.setTextColor(...LT);
-      doc.text(a.name,ML,y); y+=4;
-    }
-    try{
-      const fmt3=a.data.includes('image/png')?'PNG':'JPEG';
-      const maxW=CW, maxH=H-y-14;
-      const tmp=new Image(); tmp.src=a.data;
-      let iW=tmp.naturalWidth||maxW, iH=tmp.naturalHeight||maxH;
-      const sc=Math.min(maxW/iW, maxH/iH, 1);
-      const dX=ML+(CW-iW*sc)/2;
-      doc.addImage(a.data,fmt3,dX,y,iW*sc,iH*sc);
-    }catch(_){
-      doc.setFontSize(SZ_BODY); doc.setFont(undefined,'italic'); doc.setTextColor(...LT);
-      doc.text('(image non disponible)',ML,y+8);
-    }
-  });
+  // ═══════════════════════════════════════
+  // MENTIONS FINALES
+  // ═══════════════════════════════════════
+  y=guardY(y,28);
+  y+=6;
+  fill(PC); doc.roundedRect(M,y,CW,22,2,2,'F');
+  rgb(GOLD); doc.setFontSize(8); doc.setFont(undefined,'bold');
+  doc.text('Mentions importantes',M+5,y+7);
+  rgb(WH); doc.setFontSize(6.5); doc.setFont(undefined,'normal');
+  const mention="Ce document est un outil d'accompagnement administratif généré par ArgiQare. Il est indicatif et sans valeur juridique. Il ne se substitue pas a l'avis d'un expert, d'un avocat, d'un geotechnicien ou de votre assureur. ArgiQare est independant, non affilie a un assureur ou organisme public.";
+  const mL=doc.splitTextToSize(mention,CW-10);
+  doc.text(mL,M+5,y+13);
 
-  /* ═══════════════════════════════════════
-     MISES \u00c0 JOUR FINALES
-  ═══════════════════════════════════════ */
-  const TOTAL=doc.internal.getNumberOfPages();
-
-  /* 1. Pagination finale */
-  for(let p=1;p<=TOTAL;p++){
-    doc.setPage(p);
-    doc.setFillColor(...BG);
-    doc.rect(W-MR-10,H-7,14,5,'F');
-    doc.setFontSize(SZ_TINY); doc.setFont(undefined,'normal'); doc.setTextColor(...LT);
-    doc.text('p.\u00a0'+p+'\u00a0/\u00a0'+TOTAL,W-MR,H-4.5,{align:'right'});
-  }
-
-  /* 2. Sommaire — num\u00e9ros r\u00e9els */
-  doc.setPage(PAGE_TOC);
-  [[PAGE_MAISON,0],[PAGE_PARCOURS,1],[PAGE_ANNEXES,2]].forEach(([pg,i])=>{
-    const ty=tocY[i];
-    doc.setFillColor(238,235,228); doc.roundedRect(W-MR-12,ty-1,12,7.5,1,1,'F');
-    doc.setFontSize(8); doc.setFont(undefined,'bold'); doc.setTextColor(...BK);
-    doc.text(''+pg,W-MR-2,ty+4,{align:'right'});
-  });
-
-  /* 3. Pages dans table des annexes */
-  doc.setPage(PAGE_ANNEXES);
-  annexes.forEach((a,idx)=>{
-    if(!a._tocY) return;
-    const pg=annexePgs[idx];
-    doc.setFillColor(...BG); doc.rect(W-MR-14,a._tocY-2,16,5,'F');
-    doc.setFontSize(SZ_BODY); doc.setFont(undefined, pg?'bold':'normal');
-    doc.setTextColor(...(pg?GR:LT));
-    doc.text(pg?''+pg:'\u2014',W-MR-4,a._tocY,{align:'right'});
-  });
-
-  /* sauvegarde */
-  doc.save('ArgiQare_DossierComplet_'+ref+'.pdf');
-
-  const lbl2=document.getElementById('last-gen-label');
-  if(lbl2) lbl2.textContent='\u23f0 G\u00e9n\u00e9r\u00e9 le '+DATE_LONG+' \u2014 '+TOTAL+' pages';
-  localStorage.setItem('argicare-last-pdf-date',DATE_SHORT);
-  localStorage.setItem('argicare-last-pdf-ref',ref);
-  localStorage.setItem('argicare-last-action',JSON.stringify({date:now.toISOString(),label:'Synth\u00e8se PDF ('+TOTAL+'\u00a0p.)'}));
+  // Sauvegarder historique PDF
   try{
-    let vs=JSON.parse(localStorage.getItem('argicare-pdf-versions')||'[]');
-    vs.push({date:DATE_SHORT,ref,pages:TOTAL,pct:g_pct});
-    if(vs.length>10) vs=vs.slice(-10);
-    localStorage.setItem('argicare-pdf-versions',JSON.stringify(vs));
+    const vs=JSON.parse(localStorage.getItem('argicare-pdf-versions')||'[]');
+    vs.unshift({date:new Date().toISOString(),pages:doc.getNumberOfPages(),pct:gPct});
+    localStorage.setItem('argicare-pdf-versions',JSON.stringify(vs.slice(0,10)));
+    localStorage.setItem('argicare-last-action',JSON.stringify({
+      label:'PDF généré ('+gPct+'% complété)',date:new Date().toISOString()}));
   }catch(_){}
-  // Feedback spinner — reset boutons
-  if(typeof genBtns !== 'undefined') genBtns.forEach(b=>{b.textContent=b._origText||'📄 Générer';b.disabled=false;});
-  }; // fin doGenerate
-  // Lazy : si jsPDF déjà chargé → direct, sinon charge depuis CDN
-  if(window.jspdf && window.jspdf.jsPDF){
-    doGenerate();
-  } else {
-    const _s=document.createElement('script');
-    _s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
-    _s.onload=doGenerate;
-    _s.onerror=()=>{ if(typeof genBtns!=='undefined') genBtns.forEach(b=>{b.textContent=b._origText||'📄 Générer';b.disabled=false;}); showToast('⚠️ Chargement PDF impossible'); };
-    document.head.appendChild(_s);
-  }
+
+  const fname='ArgiQare_Dossier_'+nomFull.replace(/\s+/g,'-')+'_'
+    +new Date().toISOString().slice(0,10)+'.pdf';
+  doc.save(fname);
+  showToast('📄 PDF généré — '+doc.getNumberOfPages()+' pages');
+  if(typeof refreshDossierCockpit==='function') refreshDossierCockpit();
 } // fin generatePDF
 
 const diagLabels=['📝 Description du sinistre','⚠️ Dégâts causés à des tiers','🔬 Études géotechniques','🏠 Acte d\'achat','🏗️ Permis de construire','🔑 États des lieux','🧾 Devis, factures et PV','✍️ Déclaration sur l\'honneur'];
@@ -8676,276 +8520,295 @@ function goToDossierPieceStep(stepId){
 }
 
 function previewDossierContent(){
-  const v = id => (document.getElementById(id)||{}).value?.trim()||'—';
-  const nomComplet = [v('m_prenom'), v('m_nom')].filter(x=>x!=='—').join(' ') || '—';
-  const adresse = [v('m_voie'), v('m_cp')+' '+v('m_ville')].filter(x=>x&&x.trim()!=='— —'&&x.trim()!=='—').join(' – ');
-  const contrat = v('m_typecontrat')!=='—' ? v('m_typecontrat')+' n° '+v('m_numcontrat') : '—';
-  const assureur = v('m_assureur')!=='—' ? v('m_assureur') : (v('m_typecontrat')!=='—' ? v('m_typecontrat') : '—');
-  const savedProfil = localStorage.getItem('argicare-profil');
-  const cfg = savedProfil ? PROFIL_CONFIG[savedProfil] : null;
-  const profilLabel = cfg ? cfg.title : 'Profil non défini';
-  const dossierRef = localStorage.getItem('argicare-dossier-ref') || 'AQ-'+new Date().getFullYear()+'-XXXX';
-  const dateGen = new Date().toLocaleDateString('fr-FR');
-  const diagCbs = document.querySelectorAll('#screen-diag .diag-cb');
-  const diagChecked = [...diagCbs].filter(c=>c.checked).length;
-  const diagPct = Math.round((diagChecked/Math.max(diagCbs.length,1))*100);
-  const nJoints = Object.keys(diagFiles).length;
-  const photoDataUrl = localStorage.getItem('argicare-photo-maison');
+  // ── Données Ma Maison ──
+  const v  = id => (document.getElementById(id)||{}).value?.trim()||'';
+  const vd = id => v(id)||'—';
+  const nomComplet = [v('m_prenom'),v('m_nom')].filter(Boolean).join(' ')||'—';
+  const adresse    = [v('m_voie'),[v('m_cp'),v('m_ville')].filter(Boolean).join(' ')].filter(Boolean).join(', ')||'—';
+  const savedP = localStorage.getItem('argicare-profil');
+  const cfg    = savedP ? PROFIL_CONFIG[savedP] : null;
+  const profilLabel = cfg ? ('Profil '+savedP+' — '+(cfg.label||'').replace(/^Profil \d+ — /,'')) : '—';
+  const G    = {'1':'#6A9E7E','2':'#8a4a28','3':'#7a5024'}[savedP]||'#6A9E7E';
+  const GOLD = '#C9A23A';
+  const photoData = localStorage.getItem('argicare-photo-maison');
+  const dateStr   = new Date().toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+  let ex={}; try{ ex=JSON.parse(localStorage.getItem('argicare-expert')||'{}'); }catch(_){}
+  AppState.update();
+  const globalPct = AppState.globalPct||0;
+  const maisonPct = AppState.maisonPct||0;
+  const diagPct   = AppState.diagPct||0;
 
-  const VD='#2d5a27', OR='#c9a23a', BG='#faf8f4', GY='#9a8a72', LN='#e8e0d4';
+  // ── Lecture des réponses tristate depuis le DOM ──
+  const STEP_IDS = [1,2,3,5,6,7,8,9,10,11,13,14];
+  const stepsData = STEP_IDS.map(num=>{
+    const el = document.getElementById('step-'+num+'b');
+    if(!el) return null;
+    const title = (el.querySelector('.diag-step-title')||{}).textContent?.trim()||'Etape '+num;
+    const items = [...el.querySelectorAll('.tri-item')].map(it=>{
+      const id    = (it.id||'').replace(/^tri-/,'');
+      const label = (it.querySelector('.tri-label')||{}).textContent?.trim()||'';
+      const val   = triState[id]||null;
+      return {id, label, val};
+    });
+    const done = items.filter(x=>x.val).length;
+    const pct  = items.length ? Math.round(done/items.length*100) : 0;
+    return {num, title, items, done, tot:items.length, pct};
+  }).filter(Boolean);
 
-  const phoneEl = document.querySelector('.phone');
-  const phoneH = phoneEl ? phoneEl.clientHeight : 700;
-  const phoneW = phoneEl ? phoneEl.clientWidth : 300;
-  const readerH = phoneH - 48 - 64; // topbar + thumbbar
-  const readerW = phoneW - 100;     // flèches de navigation
-  const scaleH = readerH / 297;
-  const scaleW = readerW / 210;
-  const S = Math.min(scaleH, scaleW, 1.2); // jamais plus grand que 1.2x
-  const PW = Math.round(210 * S);
-  const PH = Math.round(297 * S);
-  const sb = Math.round(12 * S);
-  const fs = (mm) => Math.round(mm * S * 0.9) + 'px';
-
-  const page = (contentHtml) => `
-    <div style="width:${PW}px;height:${PH}px;background:${BG};position:relative;overflow:hidden;
-      box-shadow:0 8px 32px rgba(0,0,0,.5),0 2px 8px rgba(0,0,0,.3);border-radius:${Math.round(2*S)}px;flex-shrink:0;">
-      <div style="position:absolute;left:0;top:0;width:${sb}px;height:100%;background:${VD};"></div>
-      <div style="position:absolute;left:${sb}px;top:0;width:${Math.round(0.8*S)}px;height:100%;background:${OR};"></div>
-      <div style="position:absolute;left:${Math.round(2*S)}px;top:50%;transform:translateY(-50%) rotate(-90deg);transform-origin:center;white-space:nowrap;font-size:${fs(5.5)};font-weight:700;color:${OR};">argi<span style="color:white;">Q</span>are</div>
-      <div style="position:absolute;left:${Math.round(1.5*S)}px;bottom:${Math.round(8*S)}px;transform:rotate(-90deg);transform-origin:left center;white-space:nowrap;font-size:${fs(3.5)};color:rgba(255,255,255,.35);">${dossierRef}</div>
-      <div style="position:absolute;left:${sb+Math.round(1.5*S)}px;top:0;right:0;bottom:0;overflow:hidden;">${contentHtml}</div>
-    </div>`;
-
-  const secHeader = (label) => `
-    <div style="background:#eef3ea;padding:${fs(3)} ${fs(4)};border-bottom:${Math.round(0.5*S)}px solid ${OR};
-      font-size:${fs(6)};font-weight:800;color:${VD};flex-shrink:0;">${label}</div>`;
-
-  const subTitle = (text) => `
-    <div style="padding:${fs(3)} ${fs(4)} ${fs(1)};border-left:${Math.round(1.5*S)}px solid ${OR};
-      margin:${fs(4)} ${fs(4)} ${fs(2)};font-size:${fs(5)};font-weight:700;color:${VD};">${text}</div>`;
-
-  const fRow = (lbl, val) => `
-    <div style="display:flex;gap:${fs(2)};padding:${fs(2.5)} ${fs(4)};border-bottom:${Math.round(0.15*S)}px solid ${LN};font-size:${fs(5)};line-height:1.35;">
-      <span style="color:${GY};min-width:${fs(28)};flex-shrink:0;">${lbl}</span>
-      <span style="color:#2a2a22;font-weight:600;word-break:break-all;">${val}</span>
-    </div>`;
-
-  const stepRow = (num, label, done) => `
-    <div style="display:flex;align-items:center;gap:${fs(3)};padding:${fs(2)} ${fs(4)};border-bottom:${Math.round(0.1*S)}px solid ${LN};font-size:${fs(5)};">
-      <div style="width:${fs(7)};height:${fs(7)};border-radius:50%;background:${done?OR:LN};display:flex;align-items:center;justify-content:center;font-size:${fs(4)};color:${done?'#1a1a00':'#9a8a72'};font-weight:700;flex-shrink:0;">${done?'✓':num}</div>
-      <span style="color:${done?'#1a2a0e':GY};">${label}</span>
-    </div>`;
-
-  const ETAPES = [
-    "Observation d'une fissure","Vérification de l'arrêté Cat Nat","À qui m'adresser ?",
-    "Déclaration de sinistre","Environnement de ma maison","Facteurs déclencheurs",
-    "Entretien & historique","Description des désordres","Documents pour l'expert",
-    "L'expertise","Proposition d'indemnisation","Les travaux de réparation"
-  ];
-  const STEP_IDS = ['step-1b','step-2b','step-3b','step-4b','step-5b','step-6b',
-                    'step-7b','step-8b','step-9b','step-11b','step-13b','step-14b'];
-
-  const piecesLabels = ['Description du sinistre','Dégâts causés à des tiers','Études géotechniques',
-    'Acte d\'achat','Permis de construire','États des lieux','Devis, factures et PV','Déclaration sur l\'honneur'];
-
-  const coverContent = `
-    <div style="display:flex;flex-direction:column;height:100%;">
-      ${photoDataUrl
-        ? `<div style="width:100%;height:${fs(60)};overflow:hidden;flex-shrink:0;"><img src="${photoDataUrl}" style="width:100%;height:100%;object-fit:cover;"></div>`
-        : `<div style="width:100%;height:${fs(55)};background:linear-gradient(135deg,#e8ede4,#d0ddc8);display:flex;align-items:center;justify-content:center;font-size:${fs(8)};color:${GY};flex-shrink:0;">📸</div>`
-      }
-      <div style="padding:${fs(5)} ${fs(6)};flex:1;">
-        <div style="font-size:${fs(11)};font-weight:800;color:${VD};">argi<span style="color:${OR};">Q</span>are</div>
-        <div style="width:${fs(36)};height:${Math.round(0.8*S)}px;background:${OR};margin:${fs(2)} 0 ${fs(3)};"></div>
-        <div style="font-size:${fs(4)};color:${GY};font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:${fs(6)};">Dossier de synthèse — RGA / Cat Nat</div>
-        <div style="background:white;border-radius:${fs(2)};padding:${fs(5)};border:${Math.round(0.5*S)}px solid ${OR};margin-bottom:${fs(4)};">
-          <div style="font-size:${fs(8)};font-weight:800;color:#1a2a0e;margin-bottom:${fs(2)};">${nomComplet}</div>
-          <div style="font-size:${fs(5)};color:${GY};margin-bottom:${fs(3)};">${adresse||'—'}</div>
-          <div style="height:${Math.round(0.3*S)}px;background:${LN};margin:${fs(2)} 0;"></div>
-          <div style="font-size:${fs(4)};color:${GY};margin-bottom:${fs(1)};">Profil de situation</div>
-          <div style="font-size:${fs(5)};font-weight:700;color:${VD};margin-bottom:${fs(3)};">${profilLabel}</div>
-          <div style="font-size:${fs(4)};color:${GY};margin-bottom:${fs(1)};">Contrat</div>
-          <div style="font-size:${fs(5)};font-weight:600;color:#2a2a22;">${contrat}</div>
-        </div>
-        <div style="display:flex;gap:${fs(2)};margin-bottom:${fs(4)};">
-          <div style="flex:1;background:${VD};border-radius:${fs(1.5)};padding:${fs(3)};text-align:center;">
-            <div style="font-size:${fs(9)};font-weight:800;color:white;">${diagPct}%</div>
-            <div style="font-size:${fs(3.5)};color:rgba(255,255,255,.7);">Parcours</div>
-          </div>
-          <div style="flex:1;background:${OR};border-radius:${fs(1.5)};padding:${fs(3)};text-align:center;">
-            <div style="font-size:${fs(9)};font-weight:800;color:#1a1a00;">${nJoints}/8</div>
-            <div style="font-size:${fs(3.5)};color:rgba(0,0,0,.55);">Documents</div>
-          </div>
-        </div>
-        <div style="font-size:${fs(3.5)};color:${GY};">Réf. ${dossierRef} — ${dateGen}</div>
-      </div>
-    </div>`;
-
-  const tocItems = [
-    [true,'1','Ma Maison — Informations sur le bien','3'],
-    [false,'1.1','Informations générales & coordonnées','3'],
-    [false,'1.2','Caractéristiques du bien','4'],
-    [true,'2','Mon Parcours — Réponses détaillées','5'],
-    [false,'2.1','Constat & démarches (étapes 1-4)','5'],
-    [false,'2.2','Préparation expertise (étapes 5-9)','6'],
-    [false,'2.3','Expertise & indemnisation','7'],
-    [true,'3','Annexes — Documents joints','9'],
-    [false,'3.1','Liste des pièces jointes ('+nJoints+' fichier'+(nJoints!==1?'s':'')+')','9'],
-  ];
-  const tocContent = `
-    <div style="display:flex;flex-direction:column;height:100%;">
-      ${secHeader('Sommaire')}
-      <div style="padding:${fs(5)} ${fs(4)};flex:1;">
-        ${tocItems.map(([main,num,title,pg]) => `
-          <div style="display:flex;align-items:center;gap:${fs(3)};padding:${main?fs(3.5):fs(2.5)} ${fs(2)};
-            ${main?`background:#eef3ea;border-radius:${fs(1)};margin-bottom:${fs(1)};`:`margin-left:${fs(6)};`}">
-            <span style="font-size:${main?fs(5):fs(4)};font-weight:${main?700:400};color:${main?VD:GY};min-width:${fs(14)};flex-shrink:0;">${num}</span>
-            <span style="font-size:${main?fs(5):fs(4)};font-weight:${main?700:400};color:${main?'#1a2a0e':GY};flex:1;">${title}</span>
-            <span style="font-size:${main?fs(5):fs(4)};font-weight:700;color:${OR};flex-shrink:0;">${pg}</span>
-          </div>`).join('')}
-      </div>
-    </div>`;
-
-  const maisonContent = `
-    <div style="display:flex;flex-direction:column;height:100%;">
-      ${secHeader('1 — Ma Maison')}
-      <div style="flex:1;overflow:hidden;">
-        ${subTitle('Informations générales')}
-        ${fRow('Assuré', nomComplet)}
-        ${fRow('Adresse', adresse||'—')}
-        ${fRow('Contrat', contrat)}
-        ${fRow('Assureur', assureur)}
-        ${fRow('Tél.', v('m_tel'))}
-        ${fRow('Email', v('m_email'))}
-        ${subTitle('Caractéristiques')}
-        ${fRow('Type', 'Maison individuelle')}
-        ${fRow('Année', v('m_dateconstr'))}
-        ${fRow('Fondations', 'Superficielles')}
-      </div>
-    </div>`;
-
-  const etapesHtml = ETAPES.map((lbl,i) => {
-    const el = document.getElementById(STEP_IDS[i]);
-    return stepRow(i+1, lbl, el && el.classList.contains('completed'));
-  }).join('');
-  const diagContent = `
-    <div style="display:flex;flex-direction:column;height:100%;">
-      ${secHeader('2 — Mon Parcours')}
-      <div style="padding:${fs(3)} ${fs(4)};background:#f9fcf7;border-bottom:${Math.round(0.3*S)}px solid ${LN};flex-shrink:0;">
-        <div style="font-size:${fs(5)};font-weight:700;color:${VD};margin-bottom:${fs(2)};">Avancement : ${diagPct}% — ${diagChecked}/${diagCbs.length}</div>
-        <div style="height:${Math.round(2*S)}px;background:#dde8d8;border-radius:${fs(1)};overflow:hidden;">
-          <div style="width:${diagPct}%;height:100%;background:${OR};"></div>
-        </div>
-      </div>
-      <div style="flex:1;overflow:hidden;">${etapesHtml}</div>
-    </div>`;
-
-  const annexContent = `
-    <div style="display:flex;flex-direction:column;height:100%;">
-      ${secHeader('3 — Annexes')}
-      <div style="padding:${fs(3)} ${fs(4)};background:#f9fcf7;border-bottom:${Math.round(0.3*S)}px solid ${LN};font-size:${fs(5)};font-weight:700;color:${VD};flex-shrink:0;">
-        ${nJoints} fichier${nJoints!==1?'s':''} joint${nJoints!==1?'s':''} sur ${piecesLabels.length}
-      </div>
-      <div style="flex:1;overflow:hidden;padding:${fs(2)} 0;">
-        ${piecesLabels.map((lbl,i) => {
-          const joint = !!diagFiles[i+1];
-          const cb = document.querySelector('#diag-piece-'+(i+1)+' .doc-piece-cb');
-          const checked = cb && cb.checked;
-          return `<div style="display:flex;align-items:center;gap:${fs(3)};padding:${fs(2.5)} ${fs(4)};border-bottom:${Math.round(0.1*S)}px solid ${LN};font-size:${fs(5)};">
-            <div style="width:${fs(6)};height:${fs(6)};border-radius:${fs(1)};background:${joint?VD:checked?OR:'#d0d0c8'};display:flex;align-items:center;justify-content:center;font-size:${fs(3.5)};color:white;flex-shrink:0;">${joint?'✓':checked?'−':'○'}</div>
-            <span style="color:${joint?'#1a2a0e':GY};font-weight:${joint?600:400};">${lbl}</span>
-          </div>`;
-        }).join('')}
-      </div>
-    </div>`;
-
-  window._previewContents = {
-    cover: coverContent, toc: tocContent, maison: maisonContent,
-    diag: diagContent, annex: annexContent,
+  // ── Helpers HTML ──
+  const G20 = G+'20';
+  const rowH = (label,val)=>{
+    if(!val||val==='—') return '';
+    return `<div style="display:flex;gap:8px;padding:6px 0;border-bottom:0.5px solid #f0ece4;font-size:9px;">
+      <span style="color:#9a8a72;min-width:130px;flex-shrink:0;">${label}</span>
+      <span style="color:#1a2a0e;font-weight:500;flex:1;">${val}</span></div>`;
   };
-  window._previewPageFn = page; // la fonction de mise en page sera recréée avec le bon scale
+  const pBar = (pct,col)=>`<div style="height:3px;background:#e8e4dc;border-radius:2px;margin-top:3px;">
+    <div style="width:${pct}%;height:100%;background:${col};border-radius:2px;"></div></div>`;
+  const subH = (txt)=>`<div style="font-size:8.5px;font-weight:700;color:${G};
+    margin:10px 0 5px;padding-bottom:4px;border-bottom:1.5px solid ${G};">${txt}</div>`;
 
-  const zone = document.getElementById('preview-reader-zone');
-  let _swipeX = null;
-
-  // ── Gestionnaires au niveau DOCUMENT pendant que la preview est active ──
-  // On capture au plus haut niveau possible pour bloquer toute remontée
-  // vers le screens-wrapper ou le .screen parent.
-  function _previewTouchStart(e){
-    // Ne bloquer que si le touch est à l'intérieur de l'overlay
-    const overlay = document.getElementById('dossier-preview-overlay');
-    if(!overlay || !overlay.contains(e.target)) return;
-    e.stopPropagation();
-    _swipeX = e.touches[0].clientX;
-  }
-  function _previewTouchMove(e){
-    const overlay = document.getElementById('dossier-preview-overlay');
-    if(!overlay || !overlay.contains(e.target)) return;
-    e.stopPropagation();
-    e.preventDefault(); // indispensable : bloque scroll natif + swipe screens-wrapper
-  }
-  function _previewTouchEnd(e){
-    const overlay = document.getElementById('dossier-preview-overlay');
-    if(!overlay || !overlay.contains(e.target)) return;
-    e.stopPropagation();
-    if(_swipeX === null) return;
-    const dx = e.changedTouches[0].clientX - _swipeX;
-    if(Math.abs(dx) > 40) previewChangePage(dx < 0 ? 1 : -1);
-    _swipeX = null;
-  }
-  // Stocker les références pour pouvoir les retirer à la fermeture
-  window._previewTouchHandlers = { start:_previewTouchStart, move:_previewTouchMove, end:_previewTouchEnd };
-  document.addEventListener('touchstart', _previewTouchStart, {passive:false, capture:true});
-  document.addEventListener('touchmove',  _previewTouchMove,  {passive:false, capture:true});
-  document.addEventListener('touchend',   _previewTouchEnd,   {passive:false, capture:true});
-
-  const overlay = document.getElementById('dossier-preview-overlay');
-  overlay.classList.remove('hidden');
-  overlay.style.display = 'flex';
-  // Bloquer le scroll du .screen parent pour éviter que le swipe déplace le screens-wrapper
-  const parentScreen = document.getElementById('screen-dossier');
-  if(parentScreen) parentScreen.style.overflow = 'hidden';
-
-  requestAnimationFrame(() => {
-    const phoneEl2 = document.querySelector('.phone');
-    const phoneW2  = phoneEl2 ? phoneEl2.clientWidth  : 375;
-    const phoneH2  = phoneEl2 ? phoneEl2.clientHeight : 780;
-    const availW = phoneW2 - 96;
-    const availH = phoneH2 - 120 - 20; // marge supplémentaire de sécurité
-
-    const scaleW2 = availW / 210;
-    const scaleH2 = availH / 297;
-    const S2 = Math.min(scaleW2, scaleH2); // pas de cap à la hausse, uniquement la contrainte
-
-    const PW2 = Math.round(210 * S2);
-    const PH2 = Math.round(297 * S2);
-    if(PW2 > availW || PH2 > availH){
-      console.warn('Preview scale trop grand, recalcul de sécurité');
-    }
-
-    window._previewPages = _buildPreviewPages(S2);
-    window._previewCurrent = 0;
-
-    const TNAIL = 0.17;
-    const TW = Math.round(210*TNAIL), TH = Math.round(297*TNAIL), TSB = Math.round(12*TNAIL);
-    const VD2='#2d5a27', OR2='#c9a23a', BG2='#faf8f4', LN2='#e0d8cc', GY2='#9a8a72';
-    document.getElementById('preview-thumbs').innerHTML = window._previewPages.map((p,i) => `
-      <div onclick="event.stopPropagation();previewSelectPage(${i})" id="pthumb-${i}"
-           style="cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;">
-        <div style="width:${TW}px;height:${TH}px;border:2px solid ${i===0?OR2:LN2};
-             border-radius:2px;overflow:hidden;position:relative;background:${BG2};
-             box-shadow:${i===0?'0 2px 8px rgba(201,162,58,.3)':'0 1px 4px rgba(0,0,0,.1)'};">
-          <div style="position:absolute;left:0;top:0;width:${TSB}px;height:100%;background:${VD2};"></div>
-          <div style="position:absolute;left:${TSB}px;top:0;width:1px;height:100%;background:${OR2};"></div>
-          <div style="position:absolute;left:${TSB+2}px;top:${Math.round(6*TNAIL)}px;right:2px;font-size:${Math.max(4, Math.round(5*TNAIL))}px;font-weight:700;color:${VD2};">${p.label}</div>
-          ${Array(6).fill(0).map((_,j)=>`<div style="position:absolute;left:${TSB+2}px;top:${Math.round((14+j*9)*TNAIL)}px;right:${(2+(j%3)*4)}px;height:${Math.max(1,Math.round(1.5*TNAIL))}px;background:${LN2};"></div>`).join('')}
+  // ── Tiroir : toujours ouvert = couverture (premier tiroir fixe) ──
+  const tiroirFixed = (id,icon,titre,body)=>`
+    <div id="rs-${id}" style="background:#fff;border-radius:12px;
+      border:0.5px solid #e0d8cc;margin-bottom:8px;overflow:hidden;">
+      <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;
+        background:${G};border-radius:12px 12px 0 0;">
+        <div style="width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.2);
+          display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">
+          ${icon}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:11px;font-weight:700;color:#fff;">${titre}</div>
         </div>
-        <div id="pthumb-label-${i}" style="font-size:8px;color:${i===0?VD2:GY2};font-weight:${i===0?700:400};white-space:nowrap;">${p.label}</div>
-      </div>`).join('');
+      </div>
+      <div style="padding:14px 14px 12px;">${body}</div>
+    </div>`;
 
-    previewSelectPage(0);
+  // ── Tiroir accordéon ──
+  const tiroir = (id,icon,titre,badge,body)=>`
+    <div id="rs-${id}" class="reader-tiroir" style="background:#fff;border-radius:12px;
+      border:0.5px solid #e0d8cc;margin-bottom:8px;overflow:hidden;">
+      <button onclick="toggleTiroir('${id}')" style="width:100%;display:flex;align-items:center;
+        gap:10px;padding:12px 14px;background:transparent;border:none;cursor:pointer;
+        font-family:inherit;text-align:left;">
+        <div style="width:34px;height:34px;border-radius:50%;background:${G};
+          display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;">
+          ${icon}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:10px;font-weight:700;color:#1a2a0e;">${titre}</div>
+          ${badge?`<div style="font-size:7.5px;color:#9a8a72;margin-top:1px;">${badge}</div>`:''}
+        </div>
+        <span id="chev-${id}" style="font-size:12px;color:#c4a882;transition:transform .25s;
+          flex-shrink:0;">▼</span>
+      </button>
+      <div id="body-${id}" style="display:none;border-top:0.5px solid #f0ece4;
+        padding:10px 14px 14px;">${body}</div>
+    </div>`;
+
+  // ══ 1. COUVERTURE (fixe, non rétractable) ══
+  const couvBody = `
+    ${photoData?`<img src="${photoData}" style="width:100%;height:110px;object-fit:cover;border-radius:8px;margin-bottom:12px;">`:''}
+    <div style="text-align:center;padding:4px 0 10px;">
+      <div style="font-size:20px;font-weight:300;color:${G};font-family:Georgia,serif;letter-spacing:1px;">
+        argi<span style="font-weight:700;color:${GOLD};">Q</span>are</div>
+      <div style="font-size:13px;font-weight:700;color:#1a2a0e;margin-top:6px;">${nomComplet}</div>
+      <div style="font-size:9px;color:#9a8a72;margin-top:2px;">${adresse}</div>
+      <div style="display:inline-block;background:${G};color:#fff;font-size:8px;
+        padding:3px 12px;border-radius:10px;margin-top:6px;">${profilLabel}</div>
+      <div style="font-size:8px;color:#c4a882;margin-top:4px;">Document généré le ${dateStr}</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-top:4px;">
+      <div style="background:#f5f2ee;border-radius:8px;padding:8px;text-align:center;">
+        <div style="font-size:16px;font-weight:700;color:${G};">${maisonPct}%</div>
+        <div style="font-size:7px;color:#9a8a72;margin-top:1px;">Ma Maison</div>
+        ${pBar(maisonPct,G)}
+      </div>
+      <div style="background:#f5f2ee;border-radius:8px;padding:8px;text-align:center;">
+        <div style="font-size:16px;font-weight:700;color:${G};">${diagPct}%</div>
+        <div style="font-size:7px;color:#9a8a72;margin-top:1px;">Parcours</div>
+        ${pBar(diagPct,G)}
+      </div>
+      <div style="background:${G};border-radius:8px;padding:8px;text-align:center;">
+        <div style="font-size:16px;font-weight:700;color:#fff;">${globalPct}%</div>
+        <div style="font-size:7px;color:rgba(255,255,255,.7);margin-top:1px;">Global</div>
+        ${pBar(globalPct,'rgba(255,255,255,.7)')}
+      </div>
+    </div>`;
+  const tCouvHTML = tiroirFixed('couverture','📋','Mon Dossier',couvBody);
+
+  // ══ 2. MA MAISON ══
+  const maisonBody = `
+    ${subH('Assuré')}
+    ${rowH('Nom',vd('m_nom'))}${rowH('Prénom',vd('m_prenom'))}
+    ${rowH('Adresse',adresse)}${rowH('Téléphone',vd('m_tel'))}${rowH('Email',vd('m_email'))}
+    ${subH("Contrat d&#39;assurance")}
+    ${rowH('Assureur',vd('m_assureur'))}${rowH('Type de contrat',vd('m_typecontrat'))}
+    ${rowH('N° de contrat',vd('m_numcontrat'))}${rowH("Date d&#39;effet",vd('m_dateeffet'))}
+    ${rowH('Franchise',vd('m_franchise'))}${rowH('Date résiliation',vd('m_dateres'))}
+    ${subH('Description du bien')}
+    ${rowH('Date de construction',vd('m_dateconstr'))}
+    ${rowH("Date d&#39;acquisition",vd('m_dateacq'))}
+    ${rowH('Surface habitable',v('m_superficie')?v('m_superficie')+' m²':'—')}
+    ${rowH('Précédent propriétaire',vd('m_precprop'))}
+    ${rowH('Travaux réalisés',vd('m_datetravaux'))}${rowH('Syndic / Gestion',vd('m_societe'))}
+    ${(ex.nom||ex.tel)?subH('Expert missionné'):''}
+    ${rowH('Nom expert',ex.nom||'')}${rowH('Cabinet',ex.cab||'')}
+    ${rowH('Téléphone',ex.tel||'')}${rowH('Email',ex.mail||'')}`;
+  const tMaisonHTML = tiroir('identite','🏠','Ma Maison · Bien assuré',maisonPct+'% complété',maisonBody);
+
+  // ══ 3. MON PARCOURS — cases cochées par étape ══
+  const LABEL_VAL = {
+    yes: `<span style="background:#6A9E7E;color:#fff;font-size:7px;font-weight:700;
+      padding:2px 7px;border-radius:10px;">✓ Oui</span>`,
+    no:  `<span style="background:#e0d8cc;color:#5a6a52;font-size:7px;font-weight:500;
+      padding:2px 7px;border-radius:10px;">— Non / N·A</span>`,
+    blocked:`<span style="background:#C9A23A;color:#fff;font-size:7px;font-weight:700;
+      padding:2px 7px;border-radius:10px;">⚡ Bloqué</span>`,
+  };
+  let parcoursBody = '';
+  stepsData.forEach((s,si)=>{
+    const dot = s.pct===100
+      ? `background:${G};`
+      : s.pct>0 ? `background:${GOLD};` : 'background:#e0d8cc;';
+    parcoursBody += `<div style="margin-bottom:10px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:5px;">
+        <div style="width:20px;height:20px;border-radius:50%;${dot}
+          display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+          <span style="font-size:8px;color:#fff;font-weight:700;">
+            ${s.pct===100?'✓':si+1}</span></div>
+        <div style="flex:1;">
+          <div style="font-size:9px;font-weight:700;color:#1a2a0e;">${s.title}</div>
+          <div style="height:2px;background:#e8e4dc;border-radius:1px;margin-top:2px;">
+            <div style="width:${s.pct}%;height:100%;
+              background:${s.pct===100?G:GOLD};border-radius:1px;"></div></div>
+        </div>
+        <span style="font-size:8px;font-weight:700;color:${s.pct===100?G:s.pct>0?GOLD:'#c4a882'};
+          flex-shrink:0;">${s.pct}%</span>
+      </div>`;
+    if(s.items.length){
+      parcoursBody += `<div style="padding-left:28px;">`;
+      s.items.forEach(it=>{
+        if(!it.val) return; // N'afficher que les questions répondues
+        parcoursBody += `<div style="display:flex;align-items:flex-start;gap:8px;
+          padding:4px 0;border-bottom:0.5px solid #f5f2ee;">
+          <div style="flex:1;font-size:8.5px;color:#3a4a3a;line-height:1.45;">${it.label}</div>
+          <div style="flex-shrink:0;">${LABEL_VAL[it.val]||''}</div>
+        </div>`;
+      });
+      // Questions non répondues en gris
+      const unanswered = s.items.filter(it=>!it.val);
+      if(unanswered.length){
+        parcoursBody += `<div style="font-size:7.5px;color:#c4a882;
+          font-style:italic;padding:4px 0;">${unanswered.length} question(s) non encore renseignée(s)</div>`;
+      }
+      parcoursBody += `</div>`;
+    } else {
+      parcoursBody += `<div style="padding-left:28px;font-size:7.5px;color:#9a8a72;
+        font-style:italic;">Aucune question pour cette étape</div>`;
+    }
+    parcoursBody += `</div>`;
   });
+  const nDone = stepsData.filter(s=>s.pct===100).length;
+  const tParcoursHTML = tiroir('parcours','🔍','Mon Parcours · 12 étapes',
+    `${nDone} étape(s) complète(s) sur ${stepsData.length}`,parcoursBody);
+
+  // ══ 4. ANNEXES — toutes les pièces jointes ══
+  const PIECE_LABELS=['Description du sinistre','Dégâts causés à des tiers',
+    'Études géotechniques','Acte d\'achat','Permis de construire','États des lieux',
+    'Devis / factures travaux','Rapport d\'expertise','Correspondances assureur',
+    'Déclaration de sinistre','Arrêté Cat Nat','Photos du sinistre','Autres documents'];
+  let annexeList = '', nDocs = 0;
+  for(let i=0;i<13;i++){
+    const fd = diagFiles[i+1];
+    if(fd){
+      nDocs++;
+      const isImg = fd.type&&fd.type.startsWith('image/');
+      annexeList += `<div style="border:0.5px solid #e0d8cc;border-radius:8px;
+        padding:8px 10px;margin-bottom:6px;">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-size:16px;">${isImg?'🖼️':'📎'}</span>
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:9px;font-weight:700;color:#1a2a0e;">${PIECE_LABELS[i]}</div>
+            <div style="font-size:7.5px;color:#9a8a72;overflow:hidden;text-overflow:ellipsis;
+              white-space:nowrap;">${fd.name||'Fichier joint'}</div>
+          </div>
+          <span style="font-size:9px;color:${G};font-weight:700;">✓</span>
+        </div>
+        ${isImg&&fd.data?`<img src="${fd.data}" style="width:100%;max-height:120px;
+          object-fit:contain;border-radius:6px;margin-top:8px;">`:''}
+      </div>`;
+    }
+  }
+  // Attestation assurance si disponible
+  if(window.attestationFile){
+    nDocs++;
+    annexeList += `<div style="border:0.5px solid #e0d8cc;border-radius:8px;
+      padding:8px 10px;margin-bottom:6px;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:16px;">📋</span>
+        <div style="flex:1;">
+          <div style="font-size:9px;font-weight:700;color:#1a2a0e;">Attestation d'assurance</div>
+          <div style="font-size:7.5px;color:#9a8a72;">${window.attestationFile.name||'Fichier joint'}</div>
+        </div>
+        <span style="font-size:9px;color:${G};font-weight:700;">✓</span>
+      </div>
+    </div>`;
+  }
+  if(!nDocs) annexeList = `<div style="font-size:9px;color:#9a8a72;font-style:italic;
+    padding:8px 0;">Aucune pièce jointe pour le moment.<br>
+    <span style="font-size:8px;">Les documents ajoutés dans Mon Parcours apparaîtront ici.</span>
+  </div>`;
+  const tAnnexesHTML = tiroir('avancement','📎','Annexes · Pièces jointes',
+    nDocs+' pièce(s) jointe(s)',annexeList);
+
+  // ══ Assemblage final ══
+  const fullContent = tCouvHTML + tMaisonHTML + tParcoursHTML + tAnnexesHTML;
+
+  // ── DOM ──
+  const overlay  = document.getElementById('dossier-preview-overlay');
+  const zone     = document.getElementById('preview-reader-content');
+  const titleEl  = document.getElementById('preview-reader-title');
+  const comptEl  = document.getElementById('preview-completude');
+  const somItems = document.getElementById('preview-sommaire-items');
+  if(!overlay||!zone) return;
+
+  zone.innerHTML = fullContent;
+  if(titleEl) titleEl.textContent = 'Mon Dossier';
+  if(comptEl) comptEl.textContent = globalPct+'% complété · '+nDone+'/'+stepsData.length+' étapes';
+
+  // ── Sommaire horizontal pills ──
+  const READER_TABS = [
+    {id:'couverture',icon:'📋',lbl:'Dossier'},
+    {id:'identite',  icon:'🏠',lbl:'Ma Maison'},
+    {id:'parcours',  icon:'🔍',lbl:'Parcours'},
+    {id:'avancement',icon:'📎',lbl:'Annexes'},
+  ];
+  if(somItems){
+    somItems.innerHTML = READER_TABS.map((t,i)=>`
+      <div onclick="readerGoTo('${t.id}',${i})" id="som-btn-${i}"
+        style="display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;">
+        <div id="som-bubble-${i}" style="
+          width:38px;height:38px;border-radius:50%;
+          background:${i===0?G:'rgba(255,255,255,.75)'};
+          border:${i===0?'none':'1.5px solid #d8cfc0'};
+          display:flex;align-items:center;justify-content:center;
+          font-size:18px;line-height:1;transition:background .2s,border .2s;">
+          ${t.icon}
+        </div>
+        <div id="som-lbl-${i}" style="font-size:6px;
+          color:${i===0?G:'#9a8a72'};font-weight:${i===0?700:500};
+          text-align:center;line-height:1.2;font-family:system-ui;">
+          ${t.lbl}
+        </div>
+      </div>`).join('');
+  }
+
+  // Ouvrir tiroirs Ma Maison et Parcours par défaut
+  setTimeout(()=>{ openTiroir('identite'); openTiroir('parcours'); openTiroir('avancement'); },50);
+
+  overlay.style.display='flex';
+  overlay.classList.remove('hidden');
+  document.getElementById('preview-reader-zone').scrollTop=0;
 }
 
 function _buildPreviewPages(S){
@@ -10671,7 +10534,7 @@ function applyScanResult(){
   document.getElementById('scan-result-banner').style.display = 'none';
   showToast('✅ Informations appliquées — vérifiez et complétez si nécessaire');
 }
-const laterFields = new Set(JSON.parse(localStorage.getItem('argicare-later-fields') || '[]'));
+const laterFields = new Set(JSON.parse(localStorage.getItem('argicare-later-fields')||'[]'));
 function markLater(id){
   const el = document.getElementById(id);
   if(!el) return;
@@ -11991,22 +11854,90 @@ let dosHistExpanded = false;
 
 function _buildHistEvents(){
   const events = [];
-  try{
-    const raw = localStorage.getItem('argicare-last-action');
-    if(raw){
-      const d = JSON.parse(raw);
-      const diffMin = Math.floor((Date.now()-new Date(d.date))/60000);
-      const label = diffMin<1?'À l\'instant':diffMin<60?'Il y a '+diffMin+' min':diffMin<1440?'Il y a '+Math.floor(diffMin/60)+' h':'Le '+new Date(d.date).toLocaleDateString('fr-FR');
-      events.push({t:d.label||'Modification enregistrée', m:label});
-    }
-  }catch(_){}
+
+  function fmt(dateStr){
+    if(!dateStr) return '';
+    try{
+      const d = new Date(dateStr);
+      const diffMin = Math.floor((Date.now()-d)/60000);
+      if(isNaN(diffMin)) return dateStr;
+      if(diffMin<1)    return "À l'instant";
+      if(diffMin<60)   return 'Il y a '+diffMin+' min';
+      if(diffMin<1440) return 'Il y a '+Math.floor(diffMin/60)+'h';
+      return d.toLocaleDateString('fr-FR',{day:'numeric',month:'short',year:'numeric'});
+    }catch(_){ return dateStr; }
+  }
+
+  function push(t,m){ events.push({t,m}); }
+
+  // PDFs générés
   try{
     const vs = JSON.parse(localStorage.getItem('argicare-pdf-versions')||'[]');
-    vs.slice().reverse().forEach(v=>{ events.push({t:'PDF généré — '+v.pages+' pages', m:v.date}); });
+    vs.slice().reverse().forEach(v=>{
+      push('📄 PDF généré · '+v.pages+' pages · '+v.pct+'% complété', fmt(v.date)||v.date);
+    });
   }catch(_){}
-  if(localStorage.getItem('argicare-photo-maison')) events.push({t:'Photo du bien ajoutée', m:'Ma Maison'});
+
+  // Dernière action générique
+  try{
+    const raw = localStorage.getItem('argicare-last-action');
+    if(raw){ const d=JSON.parse(raw); push(d.label||'Modification enregistrée', fmt(d.date)); }
+  }catch(_){}
+
+  // Champs Ma Maison
+  const MAISON_LABELS = {
+    m_nom:'Nom propriétaire', m_prenom:'Prénom', m_ville:'Ville',
+    m_voie:'Adresse', m_cp:'Code postal', m_bien:'Type de bien',
+    m_annee:"Année de construction", m_surface:'Surface (m²)',
+    m_assureur:'Assureur', m_numcontrat:'N° de contrat',
+    m_dateeffet:"Date d'effet", m_franchise:'Franchise',
+    m_dateconstr:'Date de construction', m_dateacq:"Date d'acquisition",
+    m_superficie:'Surface habitable', m_societe:'Syndic / Société',
+    m_davetravaux:'Travaux (date)', m_tel:'Téléphone', m_email:'Email',
+  };
+  try{
+    const m = JSON.parse(localStorage.getItem('argicare-maison')||'{}');
+    Object.entries(m).forEach(([k,v])=>{
+      if(!v||!v.toString().trim()) return;
+      const label = MAISON_LABELS[k] || k.replace('m_','').replace(/_/g,' ');
+      push('🏠 Ma Maison · '+label+' : "'+v.toString().slice(0,30)+'"', 'Ma Maison');
+    });
+  }catch(_){}
+
+  // Photo du bien
+  const photoDate = localStorage.getItem('argicare-photo-maison-date');
+  const photoName = localStorage.getItem('argicare-photo-maison-name');
+  if(localStorage.getItem('argicare-photo-maison')){
+    push('📷 Photo du bien ajoutée'+(photoName?' ('+photoName+')':''), fmt(photoDate)||'Ma Maison');
+  }
+
+  // Questions tristate répondues
+  try{
+    const ts = JSON.parse(localStorage.getItem('argicare-tristate')||'{}');
+    const answers = Object.entries(ts).filter(([,v])=>v);
+    if(answers.length>0) push('🔍 Parcours · '+answers.length+' question'+(answers.length>1?'s':'')+' renseignée'+(answers.length>1?'s':''), 'Mon Parcours');
+  }catch(_){}
+
+  // Expert
+  try{
+    const ex = JSON.parse(localStorage.getItem('argicare-expert')||'{}');
+    if(ex.nom) push('👤 Expert · Nom : "'+ex.nom+'"', 'Mon Dossier');
+    if(ex.tel) push('📱 Expert · Tél : "'+ex.tel+'"', 'Mon Dossier');
+    if(ex.mail) push('✉️ Expert · Email : "'+ex.mail+'"', 'Mon Dossier');
+  }catch(_){}
+
+  // Profil sélectionné
   const savedP = localStorage.getItem('argicare-profil');
-  if(savedP) events.push({t:'Profil '+savedP+' sélectionné', m:'Accueil'});
+  if(savedP){
+    const PL = {'1':'Profil 1 — Je constate une fissure','2':'Profil 2 — Sinistre déclaré','3':'Profil 3 — Expert missionné'};
+    push('👤 '+(PL[savedP]||'Profil '+savedP+' sélectionné'), 'Accueil');
+  }
+
+  // Alertes et préférences
+  if(localStorage.getItem('argicare-alertes-catnat')==='1') push('🔔 Alertes Cat Nat activées', 'Paramètres');
+  const taille = localStorage.getItem('argicare-taille');
+  if(taille && taille!=='1') push('🔡 Taille de police modifiée (×'+taille+')', 'Paramètres');
+
   return events;
 }
 
@@ -12221,6 +12152,118 @@ function addLegifaLinks(){
       return `<a href="${url}" target="_blank" rel="noopener" style="color:#2d5a27;font-weight:600;text-decoration:underline;" title="Voir sur Légifrance">${match} ↗</a>`;
     });
   });
+}
+
+
+
+/* ── Nouvelles fonctions v101 ── */
+function resumeFromHere(stepId, itemId){
+  const navItems = document.querySelectorAll('.nav-item');
+  switchTab('diag', navItems[2]);
+  setTimeout(()=>{
+    // Ouvrir l'étape
+    if(stepId){
+      const stepEl = document.getElementById(stepId);
+      if(stepEl){
+        document.querySelectorAll('.diag-step').forEach(s=>s.classList.remove('open'));
+        stepEl.classList.add('open');
+        setTimeout(()=>{ stepEl.scrollIntoView({behavior:'smooth', block:'start'}); }, 200);
+      }
+    }
+    // Cibler la question précise
+    if(itemId){
+      const itemEl = document.getElementById('tri-'+itemId) || document.getElementById(itemId);
+      if(itemEl){
+        setTimeout(()=>{
+          itemEl.scrollIntoView({behavior:'smooth', block:'center'});
+          itemEl.style.outline = '2px solid #C9A23A';
+          setTimeout(()=>{ itemEl.style.outline=''; }, 2000);
+        }, 500);
+      }
+    }
+  }, 380);
+}
+
+function closePreviewReader(){
+  const ov=document.getElementById('dossier-preview-overlay');
+  if(ov){ov.style.display='none';ov.classList.add('hidden');}
+}
+
+function readerScrollTo(id,btnIdx){
+  const idMap={'_top':'couverture','rs-identite':'identite','rs-parcours':'parcours',
+    'rs-avancement':'avancement','rs-disclaimer':'avancement'};
+  readerGoTo(idMap[id]||id.replace('rs-','')||'couverture',btnIdx||0);
+}
+
+function toggleReaderFontSize(){
+  _readerFontBig=!_readerFontBig;
+  const content=document.getElementById('preview-reader-content');
+  if(content){content.style.fontSize=_readerFontBig?'115%':'100%';
+    content.style.lineHeight=_readerFontBig?'1.75':'1.5';}
+  const aaBtn=document.querySelector('[onclick="toggleReaderFontSize()"]');
+  if(aaBtn){aaBtn.style.color=_readerFontBig?'#6A9E7E':'#9a8a72';}
+}
+
+function toggleReaderSommaire(){
+  const som=document.getElementById('preview-sommaire');
+  if(!som) return;
+  const isOpen=som.style.width!=='0px'&&som.style.width!=='0';
+  som.style.width=isOpen?'0':'56px';
+}
+
+function toggleDosHistExtra(e){
+  if(e) e.stopPropagation();
+  const extra = document.getElementById('dos-hist-extra');
+  const tgl   = document.getElementById('dos-hist-tgl');
+  if(!extra) return;
+  const isOpen = extra.style.display!=='none';
+  extra.style.display = isOpen?'none':'block';
+  if(tgl) tgl.textContent = isOpen?"▼ Voir tout l'historique":"▲ Réduire";
+}
+
+function activateGlossWordsInParcours(){
+  const TERMES = ['RGA','Cat Nat','retrait-gonflement','argile','arrêté interministériel',
+    'catastrophe naturelle','expert','expertise','indemnisation','franchise','sinistre',
+    'désordres','fondations','géotechnique','déclaration','assureur','maître d\'œuvre',
+    'travaux','rapport d\'expertise','contre-expertise','délai'];
+  const screen = document.getElementById('screen-diag');
+  if(!screen) return;
+  // Parcourir les nœuds texte et envelopper les termes trouvés
+  const walker = document.createTreeWalker(screen, NodeFilter.SHOW_TEXT, {
+    acceptNode: n => n.parentElement.tagName !== 'SCRIPT' && n.parentElement.tagName !== 'BUTTON'
+                     && !n.parentElement.classList.contains('gloss-word')
+                     ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT
+  });
+  const nodes = [];
+  while(walker.nextNode()) nodes.push(walker.currentNode);
+  const regex = new RegExp('(' + TERMES.map(t=>t.replace(/[-\/\^$*+?.()|[\]{}]/g,'\$&')).join('|') + ')', 'gi');
+  nodes.forEach(node => {
+    if(!regex.test(node.textContent)) return;
+    regex.lastIndex = 0;
+    const frag = document.createDocumentFragment();
+    let last = 0, match;
+    while((match = regex.exec(node.textContent)) !== null){
+      if(match.index > last) frag.appendChild(document.createTextNode(node.textContent.slice(last, match.index)));
+      const btn = document.createElement('button');
+      btn.className = 'gloss-word';
+      btn.textContent = match[1];
+      btn.setAttribute('data-term', match[1].toLowerCase());
+      btn.onclick = (e)=>{ e.stopPropagation(); glOpen(match[1].toLowerCase(), btn); };
+      frag.appendChild(btn);
+      last = regex.lastIndex;
+    }
+    if(last < node.textContent.length) frag.appendChild(document.createTextNode(node.textContent.slice(last)));
+    node.parentNode.replaceChild(frag, node);
+  });
+}
+
+function toggleDiagIntro(){
+  const body    = document.getElementById('diag-intro-body');
+  const chevron = document.getElementById('diag-intro-chevron');
+  if(!body) return;
+  const isOpen  = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  if(chevron) chevron.style.transform = isOpen ? '' : 'rotate(180deg)';
 }
 
 </script>
