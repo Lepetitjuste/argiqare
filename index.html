@@ -2,422 +2,519 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#2D5A27">
-<meta name="description" content="ArgiQare — Outil indépendant d'accompagnement pour les sinistrés RGA et Cat Nat. Gratuit, sans publicité, vos données restent sur votre téléphone.">
-<title>ArgiQare — Installez votre guide sinistre RGA sur votre téléphone</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F5F2EC">
+<meta name="description" content="ArgiQare — Constituez votre dossier sinistre RGA et Cat Nat, étape par étape. Outil indépendant pour propriétaires sinistrés.">
+<title>ArgiQare — Votre dossier sinistre RGA</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --vert:#2D5A27;--vert-clair:#4a7c3f;--or:#C9A23A;
-  --sable:#FAF8F4;--sable2:#F0EBE1;--brun:#7A5A2A;
-  --argile:#E8C8A8;--blanc:#fff;--gris:#6b7280;
+  --sand:#F5F2EC;
+  --sand2:#EDE9E1;
+  --sand3:#E2DDD5;
+  --ink:#1A1814;
+  --ink2:#4A4740;
+  --ink3:#9A9590;
+  --green:#2D6A4F;
+  --green2:#40916C;
+  --gold:#C9A23A;
+  --gold2:#E8C547;
+  --dark:#111009;
+  --white:#FFFFFF;
+  --r:12px;
 }
-html{scroll-behavior:smooth}
-body{font-family:system-ui,-apple-system,sans-serif;background:var(--sable);color:#1a2a0e;line-height:1.6;-webkit-font-smoothing:antialiased}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--sand);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
 
-/* ── HEADER ── */
-header{
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
   display:flex;align-items:center;justify-content:space-between;
-  padding:16px 20px;background:var(--blanc);
-  border-bottom:1px solid rgba(45,90,39,.1);
-  position:sticky;top:0;z-index:100;
+  padding:14px 32px;
+  background:rgba(245,242,236,.92);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--sand3);
 }
-.logo{font-family:Georgia,serif;font-size:22px;font-weight:300;color:var(--vert);letter-spacing:1px;}
-.logo span{font-weight:700;color:var(--or);font-size:28px;line-height:.8;display:inline-block;transform:translateY(2px)}
-.header-badge{font-size:9px;background:#f0f7ec;color:var(--vert);border:1px solid var(--vert-clair);padding:3px 8px;border-radius:20px;font-weight:600;letter-spacing:.3px}
+.nav-logo{font-family:'Playfair Display',serif;font-size:19px;font-weight:400;color:var(--ink);letter-spacing:.3px}
+.nav-logo b{font-weight:600;color:var(--gold);font-style:italic}
+.nav-links{display:flex;align-items:center;gap:24px}
+.nav-link{font-size:13px;font-weight:400;color:var(--ink2);transition:color .2s}
+.nav-link:hover{color:var(--ink)}
+.nav-cta{
+  display:inline-flex;align-items:center;gap:7px;
+  background:var(--green);color:var(--white);
+  padding:9px 20px;border-radius:6px;font-size:13px;font-weight:500;
+  transition:background .2s;
+}
+.nav-cta:hover{background:var(--green2)}
+.nav-cta svg{width:14px;height:14px;flex-shrink:0}
+@media(max-width:680px){.nav-links .nav-link{display:none}}
 
 /* ── HERO ── */
 .hero{
-  min-height:90vh;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  padding:48px 20px 40px;text-align:center;
-  background:linear-gradient(180deg,var(--blanc) 0%,var(--sable) 100%);
+  min-height:100vh;display:grid;
+  grid-template-columns:1fr 1fr;
+  align-items:center;gap:60px;
+  padding:100px 64px 80px;
+  max-width:1200px;margin:0 auto;
+}
+@media(max-width:900px){.hero{grid-template-columns:1fr;padding:90px 24px 60px;gap:48px}}
+
+.hero-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:11px;font-weight:500;color:var(--green);
+  border:1px solid rgba(45,106,79,.2);background:rgba(45,106,79,.06);
+  padding:4px 12px;border-radius:20px;margin-bottom:22px;
+  opacity:0;animation:up .5s .1s ease forwards;
+}
+.hero-tag-dot{width:6px;height:6px;border-radius:50%;background:var(--green)}
+.hero-h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(36px,4.5vw,58px);
+  font-weight:400;line-height:1.1;
+  color:var(--ink);margin-bottom:18px;
+  opacity:0;animation:up .6s .25s ease forwards;
+}
+.hero-h1 em{color:var(--green);font-style:normal;font-weight:600}
+.hero-p{
+  font-size:16px;font-weight:300;color:var(--ink2);
+  line-height:1.8;max-width:440px;margin-bottom:36px;
+  opacity:0;animation:up .6s .4s ease forwards;
+}
+.hero-btns{
+  display:flex;gap:12px;flex-wrap:wrap;
+  opacity:0;animation:up .6s .55s ease forwards;
+}
+.btn-primary{
+  display:inline-flex;align-items:center;gap:8px;
+  background:var(--green);color:var(--white);
+  padding:13px 26px;border-radius:8px;font-size:14px;font-weight:500;
+  transition:background .2s,transform .15s;
+}
+.btn-primary:hover{background:var(--green2);transform:translateY(-1px)}
+.btn-primary svg{width:15px;height:15px}
+.btn-secondary{
+  display:inline-flex;align-items:center;gap:6px;
+  border:1px solid var(--sand3);color:var(--ink2);
+  padding:13px 22px;border-radius:8px;font-size:14px;font-weight:400;
+  background:var(--white);transition:border-color .2s;
+}
+.btn-secondary:hover{border-color:var(--green)}
+.hero-badges{
+  display:flex;gap:20px;margin-top:28px;flex-wrap:wrap;
+  opacity:0;animation:up .6s .7s ease forwards;
+}
+.hero-badge{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink2)}
+.hero-badge svg{width:16px;height:16px;color:var(--green);flex-shrink:0}
+
+/* MOCKUP PHONE */
+.hero-phone{
+  display:flex;justify-content:flex-end;
+  opacity:0;animation:up .9s .5s ease forwards;
+}
+@media(max-width:900px){.hero-phone{justify-content:flex-start}}
+.phone-shell{
+  width:252px;height:504px;
+  background:#0f0e0c;border-radius:38px;
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.07),0 0 0 1px rgba(0,0,0,.8),0 0 0 7px #1a1918,0 0 0 8px rgba(255,255,255,.04),0 32px 80px rgba(0,0,0,.4);
   position:relative;overflow:hidden;
 }
-.hero::before{
-  content:'';position:absolute;top:-80px;left:50%;transform:translateX(-50%);
-  width:600px;height:600px;border-radius:50%;
-  background:radial-gradient(circle,rgba(201,162,58,.06) 0%,transparent 70%);
-  pointer-events:none;
-}
-.hero-eyebrow{
-  font-size:11px;font-weight:700;letter-spacing:1.5px;
-  text-transform:uppercase;color:var(--or);margin-bottom:20px;
-  opacity:0;animation:fadeUp .6s .1s ease forwards;
-}
-.hero-logo{
-  font-family:Georgia,serif;font-size:52px;font-weight:300;
-  color:var(--vert);letter-spacing:3px;margin-bottom:4px;
-  opacity:0;animation:fadeUp .7s .2s ease forwards;
-}
-.hero-logo b{font-weight:700;color:var(--or);font-size:64px;display:inline-block}
-.hero-tagline{
-  font-family:Georgia,serif;font-size:26px;color:#1a2a0e;
-  line-height:1.3;max-width:340px;margin:0 auto 12px;
-  opacity:0;animation:fadeUp .7s .35s ease forwards;
-}
-.hero-sub{
-  font-size:14px;color:var(--gris);max-width:320px;margin:0 auto 32px;
-  line-height:1.6;opacity:0;animation:fadeUp .6s .5s ease forwards;
-}
-.hero-cta{
-  opacity:0;animation:fadeUp .6s .65s ease forwards;
-  display:flex;flex-direction:column;align-items:center;gap:10px;
-}
-.btn-install{
-  display:flex;align-items:center;gap:10px;
-  background:var(--vert);color:var(--blanc);
-  padding:16px 28px;border-radius:14px;border:none;
-  font-size:15px;font-weight:700;font-family:inherit;
-  cursor:pointer;box-shadow:0 4px 16px rgba(45,90,39,.3);
-  transition:transform .15s,box-shadow .15s;text-decoration:none;
-}
-.btn-install:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(45,90,39,.35)}
-.btn-install:active{transform:translateY(0)}
-.btn-install-icon{font-size:22px}
-.btn-install-text{text-align:left}
-.btn-install-label{display:block;font-size:11px;font-weight:500;opacity:.8;margin-bottom:1px}
-.btn-install-action{display:block;font-size:15px;font-weight:800}
-.btn-secondary{
-  font-size:12px;color:var(--gris);background:none;border:none;
-  cursor:pointer;font-family:inherit;text-decoration:underline;
-  text-underline-offset:3px;padding:4px;
-}
+.phone-notch{position:absolute;top:0;left:50%;transform:translateX(-50%);width:80px;height:22px;background:#0f0e0c;border-radius:0 0 14px 14px;z-index:10}
+.phone-screen{position:absolute;inset:2px;border-radius:36px;background:var(--sand);overflow:hidden;display:flex;flex-direction:column}
+.ph-header{background:linear-gradient(160deg,#1B4332,#2D6A4F);padding:26px 14px 16px;flex-shrink:0;text-align:center}
+.ph-logo{font-family:'Playfair Display',serif;font-size:13px;font-weight:400;color:rgba(255,255,255,.75);letter-spacing:.5px}
+.ph-logo b{font-weight:600;font-style:italic;color:var(--gold)}
+.ph-greet{font-size:10px;color:rgba(255,255,255,.7);margin-top:5px}
+.ph-body{flex:1;padding:9px;display:flex;flex-direction:column;gap:6px;overflow:hidden}
+.ph-profil{background:rgba(45,106,79,.08);border:1px solid rgba(45,106,79,.18);border-radius:9px;padding:9px 11px;display:flex;align-items:center;justify-content:space-between}
+.ph-profil-tag{font-size:6.5px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.5px}
+.ph-profil-title{font-size:8.5px;font-weight:500;color:var(--ink);margin-top:2px;line-height:1.3}
+.ph-profil-pill{display:inline-block;border:1px solid rgba(201,162,58,.5);border-radius:4px;font-size:6px;font-weight:500;color:#7a5800;padding:1.5px 6px;margin-top:4px;background:rgba(201,162,58,.08)}
+.ph-ring{width:36px;height:36px;position:relative;flex-shrink:0}
+.ph-ring svg{transform:rotate(-90deg)}
+.ph-ring-val{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:7.5px;font-weight:500;color:var(--green)}
+.ph-card{background:var(--white);border-radius:7px;padding:8px 10px;border:.5px solid var(--sand3)}
+.ph-card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.ph-card-title{font-size:8px;font-weight:500;color:var(--ink)}
+.ph-card-pct{font-size:7.5px;font-weight:500;color:var(--green)}
+.ph-bar{height:2.5px;background:var(--sand3);border-radius:2px;overflow:hidden}
+.ph-fill{height:100%;border-radius:2px}
+.ph-card-sub{font-size:6.5px;color:var(--ink3);margin-top:3px}
+.ph-step{background:var(--white);border-radius:7px;padding:8px 10px;border-left:2.5px solid var(--gold);border-top:.5px solid var(--sand3);border-right:.5px solid var(--sand3);border-bottom:.5px solid var(--sand3)}
+.ph-step-tag{font-size:6px;font-weight:500;color:#7a5800;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
+.ph-step-title{font-size:8.5px;font-weight:500;color:var(--ink)}
+.ph-step-sub{font-size:6.5px;color:var(--ink3);margin-top:2px}
+.ph-action{display:flex;align-items:center;gap:6px;background:#f0f7f4;border-radius:7px;padding:7px 9px}
+.ph-action-dot{width:5px;height:5px;border-radius:50%;background:var(--green);flex-shrink:0}
+.ph-action-text{font-size:7px;font-weight:400;color:var(--green)}
+.ph-nav{height:42px;background:var(--white);border-top:.5px solid var(--sand3);display:flex;align-items:center;justify-content:space-around;flex-shrink:0}
+.ph-nav-item{display:flex;flex-direction:column;align-items:center;gap:1px;opacity:.3}
+.ph-nav-item.on{opacity:1}
+.ph-nav-emoji{font-size:12px}
+.ph-nav-label{font-size:5px;font-weight:500;color:var(--ink)}
 
-/* Mockup téléphone */
-.hero-phone{
-  width:180px;height:320px;background:#1a1a1a;border-radius:28px;
-  margin:32px auto 0;position:relative;overflow:hidden;
-  box-shadow:0 0 0 6px #2c2c2c,0 20px 50px rgba(0,0,0,.4);
-  opacity:0;animation:fadeUp .8s .8s ease forwards;
-}
-.hero-phone-screen{
-  position:absolute;inset:6px;border-radius:22px;
-  background:linear-gradient(180deg,#6A9E7E 0%,#6A9E7E 30%,#FAF8F4 30%);
-  display:flex;flex-direction:column;overflow:hidden;
-}
-.phone-header-m{
-  padding:12px 10px 18px;display:flex;flex-direction:column;
-  align-items:center;
-}
-.phone-logo-m{font-family:Georgia,serif;font-size:14px;font-weight:300;color:rgba(255,255,255,.9);letter-spacing:1px}
-.phone-logo-m b{font-weight:700;color:#C9A23A;font-size:18px}
-.phone-badge-m{font-size:7px;color:rgba(255,255,255,.6);margin-top:2px}
-.phone-content-m{flex:1;padding:8px;display:flex;flex-direction:column;gap:5px}
-.phone-card-m{background:var(--blanc);border-radius:8px;padding:7px 8px}
-.phone-card-title{font-size:8px;font-weight:700;color:#1a2a0e;margin-bottom:2px}
-.phone-bar{height:3px;background:#e0d8cc;border-radius:2px}
-.phone-bar-fill{height:100%;background:#6A9E7E;border-radius:2px;transition:width 1s 1.5s ease}
-.phone-etape{font-size:7px;color:var(--gris);margin-top:3px}
-.phone-bottom-nav{
-  height:36px;background:var(--blanc);border-top:1px solid #e0d8cc;
-  display:flex;align-items:center;justify-content:space-around;
-}
-.phone-nav-item{font-size:12px;opacity:.4}
-.phone-nav-item.active{opacity:1}
+/* ── STATS ── */
+.stats{border-top:1px solid var(--sand3);border-bottom:1px solid var(--sand3);display:flex;justify-content:center;background:var(--white);flex-wrap:wrap}
+.stat{text-align:center;padding:32px 52px;border-right:1px solid var(--sand3);flex:1;max-width:280px}
+.stat:last-child{border-right:none}
+.stat-n{font-family:'Playfair Display',serif;font-size:44px;font-weight:400;color:var(--ink);display:block;letter-spacing:-1px;line-height:1}
+.stat-l{font-size:12px;font-weight:300;color:var(--ink3);margin-top:7px;line-height:1.5}
+@media(max-width:600px){.stat{border-right:none;border-bottom:1px solid var(--sand3);padding:24px;max-width:none;flex:none;width:100%}.stat:last-child{border-bottom:none}}
 
-/* ── ARGUMENTS ── */
-.args{padding:60px 20px;background:var(--blanc)}
-.section-label{
-  font-size:11px;font-weight:700;letter-spacing:1.5px;
-  text-transform:uppercase;color:var(--or);margin-bottom:12px;
-  text-align:center;
-}
-.args-title{
-  font-family:Georgia,serif;font-size:26px;color:#1a2a0e;
-  text-align:center;max-width:320px;margin:0 auto 40px;line-height:1.3;
-}
-.args-grid{display:grid;grid-template-columns:1fr;gap:16px;max-width:480px;margin:0 auto}
-.arg-card{
-  display:flex;gap:14px;align-items:flex-start;
-  background:var(--sable);border-radius:14px;padding:18px 16px;
-  border:1px solid rgba(45,90,39,.08);
-}
-.arg-icon{
-  width:46px;height:46px;border-radius:12px;flex-shrink:0;
-  display:flex;align-items:center;justify-content:center;font-size:22px;
-}
-.arg-icon.green{background:linear-gradient(135deg,#e8f5e0,#d0ecc8)}
-.arg-icon.gold{background:linear-gradient(135deg,#fdf6e4,#f5e8c0)}
-.arg-icon.blue{background:linear-gradient(135deg,#e8f0fe,#d0e0f8)}
-.arg-body{}
-.arg-title{font-size:14px;font-weight:700;color:#1a2a0e;margin-bottom:4px}
-.arg-text{font-size:12px;color:var(--gris);line-height:1.6}
+/* ── SECTION ── */
+.section{max-width:1100px;margin:0 auto;padding:80px 40px}
+@media(max-width:640px){.section{padding:60px 24px}}
+.s-tag{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.s-tag::before{content:'';width:24px;height:1.5px;background:var(--green)}
+.s-h2{font-family:'Playfair Display',serif;font-size:clamp(26px,3vw,40px);font-weight:400;color:var(--ink);line-height:1.2;margin-bottom:10px}
+.s-sub{font-size:15px;font-weight:300;color:var(--ink2);line-height:1.8;max-width:520px;margin-bottom:48px}
 
-/* ── COMMENT INSTALLER ── */
-.how{padding:60px 20px;background:var(--sable2)}
-.how-title{
-  font-family:Georgia,serif;font-size:26px;color:#1a2a0e;
-  text-align:center;margin-bottom:8px;
-}
-.how-sub{font-size:13px;color:var(--gris);text-align:center;margin-bottom:36px}
-.how-tabs{display:flex;gap:8px;margin-bottom:24px;max-width:480px;margin-left:auto;margin-right:auto}
-.how-tab{
-  flex:1;padding:10px;border-radius:10px;border:2px solid #e0d8cc;
-  background:var(--blanc);font-size:12px;font-weight:700;
-  cursor:pointer;font-family:inherit;color:var(--gris);
-  transition:border-color .2s,color .2s;
-}
-.how-tab.active{border-color:var(--vert);color:var(--vert);background:#f0f7ec}
-.how-steps{max-width:480px;margin:0 auto;display:none}
-.how-steps.active{display:flex;flex-direction:column;gap:12px}
-.how-step{
-  display:flex;align-items:flex-start;gap:12px;
-  background:var(--blanc);border-radius:12px;padding:14px 14px;
-}
-.how-num{
-  width:28px;height:28px;border-radius:50%;background:var(--vert);
-  color:var(--blanc);font-size:12px;font-weight:800;
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
-.how-step-label{font-size:12.5px;color:#2d3a1e;line-height:1.5}
-.how-step-label strong{color:#1a2a0e}
-.how-note{
-  background:#f0f7ec;border-radius:10px;padding:12px 14px;
-  font-size:11px;color:var(--vert);line-height:1.6;max-width:480px;margin:16px auto 0;
-}
+/* ── PARCOURS format B mosaïque ── */
+.parcours-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+@media(max-width:860px){.parcours-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:560px){.parcours-grid{grid-template-columns:repeat(2,1fr)}}
+.p-card{background:var(--white);border:1px solid var(--sand3);border-radius:10px;padding:14px;position:relative;overflow:hidden;transition:background .2s}
+.p-card:hover{background:var(--sand)}
+.p-bar{height:3px;position:absolute;top:0;left:0;right:0}
+.p-num{font-family:'Playfair Display',serif;font-size:22px;font-weight:400;color:var(--sand3);line-height:1;margin-bottom:8px}
+.p-title{font-size:12px;font-weight:500;color:var(--ink);line-height:1.4;margin-bottom:8px}
+.p-badge{display:inline-block;font-size:9px;font-weight:500;padding:2px 7px;border-radius:10px}
+
+/* ── FONCTIONNALITÉS ── */
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--sand3);border:1px solid var(--sand3);border-radius:10px;overflow:hidden}
+@media(max-width:700px){.feat-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){.feat-grid{grid-template-columns:1fr}}
+.feat{background:var(--white);padding:28px 24px;transition:background .2s}
+.feat:hover{background:var(--sand)}
+.feat-icon{font-size:24px;margin-bottom:14px;display:block}
+.feat-title{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:8px}
+.feat-desc{font-size:12px;font-weight:300;color:var(--ink2);line-height:1.7}
+
+/* ── RGA SECTION ── */
+.rga-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:700px){.rga-grid{grid-template-columns:1fr}}
+.rga-card{background:var(--white);border:1px solid var(--sand3);border-radius:10px;padding:24px}
+.rga-n{font-family:'Playfair Display',serif;font-size:32px;font-weight:400;color:var(--sand3);line-height:1;margin-bottom:10px}
+.rga-title{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:8px}
+.rga-desc{font-size:13px;font-weight:300;color:var(--ink2);line-height:1.7}
+
+/* ── INSTALLATION ── */
+.install-bg{background:var(--sand2);padding:80px 40px}
+@media(max-width:640px){.install-bg{padding:60px 24px}}
+.install-inner{max-width:860px;margin:0 auto}
+.install-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:48px}
+@media(max-width:640px){.install-grid{grid-template-columns:1fr}}
+.install-card{background:var(--white);border:1px solid var(--sand3);border-radius:10px;padding:32px}
+.install-os{display:flex;align-items:center;gap:10px;font-size:14px;font-weight:500;color:var(--ink);margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--sand3)}
+.install-step{display:flex;gap:14px;margin-bottom:16px;align-items:flex-start}
+.install-n{font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--gold);flex-shrink:0;padding-top:1px;min-width:18px}
+.install-txt{font-size:13px;font-weight:300;color:var(--ink2);line-height:1.6}
+.install-txt strong{font-weight:500;color:var(--ink)}
+.install-note{font-size:11px;color:var(--ink3);border-left:2px solid var(--sand3);padding-left:12px;margin-top:8px;line-height:1.6}
+
+/* ── PARTENAIRES ── */
+.partners-bg{background:var(--dark);padding:80px 40px}
+@media(max-width:640px){.partners-bg{padding:60px 24px}}
+.partners-inner{max-width:1100px;margin:0 auto}
+.p-s-tag{font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:rgba(201,162,58,.7);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.p-s-tag::before{content:'';width:24px;height:1.5px;background:rgba(201,162,58,.5)}
+.p-s-h2{font-family:'Playfair Display',serif;font-size:clamp(26px,3vw,42px);font-weight:400;color:var(--white);line-height:1.15;margin-bottom:12px}
+.p-s-sub{font-size:14px;font-weight:300;color:rgba(255,255,255,.4);max-width:480px;line-height:1.8;margin-bottom:52px}
+.partners-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.07);border-radius:10px;overflow:hidden;margin-bottom:48px}
+@media(max-width:860px){.partners-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:500px){.partners-grid{grid-template-columns:1fr}}
+.partner{background:var(--dark);padding:28px 24px;transition:background .2s}
+.partner:hover{background:rgba(255,255,255,.03)}
+.partner-num{font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:rgba(201,162,58,.45);margin-bottom:14px}
+.partner-t{font-size:13px;font-weight:500;color:rgba(255,255,255,.85);margin-bottom:7px}
+.partner-d{font-size:11.5px;font-weight:300;color:rgba(255,255,255,.32);line-height:1.7}
+.btn-contact{display:inline-flex;align-items:center;gap:8px;color:rgba(255,255,255,.6);font-size:13px;font-weight:300;border:1px solid rgba(255,255,255,.12);padding:13px 26px;border-radius:6px;transition:border-color .2s,color .2s}
+.btn-contact:hover{border-color:var(--gold);color:var(--gold)}
 
 /* ── FOOTER ── */
-footer{
-  padding:32px 20px;text-align:center;
-  background:var(--vert);
-}
-.footer-logo{font-family:Georgia,serif;font-size:22px;font-weight:300;color:rgba(255,255,255,.8)}
-.footer-logo b{font-weight:700;color:var(--or);font-size:26px}
-.footer-tagline{font-size:11px;color:rgba(255,255,255,.5);margin-top:6px}
-.footer-links{display:flex;gap:16px;justify-content:center;margin-top:20px;flex-wrap:wrap}
-.footer-link{font-size:11px;color:rgba(255,255,255,.5);text-decoration:none}
-.footer-link:hover{color:rgba(255,255,255,.8)}
+footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.06);padding:28px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.footer-logo{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:rgba(255,255,255,.35)}
+.footer-logo b{font-weight:600;font-style:italic;color:rgba(201,162,58,.6)}
+.footer-links{display:flex;gap:24px;flex-wrap:wrap}
+.footer-link{font-size:11px;font-weight:300;color:rgba(255,255,255,.25);transition:color .2s}
+.footer-link:hover{color:rgba(255,255,255,.6)}
 
-/* ── ANIMATIONS ── */
-@keyframes fadeUp{
-  from{opacity:0;transform:translateY(16px)}
-  to  {opacity:1;transform:translateY(0)}
-}
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease,transform .7s ease}
+.reveal.on{opacity:1;transform:translateY(0)}
+.delay-1{transition-delay:.1s}.delay-2{transition-delay:.2s}.delay-3{transition-delay:.3s}
 
-/* ── RESPONSIVE ── */
-@media(min-width:540px){
-  .args-grid{grid-template-columns:1fr}
-  .hero-tagline{font-size:30px;max-width:400px}
-}
-@media(prefers-reduced-motion:reduce){
-  *{animation-duration:.01ms!important}
-}
+/* ── KEYFRAMES ── */
+@keyframes up{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
 </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<header>
-  <div class="logo">argi<span>Q</span>are</div>
-  <div class="header-badge">Bêta · Gratuit</div>
-</header>
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">argi<b>Qare</b></a>
+  <div class="nav-links">
+    <a href="#rga" class="nav-link">Le RGA</a>
+    <a href="#parcours" class="nav-link">Parcours</a>
+    <a href="#fonctionnalites" class="nav-link">Fonctionnalités</a>
+    <a href="#installer" class="nav-link">Installation</a>
+    <a href="./app.html" class="nav-cta">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v13m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+      Installer l'app
+    </a>
+  </div>
+</nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-eyebrow">Sinistre RGA · Cat Nat</div>
-  <div class="hero-logo">argi<b>Q</b>are</div>
-  <h1 class="hero-tagline">Votre dossier sinistre, dans votre poche</h1>
-  <p class="hero-sub">Un guide pas à pas pour constituer votre dossier RGA. Indépendant, sans publicité, sans compte. Vos données restent sur votre téléphone.</p>
-
-  <div class="hero-cta">
-    <a href="./ArgiQare_v101.html" id="cta-install" class="btn-install">
-      <span class="btn-install-icon" id="cta-icon">📲</span>
-      <span class="btn-install-text">
-        <span class="btn-install-label" id="cta-label">Gratuit · Sans inscription</span>
-        <span class="btn-install-action" id="cta-action">Ouvrir ArgiQare</span>
-      </span>
-    </a>
-    <button class="btn-secondary" onclick="scrollToHow()">Comment installer l'app ? ↓</button>
+  <div>
+    <div class="hero-tag"><div class="hero-tag-dot"></div>Sinistre RGA · Catastrophe naturelle</div>
+    <h1 class="hero-h1">Des fissures sur votre maison ?<br><em>Constituez un dossier RGA solide.</em></h1>
+    <p class="hero-p">ArgiQare vous accompagne de A à Z pour documenter votre sinistre lié au retrait-gonflement des argiles, suivre votre déclaration catastrophe naturelle et faire valoir vos droits auprès de votre assureur.</p>
+    <div class="hero-btns">
+      <a href="./app.html" class="btn-primary" id="cta-main">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v13m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+        Installer sur mon mobile
+      </a>
+      <a href="#parcours" class="btn-secondary">Découvrir le parcours →</a>
+    </div>
+    <div class="hero-badges">
+      <div class="hero-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+        100% indépendant · aucune affiliation assureur
+      </div>
+      <div class="hero-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18.364 5.636a9 9 0 11-12.728 0M12 3v9"/></svg>
+        Fonctionne hors ligne · données sur votre téléphone
+      </div>
+      <div class="hero-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+        Synthèse PDF prête pour l'expert
+      </div>
+    </div>
   </div>
 
-  <!-- Mockup téléphone -->
-  <div class="hero-phone" aria-hidden="true">
-    <div class="hero-phone-screen">
-      <div class="phone-header-m">
-        <div class="phone-logo-m">argi<b>Q</b>are</div>
-        <div class="phone-badge-m">Outil indépendant d'aide aux assurés</div>
-      </div>
-      <div class="phone-content-m">
-        <div class="phone-card-m">
-          <div class="phone-card-title">🏠 Ma Maison</div>
-          <div class="phone-bar"><div class="phone-bar-fill" style="width:0%" id="bar1"></div></div>
+  <!-- MOCKUP -->
+  <div class="hero-phone">
+    <div class="phone-shell">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="ph-header">
+          <div class="ph-logo">argi<b>Qare</b></div>
+          <div class="ph-greet">Bonjour Marie 👋</div>
         </div>
-        <div class="phone-card-m">
-          <div class="phone-card-title">🔍 Mon Parcours</div>
-          <div class="phone-bar"><div class="phone-bar-fill" style="width:0%;background:#C9A23A" id="bar2"></div></div>
-          <div class="phone-etape">Étape 4 — Déclaration de sinistre</div>
+        <div class="ph-body">
+          <div class="ph-profil">
+            <div>
+              <div class="ph-profil-tag">Profil 2</div>
+              <div class="ph-profil-title">Sinistre déclaré —<br>dossier complet</div>
+              <div class="ph-profil-pill">📍 Étapes 1 à 10</div>
+            </div>
+            <div class="ph-ring">
+              <svg width="36" height="36" viewBox="0 0 36 36">
+                <circle cx="18" cy="18" r="14" fill="none" stroke="#E2DDD5" stroke-width="2.5"/>
+                <circle cx="18" cy="18" r="14" fill="none" stroke="#C9A23A" stroke-width="2.5" stroke-dasharray="87.9" stroke-dashoffset="58" stroke-linecap="round"/>
+              </svg>
+              <div class="ph-ring-val">34%</div>
+            </div>
+          </div>
+          <div class="ph-card">
+            <div class="ph-card-head"><div class="ph-card-title">🏠 Ma Maison</div><div class="ph-card-pct">72%</div></div>
+            <div class="ph-bar"><div class="ph-fill" style="width:72%;background:#2D6A4F"></div></div>
+            <div class="ph-card-sub">Marie Lefebvre · 14 allée des Chênes, Talence</div>
+          </div>
+          <div class="ph-step">
+            <div class="ph-step-tag">En cours · Étape 4 sur 12</div>
+            <div class="ph-step-title">Déclaration de sinistre</div>
+            <div class="ph-step-sub">Assureur MAIF · Réf. 2024-RGA-08741</div>
+          </div>
+          <div class="ph-card">
+            <div class="ph-card-head"><div class="ph-card-title">🔍 Mon Parcours</div><div class="ph-card-pct" style="color:#C9A23A">3 / 12</div></div>
+            <div class="ph-bar"><div class="ph-fill" style="width:25%;background:#C9A23A"></div></div>
+            <div class="ph-card-sub">Étapes 1, 2, 3 complétées</div>
+          </div>
+          <div class="ph-action"><div class="ph-action-dot"></div><div class="ph-action-text">Photo de façade ajoutée · Il y a 2h</div></div>
         </div>
-        <div class="phone-card-m" style="background:#f0f7ec;border:1px solid #c8e0b8">
-          <div class="phone-card-title" style="color:#2d5a27">📄 Synthèse PDF · ~4 pages</div>
+        <div class="ph-nav">
+          <div class="ph-nav-item on"><div class="ph-nav-emoji">🧭</div><div class="ph-nav-label">Accueil</div></div>
+          <div class="ph-nav-item"><div class="ph-nav-emoji">🏠</div><div class="ph-nav-label">Ma Maison</div></div>
+          <div class="ph-nav-item"><div class="ph-nav-emoji">🔍</div><div class="ph-nav-label">Parcours</div></div>
+          <div class="ph-nav-item"><div class="ph-nav-emoji">📁</div><div class="ph-nav-label">Dossier</div></div>
+          <div class="ph-nav-item"><div class="ph-nav-emoji">⚖️</div><div class="ph-nav-label">Infos</div></div>
         </div>
-      </div>
-      <div class="phone-bottom-nav">
-        <span class="phone-nav-item active">🧭</span>
-        <span class="phone-nav-item">🏠</span>
-        <span class="phone-nav-item">🔍</span>
-        <span class="phone-nav-item">📁</span>
-        <span class="phone-nav-item">⚖️</span>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ARGUMENTS -->
-<section class="args">
-  <div class="section-label">Pourquoi installer l'app</div>
-  <h2 class="args-title">Une app qui vit sur votre téléphone, pas sur un serveur</h2>
-  <div class="args-grid">
-    <div class="arg-card">
-      <div class="arg-icon green">📡</div>
-      <div class="arg-body">
-        <div class="arg-title">Fonctionne sans connexion</div>
-        <div class="arg-text">Une fois installée, ArgiQare est disponible partout — chez vous, chez le notaire, lors de la visite de l'expert — même sans réseau.</div>
-      </div>
+<!-- STATS -->
+<div class="stats reveal">
+  <div class="stat"><span class="stat-n">12</span><span class="stat-l">étapes guidées<br>du constat aux travaux</span></div>
+  <div class="stat"><span class="stat-n">10M</span><span class="stat-l">maisons exposées<br>au RGA en France</span></div>
+  <div class="stat"><span class="stat-n">100%</span><span class="stat-l">indépendant<br>non affilié</span></div>
+</div>
+
+<!-- LE RGA -->
+<section class="section reveal" id="rga">
+  <div class="s-tag">Comprendre</div>
+  <h2 class="s-h2">Le retrait-gonflement des argiles,<br>en trois idées</h2>
+  <p class="s-sub">Le RGA est la deuxième cause d'indemnisation en catastrophe naturelle en France. Les démarches sont longues et techniques — ArgiQare les rend lisibles.</p>
+  <div class="rga-grid">
+    <div class="rga-card reveal">
+      <div class="rga-n">01</div>
+      <div class="rga-title">Un phénomène lié à la sécheresse</div>
+      <div class="rga-desc">Le sol argileux se rétracte en période de sécheresse et gonfle lors des pluies. Ces mouvements provoquent des fissures structurelles sur les bâtiments fondés en zone exposée.</div>
     </div>
-    <div class="arg-card">
-      <div class="arg-icon gold">🔒</div>
-      <div class="arg-body">
-        <div class="arg-title">Vos données restent sur votre téléphone</div>
-        <div class="arg-text">Aucun compte, aucun serveur, aucune transmission. Toutes vos informations sont stockées localement sur votre appareil, uniquement.</div>
-      </div>
+    <div class="rga-card reveal delay-1">
+      <div class="rga-n">02</div>
+      <div class="rga-title">Une procédure encadrée par la loi</div>
+      <div class="rga-desc">L'indemnisation passe par la reconnaissance de l'état de catastrophe naturelle. Sans arrêté préfectoral, votre assureur ne peut pas intervenir au titre du régime Cat Nat.</div>
     </div>
-    <div class="arg-card">
-      <div class="arg-icon blue">📲</div>
-      <div class="arg-body">
-        <div class="arg-title">Comme une vraie application</div>
-        <div class="arg-text">Une icône sur votre écran d'accueil, un démarrage en plein écran, une expérience fluide — sans passer par argiqare.fr à chaque fois.</div>
-      </div>
+    <div class="rga-card reveal delay-2">
+      <div class="rga-n">03</div>
+      <div class="rga-title">Un dossier qui fait la différence</div>
+      <div class="rga-desc">La qualité de votre dossier — photos, chronologie, documents techniques — détermine directement le montant de votre indemnisation. ArgiQare vous aide à ne rien oublier.</div>
     </div>
   </div>
 </section>
 
-<!-- COMMENT INSTALLER -->
-<section class="how" id="section-how">
-  <div class="section-label">Installation</div>
-  <h2 class="how-title">Comment installer ArgiQare ?</h2>
-  <p class="how-sub">Choisissez votre système</p>
-
-  <div class="how-tabs">
-    <button class="how-tab active" onclick="switchHow('android',this)">🤖 Android</button>
-    <button class="how-tab" onclick="switchHow('ios',this)">🍎 iPhone / iPad</button>
+<!-- PARCOURS format B -->
+<div style="background:var(--white);padding:80px 0" id="parcours">
+  <div class="section" style="padding-top:0;padding-bottom:0">
+    <div class="s-tag reveal">Le parcours</div>
+    <h2 class="s-h2 reveal">12 étapes, du constat aux travaux</h2>
+    <p class="s-sub reveal">Chaque étape se coche au fur et à mesure et alimente automatiquement votre dossier de synthèse PDF.</p>
+    <div class="parcours-grid">
+      <div class="p-card reveal"><div class="p-bar" style="background:#2D6A4F"></div><div class="p-num">01</div><div class="p-title">Constater et photographier</div><span class="p-badge" style="background:#EAF3DE;color:#1B4332">Constat</span></div>
+      <div class="p-card reveal delay-1"><div class="p-bar" style="background:#2D6A4F"></div><div class="p-num">02</div><div class="p-title">Vérifier l'exposition RGA</div><span class="p-badge" style="background:#EAF3DE;color:#1B4332">Constat</span></div>
+      <div class="p-card reveal delay-2"><div class="p-bar" style="background:#2D6A4F"></div><div class="p-num">03</div><div class="p-title">Réunir les pièces du bien</div><span class="p-badge" style="background:#EAF3DE;color:#1B4332">Constat</span></div>
+      <div class="p-card reveal delay-3"><div class="p-bar" style="background:#BA7517"></div><div class="p-num">04</div><div class="p-title">Déclarer le sinistre</div><span class="p-badge" style="background:#FAEEDA;color:#7A4F00">Déclaration</span></div>
+      <div class="p-card reveal"><div class="p-bar" style="background:#BA7517"></div><div class="p-num">05</div><div class="p-title">Suivre la demande Cat Nat</div><span class="p-badge" style="background:#FAEEDA;color:#7A4F00">Déclaration</span></div>
+      <div class="p-card reveal delay-1"><div class="p-bar" style="background:#BA7517"></div><div class="p-num">06</div><div class="p-title">Attendre l'arrêté</div><span class="p-badge" style="background:#FAEEDA;color:#7A4F00">Déclaration</span></div>
+      <div class="p-card reveal delay-2"><div class="p-bar" style="background:#1D9E75"></div><div class="p-num">07</div><div class="p-title">Préparer la visite expert</div><span class="p-badge" style="background:#E1F5EE;color:#0A5C3E">Expertise</span></div>
+      <div class="p-card reveal delay-3"><div class="p-bar" style="background:#1D9E75"></div><div class="p-num">08</div><div class="p-title">Vivre l'expertise</div><span class="p-badge" style="background:#E1F5EE;color:#0A5C3E">Expertise</span></div>
+      <div class="p-card reveal"><div class="p-bar" style="background:#1D9E75"></div><div class="p-num">09</div><div class="p-title">Analyser les conclusions</div><span class="p-badge" style="background:#E1F5EE;color:#0A5C3E">Expertise</span></div>
+      <div class="p-card reveal delay-1"><div class="p-bar" style="background:#7F77DD"></div><div class="p-num">10</div><div class="p-title">Recevoir l'indemnisation</div><span class="p-badge" style="background:#EEEDFE;color:#3A3490">Indemnisation</span></div>
+      <div class="p-card reveal delay-2"><div class="p-bar" style="background:#7F77DD"></div><div class="p-num">11</div><div class="p-title">Contester ou accepter</div><span class="p-badge" style="background:#EEEDFE;color:#3A3490">Indemnisation</span></div>
+      <div class="p-card reveal delay-3"><div class="p-bar" style="background:#D85A30"></div><div class="p-num">12</div><div class="p-title">Engager les travaux</div><span class="p-badge" style="background:#FAECE7;color:#7A2800">Travaux</span></div>
+    </div>
   </div>
+</div>
 
-  <div class="how-steps active" id="how-android">
-    <div class="how-step">
-      <div class="how-num">1</div>
-      <div class="how-step-label">Ouvrez <strong>argiqare.fr dans Chrome</strong> sur votre Android</div>
+<!-- FONCTIONNALITÉS -->
+<section class="section reveal" id="fonctionnalites">
+  <div class="s-tag">Fonctionnalités</div>
+  <h2 class="s-h2">Un outil complet pour<br>chaque étape de votre procédure</h2>
+  <p class="s-sub">Conçu par un praticien du droit de l'assurance, ArgiQare couvre l'intégralité de la procédure RGA.</p>
+  <div class="feat-grid">
+    <div class="feat reveal">
+      <span class="feat-icon">👤</span>
+      <div class="feat-title">Trois profils de situation</div>
+      <div class="feat-desc">Première fissure, sinistre déclaré ou expert déjà missionné — ArgiQare s'adapte à votre avancement réel dans la procédure.</div>
     </div>
-    <div class="how-step">
-      <div class="how-num">2</div>
-      <div class="how-step-label">Une bannière <strong>"Installer l'application"</strong> apparaît automatiquement en bas de l'écran</div>
+    <div class="feat reveal delay-1">
+      <span class="feat-icon">🔍</span>
+      <div class="feat-title">12 étapes guidées</div>
+      <div class="feat-desc">De la constatation initiale jusqu'aux travaux de réparation — chaque étape expliquée, structurée, documentée.</div>
     </div>
-    <div class="how-step">
-      <div class="how-num">3</div>
-      <div class="how-step-label">Appuyez sur <strong>Installer</strong> — ArgiQare s'ajoute à votre écran d'accueil</div>
+    <div class="feat reveal delay-2">
+      <span class="feat-icon">📄</span>
+      <div class="feat-title">Synthèse PDF structurée</div>
+      <div class="feat-desc">Dossier complet généré automatiquement — couverture, bien assuré, parcours complété, pièces jointes — prêt à remettre à l'expert.</div>
     </div>
-    <div class="how-step">
-      <div class="how-num">4</div>
-      <div class="how-step-label">Ouvrez ArgiQare depuis votre écran d'accueil — <strong>vous n'avez plus besoin de revenir ici</strong></div>
+    <div class="feat reveal">
+      <span class="feat-icon">📖</span>
+      <div class="feat-title">Glossaire juridique</div>
+      <div class="feat-desc">Arrêté Cat Nat, RGA, contre-expertise, franchise légale — les termes techniques expliqués en langage clair.</div>
     </div>
-    <div class="how-note">💡 Si la bannière n'apparaît pas : appuyez sur ⋮ (menu Chrome) puis "Ajouter à l'écran d'accueil".</div>
-  </div>
-
-  <div class="how-steps" id="how-ios">
-    <div class="how-step">
-      <div class="how-num">1</div>
-      <div class="how-step-label">Ouvrez <strong>argiqare.fr dans Safari</strong> sur votre iPhone ou iPad</div>
+    <div class="feat reveal delay-1">
+      <span class="feat-icon">⚖️</span>
+      <div class="feat-title">Le régime Cat Nat expliqué</div>
+      <div class="feat-desc">Délais légaux, droits de l'assuré, recours possibles — tout le cadre réglementaire accessible depuis l'application.</div>
     </div>
-    <div class="how-step">
-      <div class="how-num">2</div>
-      <div class="how-step-label">Appuyez sur l'icône <strong>⬆ Partager</strong> en bas de Safari</div>
+    <div class="feat reveal delay-2">
+      <span class="feat-icon">📡</span>
+      <div class="feat-title">Disponible hors ligne</div>
+      <div class="feat-desc">Une fois installée, l'application fonctionne sans réseau — lors de la visite de l'expert, en zone blanche, partout.</div>
     </div>
-    <div class="how-step">
-      <div class="how-num">3</div>
-      <div class="how-step-label">Faites défiler la liste et appuyez sur <strong>"Sur l'écran d'accueil"</strong></div>
-    </div>
-    <div class="how-step">
-      <div class="how-num">4</div>
-      <div class="how-step-label">Appuyez sur <strong>Ajouter</strong> — ArgiQare apparaît comme une vraie app sur votre écran</div>
-    </div>
-    <div class="how-note">💡 Uniquement depuis Safari — l'installation n'est pas disponible depuis Chrome sur iPhone.</div>
   </div>
 </section>
+
+<!-- INSTALLATION -->
+<div class="install-bg reveal" id="installer">
+  <div class="install-inner">
+    <div class="s-tag">Installation</div>
+    <h2 class="s-h2">Sur votre téléphone en 30 secondes</h2>
+    <p style="font-size:14px;font-weight:300;color:var(--ink2);line-height:1.8">Une fois installée, l'application vit sur votre téléphone. Vos données y restent. Vous n'avez plus besoin de revenir ici.</p>
+    <div class="install-grid">
+      <div class="install-card reveal">
+        <div class="install-os">🤖 Android · Chrome</div>
+        <div class="install-step"><div class="install-n">i.</div><div class="install-txt">Ouvrez <strong>argiqare.fr dans Chrome</strong></div></div>
+        <div class="install-step"><div class="install-n">ii.</div><div class="install-txt">La bannière <strong>"Installer"</strong> apparaît automatiquement en bas de l'écran</div></div>
+        <div class="install-step"><div class="install-n">iii.</div><div class="install-txt">Appuyez sur <strong>Installer</strong> — ArgiQare rejoint votre écran d'accueil</div></div>
+        <div class="install-note">Si la bannière n'apparaît pas : menu ⋮ → "Ajouter à l'écran d'accueil"</div>
+      </div>
+      <div class="install-card reveal delay-1">
+        <div class="install-os">🍎 iPhone · iPad · Safari</div>
+        <div class="install-step"><div class="install-n">i.</div><div class="install-txt">Ouvrez <strong>argiqare.fr dans Safari</strong></div></div>
+        <div class="install-step"><div class="install-n">ii.</div><div class="install-txt">Appuyez sur <strong>⬆ Partager</strong> en bas de l'écran</div></div>
+        <div class="install-step"><div class="install-n">iii.</div><div class="install-txt">Appuyez sur <strong>"Sur l'écran d'accueil"</strong> puis <strong>Ajouter</strong></div></div>
+        <div class="install-note">Uniquement depuis Safari — pas depuis Chrome sur iPhone</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PARTENAIRES -->
+<div class="partners-bg reveal">
+  <div class="partners-inner">
+    <div class="p-s-tag">Partenariats institutionnels</div>
+    <h2 class="p-s-h2">Un outil au service<br>de l'ensemble de la filière</h2>
+    <p class="p-s-sub">Conçu par un praticien du droit de l'assurance, ArgiQare s'adresse aussi aux acteurs qui accompagnent les sinistrés RGA au quotidien.</p>
+    <div class="partners-grid">
+      <div class="partner reveal"><div class="partner-num">01</div><div class="partner-t">Collectivités et mairies</div><div class="partner-d">Orientez vos administrés sinistrés vers un outil structuré avant ou après la reconnaissance Cat Nat.</div></div>
+      <div class="partner reveal delay-1"><div class="partner-num">02</div><div class="partner-t">Experts et géotechniciens</div><div class="partner-d">Vos clients arrivent mieux préparés. Le dossier PDF facilite la lecture des désordres documentés.</div></div>
+      <div class="partner reveal delay-2"><div class="partner-num">03</div><div class="partner-t">Associations de sinistrés</div><div class="partner-d">Outillez vos adhérents avec un parcours guidé et indépendant, sans affiliation à aucun assureur.</div></div>
+      <div class="partner reveal delay-3"><div class="partner-num">04</div><div class="partner-t">Professionnels du bâtiment</div><div class="partner-d">Accédez à un historique structuré des désordres pour cadrer précisément vos interventions.</div></div>
+    </div>
+    <a href="mailto:contact@argiqare.fr" class="btn-contact">Prendre contact →</a>
+  </div>
+</div>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">argi<b>Q</b>are</div>
-  <div class="footer-tagline">Outil indépendant · Non affilié à un assureur · Sans valeur juridique</div>
+  <div class="footer-logo">argi<b>Qare</b></div>
   <div class="footer-links">
-    <a href="./ArgiQare_v101.html" class="footer-link">Ouvrir l'application</a>
-    <a href="mailto:contact@argiqare.fr" class="footer-link">Contact</a>
-    <span class="footer-link">Version bêta — août 2026</span>
+    <a href="./app.html" class="footer-link">Ouvrir l'application</a>
+    <a href="mailto:contact@argiqare.fr" class="footer-link">contact@argiqare.fr</a>
+    <span class="footer-link">Outil indicatif · Sans valeur juridique · © 2026 Adil QSIYER</span>
   </div>
 </footer>
 
 <script>
-// Détection système pour adapter le CTA
-const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-const isAndroid = /android/i.test(navigator.userAgent);
-const isInstalled = window.matchMedia('(display-mode:standalone)').matches || window.navigator.standalone;
-
-const cta = document.getElementById('cta-install');
-const ctaLabel = document.getElementById('cta-label');
-const ctaAction = document.getElementById('cta-action');
-const ctaIcon = document.getElementById('cta-icon');
-
-if(isInstalled){
-  ctaLabel.textContent = 'Application déjà installée';
-  ctaAction.textContent = 'Ouvrir ArgiQare';
-  ctaIcon.textContent = '🚀';
-} else if(isIOS){
-  ctaLabel.textContent = 'Sur iPhone · Via Safari';
-  ctaAction.textContent = 'Ouvrir pour installer';
-  ctaIcon.textContent = '🍎';
-  // Pré-sélectionner l'onglet iOS
-  document.querySelector('[onclick*="ios"]').click();
-} else if(isAndroid){
-  ctaLabel.textContent = 'Sur Android · Gratuit';
-  ctaAction.textContent = 'Installer ArgiQare';
-  ctaIcon.textContent = '📲';
-}
-
-// Animation barre téléphone
-setTimeout(()=>{
-  document.getElementById('bar1').style.width='45%';
-  document.getElementById('bar2').style.width='37%';
-},400);
-
-// Tabs instructions
-function switchHow(type, btn){
-  document.querySelectorAll('.how-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.how-steps').forEach(s=>s.classList.remove('active'));
-  btn.classList.add('active');
-  document.getElementById('how-'+type).classList.add('active');
-}
-
-function scrollToHow(){
-  document.getElementById('section-how').scrollIntoView({behavior:'smooth'});
-}
-
-// Intercepter beforeinstallprompt (Android Chrome)
-let _prompt = null;
-window.addEventListener('beforeinstallprompt', e=>{
-  e.preventDefault();
-  _prompt = e;
-  if(!isInstalled){
-    ctaAction.textContent = 'Installer ArgiQare';
-    cta.onclick = e2=>{
-      e2.preventDefault();
-      _prompt.prompt();
-      _prompt.userChoice.then(r=>{
-        if(r.outcome==='accepted') ctaAction.textContent = 'ArgiQare installé ✓';
-        _prompt = null;
-      });
-    };
+const isIOS=(/iphone|ipad|ipod/i).test(navigator.userAgent);
+const isAndroid=(/android/i).test(navigator.userAgent);
+const cta=document.getElementById('cta-main');
+let _p=null;
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault();_p=e;
+  if(isAndroid){
+    cta.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><path d="M12 3v13m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg> Installer ArgiQare';
+    cta.onclick=ev=>{ev.preventDefault();_p.prompt();_p.userChoice.then(r=>{if(r.outcome==='accepted')cta.textContent='✓ Installé';_p=null;});};
   }
 });
+if(isIOS) cta.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><path d="M12 3v13m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg> Installer ArgiQare';
+
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target);}});
+},{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
 </script>
 </body>
 </html>
