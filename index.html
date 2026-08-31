@@ -186,7 +186,7 @@ nav{
 .p-badge{display:inline-block;font-size:9px;font-weight:500;padding:2px 7px;border-radius:10px}
 
 /* ── FONCTIONNALITÉS ── */
-.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--sand3);border:1px solid var(--sand3);border-radius:10px;overflow:hidden}
+.feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--sand3);border:1px solid var(--sand3);border-radius:10px;overflow:hidden}
 @media(max-width:700px){.feat-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:420px){.feat-grid{grid-template-columns:1fr}}
 .feat{background:var(--white);padding:28px 24px;transition:background .2s}
@@ -275,8 +275,8 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.06);padding
 <section class="hero">
   <div>
     <div class="hero-tag"><div class="hero-tag-dot"></div>Sinistre RGA · Catastrophe naturelle</div>
-    <h1 class="hero-h1">Des fissures sur votre maison ?<br><em>Constituez un dossier RGA solide.</em></h1>
-    <p class="hero-p">ArgiQare vous accompagne de A à Z pour documenter votre sinistre lié au retrait-gonflement des argiles, suivre votre déclaration catastrophe naturelle et faire valoir vos droits auprès de votre assureur.</p>
+    <h1 class="hero-h1">Des fissures sur votre maison ?<br><em>On vous accompagne, étape par étape.</em></h1>
+    <p class="hero-p">Vous avez constaté des fissures et vous ne savez pas par où commencer ? ArgiQare vous guide pas à pas, du premier constat jusqu'à la constitution de votre dossier. À votre rythme, sans jargon.</p>
     <div class="hero-btns">
       <a href="./app.html" class="btn-primary" id="cta-main">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v13m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
@@ -291,7 +291,7 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.06);padding
       </div>
       <div class="hero-badge">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18.364 5.636a9 9 0 11-12.728 0M12 3v9"/></svg>
-        Fonctionne hors ligne · données sur votre téléphone
+        Vos données restent sur votre téléphone
       </div>
       <div class="hero-badge">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
@@ -300,54 +300,73 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.06);padding
     </div>
   </div>
 
-  <!-- MOCKUP -->
-  <div class="hero-phone">
-    <div class="phone-shell">
-      <div class="phone-notch"></div>
-      <div class="phone-screen">
-        <div class="ph-header">
-          <div class="ph-logo">argi<b>Q</b>are</div>
-          <div class="ph-greet">Bonjour Marie 👋</div>
+  <!-- CARTE RGA FRANCE -->
+  <div class="hero-map" style="display:flex;justify-content:flex-end;align-items:center;opacity:0;animation:up .9s .5s ease forwards">
+    <div style="background:var(--white);border:1px solid var(--sand3);border-radius:16px;padding:20px 24px;max-width:420px;width:100%">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+        <div>
+          <div style="font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);margin-bottom:3px">Aléa RGA en France</div>
+          <div style="font-size:13px;font-weight:300;color:var(--ink2)">10 millions de maisons exposées</div>
         </div>
-        <div class="ph-body">
-          <div class="ph-profil">
-            <div>
-              <div class="ph-profil-tag">Profil 2</div>
-              <div class="ph-profil-title">Sinistre déclaré —<br>dossier complet</div>
-              <div class="ph-profil-pill">📍 Étapes 1 à 10</div>
-            </div>
-            <div class="ph-ring">
-              <svg width="36" height="36" viewBox="0 0 36 36">
-                <circle cx="18" cy="18" r="14" fill="none" stroke="#E2DDD5" stroke-width="2.5"/>
-                <circle cx="18" cy="18" r="14" fill="none" stroke="#C9A23A" stroke-width="2.5" stroke-dasharray="87.9" stroke-dashoffset="58" stroke-linecap="round"/>
-              </svg>
-              <div class="ph-ring-val">34%</div>
-            </div>
-          </div>
-          <div class="ph-card">
-            <div class="ph-card-head"><div class="ph-card-title">🏠 Ma Maison</div><div class="ph-card-pct">72%</div></div>
-            <div class="ph-bar"><div class="ph-fill" style="width:72%;background:#2D6A4F"></div></div>
-            <div class="ph-card-sub">Marie Lefebvre · 14 allée des Chênes, Talence</div>
-          </div>
-          <div class="ph-step">
-            <div class="ph-step-tag">En cours · Étape 4 sur 12</div>
-            <div class="ph-step-title">Déclaration de sinistre</div>
-            <div class="ph-step-sub">Assureur MAIF · Réf. 2024-RGA-08741</div>
-          </div>
-          <div class="ph-card">
-            <div class="ph-card-head"><div class="ph-card-title">🔍 Mon Parcours</div><div class="ph-card-pct" style="color:#C9A23A">3 / 12</div></div>
-            <div class="ph-bar"><div class="ph-fill" style="width:25%;background:#C9A23A"></div></div>
-            <div class="ph-card-sub">Étapes 1, 2, 3 complétées</div>
-          </div>
-          <div class="ph-action"><div class="ph-action-dot"></div><div class="ph-action-text">Photo de façade ajoutée · Il y a 2h</div></div>
-        </div>
-        <div class="ph-nav">
-          <div class="ph-nav-item on"><div class="ph-nav-emoji">🧭</div><div class="ph-nav-label">Accueil</div></div>
-          <div class="ph-nav-item"><div class="ph-nav-emoji">🏠</div><div class="ph-nav-label">Ma Maison</div></div>
-          <div class="ph-nav-item"><div class="ph-nav-emoji">🔍</div><div class="ph-nav-label">Parcours</div></div>
-          <div class="ph-nav-item"><div class="ph-nav-emoji">📁</div><div class="ph-nav-label">Dossier</div></div>
-          <div class="ph-nav-item"><div class="ph-nav-emoji">⚖️</div><div class="ph-nav-label">Infos</div></div>
-        </div>
+        <div id="map-tooltip" style="font-size:11px;color:var(--ink2);background:var(--sand);border:1px solid var(--sand3);border-radius:6px;padding:4px 10px;opacity:0;transition:opacity .2s;white-space:nowrap"></div>
+      </div>
+      <svg id="rga-map" viewBox="0 0 550 580" style="width:100%;height:auto;display:block" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <style>
+            .dep{stroke:#fff;stroke-width:.8;cursor:pointer;transition:opacity .2s}
+            .dep:hover{opacity:.8}
+            .alea-fort{fill:#C0392B}.alea-fort-plus{fill:#922B21}
+            .alea-moyen{fill:#E67E22}.alea-moyen-plus{fill:#D35400}
+            .alea-faible{fill:#F7DC6F}.alea-nul{fill:#E8E8E8}
+          </style>
+        </defs>
+        <!-- France métropolitaine simplifiée par grandes zones -->
+        <!-- Nord / Pas-de-Calais — aléa faible -->
+        <path class="dep alea-nul" d="M195,30 L260,25 L285,55 L275,80 L240,85 L200,70 Z" data-dep="Nord" data-alea="Faible"/>
+        <!-- Normandie — faible -->
+        <path class="dep alea-faible" d="M130,60 L195,30 L200,70 L180,100 L140,95 Z" data-dep="Normandie" data-alea="Faible"/>
+        <!-- Bretagne — faible -->
+        <path class="dep alea-nul" d="M30,80 L120,70 L140,95 L120,130 L60,140 L20,110 Z" data-dep="Bretagne" data-alea="Très faible"/>
+        <!-- Île-de-France — moyen -->
+        <path class="dep alea-moyen" d="M240,85 L285,80 L300,110 L270,130 L235,120 Z" data-dep="Île-de-France" data-alea="Moyen"/>
+        <!-- Pays de la Loire — fort -->
+        <path class="dep alea-fort" d="M80,140 L160,130 L200,150 L190,200 L140,220 L80,200 Z" data-dep="Pays de la Loire" data-alea="Fort"/>
+        <!-- Centre-Val de Loire — fort -->
+        <path class="dep alea-fort-plus" d="M200,110 L270,130 L290,160 L260,200 L200,190 L180,160 Z" data-dep="Centre-Val de Loire" data-alea="Très fort"/>
+        <!-- Bourgogne — moyen -->
+        <path class="dep alea-moyen" d="M290,120 L340,115 L360,150 L340,190 L300,195 L275,165 Z" data-dep="Bourgogne" data-alea="Moyen"/>
+        <!-- Alsace/Lorraine — faible -->
+        <path class="dep alea-faible" d="M330,60 L380,55 L395,100 L360,115 L330,100 Z" data-dep="Grand Est" data-alea="Faible"/>
+        <!-- Poitou-Charentes — très fort -->
+        <path class="dep alea-fort-plus" d="M120,200 L200,190 L210,240 L185,280 L130,270 L100,240 Z" data-dep="Nouvelle-Aquitaine Nord" data-alea="Très fort"/>
+        <!-- Limousin — fort -->
+        <path class="dep alea-fort" d="M200,200 L260,195 L275,235 L250,265 L210,260 Z" data-dep="Creuse / Corrèze" data-alea="Fort"/>
+        <!-- Auvergne — fort -->
+        <path class="dep alea-fort" d="M265,195 L330,185 L355,230 L330,270 L275,265 Z" data-dep="Auvergne" data-alea="Fort"/>
+        <!-- Rhône-Alpes — moyen -->
+        <path class="dep alea-moyen" d="M340,170 L395,160 L420,200 L410,250 L360,255 L335,230 Z" data-dep="Auvergne-Rhône-Alpes" data-alea="Moyen"/>
+        <!-- Aquitaine — très fort -->
+        <path class="dep alea-fort-plus" d="M100,270 L190,265 L205,310 L180,360 L110,350 L80,310 Z" data-dep="Gironde / Dordogne" data-alea="Très fort"/>
+        <!-- Midi-Pyrénées — fort -->
+        <path class="dep alea-fort" d="M190,270 L270,265 L290,305 L265,345 L210,345 L185,310 Z" data-dep="Occitanie Nord" data-alea="Fort"/>
+        <!-- Languedoc — moyen -->
+        <path class="dep alea-moyen" d="M275,265 L355,255 L375,295 L350,330 L295,330 L270,300 Z" data-dep="Hérault / Gard" data-alea="Moyen"/>
+        <!-- PACA — moyen-fort -->
+        <path class="dep alea-moyen-plus" d="M360,255 L420,245 L445,285 L420,320 L375,320 L355,290 Z" data-dep="Provence-Alpes" data-alea="Moyen à fort"/>
+        <!-- Pyrénées — faible -->
+        <path class="dep alea-faible" d="M120,350 L215,345 L230,375 L175,395 L100,380 Z" data-dep="Pyrénées" data-alea="Faible"/>
+        <!-- Côte d'Azur — faible -->
+        <path class="dep alea-nul" d="M390,305 L445,285 L460,320 L430,340 L395,330 Z" data-dep="Alpes-Maritimes" data-alea="Faible"/>
+        <!-- Corse -->
+        <path class="dep alea-nul" d="M450,370 L470,355 L490,390 L475,420 L455,415 L440,390 Z" data-dep="Corse" data-alea="Faible"/>
+      </svg>
+      <!-- Légende -->
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid var(--sand3)">
+        <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--ink2)"><div style="width:10px;height:10px;border-radius:2px;background:#922B21;flex-shrink:0"></div>Très fort</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--ink2)"><div style="width:10px;height:10px;border-radius:2px;background:#C0392B;flex-shrink:0"></div>Fort</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--ink2)"><div style="width:10px;height:10px;border-radius:2px;background:#E67E22;flex-shrink:0"></div>Moyen</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--ink2)"><div style="width:10px;height:10px;border-radius:2px;background:#F7DC6F;flex-shrink:0"></div>Faible</div>
+        <div style="display:flex;align-items:center;gap:5px;font-size:10px;color:var(--ink2)"><div style="width:10px;height:10px;border-radius:2px;background:#E8E8E8;flex-shrink:0"></div>Très faible</div>
       </div>
     </div>
   </div>
@@ -374,12 +393,12 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.06);padding
     <div class="rga-card reveal delay-1">
       <div class="rga-n">02</div>
       <div class="rga-title">Une procédure encadrée par la loi</div>
-      <div class="rga-desc">L'indemnisation passe par la reconnaissance de l'état de catastrophe naturelle. Sans arrêté préfectoral, votre assureur ne peut pas intervenir au titre du régime Cat Nat.</div>
+      <div class="rga-desc">La reconnaissance de l'état de catastrophe naturelle est le point de départ de la procédure. C'est votre mairie qui en fait la demande — vous n'avez pas à vous en charger seul.</div>
     </div>
     <div class="rga-card reveal delay-2">
       <div class="rga-n">03</div>
       <div class="rga-title">Un dossier qui fait la différence</div>
-      <div class="rga-desc">La qualité de votre dossier — photos, chronologie, documents techniques — détermine directement le montant de votre indemnisation. ArgiQare vous aide à ne rien oublier.</div>
+      <div class="rga-desc">Un dossier bien préparé change tout. ArgiQare vous aide à rassembler les bons éléments au bon moment — photos, chronologie, documents — pour arriver serein à la visite de l'expert.</div>
     </div>
   </div>
 </section>
@@ -416,33 +435,29 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.06);padding
     <div class="feat reveal">
       <span class="feat-icon">👤</span>
       <div class="feat-title">Trois profils de situation</div>
-      <div class="feat-desc">Première fissure, sinistre déclaré ou expert déjà missionné — ArgiQare s'adapte à votre avancement réel dans la procédure.</div>
+      <div class="feat-desc">Que vous veniez de constater les premières fissures ou que votre dossier soit déjà en cours — ArgiQare démarre là où vous en êtes.</div>
     </div>
     <div class="feat reveal delay-1">
       <span class="feat-icon">🔍</span>
       <div class="feat-title">12 étapes guidées</div>
-      <div class="feat-desc">De la constatation initiale jusqu'aux travaux de réparation — chaque étape expliquée, structurée, documentée.</div>
+      <div class="feat-desc">Chaque étape est expliquée clairement, sans termes techniques. Vous savez toujours où vous en êtes et ce qui vous reste à faire.</div>
     </div>
     <div class="feat reveal delay-2">
       <span class="feat-icon">📄</span>
       <div class="feat-title">Synthèse PDF structurée</div>
-      <div class="feat-desc">Dossier complet généré automatiquement — couverture, bien assuré, parcours complété, pièces jointes — prêt à remettre à l'expert.</div>
+      <div class="feat-desc">À tout moment, générez une synthèse PDF de votre dossier — propre, structurée, prête à partager avec votre expert ou votre assureur.</div>
     </div>
     <div class="feat reveal">
       <span class="feat-icon">📖</span>
       <div class="feat-title">Glossaire juridique</div>
-      <div class="feat-desc">Arrêté Cat Nat, RGA, contre-expertise, franchise légale — les termes techniques expliqués en langage clair.</div>
+      <div class="feat-desc">Arrêté Cat Nat, contre-expertise, franchise légale... Les termes de l'assurance expliqués simplement, sans qu'il soit nécessaire d'être juriste.</div>
     </div>
     <div class="feat reveal delay-1">
       <span class="feat-icon">⚖️</span>
       <div class="feat-title">Le régime Cat Nat expliqué</div>
-      <div class="feat-desc">Délais légaux, droits de l'assuré, recours possibles — tout le cadre réglementaire accessible depuis l'application.</div>
+      <div class="feat-desc">Comprendre comment fonctionne le régime Cat Nat, quels sont vos délais et ce que vous pouvez faire si vous n'êtes pas satisfait de la réponse de votre assureur.</div>
     </div>
-    <div class="feat reveal delay-2">
-      <span class="feat-icon">📡</span>
-      <div class="feat-title">Disponible hors ligne</div>
-      <div class="feat-desc">Une fois installée, l'application fonctionne sans réseau — lors de la visite de l'expert, en zone blanche, partout.</div>
-    </div>
+
   </div>
 </section>
 
@@ -498,6 +513,21 @@ footer{background:var(--dark);border-top:1px solid rgba(255,255,255,.06);padding
 </footer>
 
 <script>
+// Tooltip carte RGA
+document.querySelectorAll('.dep').forEach(el=>{
+  el.addEventListener('mouseenter', e=>{
+    const tip = document.getElementById('map-tooltip');
+    if(tip){
+      tip.textContent = el.dataset.dep + ' · ' + el.dataset.alea;
+      tip.style.opacity = '1';
+    }
+  });
+  el.addEventListener('mouseleave', ()=>{
+    const tip = document.getElementById('map-tooltip');
+    if(tip) tip.style.opacity = '0';
+  });
+});
+
 const isIOS=(/iphone|ipad|ipod/i).test(navigator.userAgent);
 const isAndroid=(/android/i).test(navigator.userAgent);
 const cta=document.getElementById('cta-main');
