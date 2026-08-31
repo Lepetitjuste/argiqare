@@ -259,7 +259,69 @@ nav{
 .install-bg{background:var(--sand2);padding:56px 40px}
 
 /* ── À PROPOS ── */
-.about-bg{background:var(--white);padding:36px 40px;border-top:1px solid var(--sand3)}
+.about-bg{background:var(--white);padding:80px 40px 36px;border-top:none}
+
+/* ── INDÉPENDANCE ── */
+.independance-bg{background:var(--green);padding:20px 40px}
+.independance-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.ind-badge{display:flex;align-items:center;gap:10px;color:var(--white)}
+.ind-badge svg{flex-shrink:0;opacity:.85}
+.ind-badge-text{font-size:13px;font-weight:300;color:rgba(255,255,255,.85)}
+.ind-badge-text strong{font-weight:500;color:var(--white)}
+@media(max-width:640px){.independance-bg{padding:20px 24px}}
+
+/* ── TIMELINE PROCÉDURE ── */
+.timeline-bg{background:var(--sand2);padding:56px 40px}
+@media(max-width:640px){.timeline-bg{padding:40px 24px}}
+.timeline-inner{max-width:1100px;margin:0 auto}
+.tl-phases{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--sand3);border:1px solid var(--sand3);border-radius:10px;overflow:hidden;margin-top:36px}
+@media(max-width:700px){.tl-phases{grid-template-columns:1fr 1fr}}
+@media(max-width:420px){.tl-phases{grid-template-columns:1fr}}
+.tl-phase{background:var(--white);padding:20px 18px;position:relative}
+.tl-phase-num{font-family:'Playfair Display',serif;font-size:11px;font-style:italic;color:var(--gold);margin-bottom:8px}
+.tl-phase-title{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:6px}
+.tl-phase-delay{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:500;color:var(--green);background:rgba(45,106,79,.08);border:1px solid rgba(45,106,79,.15);border-radius:4px;padding:2px 7px;margin-bottom:8px}
+.tl-phase-desc{font-size:11.5px;font-weight:300;color:var(--ink2);line-height:1.6}
+.tl-warning{background:rgba(201,162,58,.08);border:1px solid rgba(201,162,58,.25);border-radius:8px;padding:12px 16px;margin-top:20px;font-size:12px;color:var(--ink2);line-height:1.6}
+.tl-warning strong{color:#8a6500;font-weight:500}
+
+/* ── QUAND UTILISER ── */
+.quand-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:36px}
+@media(max-width:700px){.quand-grid{grid-template-columns:1fr}}
+.quand-card{background:var(--white);border:1px solid var(--sand3);border-radius:10px;padding:20px;position:relative;overflow:hidden}
+.quand-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
+.quand-card.c1::before{background:var(--green)}
+.quand-card.c2::before{background:var(--gold)}
+.quand-card.c3::before{background:#C0392B}
+.quand-icon{font-size:22px;margin-bottom:10px}
+.quand-title{font-size:13px;font-weight:500;color:var(--ink);margin-bottom:6px}
+.quand-desc{font-size:11.5px;font-weight:300;color:var(--ink2);line-height:1.6}
+.quand-tag{display:inline-block;font-size:10px;font-weight:500;padding:2px 8px;border-radius:4px;margin-top:8px}
+
+/* ── VÉRIFIER COMMUNE ── */
+.commune-bg{background:var(--white);padding:40px}
+@media(max-width:640px){.commune-bg{padding:32px 24px}}
+.commune-inner{max-width:760px;margin:0 auto;background:linear-gradient(135deg,#f0f7f3,#e8f4ee);border:1px solid rgba(45,106,79,.15);border-radius:12px;padding:28px 32px;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.commune-text{flex:1;min-width:200px}
+.commune-title{font-size:16px;font-weight:500;color:var(--ink);margin-bottom:6px}
+.commune-desc{font-size:13px;font-weight:300;color:var(--ink2);line-height:1.6}
+.commune-btn{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:var(--white);padding:12px 22px;border-radius:8px;font-size:13px;font-weight:500;transition:background .2s;white-space:nowrap;text-decoration:none;flex-shrink:0}
+.commune-btn:hover{background:var(--green2)}
+
+/* ── FAQ ── */
+.faq-bg{background:var(--sand);padding:56px 40px}
+@media(max-width:640px){.faq-bg{padding:40px 24px}}
+.faq-inner{max-width:760px;margin:0 auto}
+.faq-list{margin-top:32px;display:flex;flex-direction:column;gap:2px;background:var(--sand3);border:1px solid var(--sand3);border-radius:10px;overflow:hidden}
+.faq-item{background:var(--white)}
+.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:16px 20px;font-size:14px;font-weight:500;color:var(--ink);cursor:pointer;background:none;border:none;text-align:left;font-family:inherit;transition:background .15s}
+.faq-q:hover{background:var(--sand)}
+.faq-q-icon{font-size:18px;color:var(--ink3);transition:transform .3s;flex-shrink:0}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .3s}
+.faq-a-inner{padding:0 20px 16px;font-size:13px;font-weight:300;color:var(--ink2);line-height:1.75;border-top:1px solid var(--sand3)}
+.faq-item.open .faq-q-icon{transform:rotate(45deg)}
+.faq-item.open .faq-a{max-height:300px}
+.faq-item.open .faq-a-inner{padding-top:14px}
 @media(max-width:640px){.about-bg{padding:60px 24px}}
 .about-inner{max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 2fr;gap:60px;align-items:start}
 @media(max-width:720px){.about-inner{grid-template-columns:1fr;gap:32px}}
@@ -352,8 +414,10 @@ function tocGo(anchor){
   <a class="toc-link" onclick="tocGo('#rga')"><span class="toc-link-num">01</span>Comprendre le RGA</a>
   <a class="toc-link" onclick="tocGo('#parcours')"><span class="toc-link-num">02</span>Le parcours en 12 étapes</a>
   <a class="toc-link" onclick="tocGo('#fonctionnalites')"><span class="toc-link-num">03</span>Fonctionnalités</a>
-  <a class="toc-link" onclick="tocGo('#installer')"><span class="toc-link-num">04</span>Installation</a>
-  <a class="toc-link" onclick="tocGo('#partenaires')"><span class="toc-link-num">05</span>Partenariats</a>
+  <a class="toc-link" onclick="tocGo('#quand')"><span class="toc-link-num">04</span>Quand l'utiliser ?</a>
+  <a class="toc-link" onclick="tocGo('#faq')"><span class="toc-link-num">05</span>FAQ</a>
+  <a class="toc-link" onclick="tocGo('#installer')"><span class="toc-link-num">06</span>Installation</a>
+  <a class="toc-link" onclick="tocGo('#partenaires')"><span class="toc-link-num">07</span>Partenariats</a>
   <div style="margin-top:auto;padding:16px 24px;border-top:1px solid var(--sand3)">
     <a href="./app.html" style="display:flex;align-items:center;gap:8px;font-size:12px;font-weight:500;color:var(--green);text-decoration:none">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v13m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
@@ -387,7 +451,7 @@ function tocGo(anchor){
 
 <!-- HERO -->
 <!-- À PROPOS -->
-<div class="about-bg reveal">
+<div class="about-bg">
   <div style="max-width:900px;margin:0 auto;padding:0 40px">
     <p style="font-size:14px;font-style:italic;color:#888;line-height:1.85;margin-bottom:10px">
       Après plusieurs années chez AXA, puis chez Eurexo/CED en tant qu'expert sinistres, et enfin au sein de France Assureurs en qualité de chargé de mission risques naturels où j'ai contribué à la réflexion inter-institutionnelle sur le phénomène de RGA — j'ai constaté un décalage persistant entre la complexité de la procédure et les moyens dont disposent les assurés pour s'y retrouver.
@@ -398,6 +462,24 @@ function tocGo(anchor){
     <p style="font-size:14px;font-style:italic;color:#888;line-height:1.85">
       ArgiQare est né de cette conviction : un outil simple, indépendant, sans jargon, peut faire une vraie différence pour des milliers de familles touchées par le retrait-gonflement des argiles. Pas un service juridique — un compagnon de route, qui guide sans remplacer.
     </p>
+  </div>
+</div>
+
+<!-- INDÉPENDANCE (point 3) -->
+<div class="independance-bg">
+  <div class="independance-inner">
+    <div class="ind-badge">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+      <span class="ind-badge-text"><strong>Outil 100% indépendant</strong> — non affilié à un assureur, un cabinet d'expertise ou un organisme public</span>
+    </div>
+    <div class="ind-badge">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+      <span class="ind-badge-text"><strong>Données sur votre téléphone uniquement</strong> — aucun serveur, aucun compte, aucune transmission</span>
+    </div>
+    <div class="ind-badge">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <span class="ind-badge-text"><strong>Sans valeur juridique</strong> — un outil d'accompagnement administratif, pas un conseil en assurance</span>
+    </div>
   </div>
 </div>
 
@@ -598,6 +680,71 @@ function tocGo(anchor){
 </section>
 
 <!-- PARCOURS format B -->
+<!-- TIMELINE PROCÉDURE (point 4) -->
+<div class="timeline-bg reveal">
+  <div class="timeline-inner">
+    <div class="s-tag">La procédure</div>
+    <h2 class="s-h2">Une procédure longue — ArgiQare vous aide à ne pas vous y perdre</h2>
+    <p class="s-sub">De la première fissure à l'indemnisation, comptez en moyenne 18 à 36 mois. Chaque phase a ses délais légaux, ses interlocuteurs et ses pièges. ArgiQare structure votre parcours pour que rien ne vous échappe.</p>
+    <div class="tl-phases">
+      <div class="tl-phase reveal">
+        <div class="tl-phase-num">Phase 01</div>
+        <div class="tl-phase-title">Constat & déclaration</div>
+        <div class="tl-phase-delay">⏱ Déclarer sous 5 jours*</div>
+        <div class="tl-phase-desc">Photographier, documenter et déclarer le sinistre à votre assureur dès les premiers désordres constatés. Le délai contractuel est souvent court.</div>
+      </div>
+      <div class="tl-phase reveal delay-1">
+        <div class="tl-phase-num">Phase 02</div>
+        <div class="tl-phase-title">Reconnaissance Cat Nat</div>
+        <div class="tl-phase-delay">⏱ 24 mois en moyenne</div>
+        <div class="tl-phase-desc">La mairie dépose une demande de reconnaissance auprès de la préfecture. L'arrêté ministériel peut prendre plusieurs mois, voire des années. Votre dossier doit être prêt.</div>
+      </div>
+      <div class="tl-phase reveal delay-2">
+        <div class="tl-phase-num">Phase 03</div>
+        <div class="tl-phase-title">Mission d'expertise</div>
+        <div class="tl-phase-delay">⏱ 3 à 6 mois</div>
+        <div class="tl-phase-desc">L'assureur missionne un expert. La qualité de votre dossier à cette étape est déterminante pour la suite de la procédure. C'est là qu'ArgiQare fait toute la différence.</div>
+      </div>
+      <div class="tl-phase reveal delay-3">
+        <div class="tl-phase-num">Phase 04</div>
+        <div class="tl-phase-title">Indemnisation & travaux</div>
+        <div class="tl-phase-delay">⏱ Négociable</div>
+        <div class="tl-phase-desc">La proposition d'indemnisation peut être contestée. Comprendre vos droits à cette étape peut changer significativement le montant final.</div>
+      </div>
+    </div>
+    <div class="tl-warning">
+      <strong>⚠️ Attention aux délais contractuels</strong> — votre contrat d'assurance prévoit généralement un délai de déclaration de 5 jours ouvrés après la reconnaissance Cat Nat. Passé ce délai, votre assureur peut refuser la prise en charge. * Ce délai varie selon les contrats.
+    </div>
+  </div>
+</div>
+
+<!-- QUAND UTILISER (point 7) -->
+<div class="section reveal" id="quand">
+  <div class="s-tag">Cas d'usage</div>
+  <h2 class="s-h2">À quel moment utiliser ArgiQare ?</h2>
+  <p class="s-sub">Peu importe où vous en êtes dans la procédure — ArgiQare s'adapte à votre situation.</p>
+  <div class="quand-grid">
+    <div class="quand-card c1 reveal">
+      <div class="quand-icon">🔍</div>
+      <div class="quand-title">Je viens de constater des fissures</div>
+      <div class="quand-desc">Vous ne savez pas encore si votre commune est reconnue Cat Nat. ArgiQare vous guide dès les premières observations pour constituer un dossier solide dès le départ.</div>
+      <span class="quand-tag" style="background:#EAF3DE;color:#1B4332">Profil 1 — Parcours complet</span>
+    </div>
+    <div class="quand-card c2 reveal delay-1">
+      <div class="quand-icon">📋</div>
+      <div class="quand-title">J'ai déclaré mon sinistre</div>
+      <div class="quand-desc">Votre sinistre est déclaré, vous attendez l'expert. C'est le moment de rassembler tous les éléments et de préparer votre dossier pour la visite.</div>
+      <span class="quand-tag" style="background:#FAEEDA;color:#7A4F00">Profil 2 — Dossier complet</span>
+    </div>
+    <div class="quand-card c3 reveal delay-2">
+      <div class="quand-icon">🧑‍💼</div>
+      <div class="quand-title">L'expert est déjà missionné</div>
+      <div class="quand-desc">L'expert a rendu son rapport. Vous avez reçu une proposition d'indemnisation. ArgiQare vous aide à analyser les conclusions et à comprendre vos options.</div>
+      <span class="quand-tag" style="background:#FAECE7;color:#7A2800">Profil 3 — Expertise & indemnisation</span>
+    </div>
+  </div>
+</div>
+
 <div style="background:var(--white);padding:56px 0" id="parcours">
   <div class="section" style="padding-top:0;padding-bottom:0">
     <div class="s-tag reveal">Le parcours</div>
@@ -621,6 +768,20 @@ function tocGo(anchor){
 </div>
 
 <!-- FONCTIONNALITÉS -->
+<!-- VÉRIFIER MA COMMUNE (point 9) -->
+<div class="commune-bg reveal">
+  <div class="commune-inner">
+    <div class="commune-text">
+      <div class="commune-title">🗺️ Ma commune est-elle exposée au RGA ?</div>
+      <div class="commune-desc">Consultez la carte officielle Géorisques pour connaître le niveau d'aléa de votre parcelle. C'est la première étape avant toute démarche.</div>
+    </div>
+    <a href="https://www.georisques.gouv.fr/risques/retrait-gonflement-des-argiles" target="_blank" rel="noopener noreferrer" class="commune-btn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+      Vérifier sur Géorisques
+    </a>
+  </div>
+</div>
+
 <section class="section reveal" id="fonctionnalites">
   <div class="s-tag">Fonctionnalités</div>
   <h2 class="s-h2">Un outil complet pour<br>chaque étape de votre procédure</h2>
@@ -656,6 +817,48 @@ function tocGo(anchor){
 </section>
 
 <!-- INSTALLATION -->
+<!-- FAQ (point 2) -->
+<div class="faq-bg reveal" id="faq">
+  <div class="faq-inner">
+    <div class="s-tag">Questions fréquentes</div>
+    <h2 class="s-h2">Vos questions sur ArgiQare</h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Mon assureur peut-il refuser de me couvrir si je n'ai pas d'arrêté Cat Nat ?<span class="faq-q-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Oui. Sans arrêté de reconnaissance de l'état de catastrophe naturelle publié au Journal officiel, votre assureur n'est pas tenu d'intervenir au titre du régime Cat Nat. C'est pourquoi il est essentiel de suivre l'avancement de la demande communale dès les premiers désordres constatés.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Mes données personnelles sont-elles partagées avec des tiers ?<span class="faq-q-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Non. ArgiQare ne dispose d'aucun serveur. Toutes vos données — informations sur votre bien, photos, réponses aux étapes — sont stockées localement sur votre téléphone dans la mémoire du navigateur (localStorage). Elles ne quittent jamais votre appareil. Si vous désinstallez l'application ou videz votre navigateur, les données sont supprimées définitivement.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">ArgiQare fonctionne-t-il si ma commune n'est pas encore reconnue Cat Nat ?<span class="faq-q-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Oui, et c'est même le bon moment pour commencer. ArgiQare vous accompagne dès les premières fissures constatées, bien avant toute reconnaissance officielle. Constituer un dossier solide en amont est un avantage décisif lorsque l'arrêté sera publié.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Quel est le délai pour déclarer un sinistre RGA à son assureur ?<span class="faq-q-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Le délai légal est de 10 jours à compter de la publication de l'arrêté Cat Nat au Journal officiel. Mais attention : votre contrat peut prévoir un délai plus court (souvent 5 jours ouvrés). Au-delà, votre assureur peut opposer une déchéance de garantie. ArgiQare vous rappelle cette étape au bon moment.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Puis-je contester le rapport de l'expert mandaté par mon assureur ?<span class="faq-q-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Oui. Vous avez le droit de mandater votre propre expert (contre-expertise) à vos frais. Si les conclusions divergent, une procédure d'arbitrage peut être engagée. ArgiQare couvre cette étape dans le parcours et vous explique vos options concrètes.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Le PDF généré par ArgiQare a-t-il une valeur juridique ?<span class="faq-q-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Non. Le document PDF généré est un outil d'organisation et de présentation de votre dossier. Il ne remplace pas un rapport géotechnique, un constat d'huissier ou un avis juridique. Il vous permet néanmoins d'arriver mieux préparé face à l'expert et à votre assureur.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">Combien de temps dure en moyenne une procédure RGA ?<span class="faq-q-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">En moyenne 18 à 36 mois, parfois davantage dans les dossiers complexes. La reconnaissance Cat Nat seule peut prendre 12 à 24 mois. La mission d'expertise, la négociation de l'indemnisation et la réalisation des travaux s'ajoutent ensuite. ArgiQare vous aide à ne pas perdre le fil sur cette durée.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q" onclick="toggleFaq(this)">ArgiQare est-il lié à un assureur ou à un cabinet d'expertise ?<span class="faq-q-icon">+</span></button>
+        <div class="faq-a"><div class="faq-a-inner">Non. ArgiQare est un outil indépendant, conçu par un praticien du droit de l'assurance sans aucune affiliation commerciale avec un assureur, un expert ou un organisme public. Son seul objectif est d'aider les assurés à mieux s'organiser face à une procédure complexe.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="install-bg reveal" id="installer">
   <div class="install-inner">
     <div class="s-tag">Installation</div>
@@ -743,6 +946,13 @@ window.addEventListener('beforeinstallprompt',e=>{
   }
 });
 if(isIOS) cta.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px"><path d="M12 3v13m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg> Installer ArgiQare';
+
+function toggleFaq(btn){
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+  if(!isOpen) item.classList.add('open');
+}
 
 const obs=new IntersectionObserver(entries=>{
   entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('on');obs.unobserve(e.target);}});
